@@ -1,0 +1,39 @@
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { AuthService } from '../../../services/auth.service';
+
+@Component({
+  selector: 'app-register',
+  standalone: true,
+  imports: [CommonModule, FormsModule, RouterLink],
+  templateUrl: './register.component.html',
+  styleUrls: ['./register.component.css'],
+})
+export class RegisterComponent {
+  user = { name: '', email: '', password: '', confirmPassword: '' };
+  errorMessage = '';
+  successMessage = '';
+
+  private authService = inject(AuthService);
+  private router = inject(Router);
+
+  onSubmit() {
+    if (this.user.password !== this.user.confirmPassword) {
+      this.errorMessage = 'Passwords do not match.';
+      this.successMessage = '';
+      return;
+    }
+    const success = this.authService.register(this.user.name, this.user.email, this.user.password);
+    if (success) {
+      this.successMessage = 'Registration successful! You can now login.';
+      this.errorMessage = '';
+      setTimeout(() => this.router.navigate(['/login']), 2000);
+    } else {
+      this.errorMessage = 'Registration failed. Try again.';
+      this.successMessage = '';
+    }
+  }
+}

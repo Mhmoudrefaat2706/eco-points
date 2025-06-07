@@ -1,0 +1,105 @@
+<nav
+  class="navbar"
+  [class.dark-mode]="isDarkMode"
+  [attr.dir]="currentLanguage === 'ar' ? 'rtl' : 'ltr'"
+>
+  <div class="logo">
+    <img
+      src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ccircle cx='50' cy='50' r='45' fill='%234CAF50'/%3E%3Cpath d='M40,30 L60,30 L70,50 L60,70 L40,70 L30,50 Z' fill='white'/%3E%3Ccircle cx='50' cy='50' r='15' fill='%234CAF50'/%3E%3C/svg%3E"
+      alt="Logo"
+    />
+  </div>
+
+  <button
+    class="mobile-menu-btn"
+    (click)="toggleMobileMenu()"
+    aria-label="Toggle mobile menu"
+  >
+    <i class="fas fa-bars"></i>
+  </button>
+
+  <div class="nav-links">
+    <a routerLink="/home" class="nav-link">{{ 'NAVBAR.HOME' | translate }}</a>
+    <a routerLink="/about" class="nav-link">{{ 'NAVBAR.ABOUT' | translate }}</a>
+    <a routerLink="/contact" class="nav-link">{{ 'NAVBAR.CONTACT' | translate }}</a>
+    <a routerLink="/dashboard" class="nav-link">{{ 'NAVBAR.DASHBOARD' | translate }}</a>
+  </div>
+
+  <div class="nav-actions">
+    <button class="language-toggle" (click)="changeLanguage()">
+      {{ currentLanguage === 'en' ? 'عربي' : 'English' }}
+    </button>
+    <button class="theme-toggle" (click)="toggleTheme()">
+      <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+    </button>
+    <button class="btn login-btn" routerLink="/login">
+      {{ 'NAVBAR.LOGIN' | translate }}
+    </button>
+    <button class="btn register-btn" routerLink="/register">
+      {{ 'NAVBAR.REGISTER' | translate }}
+    </button>
+  </div>
+</nav>
+
+<div
+  #mobileMenu
+  class="mobile-menu"
+  [class.active]="mobileMenuActive"
+>
+  <div class="mobile-menu-content">
+    <button
+      class="mobile-menu-close-btn"
+      (click)="closeMobileMenu()"
+      aria-label="Close menu"
+    >
+      &times;
+    </button>
+    <a
+      routerLink="/home"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+      >{{ 'NAVBAR.HOME' | translate }}</a
+    >
+    <a
+      routerLink="/about"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+      >{{ 'NAVBAR.ABOUT' | translate }}</a
+    >
+    <a
+      routerLink="/contact"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+      >{{ 'NAVBAR.CONTACT' | translate }}</a
+    >
+    <a
+      routerLink="/dashboard"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+      >{{ 'NAVBAR.DASHBOARD' | translate }}</a
+    >
+
+    <div class="mobile-nav-actions">
+      <button (click)="changeLanguage()">
+        {{ currentLanguage === 'en' ? 'عربي' : 'English' }}
+      </button>
+      <button (click)="toggleTheme()">
+        <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+      </button>
+      <button
+        class="btn login-btn"
+        routerLink="/login"
+        (click)="closeMobileMenu()"
+      >
+        {{ 'NAVBAR.LOGIN' | translate }}
+      </button>
+      <button
+        class="btn register-btn"
+        routerLink="/register"
+        (click)="closeMobileMenu()"
+      >
+        {{ 'NAVBAR.REGISTER' | translate }}
+      </button>
+    </div>
+  </div>
+</div>

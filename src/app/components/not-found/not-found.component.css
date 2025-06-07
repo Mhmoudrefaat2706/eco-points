@@ -1,0 +1,29 @@
+.not-found-card {
+  background-color: #f8f9fa;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+.home-button {
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.home-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+}
+
+.home-button:active {
+  transform: translateY(0);
+}
+
+.display-1 {
+  font-size: 8rem;
+  line-height: 1;
+}
+
+@media (max-width: 768px) {
+  .display-1 {
+    font-size: 5rem;
+  }
+}

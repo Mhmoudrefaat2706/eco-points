@@ -1,0 +1,24 @@
+{
+  "NAVBAR": {
+    "HOME": "Home",
+    "ABOUT": "About",
+    "CONTACT": "Contact",
+    "DASHBOARD": "Dashboard",
+    "LOGIN": "Login",
+    "REGISTER": "Register",
+    "LANGUAGE": "Language"
+  },
+  "HOME": {
+    "TITLE": "Turn Waste into Rewards",
+    "DESCRIPTION": "Recycle your materials and earn points redeemable for amazing rewards",
+    "HOW_IT_WORKS": "How It Works",
+    "STEP_1": "Collect recyclables",
+    "STEP_2": "Schedule pickup",
+    "STEP_3": "Earn points"
+  },
+  "FOOTER": {
+    "COPYRIGHT": "© 2023 EcoPoints. All rights reserved",
+    "LINKS": "Quick Links",
+    "LEGAL": "Legal"
+  }
+}

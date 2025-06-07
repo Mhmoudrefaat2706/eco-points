@@ -1,0 +1,158 @@
+<div class="auth-container d-flex justify-content-center align-items-center min-vh-100 bg-light" dir="ltr">
+  <div class="auth-card card p-4 shadow-sm" style="max-width: 420px; width: 100%;">
+    <div class="auth-header text-start mb-4">
+      <h2 class="h4 mb-1">Create a New Account</h2>
+      <p class="text-muted small">Fill the form to register a new account</p>
+    </div>
+
+    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" novalidate>
+      <!-- Full Name -->
+      <div class="mb-3 text-start">
+        <label for="name" class="form-label">Full Name</label>
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0">
+            <i class="bi bi-person"></i>
+          </span>
+          <input
+            type="text"
+            id="name"
+            name="name"
+            class="form-control border-start-0"
+            placeholder="Your full name"
+            [(ngModel)]="user.name"
+            required
+            #name="ngModel"
+          />
+        </div>
+        @if (name.invalid && name.touched) {
+          <div class="text-danger small mt-1">
+            Name is required.
+          </div>
+        }
+      </div>
+
+      <!-- Email -->
+      <div class="mb-3 text-start">
+        <label for="email" class="form-label">Email</label>
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0">
+            <i class="bi bi-envelope"></i>
+          </span>
+          <input
+            type="email"
+            id="email"
+            name="email"
+            class="form-control border-start-0"
+            placeholder="example@email.com"
+            [(ngModel)]="user.email"
+            required
+            email
+            #email="ngModel"
+          />
+        </div>
+        @if (email.invalid && email.touched) {
+          <div class="text-danger small mt-1">
+            Please enter a valid email address.
+          </div>
+        }
+      </div>
+
+      <!-- Password -->
+      <div class="mb-3 text-start">
+        <label for="password" class="form-label">Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0">
+            <i class="bi bi-lock"></i>
+          </span>
+          <input
+            type="password"
+            id="password"
+            name="password"
+            class="form-control border-start-0"
+            placeholder="••••••••"
+            [(ngModel)]="user.password"
+            required
+            minlength="6"
+            #password="ngModel"
+          />
+        </div>
+        @if (password.invalid && password.touched) {
+          <div class="text-danger small mt-1">
+            Password is required (min 6 characters).
+          </div>
+        }
+      </div>
+
+      <!-- Confirm Password -->
+      <div class="mb-3 text-start">
+        <label for="confirmPassword" class="form-label">Confirm Password</label>
+        <div class="input-group">
+          <span class="input-group-text bg-white border-end-0">
+            <i class="bi bi-lock-fill"></i>
+          </span>
+          <input
+            type="password"
+            id="confirmPassword"
+            name="confirmPassword"
+            class="form-control border-start-0"
+            placeholder="Repeat your password"
+            [(ngModel)]="user.confirmPassword"
+            required
+            #confirmPassword="ngModel"
+          />
+        </div>
+        @if (confirmPassword.invalid && confirmPassword.touched) {
+          <div class="text-danger small mt-1">
+            Please confirm your password.
+          </div>
+        }
+
+        @if (user.password && user.confirmPassword && user.password !== user.confirmPassword) {
+          <div class="text-danger small mt-1">
+            Passwords do not match.
+          </div>
+        }
+      </div>
+
+      <!-- Register Button -->
+      <button
+        type="submit"
+        class="btn btn-primary w-100"
+        [disabled]="registerForm.invalid || user.password !== user.confirmPassword"
+      >
+        Register
+      </button>
+
+      <!-- Divider -->
+      <div class="text-center my-3 text-muted">
+        <span>or</span>
+      </div>
+
+      <!-- Social Buttons -->
+      <div class="d-grid gap-2 mb-3">
+        <button type="button" class="btn btn-outline-danger">
+          <i class="bi bi-google me-2"></i> Sign up with Google
+        </button>
+        <button type="button" class="btn btn-outline-primary">
+          <i class="bi bi-facebook me-2"></i> Sign up with Facebook
+        </button>
+      </div>
+
+      <!-- Footer -->
+      <div class="text-start mt-3">
+        <p class="mb-0">
+          Already have an account?
+          <a routerLink="/login" class="text-decoration-none">Login here</a>
+        </p>
+      </div>
+
+      @if (errorMessage) {
+        <div class="alert alert-danger mt-3">{{ errorMessage }}</div>
+      }
+
+      @if (successMessage) {
+        <div class="alert alert-success mt-3">{{ successMessage }}</div>
+      }
+    </form>
+  </div>
+</div>
