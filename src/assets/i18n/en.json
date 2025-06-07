@@ -16,6 +16,29 @@
     "STEP_2": "Schedule pickup",
     "STEP_3": "Earn points"
   },
+  "ABOUT": {
+    "TITLE": "About EcoPoints",
+    "SUBTITLE": "Our mission to make recycling rewarding",
+    "HISTORY_TITLE": "Our History",
+    "HISTORY_CONTENT": "Founded in 2023, EcoPoints began as a small initiative to encourage recycling in our community and has grown into a nationwide movement.",
+    "MISSION_TITLE": "Our Mission",
+    "MISSION_CONTENT": "We believe recycling should be rewarding. Our platform connects environmentally conscious individuals with businesses that value sustainability.",
+    "TEAM_TITLE": "Our Team",
+    "TEAM_CONTENT": "We're a diverse group of environmentalists, technologists, and business professionals united by our passion for sustainability."
+  },
+  "CONTACT": {
+    "TITLE": "Contact Us",
+    "SUBTITLE": "We'd love to hear from you",
+    "ADDRESS_TITLE": "Address",
+    "ADDRESS": "123 Green Way, Eco City, EC 12345",
+    "PHONE_TITLE": "Phone",
+    "EMAIL_TITLE": "Email",
+    "NAME": "Your Name",
+    "EMAIL": "Your Email",
+    "SUBJECT": "Subject",
+    "MESSAGE": "Your Message",
+    "SUBMIT": "Send Message"
+  },
   "FOOTER": {
     "COPYRIGHT": "© 2023 EcoPoints. All rights reserved",
     "LINKS": "Quick Links",
