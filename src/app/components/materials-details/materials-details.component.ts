@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { NavbarComponent } from "../navbar/navbar.component";
 
 interface Material {
   id: number;
@@ -11,7 +12,7 @@ interface Material {
 
 @Component({
   selector: 'app-materials-details',
-  imports: [],
+  imports: [NavbarComponent],
   templateUrl: './materials-details.component.html',
   styleUrl: './materials-details.component.css'
 })

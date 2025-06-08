@@ -1,6 +1,7 @@
 {
   "NAVBAR": {
     "HOME": "Home",
+    "MATERIALS": "Materials",
     "ABOUT": "About",
     "CONTACT": "Contact",
     "DASHBOARD": "Dashboard",
@@ -11,10 +12,29 @@
   "HOME": {
     "TITLE": "Turn Waste into Rewards",
     "DESCRIPTION": "Recycle your materials and earn points redeemable for amazing rewards",
+    "BUTTON_1": "Get Started",
+    "BUTTON_2": "Know More",
     "HOW_IT_WORKS": "How It Works",
     "STEP_1": "Collect recyclables",
     "STEP_2": "Schedule pickup",
-    "STEP_3": "Earn points"
+    "STEP_3": "Earn points",
+    "USERS": "Active Users",
+    "PARTNERS": "Partner Businesses",
+    "LOCATIONS": "Service Locations",
+    "REWARDS": "Available Rewards",
+    "POINTS": "Points",
+    "STEP_1_TITLE": "Collect",
+    "STEP_2_TITLE": "Schedule",
+    "STEP_3_TITLE": "Earn",
+    "FEATURED_REWARDS": "Featured Rewards",
+    "REWARD_1": "Shopping Gift Card",
+    "REWARD_2": "Eco-Friendly Bag",
+    "REWARD_3": "House Plant",
+    "TESTIMONIALS": "What Our Users Say",
+    "TESTIMONIAL_1": "EcoPoints made recycling fun and rewarding. I've earned over 2000 points in just 3 months!",
+    "TESTIMONIAL_2": "The easiest way to contribute to the environment while getting something back. Highly recommend!",
+    "USER_1": "Sarah J.",
+    "USER_2": "Michael T."
   },
   "ABOUT": {
     "TITLE": "About EcoPoints",
@@ -40,8 +60,16 @@
     "SUBMIT": "Send Message"
   },
   "FOOTER": {
-    "COPYRIGHT": "© 2023 EcoPoints. All rights reserved",
+    "COPYRIGHT": "© 2025 EcoPoints. All rights reserved",
     "LINKS": "Quick Links",
-    "LEGAL": "Legal"
+    "LEGAL": "Legal",
+    "NEWSLETTER": "Newsletter",
+    "SUBSCRIBE": "Subscribe",
+    "EMAIL_PLACEHOLDER": "Your email address",
+    "SOCIAL_MEDIA": "Follow Us",
+    "PRIVACY_POLICY": "Privacy Policy",
+    "TERMS": "Terms of Service",
+    "CONTACT_US": "Contact Us",
+    "ECO_POINTS": "EcoPoints"
   }
 }
