@@ -9,14 +9,15 @@
   --footer-bg: #f8f9fa;
   --card-bg: white;
   --text-contrast: white;
+  --transition-speed: 0.3s;
 }
 
 .dark-mode {
   --primary-color: #4fc3f7;
   --secondary-color: #2e7d32;
   --text-color: #f0f0f0;
-  --bg-color: #121212;
-  --header-bg: #1a1a1a;
+  --bg-color: #2c2c2c;
+  --header-bg: #242424;
   --footer-bg: #1a1a1a;
   --card-bg: #1e1e1e;
   --text-contrast: #121212;
@@ -47,4 +48,39 @@ main {
 [dir="rtl"] .ms-auto {
   margin-right: auto !important;
   margin-left: 0 !important;
+}
+
+.hero, .stats, .how-it-works, .rewards, .testimonials,
+.card, .step, .testimonial, .btn-primary, .btn-secondary {
+  transition: background-color var(--transition-speed) ease, 
+              color var(--transition-speed) ease,
+              border-color var(--transition-speed) ease;
+}
+
+[dir="rtl"] .hero-content,
+[dir="rtl"] .stat-item,
+[dir="rtl"] .step,
+[dir="rtl"] .testimonial {
+  text-align: right;
+}
+
+[dir="rtl"] .steps,
+[dir="rtl"] .reward-cards,
+[dir="rtl"] .testimonial-cards {
+  flex-direction: row-reverse;
+}
+
+@media (max-width: 768px) {
+  .stats {
+    flex-direction: column;
+    gap: 2rem;
+  }
+  
+  .hero-content {
+    padding: 1rem;
+  }
+  
+  .hero-buttons {
+    flex-direction: column;
+  }
 }

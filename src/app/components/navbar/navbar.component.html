@@ -20,6 +20,7 @@
 
   <div class="nav-links">
     <a routerLink="/home" class="nav-link">{{ 'NAVBAR.HOME' | translate }}</a>
+    <a routerLink="/materials" class="nav-link">{{ 'NAVBAR.MATERIALS' | translate }}</a>
     <a routerLink="/about" class="nav-link">{{ 'NAVBAR.ABOUT' | translate }}</a>
     <a routerLink="/contact" class="nav-link">{{ 'NAVBAR.CONTACT' | translate }}</a>
     <a routerLink="/dashboard" class="nav-link">{{ 'NAVBAR.DASHBOARD' | translate }}</a>
@@ -59,6 +60,12 @@
       class="mobile-nav-link"
       (click)="closeMobileMenu()"
       >{{ 'NAVBAR.HOME' | translate }}</a
+    >
+    <a
+      routerLink="/materials"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+      >{{ 'NAVBAR.MATERIALS' | translate }}</a
     >
     <a
       routerLink="/about"
