@@ -1,0 +1,30 @@
+<app-navbar></app-navbar>
+
+<div class="about-container" [class.dark-mode]="isDarkMode">
+  <div class="about-header">
+    <h1>{{ 'ABOUT.TITLE' | translate }}</h1>
+    <p>{{ 'ABOUT.SUBTITLE' | translate }}</p>
+  </div>
+  
+  <div class="about-content">
+    <div class="about-card">
+      <i class="fas fa-history"></i>
+      <h2>{{ 'ABOUT.HISTORY_TITLE' | translate }}</h2>
+      <p>{{ 'ABOUT.HISTORY_CONTENT' | translate }}</p>
+    </div>
+    
+    <div class="about-card">
+      <i class="fas fa-bullseye"></i>
+      <h2>{{ 'ABOUT.MISSION_TITLE' | translate }}</h2>
+      <p>{{ 'ABOUT.MISSION_CONTENT' | translate }}</p>
+    </div>
+    
+    <div class="about-card">
+      <i class="fas fa-users"></i>
+      <h2>{{ 'ABOUT.TEAM_TITLE' | translate }}</h2>
+      <p>{{ 'ABOUT.TEAM_CONTENT' | translate }}</p>
+    </div>
+  </div>
+</div>
+
+<app-footer></app-footer>

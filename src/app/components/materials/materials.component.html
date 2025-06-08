@@ -4,18 +4,20 @@
 <div class="container my-4">
   <div class="search-filter d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
     <!-- فلتر الفئات -->
-    <select 
-      class="form-select category-filter flex-grow-1" 
-      [(ngModel)]="selectedCategory"
-      (change)="onCategoryChange()"
-    >
-      <option value="All">All Categories</option>
-      <!-- مثال: -->
-      <option value="Paper">Paper</option>
-      <option value="Metal">Metal</option>
-      <option value="Plastic">Plastic</option>
-      <option value="Wood">Wood</option>
-    </select>
+    <div class="mb-3 mb-md-0">
+        <select 
+          class="form-select category-filter" 
+          [(ngModel)]="selectedCategory"
+          (change)="onCategoryChange()"
+        >
+          <option value="All">All Categories</option>
+          @for (category of categories; track category) {
+            @if (category !== 'All') {
+              <option [value]="category">{{ category }}</option>
+            }
+          }
+        </select>
+      </div>
 
     <!-- بحث -->
     <div class="search-container flex-grow-3" style="min-width: 250px;">

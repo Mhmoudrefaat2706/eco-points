@@ -9,6 +9,8 @@ import { MaterialsComponent } from './components/materials/materials.component';
 import { MaterialsDetailsComponent } from './components/materials-details/materials-details.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
 import { ProfileComponent } from './components/profile/profile.component';
+import { AboutComponent } from './components/about/about.component';
+import { ContactComponent } from './components/contact/contact.component';
 
 export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -17,6 +19,8 @@ export const routes: Routes = [
       { path: 'home', component: HomeComponent },
       { path: 'materials', component: MaterialsComponent, title: 'Materials' },
       { path: 'materials/:id', component: MaterialsDetailsComponent, title: 'Material Details' },
+      { path: 'about', component: AboutComponent, title: 'About Us' },
+      { path: 'contact', component: ContactComponent, title: 'Contact Us' },
       { path: 'profile', component: ProfileComponent, title: 'profile' },
 
       { path: '404', component: NotFoundComponent, title: 'Page Not Found' },

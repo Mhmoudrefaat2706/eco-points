@@ -86,10 +86,6 @@ body.dark-mode {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
 }
 
-.mobile-menu.active {
-  /* height يتم تعيينه ديناميكياً عبر TS */
-}
-
 .mobile-menu-content {
   padding: 1rem 1.5rem;
   display: flex;
