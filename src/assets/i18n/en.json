@@ -52,12 +52,16 @@
     "ADDRESS_TITLE": "Address",
     "ADDRESS": "123 Green Way, Eco City, EC 12345",
     "PHONE_TITLE": "Phone",
+    "PHONE": "+1 (123) 456-7890",
     "EMAIL_TITLE": "Email",
+    "EMAIL": "contact@ecopoints.com",
     "NAME": "Your Name",
-    "EMAIL": "Your Email",
+    
     "SUBJECT": "Subject",
     "MESSAGE": "Your Message",
-    "SUBMIT": "Send Message"
+    "SUBMIT": "Send Message",
+    "SUCCESS_MESSAGE": "Thank you for your message! We will get back to you soon.",
+    "ERROR_MESSAGE": "Please fill all required fields correctly"
   },
   "FOOTER": {
     "COPYRIGHT": "© 2025 EcoPoints. All rights reserved",
@@ -70,6 +74,17 @@
     "PRIVACY_POLICY": "Privacy Policy",
     "TERMS": "Terms of Service",
     "CONTACT_US": "Contact Us",
+    "ABOUT_US": "About Us",
     "ECO_POINTS": "EcoPoints"
+  },
+  "FORM": {
+    "REQUIRED": "This field is required",
+    "INVALID_EMAIL": "Please enter a valid email address",
+    "MIN_LENGTH": "Minimum {length} characters required",
+    "MAX_LENGTH": "Maximum {length} characters allowed"
+  },
+  "VALIDATION": {
+    "NAME_MIN": "Name must be at least 3 characters",
+    "MESSAGE_MIN": "Message must be at least 10 characters"
   }
 }
