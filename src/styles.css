@@ -10,6 +10,7 @@
   --card-bg: white;
   --text-contrast: white;
   --transition-speed: 0.3s;
+  --border-color: #e0e0e0;
 }
 
 .dark-mode {
@@ -21,6 +22,8 @@
   --footer-bg: #1a1a1a;
   --card-bg: #1e1e1e;
   --text-contrast: #121212;
+  --border-color: #444;
+
 }
 
 body {
