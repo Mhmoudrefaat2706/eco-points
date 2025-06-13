@@ -73,6 +73,21 @@
         }
       </div>
 
+      <div class="mb-3 text-start">
+  <label for="role" class="form-label">Login as</label>
+  <select
+    id="role"
+    name="role"
+    class="form-select"
+    [(ngModel)]="credentials.role"
+    required
+  >
+    <option value="" disabled selected>Select your role</option>
+    <option value="seller">Seller</option>
+    <option value="buyer">Buyer</option>
+  </select>
+</div>
+
       <!-- Remember me -->
       <div class="form-check mb-3 text-start">
         <input

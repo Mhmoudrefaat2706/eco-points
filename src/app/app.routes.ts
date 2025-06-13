@@ -4,13 +4,14 @@ import { importProvidersFrom } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
-import { HomeComponent } from './components/home/home.component';
-import { MaterialsComponent } from './components/materials/materials.component';
-import { MaterialsDetailsComponent } from './components/materials-details/materials-details.component';
-import { NotFoundComponent } from './components/not-found/not-found.component';
-import { ProfileComponent } from './components/profile/profile.component';
-import { AboutComponent } from './components/about/about.component';
-import { ContactComponent } from './components/contact/contact.component';
+import { HomeComponent } from './components/seller/home/home.component';
+import { MaterialsComponent } from './components/seller/materials/materials.component';
+import { MaterialsDetailsComponent } from './components/seller/materials-details/materials-details.component';
+import { NotFoundComponent } from './components/seller/not-found/not-found.component';
+import { ProfileComponent } from './components/seller/profile/profile.component';
+import { AboutComponent } from './components/seller/about/about.component';
+import { ContactComponent } from './components/seller/contact/contact.component';
+import { BuyerHomeComponent } from './components/buyer/buyer-home/buyer-home.component';
 
 export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -22,6 +23,12 @@ export const routes: Routes = [
       { path: 'about', component: AboutComponent, title: 'About Us' },
       { path: 'contact', component: ContactComponent, title: 'Contact Us' },
       { path: 'profile', component: ProfileComponent, title: 'profile' },
+
+
+
+        { path: 'buyer-home', component: BuyerHomeComponent },
+
+
 
       { path: '404', component: NotFoundComponent, title: 'Page Not Found' },
       { path: '**', redirectTo: '/404' }
