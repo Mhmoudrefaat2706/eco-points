@@ -13,7 +13,7 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent {
-  credentials = { email: '', password: '' };
+  credentials = { email: '', password: '', role: '' }; // ضفت role هنا
   rememberMe = false;
   errorMessage = '';
   successMessage = '';
@@ -21,15 +21,30 @@ export class LoginComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
-  onSubmit() {
-    const success = this.authService.login(this.credentials.email, this.credentials.password);
-    if (success) {
-      this.successMessage = 'Login successful!';
-      this.errorMessage = '';
+onSubmit() {
+  const role = this.credentials.role.toLowerCase(); // تحويل للدور إلى أحرف صغيرة
+
+  const success = this.authService.login(
+    this.credentials.email,
+    this.credentials.password,
+    role
+  );
+
+  if (success) {
+    this.successMessage = 'Login successful!';
+    this.errorMessage = '';
+
+    if (role === 'seller') {
       this.router.navigate(['/home']);
+    } else if (role === 'buyer') {
+      this.router.navigate(['/buyer-home']);
     } else {
-      this.errorMessage = 'Invalid email or password.';
-      this.successMessage = '';
+      this.router.navigate(['/login']);
     }
+  } else {
+    this.errorMessage = 'Invalid email, password, or role.';
+    this.successMessage = '';
   }
+}
+
 }

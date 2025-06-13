@@ -94,19 +94,19 @@
         <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
       </button>
       <button
-        class="btn login-btn"
-        routerLink="/login"
+        class="btn logout-btn"
+        routerLink="/logout"
         (click)="closeMobileMenu()"
       >
-        {{ 'NAVBAR.LOGIN' | translate }}
+        {{ 'NAVBAR.LOGOUT' | translate }}
       </button>
-      <button
+      <!-- <button
         class="btn register-btn"
         routerLink="/register"
         (click)="closeMobileMenu()"
       >
         {{ 'NAVBAR.REGISTER' | translate }}
-      </button>
+      </button> -->
     </div>
   </div>
 </div>

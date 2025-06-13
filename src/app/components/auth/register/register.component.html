@@ -57,6 +57,22 @@
         }
       </div>
 
+<div class="mb-3 text-start">
+  <label for="role" class="form-label">Register as</label>
+  <select
+    id="role"
+    name="role"
+    class="form-select"
+    [(ngModel)]="user.role"
+    required
+  >
+    <option value="" disabled selected>Select your role</option>
+    <option value="seller">Seller</option>
+    <option value="buyer">Buyer</option>
+  </select>
+</div>
+
+
       <!-- Password -->
       <div class="mb-3 text-start">
         <label for="password" class="form-label">Password</label>
