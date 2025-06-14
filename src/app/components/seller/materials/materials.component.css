@@ -111,25 +111,45 @@
   text-transform: uppercase;
 }
 
-/* Badge colors */
-.badge-paper {
-  background-color: #f1c40f;
-  color: #fff;
-}
-
+/* Category-specific badge colors */
 .badge-metal {
-  background-color: #3498db;
-  color: #fff;
+  background-color: #3498db !important;
 }
-
-.badge-plastic {
-  background-color: #2ecc71;
-  color: #fff;
-}
-
 .badge-wood {
-  background-color: #e67e22;
+  background-color: #e67e22 !important;
+}
+.badge-plastic {
+  background-color: #2ecc71 !important;
+}
+.badge-fabric {
+  background-color: #9b59b6 !important;
+}
+.badge-stone {
+  background-color: #95a5a6 !important;
+}
+.badge-ceramic {
+  background-color: #1abc9c !important;
+}
+.badge-composite {
+  background-color: #34495e !important;
+}
+.badge-construction {
+  background-color: #7f8c8d !important;
+}
+.badge-elastomer {
+  background-color: #d35400 !important;
+}
+.badge-paper {
+  background-color: #f1c40f !important;
+  color: #333;
+}
+
+.badge {
+  font-size: 0.8rem;
+  padding: 5px 10px;
   color: #fff;
+  text-transform: capitalize;
+  background-color: rgb(221, 37, 37);
 }
 
 /* Button styles */

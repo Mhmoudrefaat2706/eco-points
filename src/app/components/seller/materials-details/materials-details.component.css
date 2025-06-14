@@ -23,6 +23,18 @@
   font-size: 2rem;
 }
 
+.material-details-card {
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.material-details-card img {
+  height: 100%;
+  width: 100%;
+  object-fit: cover;
+}
+
 .category-badge {
   background-color: #4a6fa5;
   color: white;
@@ -39,6 +51,29 @@
 
 .image-container {
   flex: 1;
+}
+
+.card-body {
+  padding: 2rem;
+}
+
+.badge {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+}
+
+.card-title {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.card-text {
+  font-size: 1.1rem;
+  line-height: 1.6;
+}
+
+.btn {
+  margin-top: 1rem;
 }
 
 .material-image {
