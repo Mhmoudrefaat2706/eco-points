@@ -1,34 +1,36 @@
 <app-navbar></app-navbar>
 
-@if (material) {
-  <div class="material-details-container">
-    <div class="material-header">
-      <h1>{{ material.name }}</h1>
-      <span class="category-badge">{{ material.category }}</span>
-    </div>
-    
-    <div class="material-content">
-      <div class="image-container">
-        <img [src]="material.image" [alt]="material.name" class="material-image">
-      </div>
-      
-      <div class="details-container">
-        <p class="material-description">{{ material.desc }}</p>
-        
-        <div class="action-buttons">
-          <button class="btn btn-success" (click)="goBack()">
-            ← Return to materials list
-          </button>
+<div class="container my-4">
+  @if (material) {
+    <div class="card material-details-card">
+      <div class="row g-0">
+        <div class="col-md-5">
+          <img [src]="material.image" class="img-fluid rounded-start" [alt]="material.name">
+        </div>
+        <div class="col-md-7">
+          <div class="card-body">
+            <h1 class="card-title">{{ material.name }}</h1>
+            <span class="badge bg-primary mb-3">{{ material.category }}</span>
+            <p class="card-text">{{ material.desc }}</p>
+            
+            <div class="mt-4">
+              <button class="btn btn-outline-primary" (click)="goBack()">
+                ← Back to Materials List
+              </button>
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-} @else {
-  <div class="not-found-container">
-    <h2>Material not found</h2>
-    <p>We couldn't find the material you're looking for.</p>
-    <button class="btn btn-success" (click)="goBack()">
-      ← Return to materials list
-    </button>
-  </div>
-}
+  } @else {
+    <div class="card">
+      <div class="card-body text-center py-5">
+        <h2 class="card-title">Material not found</h2>
+        <p class="card-text">The requested material could not be found.</p>
+        <button class="btn btn-primary" (click)="goBack()">
+          ← Back to Materials List
+        </button>
+      </div>
+    </div>
+  }
+</div>

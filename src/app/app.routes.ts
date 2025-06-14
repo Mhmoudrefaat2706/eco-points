@@ -12,6 +12,7 @@ import { ProfileComponent } from './components/seller/profile/profile.component'
 import { AboutComponent } from './components/seller/about/about.component';
 import { ContactComponent } from './components/seller/contact/contact.component';
 import { BuyerHomeComponent } from './components/buyer/buyer-home/buyer-home.component';
+import { DashboardComponent } from './components/seller/dashboard/dashboard.component';
 
 export const routes: Routes = [
       { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -23,6 +24,7 @@ export const routes: Routes = [
       { path: 'about', component: AboutComponent, title: 'About Us' },
       { path: 'contact', component: ContactComponent, title: 'Contact Us' },
       { path: 'profile', component: ProfileComponent, title: 'profile' },
+      { path: 'dashboard', component: DashboardComponent, title: 'Dashboard' },
 
 
 
