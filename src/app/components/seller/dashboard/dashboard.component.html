@@ -35,18 +35,16 @@
             </span>
           </small>
         </div>
-        
-        <!-- <div class="mb-3">
-          <label for="category" class="form-label">Category</label>
-          <select class="form-select" id="category" [(ngModel)]="materialForm.category" name="category" required>
-            <option value="">Select a category</option>
-            <option *ngFor="let cat of categories" [value]="cat">{{ cat }}</option>
-          </select>
-        </div> -->
-        
+
         <div class="mb-3">
-          <label for="image" class="form-label">Image URL</label>
-          <input type="url" class="form-control" id="image" [(ngModel)]="materialForm.image" name="image" required>
+          <label for="image" class="form-label">Image</label>
+          <input type="file" class="form-control" id="image" 
+                (change)="handleImageUpload($event)" accept="image/*">
+          
+          <div *ngIf="materialForm.image" class="mt-2">
+            <img [src]="materialForm.image" class="img-thumbnail" style="max-height: 150px;">
+            <!-- <small class="text-muted d-block">Note: Images are stored as base64 data in localStorage</small> -->
+          </div>
         </div>
         
         <div class="mb-3">

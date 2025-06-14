@@ -111,44 +111,45 @@
   text-transform: uppercase;
 }
 
+/* Category-specific badge colors */
+.badge-metal {
+  background-color: #3498db !important;
+}
+.badge-wood {
+  background-color: #e67e22 !important;
+}
+.badge-plastic {
+  background-color: #2ecc71 !important;
+}
+.badge-fabric {
+  background-color: #9b59b6 !important;
+}
+.badge-stone {
+  background-color: #95a5a6 !important;
+}
+.badge-ceramic {
+  background-color: #1abc9c !important;
+}
+.badge-composite {
+  background-color: #34495e !important;
+}
+.badge-construction {
+  background-color: #7f8c8d !important;
+}
+.badge-elastomer {
+  background-color: #d35400 !important;
+}
+.badge-paper {
+  background-color: #f1c40f !important;
+  color: #333;
+}
+
 .badge {
   font-size: 0.8rem;
   padding: 5px 10px;
   color: #fff;
   text-transform: capitalize;
-}
-
-/* Category-specific badge colors */
-.badge-metal {
-  background-color: #3498db;
-}
-.badge-wood {
-  background-color: #e67e22;
-}
-.badge-plastic {
-  background-color: #2ecc71;
-}
-.badge-fabric {
-  background-color: #9b59b6;
-}
-.badge-stone {
-  background-color: #95a5a6;
-}
-.badge-ceramic {
-  background-color: #1abc9c;
-}
-.badge-composite {
-  background-color: #34495e;
-}
-.badge-construction {
-  background-color: #7f8c8d;
-}
-.badge-elastomer {
-  background-color: #d35400;
-}
-.badge-paper {
-  background-color: #f1c40f;
-  color: #333;
+  background-color: rgb(221, 37, 37);
 }
 
 /* Button styles */

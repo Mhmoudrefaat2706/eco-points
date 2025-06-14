@@ -27,13 +27,6 @@ export class DashboardComponent {
     desc: ''
   };
 
-  // Available categories
-  // categories = [
-  //   'Metal', 'Wood', 'Fabric', 
-  //   'Plastic', 'Stone', 'Elastomer',
-  //   'Ceramic', 'Composite', 'Construction'
-  // ];
-
   getUniqueCategories(): string[] {
     const allCategories = this.allMaterials.map(m => m.category);
     return [...new Set(allCategories)]; // Returns unique categories
@@ -305,4 +298,29 @@ private showNotificationMessage(message: string, type: 'success' | 'error') {
     }
   }
 
+
+// Add this method to handle file selection and conversion
+  handleImageUpload(event: any) {
+    const file = event.target.files[0];
+    if (!file) return;
+
+    // Validate image type
+    if (!file.type.match('image.*')) {
+      this.showNotificationMessage('Please select an image file', 'error');
+      return;
+    }
+
+    // Validate file size (e.g., 2MB max)
+    if (file.size > 2 * 1024 * 1024) {
+      this.showNotificationMessage('Image must be less than 2MB', 'error');
+      return;
+    }
+
+    const reader = new FileReader();
+    reader.onload = (e: any) => {
+      // This will store the image as a base64 data URL
+      this.materialForm.image = e.target.result;
+    };
+    reader.readAsDataURL(file);
+  }
 }
