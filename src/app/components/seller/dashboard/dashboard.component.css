@@ -1,0 +1,99 @@
+.dashboard-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.table-responsive {
+  overflow-x: auto;
+}
+
+.btn-group {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.card {
+  margin-bottom: 1.5rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.form-label {
+  font-weight: 500;
+}
+
+.table {
+  font-size: 0.9rem;
+}
+
+.table th {
+  font-weight: 600;
+  background-color: #f8f9fa;
+}
+
+.btn-primary {
+  background-color: #4CAF50;
+  border-color: #4CAF50;
+}
+
+.btn-primary:hover {
+  background-color: #3e8e41;
+  border-color: #3e8e41;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  border-color: #ffc107;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+img {
+  border-radius: 4px;
+  object-fit: cover;
+}
+
+/* Add to dashboard.component.css */
+.alert {
+  margin-bottom: 1rem;
+  animation: fadeIn 0.4s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.btn-close {
+  padding: 0.5rem;
+}
+
+.badge {
+  margin-right: 0.3rem;
+  margin-bottom: 0.3rem;
+  font-size: 0.75rem;
+  font-weight: normal;
+  cursor: pointer;
+}
+
+.badge:hover {
+  opacity: 0.8;
+}
+
+.img-thumbnail {
+  max-width: 100px;
+  max-height: 100px;
+  object-fit: cover;
+  display: block;
+  margin-top: 8px;
+}
