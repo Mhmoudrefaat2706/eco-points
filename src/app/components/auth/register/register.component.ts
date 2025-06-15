@@ -13,7 +13,7 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  user = { name: '', email: '', password: '', confirmPassword: '' };
+  user = { name: '', email: '', password: '', confirmPassword: '', role: '' };
   errorMessage = '';
   successMessage = '';
 
@@ -26,7 +26,14 @@ export class RegisterComponent {
       this.successMessage = '';
       return;
     }
-    const success = this.authService.register(this.user.name, this.user.email, this.user.password);
+
+    const success = this.authService.register(
+      this.user.name,
+      this.user.email,
+      this.user.password,
+      this.user.role
+    );
+
     if (success) {
       this.successMessage = 'Registration successful! You can now login.';
       this.errorMessage = '';
@@ -37,3 +44,4 @@ export class RegisterComponent {
     }
   }
 }
+

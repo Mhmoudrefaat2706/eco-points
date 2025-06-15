@@ -33,12 +33,10 @@
     <button class="theme-toggle" (click)="toggleTheme()">
       <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
     </button>
-    <button class="btn login-btn" routerLink="/login">
-      {{ 'NAVBAR.LOGIN' | translate }}
+    <button class="btn login-btn" routerLink="/logout">
+      {{ 'NAVBAR.LOGOUT' | translate }}
     </button>
-    <button class="btn register-btn" routerLink="/register">
-      {{ 'NAVBAR.REGISTER' | translate }}
-    </button>
+
   </div>
 </nav>
 
@@ -93,20 +91,21 @@
       <button (click)="toggleTheme()">
         <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
       </button>
-      <button
-        class="btn login-btn"
-        routerLink="/login"
-        (click)="closeMobileMenu()"
-      >
-        {{ 'NAVBAR.LOGIN' | translate }}
-      </button>
-      <button
-        class="btn register-btn"
-        routerLink="/register"
-        (click)="closeMobileMenu()"
-      >
-        {{ 'NAVBAR.REGISTER' | translate }}
-      </button>
+<div class="nav-actions">
+  <button class="language-toggle" (click)="changeLanguage()">
+    {{ currentLanguage === 'en' ? 'عربي' : 'English' }}
+  </button>
+  <button class="theme-toggle" (click)="toggleTheme()">
+    <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+  </button>
+  <button class="btn logout-btn" (click)="logout()">
+    {{ 'NAVBAR.LOGOUT' | translate }}
+  </button>
+</div>
+
+
+
+
     </div>
   </div>
 </div>
