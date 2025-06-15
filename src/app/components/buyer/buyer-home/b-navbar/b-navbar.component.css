@@ -1,0 +1,168 @@
+:root {
+  --header-bg: #ffffff;
+  --mobile-menu-bg: #f9f9f9;
+  --primary-color: #4caf50;
+  --text-color: #222;
+  --text-contrast: #fff;
+}
+
+body.dark-mode {
+  --header-bg: #222;
+  --mobile-menu-bg: #333;
+  --primary-color: #81c784;
+  --text-color: #eee;
+  --text-contrast: #222;
+}
+
+.navbar {
+  background-color: var(--header-bg);
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 1000;
+}
+
+.logo img {
+  height: 40px;
+}
+
+.mobile-menu-btn {
+  display: none;
+  font-size: 1.7rem;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+}
+
+.nav-links,
+.nav-actions {
+  display: flex;
+  gap: 1.8rem;
+  align-items: center;
+}
+
+.nav-link {
+  color: var(--text-color);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1rem;
+}
+
+.nav-link:hover {
+  color: var(--primary-color);
+}
+
+.language-toggle,
+.theme-toggle,
+.btn {
+  background: var(--primary-color);
+  color: var(--text-contrast);
+  border: none;
+  padding: 0.4rem 1rem;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.language-toggle:hover,
+.theme-toggle:hover,
+.btn:hover {
+  background-color: #388e3c;
+}
+
+.mobile-menu {
+  width: 100%;
+  background-color: var(--mobile-menu-bg);
+  overflow: hidden;
+  height: 0;
+  transition: height 0.3s ease;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-menu-content {
+  padding: 1rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.mobile-menu-close-btn {
+  align-self: flex-end;
+  font-size: 2rem;
+  background: none;
+  border: none;
+  color: var(--text-color);
+  cursor: pointer;
+  margin-bottom: 1rem;
+}
+
+.mobile-nav-link {
+  font-size: 1.2rem;
+  color: var(--text-color);
+  font-weight: 600;
+  padding: 0.8rem 0;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+  text-decoration: none;
+}
+
+.mobile-nav-link:hover {
+  color: var(--primary-color);
+}
+
+.mobile-nav-actions {
+  margin-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.mobile-nav-actions button,
+.mobile-nav-actions .btn {
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 1.1rem;
+  border-radius: 25px;
+  background-color: var(--primary-color);
+  color: var(--text-contrast);
+  font-weight: 700;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.mobile-nav-actions button:hover,
+.mobile-nav-actions .btn:hover {
+  background-color: #388e3c;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-links,
+  .nav-actions {
+    display: none !important; /* تأكد من إخفاء الروابط والإجراءات على الموبايل */
+  }
+
+  .mobile-menu-btn {
+    display: inline-block !important; /* إظهار زر القائمة */
+  }
+}
+.counter {
+  top: 0;
+  right: 0;
+  transform: translate(50%, -50%);
+  width: 20px;
+  height: 20px;
+  font-size: 12px;
+  color: #000;
+  border-radius: 50%;
+  text-align: center;
+  line-height: 20px;
+  position: absolute;
+  z-index: 1;
+}
