@@ -2,11 +2,14 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+
 import { FooterComponent } from '../footer/footer.component';
+
 import { NavbarComponent } from '../navbar/navbar.component';
 
 @Component({
   selector: 'app-materials',
+
   imports: [
     FormsModule,
     CommonModule,
@@ -18,6 +21,7 @@ import { NavbarComponent } from '../navbar/navbar.component';
   styleUrl: './materials.component.css',
 })
 export class MaterialsComponent {
+
   // Pagination variables
   currentPage = 1;
   itemsPerPage = 8;
@@ -42,6 +46,7 @@ export class MaterialsComponent {
       // Extract unique categories from materialsList
       this.categories = [
         'All',
+
         ...new Set(this.materialsList.map((material) => material.category)),
       ];
 
@@ -57,6 +62,7 @@ export class MaterialsComponent {
   // Update the filtered materials based on current page, search query, and category
   updateFilteredMaterials() {
     // Filter materials based on search query and category
+
     const filtered = this.materialsList.filter((material) => {
       const matchesSearch =
         material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -99,6 +105,7 @@ export class MaterialsComponent {
 
   // Get total pages based on filtered results
   get totalPages(): number {
+
     const filtered = this.materialsList.filter((material) => {
       const matchesSearch =
         material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
@@ -109,6 +116,7 @@ export class MaterialsComponent {
       const matchesCategory =
         this.selectedCategory === 'All' ||
         material.category === this.selectedCategory;
+
 
       return matchesSearch && matchesCategory;
     });
@@ -281,4 +289,5 @@ export class MaterialsComponent {
       desc: 'A mixture of cement, sand, and aggregate used in buildings and roads.',
     },
   ];
+
 }

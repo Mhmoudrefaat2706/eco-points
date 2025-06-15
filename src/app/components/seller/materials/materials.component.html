@@ -66,6 +66,7 @@
     }
   </div>
 
+
   <nav aria-label="Materials pagination" *ngIf="materialsList.length > itemsPerPage && filteredMaterials.length > 0">
     <ul class="pagination justify-content-center">
       <li class="page-item" [class.disabled]="currentPage === 1">
@@ -86,5 +87,7 @@
     </ul>
   </nav>
 </div>
+
+
 
 <app-footer></app-footer>

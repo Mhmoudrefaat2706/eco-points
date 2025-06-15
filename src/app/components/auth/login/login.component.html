@@ -12,125 +12,110 @@
       <h2 class="h4 mb-1">Login to Your Account</h2>
       <p class="text-muted small">Enter your details to access your account</p>
     </div>
-
-    <form (ngSubmit)="onSubmit()" #loginForm="ngForm" novalidate>
-      <!-- Email -->
-      <div class="mb-3 text-start">
-        <label for="email" class="form-label text-start">Email</label>
-        <div class="input-group">
-          <span class="input-group-text bg-white border-end-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-              <path d="M4 4h16v16H4z" stroke-width="2"></path>
-              <polyline points="22,6 12,13 2,6" stroke-width="2"></polyline>
-            </svg>
-          </span>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            class="form-control border-start-0 text-start"
-            placeholder="example@email.com"
-            [(ngModel)]="credentials.email"
-            required
-            #email="ngModel"
-          />
-        </div>
-        @if (email.invalid && email.touched) {
-          <div class="text-danger small mt-1">
-            Please enter a valid email address.
-          </div>
-        }
-      </div>
-
-      <!-- Password -->
-      <div class="mb-3 text-start">
-        <div class="d-flex justify-content-between">
-          <label for="password" class="form-label text-start">Password</label>
-          <a routerLink="/forgot-password" class="small text-decoration-none">Forgot Password?</a>
-        </div>
-        <div class="input-group">
-          <span class="input-group-text bg-white border-end-0">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" stroke="currentColor" fill="none" viewBox="0 0 24 24">
-              <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
-              <path d="M7 11V7a5 5 0 0 1 10 0v4"></path>
-            </svg>
-          </span>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            class="form-control border-start-0 text-start"
-            placeholder="••••••••"
-            [(ngModel)]="credentials.password"
-            required
-            #password="ngModel"
-          />
-        </div>
-        @if (password.invalid && password.touched) {
-          <div class="text-danger small mt-1">
-            Password is required.
-          </div>
-        }
-      </div>
-
-      <div class="mb-3 text-start">
-  <label for="role" class="form-label">Login as</label>
-  <select
-    id="role"
-    name="role"
-    class="form-select"
-    [(ngModel)]="credentials.role"
-    required
-  >
-    <option value="" disabled selected>Select your role</option>
-    <option value="seller">Seller</option>
-    <option value="buyer">Buyer</option>
-  </select>
+<form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
+<!-- رسالة تسجيل الخروج -->
+<div *ngIf="logoutMessage" class="alert alert-info text-start">
+  {{ logoutMessage }}
 </div>
 
-      <!-- Remember me -->
-      <div class="form-check mb-3 text-start">
-        <input
-          type="checkbox"
-          id="rememberMe"
-          class="form-check-input"
-          [(ngModel)]="rememberMe"
-          name="rememberMe"
-        />
-        <label for="rememberMe" class="form-check-label">Remember me</label>
-      </div>
+<!-- رسائل الخطأ -->
+<div *ngIf="errorMessage" class="alert alert-danger text-start">
+  {{ errorMessage }}
+</div>
 
-      <!-- Login Button -->
-      <button
-        type="submit"
-        class="btn btn-primary w-100"
-        [disabled]="loginForm.invalid"
-      >
-        Login
-      </button>
+<!-- رسائل النجاح -->
+<div *ngIf="successMessage" class="alert alert-success text-start">
+  {{ successMessage }}
+</div>
 
-      <!-- Divider -->
-      <div class="text-center my-3 text-muted">
-        <span>or</span>
-      </div>
 
-      <!-- Social Login -->
-      <div class="d-grid gap-2 mb-3">
-        <button type="button" class="btn btn-outline-danger">
-          <i class="bi bi-google me-2"></i> Sign in with Google
-        </button>
-        <button type="button" class="btn btn-outline-primary">
-          <i class="bi bi-facebook me-2"></i> Sign in with Facebook
-        </button>
-      </div>
 
-      <!-- Footer -->
+  <!-- Email -->
+  <div class="mb-3 text-start">
+    <label for="email" class="form-label">Email</label>
+    <input
+      type="email"
+      id="email"
+      name="email"
+      class="form-control"
+      placeholder="example@email.com"
+      [(ngModel)]="credentials.email"
+      required
+      email
+      #email="ngModel"
+    />
+    <div class="text-danger small mt-1" *ngIf="email.invalid && email.touched">
+      Please enter a valid email address.
+    </div>
+  </div>
+
+  <!-- Password -->
+  <div class="mb-3 text-start">
+    <label for="password" class="form-label">Password</label>
+    <input
+      type="password"
+      id="password"
+      name="password"
+      class="form-control"
+      placeholder="••••••••"
+      [(ngModel)]="credentials.password"
+      required
+      minlength="4"
+      #password="ngModel"
+    />
+    <div class="text-danger small mt-1" *ngIf="password.invalid && password.touched">
+      Password is required (min 4 characters).
+    </div>
+  </div>
+
+  <!-- Role -->
+  <div class="mb-3 text-start">
+    <label for="role" class="form-label">Login as</label>
+    <select
+      id="role"
+      name="role"
+      class="form-select"
+      [(ngModel)]="credentials.role"
+      required
+      #role="ngModel"
+    >
+      <option value="" disabled selected>Select your role</option>
+      <option value="seller">Seller</option>
+      <option value="buyer">Buyer</option>
+    </select>
+    <div class="text-danger small mt-1" *ngIf="role.invalid && role.touched">
+      Please select a role.
+    </div>
+  </div>
+
+  <!-- Remember Me -->
+  <div class="form-check mb-3 text-start">
+    <input
+      type="checkbox"
+      id="rememberMe"
+      class="form-check-input"
+      [(ngModel)]="rememberMe"
+      name="rememberMe"
+    />
+    <label for="rememberMe" class="form-check-label">Remember me</label>
+  </div>
+
+  <!-- Login Button -->
+  <button
+    type="submit"
+    class="btn btn-primary w-100"
+    [disabled]="loginForm.invalid"
+  >
+    Login
+  </button>
+        <!-- Footer -->
       <div class="text-start mt-3">
         <p class="mb-0">
           Don't have an account?
           <a routerLink="/register" class="text-decoration-none">Create a new account</a>
         </p>
       </div>
-    </form>
+</form>
+
   </div>
 </div>

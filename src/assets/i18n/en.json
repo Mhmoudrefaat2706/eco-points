@@ -6,7 +6,9 @@
     "CONTACT": "Contact",
     "DASHBOARD": "Dashboard",
     "LOGIN": "Login",
-    "LOGOUT": "LogOUT",
+
+    "LOGOUT": "LOGOUT",
+
     "REGISTER": "Register",
     "LANGUAGE": "Language"
   },

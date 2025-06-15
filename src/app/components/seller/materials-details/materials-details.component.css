@@ -23,6 +23,7 @@
   font-size: 2rem;
 }
 
+
 .material-details-card {
   border-radius: 10px;
   overflow: hidden;
@@ -75,6 +76,7 @@
 .btn {
   margin-top: 1rem;
 }
+
 
 .material-image {
   width: 100%;

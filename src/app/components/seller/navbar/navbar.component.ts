@@ -1,7 +1,10 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+
+import { Router, RouterModule } from '@angular/router'; // ⬅️ Router
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
+import { AuthService } from '../../../services/auth.service'; // ⬅️ AuthService
+
 
 @Component({
   selector: 'app-navbar',
@@ -12,21 +15,26 @@ import { TranslateModule, TranslateService } from '@ngx-translate/core';
 })
 export class NavbarComponent implements OnInit {
   private translate = inject(TranslateService);
+
+  private authService = inject(AuthService); // ⬅️ Inject AuthService
+  private router = inject(Router);           // ⬅️ Inject Router
+
   isDarkMode = false;
   currentLanguage = 'en';
   mobileMenuActive = false;
-
+  loggedIn = false;
   ngOnInit() {
-    // Load saved language from localStorage
+
     const savedLang = localStorage.getItem('language');
     if (savedLang) {
       this.currentLanguage = savedLang;
       this.translate.use(savedLang);
       document.documentElement.lang = savedLang;
       document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
+
+      
     }
 
-    // Load dark mode state
     const savedDarkMode = localStorage.getItem('darkMode');
     this.isDarkMode = savedDarkMode === 'true';
     this.updateBodyDarkMode();
@@ -61,4 +69,14 @@ export class NavbarComponent implements OnInit {
   closeMobileMenu() {
     this.mobileMenuActive = false;
   }
+  logout() {
+    this.authService.logout();
+    this.router.navigate(['/login']);
+  }
+
+  
+  isLoggedIn(): boolean {
+    return this.authService.isAuthenticated();
+  }
+
 }

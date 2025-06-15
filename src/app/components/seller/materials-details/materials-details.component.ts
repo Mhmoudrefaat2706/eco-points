@@ -18,12 +18,16 @@ interface Material {
 })
 export class MaterialsDetailsComponent implements OnInit {
 
+
   material: Material | undefined;
+
   id: number = 0;
 
   constructor(
     private route: ActivatedRoute,
+
     private router: Router
+
   ) {}
 
   ngOnInit(): void {
@@ -351,6 +355,7 @@ export class MaterialsDetailsComponent implements OnInit {
   //     desc: "A mixture of cement, sand, and aggregate used in buildings and roads."
   //   }
   // ];
+
 
 
 }

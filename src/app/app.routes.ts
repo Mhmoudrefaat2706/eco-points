@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router';
-
 import { importProvidersFrom } from '@angular/core';
 import { RouterModule } from '@angular/router';
+
 import { LoginComponent } from './components/auth/login/login.component';
 import { RegisterComponent } from './components/auth/register/register.component';
 import { HomeComponent } from './components/seller/home/home.component';
@@ -12,28 +12,27 @@ import { ProfileComponent } from './components/seller/profile/profile.component'
 import { AboutComponent } from './components/seller/about/about.component';
 import { ContactComponent } from './components/seller/contact/contact.component';
 import { BuyerHomeComponent } from './components/buyer/buyer-home/buyer-home.component';
-import { BMaterialsComponent } from './components/buyer/buyer-home/b-materials/b-materials.component';
-import { BMaterialsDetailsComponent } from './components/buyer/buyer-home/b-materials-details/b-materials-details.component';
-import { BCartComponent } from './components/buyer/b-cart/b-cart.component';
-import { BCheckoutComponent } from './components/b-checkout/b-checkout.component';
+
+
+import { RoleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
+  { path: 'logout', redirectTo: 'login', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent },
-  { path: 'home', component: HomeComponent },
-  { path: 'materials', component: MaterialsComponent, title: 'Materials' },
-  {
-    path: 'materials/:id',
-    component: MaterialsDetailsComponent,
-    title: 'Material Details',
-  },
-  { path: 'about', component: AboutComponent, title: 'About Us' },
-  { path: 'contact', component: ContactComponent, title: 'Contact Us' },
-  { path: 'profile', component: ProfileComponent, title: 'profile' },
 
-  { path: 'buyer-home', component: BuyerHomeComponent, pathMatch: 'full' },
-  { path: 'buyer-homee', component: BuyerHomeComponent, pathMatch: 'full' },
+  // Seller routes
+  { path: 'home', component: HomeComponent, canActivate: [RoleGuard], data: { role: 'seller' } },
+  { path: 'materials', component: MaterialsComponent, title: 'Materials', canActivate: [RoleGuard], data: { role: 'seller' } },
+  { path: 'materials/:id', component: MaterialsDetailsComponent, title: 'Material Details', canActivate: [RoleGuard], data: { role: 'seller' } },
+  { path: 'about', component: AboutComponent, title: 'About Us', canActivate: [RoleGuard], data: { role: 'seller' } },
+  { path: 'contact', component: ContactComponent, title: 'Contact Us', canActivate: [RoleGuard], data: { role: 'seller' } },
+  { path: 'profile', component: ProfileComponent, title: 'Profile', canActivate: [RoleGuard], data: { role: 'seller' } },
+
+  // Buyer route
+  { path: 'buyer-home', component: BuyerHomeComponent, canActivate: [RoleGuard], data: { role: 'buyer' } },
+   { path: 'buyer-homee', component: BuyerHomeComponent, pathMatch: 'full' },
   { path: 'b-material', component: BMaterialsComponent, pathMatch: 'full' },
   {
     path: 'b-materials/:id',
@@ -41,8 +40,11 @@ export const routes: Routes = [
     title: 'Buyer Material Details',
   },
   { path: 'b-cart', component: BCartComponent, pathMatch: 'full' },
-  // { path: '404', component: NotFoundComponent, title: 'Page Not Found' },
-  { path: '**', redirectTo: '/404' },
+
+  // Not found
+  { path: '404', component: NotFoundComponent, title: 'Page Not Found' },
+  { path: '**', redirectTo: '/404' }
+
 ];
 
 export const AppRoutingModule = RouterModule.forRoot(routes);
