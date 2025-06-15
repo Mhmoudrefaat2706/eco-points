@@ -1,0 +1,76 @@
+<app-b-navbar></app-b-navbar>
+
+<div class="container my-5">
+  <h2 class="mb-4">Checkout</h2>
+
+  <div class="row">
+    <!-- Billing form -->
+    <div class="col-md-6 mb-4">
+      <h5>Billing Information</h5>
+      <form>
+        <div class="mb-3">
+          <label for="name" class="form-label">Full Name</label>
+          <input
+            type="text"
+            id="name"
+            class="form-control"
+            [(ngModel)]="name"
+            name="name"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="address" class="form-label">Address</label>
+          <input
+            type="text"
+            id="address"
+            class="form-control"
+            [(ngModel)]="address"
+            name="address"
+          />
+        </div>
+        <div class="mb-3">
+          <label for="phone" class="form-label">Phone</label>
+          <input
+            type="text"
+            id="phone"
+            class="form-control"
+            [(ngModel)]="phone"
+            name="phone"
+          />
+        </div>
+      </form>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="col-md-6">
+      <h5>Order Summary</h5>
+      <ul class="list-group mb-3" *ngIf="cartItems.length > 0">
+        <li
+          class="list-group-item d-flex justify-content-between align-items-center"
+          *ngFor="let item of cartItems"
+        >
+          <span>{{ item.name }}</span>
+          <strong>EGP {{ item.price }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Subtotal</span>
+          <strong>EGP {{ subtotal }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between">
+          <span>Shipping</span>
+          <strong>EGP {{ shippingCost }}</strong>
+        </li>
+        <li class="list-group-item d-flex justify-content-between bg-light">
+          <strong>Total</strong>
+          <strong>EGP {{ total }}</strong>
+        </li>
+      </ul>
+
+      <button class="btn btn-success w-100" (click)="placeOrder()">
+        Place Order
+      </button>
+    </div>
+  </div>
+</div>
+
+

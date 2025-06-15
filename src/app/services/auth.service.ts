@@ -16,13 +16,13 @@ export class AuthService {
   private users: User[] = [
     {
       name: 'Seller User',
-      email: 'seller@example.com',
+      email: 'seller@seller.com',
       password: '123456',
       role: 'seller',
     },
     {
       name: 'Buyer User',
-      email: 'buyer@example.com',
+      email: 'buyer@buyer.com',
       password: '123456',
       role: 'buyer',
     },

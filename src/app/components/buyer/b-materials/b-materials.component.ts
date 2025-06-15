@@ -4,7 +4,7 @@ import { BNavbarComponent } from '../b-navbar/b-navbar.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { SharedMatarialsService } from '../../../../services/shared-matarials.service';
+import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 
 @Component({
   selector: 'app-b-materials',

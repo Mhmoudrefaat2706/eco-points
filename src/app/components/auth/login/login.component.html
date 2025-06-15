@@ -13,24 +13,20 @@
       <p class="text-muted small">Enter your details to access your account</p>
     </div>
 <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
-<!-- رسالة تسجيل الخروج -->
+
 <div *ngIf="logoutMessage" class="alert alert-info text-start">
   {{ logoutMessage }}
 </div>
 
-<!-- رسائل الخطأ -->
 <div *ngIf="errorMessage" class="alert alert-danger text-start">
   {{ errorMessage }}
 </div>
 
-<!-- رسائل النجاح -->
 <div *ngIf="successMessage" class="alert alert-success text-start">
   {{ successMessage }}
 </div>
 
 
-
-  <!-- Email -->
   <div class="mb-3 text-start">
     <label for="email" class="form-label">Email</label>
     <input
@@ -49,7 +45,6 @@
     </div>
   </div>
 
-  <!-- Password -->
   <div class="mb-3 text-start">
     <label for="password" class="form-label">Password</label>
     <input
@@ -68,7 +63,6 @@
     </div>
   </div>
 
-  <!-- Role -->
   <div class="mb-3 text-start">
     <label for="role" class="form-label">Login as</label>
     <select
@@ -88,7 +82,7 @@
     </div>
   </div>
 
-  <!-- Remember Me -->
+
   <div class="form-check mb-3 text-start">
     <input
       type="checkbox"
@@ -100,7 +94,7 @@
     <label for="rememberMe" class="form-check-label">Remember me</label>
   </div>
 
-  <!-- Login Button -->
+
   <button
     type="submit"
     class="btn btn-primary w-100"
@@ -108,7 +102,7 @@
   >
     Login
   </button>
-        <!-- Footer -->
+
       <div class="text-start mt-3">
         <p class="mb-0">
           Don't have an account?

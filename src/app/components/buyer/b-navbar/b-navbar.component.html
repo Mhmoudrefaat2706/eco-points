@@ -19,19 +19,19 @@
   </button>
 
   <div class="nav-links">
-    <a routerLink="/buyer-homee" class="nav-link">{{
+    <a routerLink="/buyer-home" class="nav-link">{{
       "NAVBAR.HOME" | translate
     }}</a>
     <a routerLink="/b-material" class="nav-link">{{
       "NAVBAR.MATERIALS" | translate
     }}</a>
-    <a routerLink="/about" class="nav-link">{{ "NAVBAR.ABOUT" | translate }}</a>
+    <!-- <a routerLink="/about" class="nav-link">{{ "NAVBAR.ABOUT" | translate }}</a>
     <a routerLink="/contact" class="nav-link">{{
       "NAVBAR.CONTACT" | translate
     }}</a>
     <a routerLink="/dashboard" class="nav-link">{{
       "NAVBAR.DASHBOARD" | translate
-    }}</a>
+    }}</a> -->
   </div>
 
   <div class="nav-actions">
@@ -42,11 +42,9 @@
       <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
     </button>
     <button class="btn login-btn" routerLink="/login">
-      {{ "NAVBAR.LOGIN" | translate }}
+      {{ "NAVBAR.LOGOUT" | translate }}
     </button>
-    <button class="btn register-btn" routerLink="/register">
-      {{ "NAVBAR.REGISTER" | translate }}
-    </button>
+
     <div class="position-relative d-inline-block">
       <button class="btn register-btn" routerLink="/b-cart">
         <i class="fa-solid fa-cart-shopping fa-xl"></i>
@@ -110,13 +108,7 @@
       >
         {{ "NAVBAR.LOGOUT" | translate }}
       </button>
-      <!-- <button
-        class="btn register-btn"
-        routerLink="/register"
-        (click)="closeMobileMenu()"
-      >
-        {{ 'NAVBAR.REGISTER' | translate }}
-      </button> -->
+
     </div>
   </div>
 </div>

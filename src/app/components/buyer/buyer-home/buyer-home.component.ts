@@ -1,7 +1,7 @@
 
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { BFooterComponent } from './b-footer/b-footer.component';
-import { BNavbarComponent } from './b-navbar/b-navbar.component';
+import { BFooterComponent } from '../b-footer/b-footer.component';
+import { BNavbarComponent } from '../b-navbar/b-navbar.component';
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
