@@ -1,139 +1,48 @@
-import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { BFooterComponent } from '../b-footer/b-footer.component';
+import { BNavbarComponent } from '../b-navbar/b-navbar.component';
+import { ActivatedRoute, Router } from '@angular/router';
 
-import { FooterComponent } from '../footer/footer.component';
-
-import { NavbarComponent } from '../navbar/navbar.component';
+interface Material {
+  id: number;
+  name: string;
+  category: string;
+  image: string;
+  desc: string;
+}
 
 @Component({
-  selector: 'app-materials',
-
-  imports: [
-    FormsModule,
-    CommonModule,
-    RouterModule,
-    FooterComponent,
-    NavbarComponent,
-  ],
-  templateUrl: './materials.component.html',
-  styleUrl: './materials.component.css',
+  selector: 'app-b-materials-details',
+  imports: [BFooterComponent, BNavbarComponent],
+  templateUrl: './b-materials-details.component.html',
+  styleUrl: './b-materials-details.component.css',
 })
-export class MaterialsComponent {
+export class BMaterialsDetailsComponent implements OnInit {
+  material: any;
+  id: number = 0;
 
-  // Pagination variables
-  currentPage = 1;
-  itemsPerPage = 8;
-  filteredMaterials: any[] = [];
-  isLoading = false;
-  errorMessage = '';
-  searchQuery = '';
-  selectedCategory = 'All'; // Default to show all categories
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router // Inject Router service
+  ) {}
 
-  // Unique categories for the filter dropdown
-  categories: string[] = ['All'];
-
-  constructor() {
-    this.loadMaterials();
-  }
-
-  loadMaterials(): void {
-    this.isLoading = true;
-    this.errorMessage = '';
-
-    try {
-      // Extract unique categories from materialsList
-      this.categories = [
-        'All',
-
-        ...new Set(this.materialsList.map((material) => material.category)),
-      ];
-
-      this.updateFilteredMaterials();
-      this.isLoading = false;
-    } catch (error) {
-      this.errorMessage = 'Failed to load materials.';
-      this.isLoading = false;
-      console.error('Error loading materials:', error);
-    }
-  }
-
-  // Update the filtered materials based on current page, search query, and category
-  updateFilteredMaterials() {
-    // Filter materials based on search query and category
-
-    const filtered = this.materialsList.filter((material) => {
-      const matchesSearch =
-        material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        material.category
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
-
-      const matchesCategory =
-        this.selectedCategory === 'All' ||
-        material.category === this.selectedCategory;
-
-      return matchesSearch && matchesCategory;
+  ngOnInit(): void {
+    this.route.paramMap.subscribe((params) => {
+      this.id = Number(params.get('id'));
+      this.material = this.materialsList.find((m) => m.id === this.id);
     });
-
-    // Apply pagination
-    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
-    const endIndex = startIndex + this.itemsPerPage;
-    this.filteredMaterials = filtered.slice(startIndex, endIndex);
   }
 
-  // Handle search input changes
-  onSearchChange() {
-    this.currentPage = 1; // Reset to first page when search changes
-    this.updateFilteredMaterials();
+  goBack() {
+    this.router.navigate(['/b-materials']); // Use router.navigate() instead of route.navigate()
   }
 
-  // Handle category selection changes
-  onCategoryChange() {
-    this.currentPage = 1; // Reset to first page when category changes
-    this.updateFilteredMaterials();
-  }
-
-  // Change page
-  changePage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-      this.updateFilteredMaterials();
-    }
-  }
-
-  // Get total pages based on filtered results
-  get totalPages(): number {
-
-    const filtered = this.materialsList.filter((material) => {
-      const matchesSearch =
-        material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        material.category
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
-
-      const matchesCategory =
-        this.selectedCategory === 'All' ||
-        material.category === this.selectedCategory;
-
-
-      return matchesSearch && matchesCategory;
-    });
-    return Math.ceil(filtered.length / this.itemsPerPage);
-  }
-
-  // Generate page numbers for pagination controls rubber
-  get pages(): number[] {
-    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
-  }
-
-  // Static materials data
   materialsList = [
     {
       id: 1,
       name: 'Copper',
       category: 'Metal',
+      price: 122,
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI0x6tfoluh5Hr34K9mheSAAHqHPcjHxKaIzFI0UxZOXuDoMGhpmMztgP5rPCMjDtRJ24&usqp=CAU',
       desc: 'A reddish-brown metal with excellent electrical conductivity, used in wiring and electronics.',
@@ -142,6 +51,7 @@ export class MaterialsComponent {
       id: 2,
       name: 'Aluminum',
       category: 'Metal',
+      price: 30,
       image:
         'https://www.scrapware.com/wp-content/uploads/2020/08/recycled-cans-1-1024x710.jpg',
       desc: 'A lightweight, corrosion-resistant metal used in cans, aircraft, and construction.',
@@ -150,12 +60,14 @@ export class MaterialsComponent {
       id: 3,
       name: 'Stainless Steel',
       category: 'Metal',
+      price: 140,
       image: 'https://www.anis-trend.com/wp-content/uploads/2021/11/metal.jpg',
       desc: 'A durable, rust-resistant alloy used in appliances, cutlery, and medical tools.',
     },
     {
       id: 4,
       name: 'Pine Wood',
+      price: 190,
       category: 'Wood',
       image:
         'https://www.forestinnovationhubs.rosewood-network.eu/sites/default/files/bp/multimedia/main_pics/rilegno_product_pics_2.jpg',
@@ -165,6 +77,7 @@ export class MaterialsComponent {
       id: 5,
       name: 'Oak Wood',
       category: 'Wood',
+      price: 19,
       image:
         'https://cdn.ca.emap.com/wp-content/uploads/sites/6/2021/05/wood.jpg',
       desc: 'A strong, hardwood known for its durability in flooring and cabinetry.',
@@ -173,6 +86,7 @@ export class MaterialsComponent {
       id: 6,
       name: 'Bamboo',
       category: 'Wood',
+      price: 142,
       image:
         'https://magazin.tu-braunschweig.de/wp-content/uploads/2024/02/joshua-hoehne-XG9mXns-340-unsplash1-1200x800.jpg',
       desc: 'A fast-growing, sustainable material used in flooring and eco-friendly products.',
@@ -181,6 +95,7 @@ export class MaterialsComponent {
       id: 7,
       name: 'Cotton',
       category: 'Fabric',
+      price: 152,
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQomN6jzDq0wJORXxU2LuiK0BcGnoPuOk9oaByRU3XgLnpNzd8MFirDJ8T38mX51YFtJTs&usqp=CAU',
       desc: 'A natural, breathable fiber used in clothing, towels, and bedding.',
@@ -188,6 +103,7 @@ export class MaterialsComponent {
     {
       id: 8,
       name: 'Silk',
+      price: 162,
       category: 'Fabric',
       image:
         'https://ecostore.com/media/magefan_blog/Recycled_Fabrics_1200.jpg',
@@ -196,6 +112,7 @@ export class MaterialsComponent {
     {
       id: 9,
       name: 'Polyester',
+      price: 12,
       category: 'Fabric',
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLqWmHEWShidjgPd8l3qObtyTnIjW3v654Zpsm8WDqNFyRK3gH0Fyqv6bohZbSp2PzKF4&usqp=CAU',
@@ -205,6 +122,7 @@ export class MaterialsComponent {
       id: 10,
       name: 'Polycarbonate',
       category: 'Plastic',
+      price: 162,
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa54WWMgvfkrawzzRgQc6UZac9B6ZbblQ2NUtgVgr_l3jXygKLXzVytuBz5Yd7s-zR3KE&usqp=CAU',
       desc: 'A tough, transparent thermoplastic used in eyewear and bulletproof glass.',
@@ -213,6 +131,7 @@ export class MaterialsComponent {
       id: 11,
       name: 'PVC',
       category: 'Plastic',
+      price: 14,
       image: 'https://live.staticflickr.com/65535/51899745895_fd7270c927_b.jpg',
       desc: 'A versatile plastic used in pipes, cables, and vinyl flooring.',
     },
@@ -220,6 +139,7 @@ export class MaterialsComponent {
       id: 12,
       name: 'Acrylic',
       category: 'Plastic',
+      price: 13,
       image:
         'https://www.lakelandgov.net/media/10465/plastic.png?width=1437&height=1231',
       desc: 'A lightweight, shatter-resistant alternative to glass.',
@@ -228,6 +148,7 @@ export class MaterialsComponent {
       id: 13,
       name: 'Granite',
       category: 'Stone',
+      price: 15,
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4GOfbYKP39RlXf-qxjIeuJ5utWf75wJSIOBq4EgC0rJ4PUl6Bc_jFVj5JaHrKSXM3jHY&usqp=CAU',
       desc: 'A hard, igneous rock used in countertops and monuments.',
@@ -289,5 +210,4 @@ export class MaterialsComponent {
       desc: 'A mixture of cement, sand, and aggregate used in buildings and roads.',
     },
   ];
-
 }

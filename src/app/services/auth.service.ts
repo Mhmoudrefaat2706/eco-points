@@ -12,6 +12,7 @@ export interface User {
   providedIn: 'root',
 })
 export class AuthService {
+
   private users: User[] = [
     {
       name: 'Seller User',
@@ -25,6 +26,7 @@ export class AuthService {
       password: '123456',
       role: 'buyer',
     },
+
   ];
 
   private loggedInUser: User | null = null;
@@ -48,6 +50,7 @@ export class AuthService {
         u.role === role
     );
 
+
     if (user) {
       this.loggedInUser = user;
       localStorage.setItem('loggedInUser', JSON.stringify(user));
@@ -55,6 +58,7 @@ export class AuthService {
     }
 
     return false;
+
   }
 
   logout(): void {
@@ -65,6 +69,7 @@ export class AuthService {
   isAuthenticated(): boolean {
     return this.loggedInUser !== null;
   }
+
 
   getLoggedInUser(): User | null {
     return this.loggedInUser;
@@ -83,5 +88,6 @@ export class AuthService {
     const newUser: User = { name, email, password, role: role as 'seller' | 'buyer' };
     this.users.push(newUser);
     return true;
+
   }
 }

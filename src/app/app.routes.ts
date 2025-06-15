@@ -13,6 +13,7 @@ import { AboutComponent } from './components/seller/about/about.component';
 import { ContactComponent } from './components/seller/contact/contact.component';
 import { BuyerHomeComponent } from './components/buyer/buyer-home/buyer-home.component';
 
+
 import { RoleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
@@ -31,10 +32,19 @@ export const routes: Routes = [
 
   // Buyer route
   { path: 'buyer-home', component: BuyerHomeComponent, canActivate: [RoleGuard], data: { role: 'buyer' } },
+   { path: 'buyer-homee', component: BuyerHomeComponent, pathMatch: 'full' },
+  { path: 'b-material', component: BMaterialsComponent, pathMatch: 'full' },
+  {
+    path: 'b-materials/:id',
+    component: BMaterialsDetailsComponent,
+    title: 'Buyer Material Details',
+  },
+  { path: 'b-cart', component: BCartComponent, pathMatch: 'full' },
 
   // Not found
   { path: '404', component: NotFoundComponent, title: 'Page Not Found' },
   { path: '**', redirectTo: '/404' }
+
 ];
 
 export const AppRoutingModule = RouterModule.forRoot(routes);

@@ -46,7 +46,7 @@
     flex-direction: column;
     align-items: stretch;
   }
-  
+
   .category-filter,
   .search-container {
     max-width: 100% !important;
@@ -64,20 +64,20 @@
   transition: all 0.3s ease;
   border-radius: 10px;
   overflow: hidden;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   border: none;
   margin-bottom: 20px;
 }
 
 .material-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .card-img-top {
   height: 180px;
   object-fit: cover;
-  border-bottom: 1px solid rgba(0,0,0,0.1);
+  border-bottom: 1px solid rgba(0, 0, 0, 0.1);
 }
 
 .card-body {
@@ -111,47 +111,25 @@
   text-transform: uppercase;
 }
 
-
-/* Category-specific badge colors */
-.badge-metal {
-  background-color: #3498db !important;
-}
-.badge-wood {
-  background-color: #e67e22 !important;
-}
-.badge-plastic {
-  background-color: #2ecc71 !important;
-}
-.badge-fabric {
-  background-color: #9b59b6 !important;
-}
-.badge-stone {
-  background-color: #95a5a6 !important;
-}
-.badge-ceramic {
-  background-color: #1abc9c !important;
-}
-.badge-composite {
-  background-color: #34495e !important;
-}
-.badge-construction {
-  background-color: #7f8c8d !important;
-}
-.badge-elastomer {
-  background-color: #d35400 !important;
-}
+/* Badge colors */
 .badge-paper {
-  background-color: #f1c40f !important;
-  color: #333;
+  background-color: #f1c40f;
+  color: #fff;
 }
 
-.badge {
-  font-size: 0.8rem;
-  padding: 5px 10px;
+.badge-metal {
+  background-color: #3498db;
   color: #fff;
-  text-transform: capitalize;
-  background-color: rgb(221, 37, 37);
+}
 
+.badge-plastic {
+  background-color: #2ecc71;
+  color: #fff;
+}
+
+.badge-wood {
+  background-color: #e67e22;
+  color: #fff;
 }
 
 /* Button styles */
@@ -203,6 +181,4 @@
   color: #6c757d;
   pointer-events: none;
   background-color: #fff;
-
 }
-

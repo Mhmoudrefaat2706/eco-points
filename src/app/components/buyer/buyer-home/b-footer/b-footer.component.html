@@ -1,0 +1,96 @@
+<footer class="footer">
+  <div class="container">
+    <div class="footer-grid">
+      <!-- About Section -->
+      <div class="footer-section">
+        <h3 class="footer-logo">{{ "FOOTER.ECO_POINTS" | translate }}</h3>
+        <p class="footer-description">{{ "HOME.DESCRIPTION" | translate }}</p>
+        <div class="social-links">
+          <h4>{{ "FOOTER.SOCIAL_MEDIA" | translate }}</h4>
+          <div class="social-icons">
+            <a href="#" aria-label="Facebook"
+              ><i class="fab fa-facebook-f"></i
+            ></a>
+            <a href="#" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
+            <a href="#" aria-label="Instagram"
+              ><i class="fab fa-instagram"></i
+            ></a>
+            <a href="#" aria-label="LinkedIn"
+              ><i class="fab fa-linkedin-in"></i
+            ></a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer-section">
+        <h4>{{ "FOOTER.LINKS" | translate }}</h4>
+        <ul class="footer-links">
+          <li>
+            <a (click)="navigateTo('/')">{{ "NAVBAR.HOME" | translate }}</a>
+          </li>
+          <li>
+            <a (click)="navigateTo('/materials')">{{
+              "NAVBAR.MATERIALS" | translate
+            }}</a>
+          </li>
+          <li>
+            <a (click)="navigateTo('/about')">{{
+              "NAVBAR.ABOUT" | translate
+            }}</a>
+          </li>
+          <li>
+            <a (click)="navigateTo('/contact')">{{
+              "NAVBAR.CONTACT" | translate
+            }}</a>
+          </li>
+          <li>
+            <a (click)="navigateTo('/dashboard')">{{
+              "NAVBAR.DASHBOARD" | translate
+            }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Legal Links -->
+      <div class="footer-section">
+        <h4>{{ "FOOTER.LEGAL" | translate }}</h4>
+        <ul class="footer-links">
+          <li>
+            <a href="#">{{ "FOOTER.PRIVACY_POLICY" | translate }}</a>
+          </li>
+          <li>
+            <a href="#">{{ "FOOTER.TERMS" | translate }}</a>
+          </li>
+          <li>
+            <a (click)="navigateTo('/contact')">{{
+              "FOOTER.CONTACT_US" | translate
+            }}</a>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Newsletter (unchanged) -->
+      <div class="footer-section">
+        <h4>{{ "FOOTER.NEWSLETTER" | translate }}</h4>
+        <p>{{ "HOME.DESCRIPTION" | translate }}</p>
+        <form class="newsletter-form">
+          <input
+            type="email"
+            [placeholder]="'FOOTER.EMAIL_PLACEHOLDER' | translate"
+            required
+            class="newsletter-input"
+          />
+          <button type="submit" class="btn-subscribe">
+            {{ "FOOTER.SUBSCRIBE" | translate }}
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Copyright -->
+    <div class="footer-bottom">
+      <p>{{ "FOOTER.COPYRIGHT" | translate }}</p>
+    </div>
+  </div>
+</footer>

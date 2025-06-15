@@ -19,34 +19,44 @@
   </button>
 
   <div class="nav-links">
-    <a routerLink="/home" class="nav-link">{{ 'NAVBAR.HOME' | translate }}</a>
-    <a routerLink="/materials" class="nav-link">{{ 'NAVBAR.MATERIALS' | translate }}</a>
-    <a routerLink="/about" class="nav-link">{{ 'NAVBAR.ABOUT' | translate }}</a>
-    <a routerLink="/contact" class="nav-link">{{ 'NAVBAR.CONTACT' | translate }}</a>
-    <a routerLink="/dashboard" class="nav-link">{{ 'NAVBAR.DASHBOARD' | translate }}</a>
+    <a routerLink="/buyer-homee" class="nav-link">{{
+      "NAVBAR.HOME" | translate
+    }}</a>
+    <a routerLink="/b-material" class="nav-link">{{
+      "NAVBAR.MATERIALS" | translate
+    }}</a>
+    <a routerLink="/about" class="nav-link">{{ "NAVBAR.ABOUT" | translate }}</a>
+    <a routerLink="/contact" class="nav-link">{{
+      "NAVBAR.CONTACT" | translate
+    }}</a>
+    <a routerLink="/dashboard" class="nav-link">{{
+      "NAVBAR.DASHBOARD" | translate
+    }}</a>
   </div>
 
   <div class="nav-actions">
     <button class="language-toggle" (click)="changeLanguage()">
-      {{ currentLanguage === 'en' ? 'عربي' : 'English' }}
+      {{ currentLanguage === "en" ? "عربي" : "English" }}
     </button>
     <button class="theme-toggle" (click)="toggleTheme()">
       <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
     </button>
-
-    <button class="btn login-btn" routerLink="/logout">
-      {{ 'NAVBAR.LOGOUT' | translate }}
+    <button class="btn login-btn" routerLink="/login">
+      {{ "NAVBAR.LOGIN" | translate }}
     </button>
-
-
+    <button class="btn register-btn" routerLink="/register">
+      {{ "NAVBAR.REGISTER" | translate }}
+    </button>
+    <div class="position-relative d-inline-block">
+      <button class="btn register-btn" routerLink="/b-cart">
+        <i class="fa-solid fa-cart-shopping fa-xl"></i>
+      </button>
+      <div class="counter bg-light position-absolute">{{ counter }}</div>
+    </div>
   </div>
 </nav>
 
-<div
-  #mobileMenu
-  class="mobile-menu"
-  [class.active]="mobileMenuActive"
->
+<div #mobileMenu class="mobile-menu" [class.active]="mobileMenuActive">
   <div class="mobile-menu-content">
     <button
       class="mobile-menu-close-btn"
@@ -56,57 +66,57 @@
       &times;
     </button>
     <a
-      routerLink="/home"
+      routerLink="buyer-home"
       class="mobile-nav-link"
       (click)="closeMobileMenu()"
-      >{{ 'NAVBAR.HOME' | translate }}</a
+      >{{ "NAVBAR.HOME" | translate }}</a
     >
     <a
       routerLink="/materials"
       class="mobile-nav-link"
       (click)="closeMobileMenu()"
-      >{{ 'NAVBAR.MATERIALS' | translate }}</a
+      >{{ "NAVBAR.MATERIALS" | translate }}</a
     >
     <a
       routerLink="/about"
       class="mobile-nav-link"
       (click)="closeMobileMenu()"
-      >{{ 'NAVBAR.ABOUT' | translate }}</a
+      >{{ "NAVBAR.ABOUT" | translate }}</a
     >
     <a
       routerLink="/contact"
       class="mobile-nav-link"
       (click)="closeMobileMenu()"
-      >{{ 'NAVBAR.CONTACT' | translate }}</a
+      >{{ "NAVBAR.CONTACT" | translate }}</a
     >
     <a
       routerLink="/dashboard"
       class="mobile-nav-link"
       (click)="closeMobileMenu()"
-      >{{ 'NAVBAR.DASHBOARD' | translate }}</a
+      >{{ "NAVBAR.DASHBOARD" | translate }}</a
     >
 
     <div class="mobile-nav-actions">
       <button (click)="changeLanguage()">
-        {{ currentLanguage === 'en' ? 'عربي' : 'English' }}
+        {{ currentLanguage === "en" ? "عربي" : "English" }}
       </button>
       <button (click)="toggleTheme()">
         <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
       </button>
-
-
-<div class="nav-actions">
-  <button class="language-toggle" (click)="changeLanguage()">
-    {{ currentLanguage === 'en' ? 'عربي' : 'English' }}
-  </button>
-  <button class="theme-toggle" (click)="toggleTheme()">
-    <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
-  </button>
-  <button class="btn logout-btn" (click)="logout()">
-    {{ 'NAVBAR.LOGOUT' | translate }}
-  </button>
-</div>
-
+      <button
+        class="btn logout-btn"
+        routerLink="/logout"
+        (click)="closeMobileMenu()"
+      >
+        {{ "NAVBAR.LOGOUT" | translate }}
+      </button>
+      <!-- <button
+        class="btn register-btn"
+        routerLink="/register"
+        (click)="closeMobileMenu()"
+      >
+        {{ 'NAVBAR.REGISTER' | translate }}
+      </button> -->
     </div>
   </div>
 </div>

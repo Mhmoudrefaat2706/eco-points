@@ -12,8 +12,10 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
+
 export class LoginComponent implements OnInit {
   credentials = { email: '', password: '', role: '' };
+
   rememberMe = false;
   errorMessage = '';
   successMessage = '';
@@ -49,6 +51,7 @@ export class LoginComponent implements OnInit {
       role
     );
 
+
     if (success) {
       this.successMessage = 'Login successful!';
       this.errorMessage = '';
@@ -63,12 +66,18 @@ export class LoginComponent implements OnInit {
       this.errorMessage = 'Invalid email, password, or role.';
       this.successMessage = '';
       this.logoutMessage = '';
+
     }
+  } else {
+    this.errorMessage = 'Invalid email, password, or role.';
+    this.successMessage = '';
   }
 
   logout() {
     this.authService.logout();
-    // توجيه مع باراميتر يفيد بتسجيل الخروج
+    
     this.router.navigate(['/login'], { queryParams: { loggedOut: 'true' } });
   }
+}
+
 }

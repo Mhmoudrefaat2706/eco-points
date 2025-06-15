@@ -1,30 +1,27 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-
-import { Router, RouterModule } from '@angular/router'; // ⬅️ Router
+import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { AuthService } from '../../../services/auth.service'; // ⬅️ AuthService
-
+import { SharedMatarialsService } from '../../../../services/shared-matarials.service';
 
 @Component({
-  selector: 'app-navbar',
-  standalone: true,
+  selector: 'app-b-navbar',
   imports: [CommonModule, RouterModule, TranslateModule],
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  standalone: true,
+  templateUrl: './b-navbar.component.html',
+  styleUrl: './b-navbar.component.css',
 })
-export class NavbarComponent implements OnInit {
+export class BNavbarComponent implements OnInit {
+  constructor(private sharedMatrials: SharedMatarialsService) {}
+  counter: number = 0;
+
   private translate = inject(TranslateService);
-
-  private authService = inject(AuthService); // ⬅️ Inject AuthService
-  private router = inject(Router);           // ⬅️ Inject Router
-
   isDarkMode = false;
   currentLanguage = 'en';
   mobileMenuActive = false;
-  loggedIn = false;
-  ngOnInit() {
 
+  ngOnInit() {
+    // Load saved language from localStorage
     const savedLang = localStorage.getItem('language');
     if (savedLang) {
       this.currentLanguage = savedLang;
@@ -32,9 +29,12 @@ export class NavbarComponent implements OnInit {
       document.documentElement.lang = savedLang;
       document.documentElement.dir = savedLang === 'ar' ? 'rtl' : 'ltr';
 
-      
+      this.sharedMatrials.cartCount$.subscribe((count) => {
+        this.counter = count;
+      });
     }
 
+    // Load dark mode state
     const savedDarkMode = localStorage.getItem('darkMode');
     this.isDarkMode = savedDarkMode === 'true';
     this.updateBodyDarkMode();
@@ -59,7 +59,8 @@ export class NavbarComponent implements OnInit {
     this.translate.use(this.currentLanguage);
     localStorage.setItem('language', this.currentLanguage);
     document.documentElement.lang = this.currentLanguage;
-    document.documentElement.dir = this.currentLanguage === 'ar' ? 'rtl' : 'ltr';
+    document.documentElement.dir =
+      this.currentLanguage === 'ar' ? 'rtl' : 'ltr';
   }
 
   toggleMobileMenu() {
@@ -69,14 +70,4 @@ export class NavbarComponent implements OnInit {
   closeMobileMenu() {
     this.mobileMenuActive = false;
   }
-  logout() {
-    this.authService.logout();
-    this.router.navigate(['/login']);
-  }
-
-  
-  isLoggedIn(): boolean {
-    return this.authService.isAuthenticated();
-  }
-
 }
