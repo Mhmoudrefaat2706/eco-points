@@ -1,0 +1,109 @@
+<app-b-navbar></app-b-navbar>
+<!-- HTML -->
+<div class="container my-4">
+  <div
+    class="search-filter d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4"
+  >
+    <!-- فلتر الفئات -->
+    <div class="mb-3 mb-md-0">
+      <select
+        class="form-select category-filter"
+        [(ngModel)]="selectedCategory"
+        (change)="onCategoryChange()"
+      >
+        <option value="All">All Categories</option>
+        @for (category of categories; track category) { @if (category !== 'All')
+        {
+        <option [value]="category">{{ category }}</option>
+        } }
+      </select>
+    </div>
+
+    <!-- بحث -->
+    <div class="search-container flex-grow-3" style="min-width: 250px">
+      <input
+        type="text"
+        class="form-control search-input"
+        placeholder="Search by name or category..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+      />
+    </div>
+  </div>
+
+  <!-- هنا تحط عرض المواد (cards) -->
+  <div class="row">
+    <!-- مثال بطاقة مادة -->
+    <div
+      class="col-lg-3 col-md-4 col-sm-6 mb-4"
+      *ngFor="let material of filteredMaterials"
+    >
+      <div class="card material-card h-100">
+        <img
+          [src]="material.image"
+          class="card-img-top"
+          [alt]="material.name"
+        />
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ material.name }}</h5>
+          <p class="card-text">
+            <small class="text-muted d-block mb-2">{{ material.desc }}</small>
+            <span
+              class="category-badge badge-{{ material.category.toLowerCase() }}"
+            >
+              {{ material.category }}
+            </span>
+          </p>
+          <div class="mt-auto d-flex justify-content-between">
+            <a
+              [routerLink]="['/b-materials', material.id]"
+              class="btn btn-details btn-success btn-sm"
+              >View Details</a
+            >
+            <a class="btn btn-sm" (click)="addToCart(material)">
+              <i class="fa-solid fa-cart-shopping text-success"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- الباجينيشن -->
+  <nav
+    aria-label="Materials pagination"
+    *ngIf="materialsList.length > itemsPerPage && filteredMaterials.length > 0"
+  >
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a
+          class="page-link"
+          (click)="changePage(currentPage - 1)"
+          aria-label="Previous"
+        >
+          <span aria-hidden="true">&laquo;</span>
+        </a>
+      </li>
+
+      <li
+        class="page-item"
+        *ngFor="let page of pages"
+        [class.active]="page === currentPage"
+      >
+        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a
+          class="page-link"
+          (click)="changePage(currentPage + 1)"
+          aria-label="Next"
+        >
+          <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>
+
+<app-b-footer></app-b-footer>

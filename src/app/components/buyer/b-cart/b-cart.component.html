@@ -1,0 +1,68 @@
+<app-b-navbar></app-b-navbar>
+<div class="card my-5">
+  <div class="row">
+    <div class="col-md-8 cart">
+      <div class="title">
+        <div class="row">
+          <div class="col">
+            <h4><b>Shopping Cart</b></h4>
+          </div>
+          <div class="col align-self-center text-right text-muted">
+            {{ materails.length }} items
+          </div>
+        </div>
+      </div>
+      <div class="row border-top border-bottom">
+        @for( items of materails; track materails.id){
+        <div class="row main align-items-center">
+          <div class="col-2">
+            <img class="img-fluid" [src]="items.image" />
+          </div>
+          <div class="col">
+            <div class="row text-muted">{{ items.name }}</div>
+            <div class="row">{{ items.category }}</div>
+          </div>
+          <div class="col">
+            <span>-</span><span class="border p-2 mx-2">1</span><span>+</span>
+          </div>
+          <div class="col d-flex">
+            <div>EGP{{ items.price }}</div>
+            <span class="close" (click)="removeFromCart(items.id)">
+              <i class="fa-solid fa-trash pt-2"></i
+            ></span>
+          </div>
+        </div>
+        }
+      </div>
+    </div>
+    <div class="col-md-4 summary">
+      <div>
+        <h5><b>Summary</b></h5>
+      </div>
+      <hr />
+      <div class="row">
+        <div class="col" style="padding-left: 0">
+          ITEMS {{ materails.length }}
+        </div>
+        <div class="col text-right">EGP{{ subtotal }}</div>
+      </div>
+      <form>
+        <p>SHIPPING</p>
+        <select>
+          <option class="text-muted disabled">Standard-Delivery- 5.00</option>
+        </select>
+        <p>GIVE CODE</p>
+        <input id="code" placeholder="Enter your code" />
+      </form>
+      <div
+        class="row"
+        style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0"
+      >
+        <div class="col">TOTAL PRICE</div>
+        <div class="col text-right">EGP {{ subtotal }}</div>
+      </div>
+      <a class="btn bg-success" routerLink="/b-checkout">CHECKOUT</a>
+    </div>
+  </div>
+</div>
+<app-b-footer></app-b-footer>

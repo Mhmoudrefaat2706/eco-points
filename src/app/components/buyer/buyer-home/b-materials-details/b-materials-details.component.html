@@ -1,0 +1,38 @@
+<app-b-navbar></app-b-navbar>
+@if (material) {
+<div class="material-details-container">
+  <div class="material-header">
+    <h1>{{ material.name }}</h1>
+    <span class="category-badge">{{ material.category }}</span>
+  </div>
+
+  <div class="material-content">
+    <div class="image-container">
+      <img
+        [src]="material.image"
+        [alt]="material.name"
+        class="material-image"
+      />
+    </div>
+
+    <div class="details-container">
+      <p class="material-description">{{ material.desc }}</p>
+
+      <div class="action-buttons">
+        <button class="btn btn-success" (click)="goBack()">
+          ← Return to materials list
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+} @else {
+<div class="not-found-container">
+  <h2>Material not found</h2>
+  <p>We couldn't find the material you're looking for.</p>
+  <button class="btn btn-success" (click)="goBack()">
+    ← Return to materials list
+  </button>
+</div>
+}
+<app-b-footer></app-b-footer>
