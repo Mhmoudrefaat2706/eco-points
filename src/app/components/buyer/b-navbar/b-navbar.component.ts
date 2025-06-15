@@ -2,7 +2,7 @@ import { Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
-import { SharedMatarialsService } from '../../../../services/shared-matarials.service';
+import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 
 @Component({
   selector: 'app-b-navbar',
