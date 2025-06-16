@@ -20,6 +20,7 @@ import { BMaterialsDetailsComponent } from './components/buyer/b-materials-detai
 import { BCartComponent } from './components/buyer/b-cart/b-cart.component';
 import { DashboardComponent } from './components/seller/dashboard/dashboard.component';
 import { BCheckoutComponent } from './components/buyer/b-checkout/b-checkout.component';
+import { BProfileComponent } from './components/buyer/b-profile/b-profile.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -38,9 +39,10 @@ export const routes: Routes = [
 
   // Buyer route
   { path: 'buyer-home', component: BuyerHomeComponent , title: 'Buyer Home', canActivate: [RoleGuard], data: { role: 'buyer' } },
-  { path: 'b-material', component: BMaterialsComponent, pathMatch: 'full' , title: 'Buyer Matirials', canActivate: [RoleGuard], data: { role: 'buyer' } },
+  { path: 'b-materials', component: BMaterialsComponent, pathMatch: 'full' , title: 'Buyer Matirials', canActivate: [RoleGuard], data: { role: 'buyer' } },
   { path: 'b-materials/:id',component: BMaterialsDetailsComponent,title: 'Buyer Material Details', canActivate: [RoleGuard], data: { role: 'buyer' } },
   { path: 'b-cart', component: BCartComponent, pathMatch: 'full' ,title: 'My Cart', canActivate: [RoleGuard], data: { role: 'buyer' } },
+  { path: 'b-profile', component: BProfileComponent, title: 'My Profile', canActivate: [RoleGuard], data: { role: 'buyer' } },
   { path: 'b-checkout', component: BCheckoutComponent, pathMatch: 'full' ,title: 'Checkout', canActivate: [RoleGuard], data: { role: 'buyer' } },
 
   // Not found

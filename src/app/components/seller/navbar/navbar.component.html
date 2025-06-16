@@ -19,34 +19,41 @@
   </button>
 
   <div class="nav-links">
-    <a routerLink="/home" class="nav-link">{{ 'NAVBAR.HOME' | translate }}</a>
-    <a routerLink="/materials" class="nav-link">{{ 'NAVBAR.MATERIALS' | translate }}</a>
-    <a routerLink="/about" class="nav-link">{{ 'NAVBAR.ABOUT' | translate }}</a>
-    <a routerLink="/contact" class="nav-link">{{ 'NAVBAR.CONTACT' | translate }}</a>
-    <a routerLink="/dashboard" class="nav-link">{{ 'NAVBAR.DASHBOARD' | translate }}</a>
+    <a routerLink="/home" class="nav-link">{{ "NAVBAR.HOME" | translate }}</a>
+    <a routerLink="/materials" class="nav-link">{{ "NAVBAR.MATERIALS" | translate }}</a>
+    <a routerLink="/about" class="nav-link">{{ "NAVBAR.ABOUT" | translate }}</a>
+    <a routerLink="/contact" class="nav-link">{{ "NAVBAR.CONTACT" | translate }}</a>
+    <a routerLink="/dashboard" class="nav-link">{{ "NAVBAR.DASHBOARD" | translate }}</a>
   </div>
 
   <div class="nav-actions">
+    <!-- User Profile Section -->
+    <div class="user-profile" *ngIf="currentUser" (click)="goToProfile()">
+      <div class="user-avatar">
+        <img [src]="getUserAvatar()" alt="User Avatar" class="avatar" />
+      </div>
+      <div class="user-info">
+        <span class="user-name">{{ currentUser.name || currentUser.email.split("@")[0] }}</span>
+        <span class="user-role">{{ currentUser.role }}</span>
+      </div>
+      <i class="fas fa-chevron-down"></i>
+    </div>
+
     <button class="language-toggle" (click)="changeLanguage()">
-      {{ currentLanguage === 'en' ? 'عربي' : 'English' }}
+      {{ currentLanguage === "en" ? "عربي" : "English" }}
     </button>
     <button class="theme-toggle" (click)="toggleTheme()">
       <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
     </button>
 
-    <button class="btn login-btn" routerLink="/logout">
-      {{ 'NAVBAR.LOGOUT' | translate }}
+    <button class="btn logout-btn" (click)="logout()">
+      {{ "NAVBAR.LOGOUT" | translate }}
     </button>
-
-
   </div>
 </nav>
 
-<div
-  #mobileMenu
-  class="mobile-menu"
-  [class.active]="mobileMenuActive"
->
+<!-- Mobile Menu -->
+<div #mobileMenu class="mobile-menu" [class.active]="mobileMenuActive">
   <div class="mobile-menu-content">
     <button
       class="mobile-menu-close-btn"
@@ -55,58 +62,49 @@
     >
       &times;
     </button>
-    <a
-      routerLink="/home"
-      class="mobile-nav-link"
-      (click)="closeMobileMenu()"
-      >{{ 'NAVBAR.HOME' | translate }}</a
+
+    <!-- Mobile User Profile -->
+    <div
+      class="mobile-user-profile"
+      *ngIf="currentUser"
+      (click)="goToProfile(); closeMobileMenu()"
     >
-    <a
-      routerLink="/materials"
-      class="mobile-nav-link"
-      (click)="closeMobileMenu()"
-      >{{ 'NAVBAR.MATERIALS' | translate }}</a
-    >
-    <a
-      routerLink="/about"
-      class="mobile-nav-link"
-      (click)="closeMobileMenu()"
-      >{{ 'NAVBAR.ABOUT' | translate }}</a
-    >
-    <a
-      routerLink="/contact"
-      class="mobile-nav-link"
-      (click)="closeMobileMenu()"
-      >{{ 'NAVBAR.CONTACT' | translate }}</a
-    >
-    <a
-      routerLink="/dashboard"
-      class="mobile-nav-link"
-      (click)="closeMobileMenu()"
-      >{{ 'NAVBAR.DASHBOARD' | translate }}</a
-    >
+      <div class="user-avatar">
+        <img [src]="getUserAvatar()" alt="User Avatar" class="avatar" />
+      </div>
+      <div class="user-info">
+        <span class="user-name">{{ currentUser.name || currentUser.email.split("@")[0] }}</span>
+        <span class="user-role">{{ currentUser.role }}</span>
+      </div>
+    </div>
+
+    <a routerLink="/home" class="mobile-nav-link" (click)="closeMobileMenu()">
+      {{ "NAVBAR.HOME" | translate }}
+    </a>
+    <a routerLink="/materials" class="mobile-nav-link" (click)="closeMobileMenu()">
+      {{ "NAVBAR.MATERIALS" | translate }}
+    </a>
+    <a routerLink="/about" class="mobile-nav-link" (click)="closeMobileMenu()">
+      {{ "NAVBAR.ABOUT" | translate }}
+    </a>
+    <a routerLink="/contact" class="mobile-nav-link" (click)="closeMobileMenu()">
+      {{ "NAVBAR.CONTACT" | translate }}
+    </a>
+    <a routerLink="/dashboard" class="mobile-nav-link" (click)="closeMobileMenu()">
+      {{ "NAVBAR.DASHBOARD" | translate }}
+    </a>
+
 
     <div class="mobile-nav-actions">
       <button (click)="changeLanguage()">
-        {{ currentLanguage === 'en' ? 'عربي' : 'English' }}
+        {{ currentLanguage === "en" ? "عربي" : "English" }}
       </button>
       <button (click)="toggleTheme()">
         <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
       </button>
-
-
-<div class="nav-actions">
-  <button class="language-toggle" (click)="changeLanguage()">
-    {{ currentLanguage === 'en' ? 'عربي' : 'English' }}
-  </button>
-  <button class="theme-toggle" (click)="toggleTheme()">
-    <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
-  </button>
-  <button class="btn logout-btn" (click)="logout()">
-    {{ 'NAVBAR.LOGOUT' | translate }}
-  </button>
-</div>
-
+      <button class="btn logout-btn" (click)="logout(); closeMobileMenu()">
+        {{ "NAVBAR.LOGOUT" | translate }}
+      </button>
     </div>
   </div>
 </div>

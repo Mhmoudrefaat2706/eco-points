@@ -166,3 +166,38 @@ body.dark-mode {
   position: absolute;
   z-index: 1;
 }
+
+
+
+/* Profile button styles */
+.profile-btn {
+  background: transparent;
+  color: var(--text-color);
+  border: none;
+  padding: 0.5rem;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+}
+
+.profile-btn:hover {
+  background: rgba(0,0,0,0.1);
+}
+
+.profile-btn.active {
+  color: var(--primary-color);
+  background: rgba(58, 143, 254, 0.1);
+}
+
+.profile-btn i {
+  font-size: 1.2rem;
+}
+
+/* Mobile profile link icon */
+.mobile-nav-link i {
+  margin-right: 8px;
+}
