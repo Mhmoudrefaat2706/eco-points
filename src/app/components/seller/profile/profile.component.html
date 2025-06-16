@@ -1,216 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EcoPoints - Profile</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
-    <style>
-        body {
-            background-color: #f8f9fa;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            color: #333;
-        }
-        .container {
-            max-width: 900px;
-        }
-        .header-section {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            padding: 20px;
-            margin-bottom: 24px;
-        }
-        .user-section {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            padding: 25px;
-            margin-bottom: 24px;
-        }
-        .profile-form {
-            background-color: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-            padding: 30px;
-        }
-        .user-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, #3a8ffe, #6c5ce7);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-        }
-        .avatar {
-            width: 80px;
-            height: 80px;
-            object-fit: cover;
-            border: 3px solid #e0f7fa;
-            box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-        }
-        .btn-edit {
-            background: linear-gradient(135deg, #3a8ffe, #6c5ce7);
-            border: none;
-            border-radius: 8px;
-            padding: 8px 20px;
-            font-weight: 600;
-            transition: all 0.3s ease;
-        }
-        .btn-edit:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 4px 8px rgba(58, 143, 254, 0.3);
-        }
-        .form-label {
-            color: #2d3436;
-            font-weight: 600;
-            margin-bottom: 8px;
-        }
-        .form-control, .form-select {
-            border: 1px solid #dfe6e9;
-            border-radius: 8px;
-            padding: 10px 15px;
-            background-color: #f8f9fa;
-            transition: all 0.3s ease;
-        }
-        .form-control:focus, .form-select:focus {
-            border-color: #3a8ffe;
-            box-shadow: 0 0 0 0.25rem rgba(58, 143, 254, 0.25);
-            background-color: #fff;
-        }
-        .footer {
-            text-align: center;
-            padding: 30px 0;
-            color: #636e72;
-            font-size: 0.9rem;
-            margin-top: 30px;
-        }
-        .footer p {
-            margin-bottom: 5px;
-        }
-        .location {
-            color: #00b894;
-            font-weight: 500;
-            display: flex;
-            align-items: center;
-            gap: 5px;
-            margin-top: 3px;
-        }
-        h3 {
-            color: #2d3436;
-            font-weight: 700;
-            font-size: 1.8rem;
-        }
-        .text-muted {
-            color: #636e72 !important;
-        }
-        .profile-title {
-            color: #3a8ffe;
-            font-weight: 700;
-            font-size: 1.5rem;
-            margin-bottom: 25px;
-            padding-bottom: 10px;
-            border-bottom: 2px solid #e0f7fa;
-        }
-    </style>
-</head>
-<body>
-    <div class="container my-5">
-        <!-- Header Section -->
-        <div class="header-section">
-            <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
-                <div class="left">
-                    <h3 class="mb-1">Hello, Mahmoud!</h3>
-                    <p class="text-muted mb-0">Thursday, June 5, 2025</p>
-                </div>
-                <div class="right">
-                    <div class="user-icon">
-                        <i class="fa fa-user fa-2x text-white"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+<app-navbar></app-navbar>
 
-        <!-- User Info Section -->
-        <div class="user-section">
-            <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
-                <div class="left d-flex align-items-center gap-3">
-                    <img src="https://images.pexels.com/photos/220453/pexels-photo-220453.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1" 
-                         alt="User Avatar" 
-                         class="avatar rounded-circle">
-                    <div class="d-flex flex-column">
-                        <p class="mb-1 fw-semibold" style="font-size: 1.4rem;">Mahmoud</p>
-                        <p class="text-muted mb-0">mahmoud4qmail.com</p>
-                        <p class="location">
-                            <i class="fas fa-map-marker-alt"></i>
-                            Cairo, Egypt
-                        </p>
-                    </div>
-                </div>
-                <div class="right">
-                    <button type="button" class="btn btn-edit px-4 text-white">
-                        <i class="fas fa-edit me-2"></i>Edit
-                    </button>
-                </div>
-            </div>
+<div class="container my-5" [class.dark-mode]="isDarkMode">
+  <!-- Header Section -->
+  <div class="header-section">
+    <div class="d-flex justify-content-between align-items-center mb-4 flex-wrap">
+      <div class="left">
+        <h3 class="mb-1 text-dark">Hello, {{ userData.name }}!</h3>
+        <p class="text-muted mb-0">{{ currentDate | date:'EEEE, MMMM d, y' }}</p>
+      </div>
+      <div class="right">
+        <div class="user-icon">
+          <i class="fa fa-user fa-2x text-white"></i>
         </div>
-
-        <!-- Profile Form Section -->
-        <div class="profile-form">
-            <h5 class="profile-title">Edit Profile</h5>
-            <form class="row g-4">
-                <div class="col-md-6">
-                    <label for="fullname" class="form-label fw-semibold">Full Name</label>
-                    <input type="text" class="form-control" id="fullname" value="Mahmoud" />
-                </div>
-                <div class="col-md-6">
-                    <label for="email" class="form-label fw-semibold">Email</label>
-                    <input type="email" class="form-control" id="email" value="mahmoud4qmail.com" />
-                </div>
-                <div class="col-md-6">
-                    <label for="password" class="form-label fw-semibold">Password</label>
-                    <input type="password" class="form-control" id="password" value="********" />
-                </div>
-                <div class="col-md-6">
-                    <label for="username" class="form-label fw-semibold">User Name</label>
-                    <input type="text" class="form-control" id="username" value="Mahmoud" />
-                </div>
-                <div class="col-md-6">
-                    <label for="gender" class="form-label fw-semibold">Gender</label>
-                    <select id="gender" class="form-select">
-                        <option value="" disabled>Select gender</option>
-                        <option selected>Male</option>
-                        <option>Female</option>
-                        <option>Other</option>
-                    </select>
-                </div>
-                <div class="col-md-6">
-                    <label for="inputCity" class="form-label fw-semibold">City</label>
-                    <input type="text" class="form-control" id="inputCity" value="Cairo" />
-                </div>
-                <div class="col-md-6">
-                    <label for="inputAddress" class="form-label fw-semibold">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" placeholder="Enter address" />
-                </div>
-                <div class="col-md-6">
-                    <label for="inputState" class="form-label fw-semibold">Role</label>
-                    <select id="inputState" class="form-select">
-                        <option>Seller</option>
-                        <option selected>Buyer</option>
-                    </select>
-                </div>
-            </form>
-        </div>
-
-        <!-- Footer -->
-        <div class="footer">
-            <p>© 2025 EcoPoints. All rights reserved.</p>
-            <p>Designed with <span style="color: #e84393;">❤</span> for a sustainable future</p>
-        </div>
+      </div>
     </div>
+  </div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
-</body>
-</html>
+  <!-- User Info Section -->
+  <div class="user-section">
+    <div class="d-flex justify-content-between align-items-center flex-wrap gap-3">
+      <div class="left d-flex align-items-center gap-3">
+        <img src="https://ui-avatars.com/api/?name={{ userData.name }}&background=3a8ffe&color=fff" 
+             alt="User Avatar" 
+             class="avatar rounded-circle">
+        <div class="d-flex flex-column">
+          <p class="mb-1 fw-semibold text-dark" style="font-size: 1.4rem;">{{ userData.name }}</p>
+          <p class="text-muted mb-0">{{ userData.email }}</p>
+          <p class="location">
+            <i class="fas fa-map-marker-alt"></i>
+            {{ userData.location }}
+          </p>
+        </div>
+      </div>
+      <div class="right">
+        <button type="button" class="btn btn-edit px-4 text-white" (click)="toggleEdit()">
+          <i class="fas fa-edit me-2"></i>{{ isEditing ? 'Cancel' : 'Edit' }}
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Profile Form Section -->
+  <div class="profile-form" *ngIf="isEditing; else viewMode">
+    <h5 class="profile-title text-dark">Edit Profile</h5>
+    <form class="row g-4" (ngSubmit)="saveProfile()">
+      <div class="col-md-6">
+        <label for="fullname" class="form-label fw-semibold">Full Name</label>
+        <input type="text" class="form-control" id="fullname" [(ngModel)]="userData.name" name="name" />
+      </div>
+      <div class="col-md-6">
+        <label for="email" class="form-label fw-semibold">Email</label>
+        <input type="email" class="form-control" id="email" [(ngModel)]="userData.email" name="email" readonly />
+      </div>
+      <div class="col-md-6">
+        <label for="gender" class="form-label fw-semibold">Gender</label>
+        <select id="gender" class="form-select" [(ngModel)]="userData.gender" name="gender">
+          <option value="Male">Male</option>
+          <option value="Female">Female</option>
+        </select>
+      </div>
+      <div class="col-md-6">
+        <label for="inputCity" class="form-label fw-semibold">City</label>
+        <input type="text" class="form-control" id="inputCity" [(ngModel)]="userData.location" name="location" />
+      </div>
+      <div class="col-md-6">
+        <label for="inputAddress" class="form-label fw-semibold">Address</label>
+        <input type="text" class="form-control" id="inputAddress" placeholder="Enter address" 
+               [(ngModel)]="userData.address" name="address" />
+      </div>
+      <div class="col-md-6">
+        <label for="inputState" class="form-label fw-semibold">Role</label>
+        <input type="text" class="form-control" id="inputState" [(ngModel)]="userData.role" name="role" readonly />
+      </div>
+      <div class="col-12 mt-3">
+        <button type="submit" class="btn btn-save px-4 text-white">
+          <i class="fas fa-save me-2"></i>Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <ng-template #viewMode>
+    <!-- View Mode Section -->
+    <div class="profile-view">
+      <div class="row">
+        <div class="col-md-6 mb-4">
+          <div class="info-card">
+            <h6><i class="fas fa-user me-2"></i>Personal Information</h6>
+            <div class="info-item">
+              <span class="label">Full Name:</span>
+              <span class="value">{{ userData.name }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Email:</span>
+              <span class="value">{{ userData.email }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Gender:</span>
+              <span class="value">{{ userData.gender }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="info-card">
+            <h6><i class="fas fa-map-marker-alt me-2"></i>Location Information</h6>
+            <div class="info-item">
+              <span class="label">Location:</span>
+              <span class="value">{{ userData.location }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Address:</span>
+              <span class="value">{{ userData.address || 'Not specified' }}</span>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="info-card">
+            <h6><i class="fas fa-briefcase me-2"></i>Account Information</h6>
+            <div class="info-item">
+              <span class="label">Role:</span>
+              <span class="value badge bg-primary">{{ userData.role }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">Member Since:</span>
+              <span class="value">{{ currentDate | date:'MMMM y' }}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Footer -->
+  <div class="footer">
+    <p>© {{ currentDate | date:'y' }} EcoPoints. All rights reserved.</p>
+    <p>Designed with <span style="color: #e84393;">❤</span> for a sustainable future</p>
+  </div>
+</div>

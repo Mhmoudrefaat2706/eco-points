@@ -1,0 +1,244 @@
+body {
+  background-color: #f8f9fa;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+.container {
+  max-width: 900px;
+}
+
+.header-section,
+.user-section,
+.profile-form,
+.profile-view {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  padding: 20px;
+  margin-bottom: 24px;
+  transition: all 0.3s ease;
+}
+
+.user-section {
+  padding: 25px;
+  background: linear-gradient(135deg, #ffffff, #f1f8ff);
+}
+
+.profile-form, 
+.profile-view {
+  padding: 30px;
+}
+
+.user-icon {
+  width: 60px;
+  height: 60px;
+  background: linear-gradient(135deg, #3a8ffe, #6c5ce7);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border: 3px solid #e0f7fa;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+.btn-edit, 
+.btn-save {
+  background: linear-gradient(135deg, #3a8ffe, #6c5ce7);
+  border: none;
+  border-radius: 8px;
+  padding: 8px 20px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  color: white;
+}
+
+.btn-edit:hover, 
+.btn-save:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(58, 143, 254, 0.3);
+}
+
+.info-card {
+  background-color: #f8f9fa;
+  border-radius: 10px;
+  padding: 20px;
+  height: 100%;
+  border: 1px solid #e9ecef;
+}
+
+.info-card h6 {
+  color: #3a8ffe;
+  font-weight: 600;
+  margin-bottom: 20px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.info-item {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.info-item .label {
+  color: #636e72;
+  font-weight: 500;
+}
+
+.info-item .value {
+  color: #2d3436;
+  font-weight: 600;
+}
+
+.badge {
+  padding: 5px 10px;
+  font-size: 0.8rem;
+}
+
+.text-muted {
+  color: #6c757d !important;
+}
+
+.form-control,
+.form-select {
+  background-color: #f8f9fa;
+  border: 1px solid #ced4da;
+}
+
+.form-control:focus,
+.form-select:focus {
+  border-color: #3a8ffe;
+  box-shadow: 0 0 0 0.2rem rgba(58, 143, 254, 0.25);
+}
+
+.location {
+  color: #00b894;
+}
+
+.form-label {
+  font-weight: 500;
+  color: #2d3436;
+}
+
+/* Enhanced Dark Mode Styles */
+.dark-mode {
+  background-color: #1a1a1a;
+  color: #f8f9fa;
+}
+
+.dark-mode .container {
+  background-color: #1a1a1a;
+}
+
+.dark-mode .header-section,
+.dark-mode .profile-form,
+.dark-mode .profile-view {
+  background-color: #2d3748;
+  color: #f8f9fa;
+  border-color: #4a5568;
+}
+
+.dark-mode .user-section {
+  background: linear-gradient(135deg, #2d3748, #1a202c);
+  border: 1px solid #4a5568;
+}
+
+.dark-mode .info-card {
+  background-color: #2d3748;
+  border-color: #4a5568;
+}
+
+.dark-mode .info-card h6 {
+  color: #8c7ae6;
+  border-bottom-color: #4a5568;
+}
+
+.dark-mode .info-item .label {
+  color: #adb5bd;
+}
+
+.dark-mode .info-item .value {
+  color: #f8f9fa;
+}
+
+.dark-mode .text-muted {
+  color: #adb5bd !important;
+}
+
+.dark-mode .form-control,
+.dark-mode .form-select {
+  background-color: #2d3748;
+  border-color: #4a5568;
+  color: #f8f9fa;
+}
+
+.dark-mode .form-control:focus,
+.dark-mode .form-select:focus {
+  border-color: #6c5ce7;
+  box-shadow: 0 0 0 0.25rem rgba(108, 92, 231, 0.3);
+}
+
+.dark-mode input[readonly] {
+  background-color: rgba(108, 92, 231, 0.1);
+  border-color: rgba(108, 92, 231, 0.2);
+  color: #b2bec3;
+}
+
+.dark-mode .location {
+  color: #00cec9;
+}
+
+.dark-mode .text-dark {
+  color: #f8f9fa !important;
+}
+
+.dark-mode .form-label {
+  color: #e2e8f0 !important;
+}
+
+.dark-mode .profile-title.text-dark {
+  color: #a29bfe !important;
+}
+
+.dark-mode .avatar {
+  border-color: rgba(108, 92, 231, 0.3);
+}
+
+.dark-mode .btn-edit {
+  background: linear-gradient(135deg, #6c5ce7, #8c7ae6);
+}
+
+.dark-mode .btn-save {
+  background: linear-gradient(135deg, #00b894, #00cec9);
+}
+
+.dark-mode .badge.bg-primary {
+  background-color: #6c5ce7 !important;
+}
+
+.dark-mode .footer {
+  color: #a0aec0;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .avatar {
+    width: 60px;
+    height: 60px;
+  }
+  
+  .info-item {
+    flex-direction: column;
+  }
+  
+  .info-item .value {
+    margin-top: 4px;
+  }
+}
