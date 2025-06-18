@@ -1,16 +1,23 @@
-import { Component, OnInit } from '@angular/core';
-import { NavbarComponent } from "../navbar/navbar.component";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { NavbarComponent } from '../navbar/navbar.component';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { ImageModalComponent } from '../image-modal/image-modal.component';
+import { MaterialDetailsModalComponent } from '../material-details-modal/material-details-modal.component';
+import { DeleteConfirmationModalComponent } from '../delete-confirmation-modal/delete-confirmation-modal.component';
+import { MaterialsService } from '../../../services/materials.service';
 
 @Component({
   selector: 'app-dashboard',
   imports: [NavbarComponent, CommonModule, FormsModule, RouterModule],
   templateUrl: './dashboard.component.html',
-  styleUrl: './dashboard.component.css'
+  styleUrl: './dashboard.component.css',
 })
 export class DashboardComponent {
+
+  @ViewChild('addEditForm') addEditForm!: ElementRef;
 
   showAddForm = false;
   isEditing = false;
@@ -19,182 +26,47 @@ export class DashboardComponent {
   notificationMessage = '';
   notificationType = ''; // 'success' or 'error'
 
+  // New properties for filtering and pagination
+  searchTerm = '';
+  selectedCategory = '';
+  currentPage = 1;
+  itemsPerPage = 8; // You can adjust this number
+  Math = Math;
+
   // Form model
   materialForm = {
     name: '',
     category: '',
     image: '',
-    desc: ''
+    desc: '',
   };
 
+  allMaterials: any[] = [];
+
+  // Add to your constructor
+    constructor(
+    private modalService: NgbModal,
+    private materialsService: MaterialsService
+  ) {}
+
   getUniqueCategories(): string[] {
-    const allCategories = this.allMaterials.map(m => m.category);
+    const allCategories = this.allMaterials.map((m) => m.category);
     return [...new Set(allCategories)]; // Returns unique categories
   }
 
   selectCategory(category: string) {
-  this.materialForm.category = category;
+    this.materialForm.category = category;
   }
-
-  // Default materials (static)
-  defaultMaterials = [
-    {
-      id: 1,
-      name: "Copper",
-      category: "Metal",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI0x6tfoluh5Hr34K9mheSAAHqHPcjHxKaIzFI0UxZOXuDoMGhpmMztgP5rPCMjDtRJ24&usqp=CAU",
-      desc: "A reddish-brown metal with excellent electrical conductivity, used in wiring and electronics."
-    },
-    {
-      id: 2,
-      name: "Aluminum",
-      category: "Metal",
-      image: "https://www.scrapware.com/wp-content/uploads/2020/08/recycled-cans-1-1024x710.jpg",
-      desc: "A lightweight, corrosion-resistant metal used in cans, aircraft, and construction."
-    },
-    {
-      id: 3,
-      name: "Stainless Steel",
-      category: "Metal",
-      image: "https://www.anis-trend.com/wp-content/uploads/2021/11/metal.jpg",
-      desc: "A durable, rust-resistant alloy used in appliances, cutlery, and medical tools."
-    },
-    {
-      id: 4,
-      name: "Pine Wood",
-      category: "Wood",
-      image: "https://www.forestinnovationhubs.rosewood-network.eu/sites/default/files/bp/multimedia/main_pics/rilegno_product_pics_2.jpg",
-      desc: "A soft, affordable wood commonly used in furniture and framing."
-    },
-    {
-      id: 5,
-      name: "Oak Wood",
-      category: "Wood",
-      image: "https://cdn.ca.emap.com/wp-content/uploads/sites/6/2021/05/wood.jpg",
-      desc: "A strong, hardwood known for its durability in flooring and cabinetry."
-    },
-    {
-      id: 6,
-      name: "Bamboo",
-      category: "Wood",
-      image: "https://magazin.tu-braunschweig.de/wp-content/uploads/2024/02/joshua-hoehne-XG9mXns-340-unsplash1-1200x800.jpg",
-      desc: "A fast-growing, sustainable material used in flooring and eco-friendly products."
-    },
-    {
-      id: 7,
-      name: "Cotton",
-      category: "Fabric",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQomN6jzDq0wJORXxU2LuiK0BcGnoPuOk9oaByRU3XgLnpNzd8MFirDJ8T38mX51YFtJTs&usqp=CAU",
-      desc: "A natural, breathable fiber used in clothing, towels, and bedding."
-    },
-    {
-      id: 8,
-      name: "Silk",
-      category: "Fabric",
-      image: "https://ecostore.com/media/magefan_blog/Recycled_Fabrics_1200.jpg",
-      desc: "A luxurious, smooth fabric produced by silkworms, used in high-end garments."
-    },
-    {
-      id: 9,
-      name: "Polyester",
-      category: "Fabric",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQLqWmHEWShidjgPd8l3qObtyTnIjW3v654Zpsm8WDqNFyRK3gH0Fyqv6bohZbSp2PzKF4&usqp=CAU",
-      desc: "A synthetic, wrinkle-resistant fabric often blended with cotton."
-    },
-    {
-      id: 10,
-      name: "Polycarbonate",
-      category: "Plastic",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRa54WWMgvfkrawzzRgQc6UZac9B6ZbblQ2NUtgVgr_l3jXygKLXzVytuBz5Yd7s-zR3KE&usqp=CAU",
-      desc: "A tough, transparent thermoplastic used in eyewear and bulletproof glass."
-    },
-    {
-      id: 11,
-      name: "PVC",
-      category: "Plastic",
-      image: "https://live.staticflickr.com/65535/51899745895_fd7270c927_b.jpg",
-      desc: "A versatile plastic used in pipes, cables, and vinyl flooring."
-    },
-    {
-      id: 12,
-      name: "Acrylic",
-      category: "Plastic",
-      image: "https://www.lakelandgov.net/media/10465/plastic.png?width=1437&height=1231",
-      desc: "A lightweight, shatter-resistant alternative to glass."
-    },
-    {
-      id: 13,
-      name: "Granite",
-      category: "Stone",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQ4GOfbYKP39RlXf-qxjIeuJ5utWf75wJSIOBq4EgC0rJ4PUl6Bc_jFVj5JaHrKSXM3jHY&usqp=CAU",
-      desc: "A hard, igneous rock used in countertops and monuments."
-    },
-    {
-      id: 14,
-      name: "Marble",
-      category: "Stone",
-      image: "https://www.stone-ideas.com/wordpress/wp-content/uploads/2015/06/Recycled-Stones15-1-2.jpg",
-      desc: "An elegant, veined stone used in sculpture and high-end architecture."
-    },
-    {
-      id: 15,
-      name: "Sandstone",
-      category: "Stone",
-      image: "https://www.recyclingbristol.com/wp-content/uploads/Sorted-Bricks.jpg",
-      desc: "A sedimentary rock often used in building facades and paving."
-    },
-    {
-      id: 16,
-      name: "Rubber",
-      category: "Elastomer",
-      image: "https://www.industrialrubbergoods.com/images/recycled-rubber-uses-1.jpg",
-      desc: "A flexible material used in tires, seals, and footwear."
-    },
-    {
-      id: 17,
-      name: "Glass",
-      category: "Ceramic",
-      image: "https://res.cloudinary.com/ethicalshift/image/upload/v1673997147/recycling_ceramic_b378841e0a.png",
-      desc: "A transparent, brittle material made from silica, used in windows and bottles."
-    },
-    {
-      id: 18,
-      name: "Porcelain",
-      category: "Ceramic",
-      image: "https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fd1e00ek4ebabms.cloudfront.net%2Fproduction%2Fdf4a8f09-23fd-40b3-8f27-51eeb5681f8d.jpg?source=next-article&fit=scale-down&quality=highest&width=700&dpr=1",
-      desc: "A refined ceramic used in dishware, tiles, and dental implants."
-    },
-    {
-      id: 19,
-      name: "Carbon Fiber",
-      category: "Composite",
-      image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYSgAavPUva4dqu-RMUp45t3WJq9-7j9Ee6evtS2CUMG8mw1piqQSv4kqhMwEBdK0g&usqp=CAU",
-      desc: "An ultra-strong, lightweight material used in aerospace and sports equipment."
-    },
-    {
-      id: 20,
-      name: "Concrete",
-      category: "Construction",
-      image: "https://www.zters.com/blog/wp-content/uploads/2021/08/recycle-construction-materials.png",
-      desc: "A mixture of cement, sand, and aggregate used in buildings and roads."
-    }
-  ];
 
   // User-added materials (saved in localStorage)
   userMaterials: any[] = [];
-  allMaterials: any[] = [];
 
   ngOnInit() {
     this.loadMaterials();
   }
 
   loadMaterials() {
-    // Load user materials from localStorage
-    const storedMaterials = localStorage.getItem('userMaterials');
-    this.userMaterials = storedMaterials ? JSON.parse(storedMaterials) : [];
-    
-    // Combine default and user materials
-    this.allMaterials = [...this.defaultMaterials, ...this.userMaterials];
+    this.allMaterials = this.materialsService.getAllMaterials();
   }
 
   saveMaterials() {
@@ -213,30 +85,19 @@ export class DashboardComponent {
       name: '',
       category: '',
       image: '',
-      desc: ''
+      desc: '',
     };
     this.currentMaterialId = null;
   }
 
   addMaterial() {
-    const newId = this.allMaterials.length > 0 
-      ? Math.max(...this.allMaterials.map(m => m.id)) + 1 
-      : 1;
-    
-    const newMaterial = {
-      id: newId,
-      ...this.materialForm,
-      isUserAdded: true
-    };
-
-    this.userMaterials.push(newMaterial);
-    this.saveMaterials();
+    const newMaterial = this.materialsService.addUserMaterial(this.materialForm);
+    this.showNotificationMessage('Material added successfully!', 'success');
     this.resetForm();
     this.showAddForm = false;
-    
-    // Show success notification
-    this.showNotificationMessage('Material added successfully!', 'success');
+    this.loadMaterials();
   }
+
 
   editMaterial(material: any) {
     this.isEditing = true;
@@ -246,60 +107,65 @@ export class DashboardComponent {
       name: material.name,
       category: material.category,
       image: material.image,
-      desc: material.desc
+      desc: material.desc,
     };
+    
+    // Scroll to form after a small delay to allow it to render
+    setTimeout(() => {
+      this.addEditForm.nativeElement.scrollIntoView({ 
+        behavior: 'smooth', 
+        block: 'start' 
+      });
+    }, 100);
   }
 
   updateMaterial() {
-  if (this.currentMaterialId) {
-    const userMaterialIndex = this.userMaterials.findIndex(m => m.id === this.currentMaterialId);
-    
-    if (userMaterialIndex !== -1) {
-      this.userMaterials[userMaterialIndex] = {
-        id: this.currentMaterialId,
-        ...this.materialForm,
-        isUserAdded: true
-      };
-    } else {
-      const newMaterial = {
-        id: this.currentMaterialId,
-        ...this.materialForm,
-        isUserAdded: true
-      };
-      this.userMaterials.push(newMaterial);
+    if (this.currentMaterialId) {
+      const updated = this.materialsService.updateUserMaterial(
+        this.currentMaterialId,
+        this.materialForm
+      );
+      if (updated) {
+        this.showNotificationMessage('Material updated successfully!', 'success');
+        this.resetForm();
+        this.showAddForm = false;
+        this.loadMaterials();
+      }
     }
-    
-    this.saveMaterials();
-    this.resetForm();
-    this.showAddForm = false;
-    
-    // Show success notification
-    this.showNotificationMessage('Material updated successfully!', 'success');
   }
-}
 
-// Add this new method
-private showNotificationMessage(message: string, type: 'success' | 'error') {
-  this.notificationMessage = message;
-  this.notificationType = type;
-  this.showNotification = true;
-  
-  // Hide notification after 3 seconds
-  setTimeout(() => {
-    this.showNotification = false;
-  }, 3000);
-}
+  // Add this new method
+  private showNotificationMessage(message: string, type: 'success' | 'error') {
+    this.notificationMessage = message;
+    this.notificationType = type;
+    this.showNotification = true;
 
+    // Hide notification after 3 seconds
+    setTimeout(() => {
+      this.showNotification = false;
+    }, 3000);
+  }
+
+  // Replace your existing deleteMaterial method with this:
   deleteMaterial(id: number) {
-    if (confirm('Are you sure you want to delete this material?')) {
-      // Only delete from user materials (can't delete defaults)
-      this.userMaterials = this.userMaterials.filter(m => m.id !== id);
-      this.saveMaterials();
-    }
+    const material = this.allMaterials.find(m => m.id === id);
+    if (!material) return;
+
+    const modalRef = this.modalService.open(DeleteConfirmationModalComponent, {
+      centered: true,
+    });
+    modalRef.componentInstance.material = material;
+
+    modalRef.result.then((result) => {
+      if (result) {
+        this.materialsService.deleteUserMaterial(id);
+        this.showNotificationMessage('Material deleted successfully!', 'success');
+        this.loadMaterials();
+      }
+    }).catch(() => {});
   }
 
-
-// Add this method to handle file selection and conversion
+  // Add this method to handle file selection and conversion
   handleImageUpload(event: any) {
     const file = event.target.files[0];
     if (!file) return;
@@ -322,5 +188,66 @@ private showNotificationMessage(message: string, type: 'success' | 'error') {
       this.materialForm.image = e.target.result;
     };
     reader.readAsDataURL(file);
+  }
+
+  // Add these methods for filtering and pagination
+  get filteredMaterials() {
+    let filtered = this.allMaterials;
+
+    // Apply search filter
+    if (this.searchTerm) {
+      const term = this.searchTerm.toLowerCase();
+      filtered = filtered.filter(
+        (m) =>
+          m.name.toLowerCase().includes(term) ||
+          m.category.toLowerCase().includes(term)
+      );
+    }
+
+    // Apply category filter
+    if (this.selectedCategory) {
+      filtered = filtered.filter((m) => m.category === this.selectedCategory);
+    }
+
+    return filtered;
+  }
+
+  get paginatedMaterials() {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    return this.filteredMaterials.slice(
+      startIndex,
+      startIndex + this.itemsPerPage
+    );
+  }
+
+  get totalPages() {
+    return Math.ceil(this.filteredMaterials.length / this.itemsPerPage);
+  }
+
+  get pageNumbers() {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
+  }
+
+  changePage(page: number) {
+    this.currentPage = page;
+  }
+
+  resetFilters() {
+    this.searchTerm = '';
+    this.selectedCategory = '';
+    this.currentPage = 1;
+  }
+
+  viewDetails(material: any) {
+    const modalRef = this.modalService.open(MaterialDetailsModalComponent, {
+      size: 'lg', // Large modal
+      centered: true, // Center the modal vertically
+    });
+    modalRef.componentInstance.material = material;
+  }
+
+  openImageModal(imageUrl: string) {
+    const modalRef = this.modalService.open(ImageModalComponent);
+    modalRef.componentInstance.imageUrl = imageUrl;
   }
 }
