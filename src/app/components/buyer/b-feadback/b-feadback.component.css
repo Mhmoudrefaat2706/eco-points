@@ -1,0 +1,118 @@
+.feedback-container {
+  max-width: 600px;
+  margin: 40px auto;
+  padding: 20px 25px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #333;
+}
+
+h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  color: #2c3e50;
+}
+
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  background-color: #fafafa;
+}
+
+.card-body {
+  padding: 15px 20px;
+}
+
+.comment-text {
+  font-style: italic;
+  font-size: 1.1em;
+  margin-bottom: 12px;
+  color: #555;
+}
+
+.stars {
+  color: #ccc;
+  font-size: 1.2rem;
+  user-select: none;
+}
+
+.star-filled {
+  color: #f1c40f; /* ذهبية */
+}
+
+.no-feedback {
+  text-align: center;
+  font-style: italic;
+  color: #999;
+  margin-bottom: 30px;
+}
+
+.feedback-form {
+  margin-top: 30px;
+}
+
+.rating-input {
+  margin-bottom: 15px;
+}
+
+.rating-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #34495e;
+}
+
+.interactive-stars i {
+  cursor: pointer;
+  transition: color 0.3s ease;
+  margin-right: 5px;
+}
+
+.interactive-stars i:hover,
+.interactive-stars i:focus {
+  color: #f39c12; /* لون ناري على الهوف */
+  outline: none;
+}
+
+.comment-input {
+  width: 100%;
+  padding: 12px 15px;
+  border-radius: 8px;
+  border: 1.5px solid #ddd;
+  resize: vertical;
+  font-size: 1rem;
+  font-family: inherit;
+  margin-bottom: 20px;
+  transition: border-color 0.3s ease;
+}
+
+.comment-input:focus {
+  border-color: #3498db;
+  outline: none;
+}
+
+.btn-submit {
+  display: block;
+  width: 100%;
+  background-color: #27ae60;
+  color: white;
+  padding: 12px 0;
+  font-size: 1.1rem;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:disabled {
+  background-color: #95a5a6;
+  cursor: not-allowed;
+}
+
+.btn-submit:not(:disabled):hover {
+  background-color: #2ecc71;
+}

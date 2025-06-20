@@ -1,0 +1,101 @@
+<app-b-navbar></app-b-navbar>
+<div class="feedback-container">
+  <h2>Feedback for seller: <strong>{{ seller | titlecase }}</strong></h2>
+  <div *ngIf="feedbackList.length > 0; else noFeedback">
+    <div *ngFor="let fb of feedbackList" class="card mb-3">
+      <div class="card-body">
+        <p class="comment-text">“{{ fb.comment }}”</p>
+        <div class="stars">
+          <i
+            *ngFor="let star of [1,2,3,4,5]"
+            class="fa fa-star"
+            [class.star-filled]="star <= fb.rating"
+            aria-hidden="true"
+          ></i>
+        </div>
+        <small class="text-muted">{{ fb.date | date:'mediumDate' }}</small>
+        <div class="buyer-name">👤 {{ fb.buyer }}</div>
+
+        <!-- Edit/Delete buttons for current user -->
+        <div *ngIf="currentUser === fb.buyer" class="edit-buttons mt-2">
+          <button class="btn btn-sm btn-outline-primary me-2" (click)="startEdit(fb)">
+            <i class="fas fa-edit"></i> Edit
+          </button>
+          <button class="btn btn-sm btn-outline-danger" (click)="deleteFeedback(fb.id)">
+            <i class="fas fa-trash"></i> Delete
+          </button>
+        </div>
+
+        <!-- Edit form -->
+        <div *ngIf="editingFeedbackId === fb.id" class="edit-form mt-3">
+          <div class="rating-input mb-2">
+            <label class="rating-label">Edit Rating:</label>
+            <div class="stars interactive-stars">
+              <i
+                *ngFor="let star of [1,2,3,4,5]"
+                class="fa fa-star"
+                [class.star-filled]="star <= editRating"
+                (click)="setEditRating(star)"
+                aria-hidden="true"
+                role="button"
+              ></i>
+            </div>
+          </div>
+
+          <textarea
+            [(ngModel)]="editComment"
+            class="form-control mb-2"
+            rows="3"
+            placeholder="Edit your comment"
+          ></textarea>
+
+          <div class="d-flex gap-2">
+            <button class="btn btn-success" (click)="saveEdit()">
+              Save Changes
+            </button>
+            <button class="btn btn-secondary" (click)="cancelEdit()">
+              Cancel
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <ng-template #noFeedback>
+    <p class="no-feedback">No feedback yet.</p>
+  </ng-template>
+
+  <form (ngSubmit)="submitFeedback()" class="feedback-form">
+    <div class="rating-input">
+      <label class="rating-label">Your Rating:</label>
+      <div class="stars interactive-stars">
+        <i
+          *ngFor="let star of [1,2,3,4,5]"
+          class="fa fa-star"
+          (click)="setRating(star)"
+          [class.star-filled]="star <= newRating"
+          aria-hidden="true"
+          tabindex="0"
+          (keydown.enter)="setRating(star)"
+          role="button"
+          [attr.aria-label]="'Star rating'"
+        ></i>
+      </div>
+    </div>
+
+    <textarea
+      [(ngModel)]="newComment"
+      name="comment"
+      rows="4"
+      placeholder="Write your comment here"
+      class="comment-input"
+      required
+    ></textarea>
+
+    <button type="submit" [disabled]="newRating === 0" class="btn-submit">
+      Submit Feedback
+    </button>
+  </form>
+</div>
+<app-b-footer></app-b-footer>

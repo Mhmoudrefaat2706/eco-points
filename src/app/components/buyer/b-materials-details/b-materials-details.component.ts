@@ -1,7 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { BFooterComponent } from '../b-footer/b-footer.component';
 import { BNavbarComponent } from '../b-navbar/b-navbar.component';
-import { ActivatedRoute, Router } from '@angular/router';
 
 interface Material {
   id: number;
@@ -9,58 +11,59 @@ interface Material {
   category: string;
   image: string;
   desc: string;
+  price: number;
+  seller?: string;
 }
 
 @Component({
   selector: 'app-b-materials-details',
-  imports: [BFooterComponent, BNavbarComponent],
+  standalone: true,
+  imports: [CommonModule, RouterModule, BFooterComponent, BNavbarComponent],
   templateUrl: './b-materials-details.component.html',
-  styleUrl: './b-materials-details.component.css',
+  styleUrls: ['./b-materials-details.component.css']
 })
 export class BMaterialsDetailsComponent implements OnInit {
-  material: any;
+  material: Material | undefined;
   id: number = 0;
 
-  constructor(
-    private route: ActivatedRoute,
-    private router: Router // Inject Router service
-  ) {}
+  constructor(private route: ActivatedRoute, private router: Router) {}
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe((params) => {
+    this.route.paramMap.subscribe(params => {
       this.id = Number(params.get('id'));
-      this.material = this.materialsList.find((m) => m.id === this.id);
+      this.material = this.materialsList.find(m => m.id === this.id);
     });
   }
 
   goBack() {
-    this.router.navigate(['/b-materials']); // Use router.navigate() instead of route.navigate()
+    this.router.navigate(['/b-materials']);
   }
 
-  materialsList = [
+  materialsList: Material[] = [
     {
       id: 1,
       name: 'Copper',
       category: 'Metal',
       price: 122,
-      image:
-        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI0x6tfoluh5Hr34K9mheSAAHqHPcjHxKaIzFI0UxZOXuDoMGhpmMztgP5rPCMjDtRJ24&usqp=CAU',
-      desc: 'A reddish-brown metal with excellent electrical conductivity, used in wiring and electronics.',
+      seller: 'Mahmoud',
+      image: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI0x6tfoluh5Hr34K9mheSAAHqHPcjHxKaIzFI0UxZOXuDoMGhpmMztgP5rPCMjDtRJ24&usqp=CAU',
+      desc: 'A reddish-brown metal with excellent electrical conductivity, used in wiring and electronics.'
     },
     {
       id: 2,
       name: 'Aluminum',
       category: 'Metal',
       price: 30,
-      image:
-        'https://www.scrapware.com/wp-content/uploads/2020/08/recycled-cans-1-1024x710.jpg',
-      desc: 'A lightweight, corrosion-resistant metal used in cans, aircraft, and construction.',
+      seller: 'Mahmoud',
+      image: 'https://www.scrapware.com/wp-content/uploads/2020/08/recycled-cans-1-1024x710.jpg',
+      desc: 'A lightweight, corrosion-resistant metal used in cans, aircraft, and construction.'
     },
     {
       id: 3,
       name: 'Stainless Steel',
       category: 'Metal',
       price: 140,
+      seller: 'ahmad',
       image: 'https://www.anis-trend.com/wp-content/uploads/2021/11/metal.jpg',
       desc: 'A durable, rust-resistant alloy used in appliances, cutlery, and medical tools.',
     },
@@ -157,6 +160,7 @@ export class BMaterialsDetailsComponent implements OnInit {
       id: 14,
       name: 'Marble',
       category: 'Stone',
+        price: 15,
       image:
         'https://www.stone-ideas.com/wordpress/wp-content/uploads/2015/06/Recycled-Stones15-1-2.jpg',
       desc: 'An elegant, veined stone used in sculpture and high-end architecture.',
@@ -165,6 +169,7 @@ export class BMaterialsDetailsComponent implements OnInit {
       id: 15,
       name: 'Sandstone',
       category: 'Stone',
+        price: 15,
       image:
         'https://www.recyclingbristol.com/wp-content/uploads/Sorted-Bricks.jpg',
       desc: 'A sedimentary rock often used in building facades and paving.',
@@ -173,6 +178,7 @@ export class BMaterialsDetailsComponent implements OnInit {
       id: 16,
       name: 'Rubber',
       category: 'Elastomer',
+        price: 15,
       image:
         'https://www.industrialrubbergoods.com/images/recycled-rubber-uses-1.jpg',
       desc: 'A flexible material used in tires, seals, and footwear.',
@@ -181,6 +187,7 @@ export class BMaterialsDetailsComponent implements OnInit {
       id: 17,
       name: 'Glass',
       category: 'Ceramic',
+        price: 15,
       image:
         'https://res.cloudinary.com/ethicalshift/image/upload/v1673997147/recycling_ceramic_b378841e0a.png',
       desc: 'A transparent, brittle material made from silica, used in windows and bottles.',
@@ -189,6 +196,7 @@ export class BMaterialsDetailsComponent implements OnInit {
       id: 18,
       name: 'Porcelain',
       category: 'Ceramic',
+        price: 15,
       image:
         'https://www.ft.com/__origami/service/image/v2/images/raw/https%3A%2F%2Fd1e00ek4ebabms.cloudfront.net%2Fproduction%2Fdf4a8f09-23fd-40b3-8f27-51eeb5681f8d.jpg?source=next-article&fit=scale-down&quality=highest&width=700&dpr=1',
       desc: 'A refined ceramic used in dishware, tiles, and dental implants.',
@@ -197,6 +205,7 @@ export class BMaterialsDetailsComponent implements OnInit {
       id: 19,
       name: 'Carbon Fiber',
       category: 'Composite',
+        price: 15,
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTItYSgAavPUva4dqu-RMUp45t3WJq9-7j9Ee6evtS2CUMG8mw1piqQSv4kqhMwEBdK0g&usqp=CAU',
       desc: 'An ultra-strong, lightweight material used in aerospace and sports equipment.',
@@ -205,6 +214,7 @@ export class BMaterialsDetailsComponent implements OnInit {
       id: 20,
       name: 'Concrete',
       category: 'Construction',
+        price: 15,
       image:
         'https://www.zters.com/blog/wp-content/uploads/2021/08/recycle-construction-materials.png',
       desc: 'A mixture of cement, sand, and aggregate used in buildings and roads.',
