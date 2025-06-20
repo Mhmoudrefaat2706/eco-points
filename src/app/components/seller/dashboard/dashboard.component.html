@@ -29,21 +29,27 @@
 
         <div class="mb-3">
           <label for="category" class="form-label">Category</label>
-          <input
-            type="text"
-            class="form-control"
+          <select
+            class="form-select"
             id="category"
             [(ngModel)]="materialForm.category"
             name="category"
             required
-            placeholder="Enter category (e.g., Metal, Wood, etc.)"
-          />
-          <small class="text-muted">You can enter any category you want</small>
+          >
+            <option value="" disabled selected>Select a category</option>
+            @for (category of getUniqueCategories(); track category) {
+            <option [value]="category">{{ category }}</option>
+            }
+          </select>
+          <small class="text-muted" *ngIf="materialForm.category === 'Other'">
+            You've selected 'Other'. Please specify your custom category in the
+            description.
+          </small>
         </div>
 
         <div *ngIf="getUniqueCategories().length > 0" class="mb-2">
           <small class="text-muted"
-            >Existing categories:
+            >Or you can choose of these Existing categories:
             <span
               *ngFor="let cat of getUniqueCategories()"
               class="badge bg-secondary me-1"
@@ -52,6 +58,65 @@
               {{ cat }}
             </span>
           </small>
+        </div>
+
+        <!-- Update the price input section in your form -->
+        <div class="mb-3">
+          <label for="price" class="form-label">Price</label>
+          <div class="input-group">
+            <span class="input-group-text">$</span>
+            <input
+              type="number"
+              class="form-control"
+              id="price"
+              [(ngModel)]="materialForm.price"
+              name="price"
+              min="0"
+              step="0.01"
+              required
+              #priceInput="ngModel"
+              [class.is-invalid]="
+                priceInput.invalid && (priceInput.dirty || priceInput.touched)
+              "
+            />
+            <select
+              class="form-select"
+              [(ngModel)]="materialForm.priceUnit"
+              name="priceUnit"
+              required
+              #priceUnitSelect="ngModel"
+              [class.is-invalid]="
+                priceUnitSelect.invalid &&
+                (priceUnitSelect.dirty || priceUnitSelect.touched)
+              "
+            >
+              <option value="" disabled>Select unit</option>
+              <option value="piece">per piece</option>
+              <option value="kg">per kg</option>
+              <option value="m²">per m²</option>
+              <option value="m³">per m³</option>
+            </select>
+          </div>
+          <div
+            *ngIf="
+              priceInput.invalid && (priceInput.dirty || priceInput.touched)
+            "
+            class="invalid-feedback"
+          >
+            <div *ngIf="priceInput.errors?.['required']">Price is required</div>
+            <div *ngIf="priceInput.errors?.['min']">
+              Price must be 0 or higher
+            </div>
+          </div>
+          <div
+            *ngIf="
+              priceUnitSelect.invalid &&
+              (priceUnitSelect.dirty || priceUnitSelect.touched)
+            "
+            class="invalid-feedback"
+          >
+            Please select a price unit
+          </div>
         </div>
 
         <div class="mb-3">
@@ -93,7 +158,11 @@
           >
             Cancel
           </button>
-          <button type="submit" class="btn btn-primary">
+          <button
+            type="submit"
+            class="btn btn-primary"
+            [disabled]="!isFormValid()"
+          >
             {{ isEditing ? "Update" : "Add" }}
           </button>
         </div>
@@ -169,13 +238,15 @@
     <div class="card-body">
       <div class="table-responsive">
         <table class="table table-hover align-middle">
+          <!-- Update the table header -->
           <thead class="table-light">
             <tr>
               <th style="width: 5%">ID</th>
               <th style="width: 15%">Name</th>
-              <th style="width: 15%">Category</th>
+              <th style="width: 10%">Category</th>
+              <th style="width: 10%">Price</th>
               <th style="width: 15%">Image</th>
-              <th style="width: 30%">Description</th>
+              <th style="width: 25%">Description</th>
               <th style="width: 20%">Actions</th>
             </tr>
           </thead>
@@ -185,15 +256,15 @@
               class="material-row"
             >
               <td class="fw-semibold">{{ material.id }}</td>
-              <td>
-                <div class="d-flex align-items-center">
-                  <div class="material-name">{{ material.name }}</div>
-                </div>
-              </td>
+              <td>{{ material.name }}</td>
               <td>
                 <span class="badge rounded-pill bg-primary">
                   {{ material.category }}
                 </span>
+              </td>
+              <td class="text-success">
+                {{ material.price | currency }}<br />
+                <small class="text-muted">per {{ material.priceUnit }}</small>
               </td>
               <td>
                 <div class="material-image-container">

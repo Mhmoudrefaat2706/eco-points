@@ -31,6 +31,9 @@ export class MaterialsComponent {
   errorMessage = '';
   searchQuery = '';
   selectedCategory = 'All'; // Default to show all categories
+  minPrice: number | null = null;
+  maxPrice: number | null = null;
+  priceFilterActive = false;
 
   // Unique categories for the filter dropdown
   categories: string[] = ['All'];
@@ -47,10 +50,8 @@ export class MaterialsComponent {
     
     try {
       this.materialsList = this.materialsService.getAllMaterials();
-      this.categories = [
-        'All',
-        ...new Set(this.materialsList.map(material => material.category))
-      ];
+      // Use service's getCategories() instead of extracting from materials
+      this.categories = ['All', ...this.materialsService.getCategories()];
       this.updateFilteredMaterials();
       this.isLoading = false;
     } catch (error) {
@@ -60,28 +61,44 @@ export class MaterialsComponent {
     }
   }
 
-  // Update the filtered materials based on current page, search query, and category
+  // Update updateFilteredMaterials
   updateFilteredMaterials() {
-    // Filter materials based on search query and category
-
     const filtered = this.materialsList.filter((material) => {
       const matchesSearch =
         material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        material.category
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
+        material.category.toLowerCase().includes(this.searchQuery.toLowerCase());
 
       const matchesCategory =
         this.selectedCategory === 'All' ||
         material.category === this.selectedCategory;
 
-      return matchesSearch && matchesCategory;
+      const matchesPrice = 
+        (!this.priceFilterActive) ||
+        ((this.minPrice === null || material.price >= this.minPrice) &&
+         (this.maxPrice === null || material.price <= this.maxPrice));
+
+      return matchesSearch && matchesCategory && matchesPrice;
     });
 
-    // Apply pagination
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.filteredMaterials = filtered.slice(startIndex, endIndex);
+  }
+
+  // Add this method
+  applyPriceFilter() {
+    this.priceFilterActive = true;
+    this.currentPage = 1;
+    this.updateFilteredMaterials();
+  }
+
+  // Add this method
+  clearPriceFilter() {
+    this.minPrice = null;
+    this.maxPrice = null;
+    this.priceFilterActive = false;
+    this.currentPage = 1;
+    this.updateFilteredMaterials();
   }
 
   // Handle search input changes
