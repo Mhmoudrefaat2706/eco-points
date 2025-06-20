@@ -134,6 +134,7 @@ export class BMaterialsComponent {
       name: 'Copper',
       category: 'Metal',
       price: 122,
+      seller: 'mahmoud',
       image:
         'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRI0x6tfoluh5Hr34K9mheSAAHqHPcjHxKaIzFI0UxZOXuDoMGhpmMztgP5rPCMjDtRJ24&usqp=CAU',
       desc: 'A reddish-brown metal with excellent electrical conductivity, used in wiring and electronics.',

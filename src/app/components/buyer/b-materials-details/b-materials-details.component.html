@@ -1,6 +1,6 @@
 <app-b-navbar></app-b-navbar>
-@if (material) {
-<div class="material-details-container">
+
+<div *ngIf="material; else notFound" class="material-details-container">
   <div class="material-header">
     <h1>{{ material.name }}</h1>
     <span class="category-badge">{{ material.category }}</span>
@@ -8,31 +8,37 @@
 
   <div class="material-content">
     <div class="image-container">
-      <img
-        [src]="material.image"
-        [alt]="material.name"
-        class="material-image"
-      />
+      <img [src]="material.image" [alt]="material.name" class="material-image" />
     </div>
 
     <div class="details-container">
       <p class="material-description">{{ material.desc }}</p>
 
-      <div class="action-buttons">
-        <button class="btn btn-success" (click)="goBack()">
-          ← Return to materials list
-        </button>
+      <p class="material-price fw-bold">💰 Price: {{ material.price }} EGP</p>
+
+      <p class="material-seller" *ngIf="material.seller">
+        👤 Seller: {{ material.seller }}
+        <a
+          [routerLink]="['/feedback', material.seller ? material.seller.toLowerCase() : '']"
+          class="ms-2 text-decoration-underline text-success"
+        >
+          Feedback
+        </a>
+      </p>
+
+      <div class="action-buttons mt-3">
+        <button class="btn btn-success" (click)="goBack()">← Return to materials list</button>
       </div>
     </div>
   </div>
 </div>
-} @else {
-<div class="not-found-container">
-  <h2>Material not found</h2>
-  <p>We couldn't find the material you're looking for.</p>
-  <button class="btn btn-success" (click)="goBack()">
-    ← Return to materials list
-  </button>
-</div>
-}
+
+<ng-template #notFound>
+  <div class="not-found-container">
+    <h2>Material not found</h2>
+    <p>We couldn't find the material you're looking for.</p>
+    <button class="btn btn-success" (click)="goBack()">← Return to materials list</button>
+  </div>
+</ng-template>
+
 <app-b-footer></app-b-footer>
