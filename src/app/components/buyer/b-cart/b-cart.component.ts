@@ -33,6 +33,4 @@ removeFromCart(id: number) {
   }
 }
 
-
-
 }

@@ -134,3 +134,28 @@
     max-height: 300px;
   }
 }
+
+
+
+
+.material-details-card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+.price-display {
+  padding: 0.5rem 1rem;
+  background-color: #f8f9fa;
+  border-radius: 0.25rem;
+  display: inline-block;
+}
+
+.price-display h4 {
+  margin-bottom: 0;
+}
+
+.img-fluid {
+  max-height: 500px;
+  object-fit: cover;
+  width: 100%;
+}

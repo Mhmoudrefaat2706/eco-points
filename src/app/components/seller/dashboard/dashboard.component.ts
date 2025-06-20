@@ -39,19 +39,28 @@ export class DashboardComponent {
     category: '',
     image: '',
     desc: '',
+    price: 0,
+    priceUnit: 'piece' as 'piece' | 'kg' | 'm²' | 'm³'
   };
+
+  // Add price units for the dropdown
+  priceUnits = ['piece', 'kg', 'm²', 'm³'];
 
   allMaterials: any[] = [];
 
   // Add to your constructor
-    constructor(
+  constructor(
     private modalService: NgbModal,
     private materialsService: MaterialsService
   ) {}
 
+  // Update getUniqueCategories to include service categories and user-added ones
   getUniqueCategories(): string[] {
-    const allCategories = this.allMaterials.map((m) => m.category);
-    return [...new Set(allCategories)]; // Returns unique categories
+    const allCategories = new Set([
+      ...this.materialsService.getCategories(),
+      ...this.allMaterials.map(m => m.category)
+    ]);
+    return Array.from(allCategories);
   }
 
   selectCategory(category: string) {
@@ -80,59 +89,110 @@ export class DashboardComponent {
     this.resetForm();
   }
 
-  resetForm() {
-    this.materialForm = {
-      name: '',
-      category: '',
-      image: '',
-      desc: '',
-    };
-    this.currentMaterialId = null;
+  // Update resetForm
+resetForm() {
+  this.materialForm = {
+    name: '',
+    category: '',
+    image: '',
+    desc: '',
+    price: 0,
+    priceUnit: 'piece'
+  };
+  this.currentMaterialId = null;
+}
+
+addMaterial() {
+  // Manual validation
+  if (this.materialForm.price === null || this.materialForm.price === undefined) {
+    this.showNotificationMessage('Please enter a valid price', 'error');
+    return;
   }
 
-  addMaterial() {
-    const newMaterial = this.materialsService.addUserMaterial(this.materialForm);
-    this.showNotificationMessage('Material added successfully!', 'success');
+  if (this.materialForm.price < 0) {
+    this.showNotificationMessage('Price cannot be negative', 'error');
+    return;
+  }
+
+  if (!this.materialForm.priceUnit) {
+    this.showNotificationMessage('Please select a price unit', 'error');
+    return;
+  }
+
+  const newMaterial = this.materialsService.addUserMaterial(this.materialForm);
+  this.showNotificationMessage('Material added successfully!', 'success');
+  this.resetForm();
+  this.showAddForm = false;
+  this.loadMaterials();
+}
+
+
+editMaterial(material: any) {
+  this.isEditing = true;
+  this.showAddForm = true;
+  this.currentMaterialId = material.id;
+  
+  // Set form values including price and priceUnit
+  this.materialForm = {
+    name: material.name,
+    category: material.category,
+    image: material.image,
+    desc: material.desc,
+    price: material.price || 0, // Default to 0 if undefined
+    priceUnit: material.priceUnit || 'piece' // Default to 'piece' if undefined
+  };
+
+  // Scroll to form
+  setTimeout(() => {
+    this.addEditForm.nativeElement.scrollIntoView({ 
+      behavior: 'smooth', 
+      block: 'start' 
+    });
+  }, 100);
+}
+
+updateMaterial() {
+  if (!this.currentMaterialId) return;
+
+  // Manual validation
+  if (this.materialForm.price === null || this.materialForm.price === undefined) {
+    this.showNotificationMessage('Please enter a valid price', 'error');
+    return;
+  }
+
+  if (this.materialForm.price < 0) {
+    this.showNotificationMessage('Price cannot be negative', 'error');
+    return;
+  }
+
+  if (!this.materialForm.priceUnit) {
+    this.showNotificationMessage('Please select a price unit', 'error');
+    return;
+  }
+
+  const updated = this.materialsService.updateUserMaterial(
+    this.currentMaterialId,
+    this.materialForm
+  );
+
+  if (updated) {
+    this.showNotificationMessage('Material updated successfully!', 'success');
     this.resetForm();
     this.showAddForm = false;
     this.loadMaterials();
   }
+}
 
 
-  editMaterial(material: any) {
-    this.isEditing = true;
-    this.showAddForm = true;
-    this.currentMaterialId = material.id;
-    this.materialForm = {
-      name: material.name,
-      category: material.category,
-      image: material.image,
-      desc: material.desc,
-    };
-    
-    // Scroll to form after a small delay to allow it to render
-    setTimeout(() => {
-      this.addEditForm.nativeElement.scrollIntoView({ 
-        behavior: 'smooth', 
-        block: 'start' 
-      });
-    }, 100);
-  }
-
-  updateMaterial() {
-    if (this.currentMaterialId) {
-      const updated = this.materialsService.updateUserMaterial(
-        this.currentMaterialId,
-        this.materialForm
-      );
-      if (updated) {
-        this.showNotificationMessage('Material updated successfully!', 'success');
-        this.resetForm();
-        this.showAddForm = false;
-        this.loadMaterials();
-      }
-    }
-  }
+isFormValid(): boolean {
+  return (
+    this.materialForm.name.trim() !== '' &&
+    this.materialForm.category.trim() !== '' &&
+    this.materialForm.desc.trim() !== '' &&
+    this.materialForm.price >= 0 &&
+    this.materialForm.priceUnit.trim() !== ''
+  );
+}
 
   // Add this new method
   private showNotificationMessage(message: string, type: 'success' | 'error') {
