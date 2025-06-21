@@ -63,26 +63,6 @@
     </div>
   </div>
 
-  <div class="mb-3 text-start">
-    <label for="role" class="form-label">Login as</label>
-    <select
-      id="role"
-      name="role"
-      class="form-select"
-      [(ngModel)]="credentials.role"
-      required
-      #role="ngModel"
-    >
-      <option value="" disabled selected>Select your role</option>
-      <option value="seller">Seller</option>
-      <option value="buyer">Buyer</option>
-    </select>
-    <div class="text-danger small mt-1" *ngIf="role.invalid && role.touched">
-      Please select a role.
-    </div>
-  </div>
-
-
   <div class="form-check mb-3 text-start">
     <input
       type="checkbox"
