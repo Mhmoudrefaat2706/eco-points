@@ -42,24 +42,22 @@ export class AuthService {
     }
   }
 
-  login(email: string, password: string, role: string): boolean {
-    const user = this.users.find(
-      (u) =>
-        u.email.toLowerCase() === email.toLowerCase() &&
-        u.password === password &&
-        u.role === role
-    );
+login(email: string, password: string): boolean {
+  const user = this.users.find(
+    (u) =>
+      u.email.toLowerCase() === email.toLowerCase() &&
+      u.password === password
+  );
 
-
-    if (user) {
-      this.loggedInUser = user;
-      localStorage.setItem('loggedInUser', JSON.stringify(user));
-      return true;
-    }
-
-    return false;
-
+  if (user) {
+    this.loggedInUser = user;
+    localStorage.setItem('loggedInUser', JSON.stringify(user));
+    return true;
   }
+
+  return false;
+}
+
 
   logout(): void {
     this.loggedInUser = null;

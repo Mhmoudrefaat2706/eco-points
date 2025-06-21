@@ -13,7 +13,7 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./login.component.css'],
 })
 export class LoginComponent implements OnInit {
-  credentials = { email: '', password: '', role: '' };
+  credentials = { email: '', password: '' };
   rememberMe = false;
   errorMessage = '';
   successMessage = '';
@@ -41,12 +41,9 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const role = this.credentials.role.toLowerCase();
-
     const success = this.authService.login(
       this.credentials.email,
-      this.credentials.password,
-      role
+      this.credentials.password
     );
 
     if (success) {
@@ -54,13 +51,14 @@ export class LoginComponent implements OnInit {
       this.errorMessage = '';
       this.logoutMessage = '';
 
+      const role = this.authService.getUserRole();
       if (role === 'seller') {
         this.router.navigate(['/home']);
       } else if (role === 'buyer') {
         this.router.navigate(['/buyer-home']);
       }
     } else {
-      this.errorMessage = 'Invalid email, password, or role.';
+      this.errorMessage = 'Invalid email or password.';
       this.successMessage = '';
       this.logoutMessage = '';
     }
