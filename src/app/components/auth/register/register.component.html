@@ -1,174 +1,402 @@
-<div class="auth-container d-flex justify-content-center align-items-center min-vh-100 bg-light" dir="ltr">
-  <div class="auth-card card p-4 shadow-sm" style="max-width: 420px; width: 100%;">
-    <div class="auth-header text-start mb-4">
-      <h2 class="h4 mb-1">Create a New Account</h2>
-      <p class="text-muted small">Fill the form to register a new account</p>
+<div class="container-fluid p-0" dir="ltr">
+  <!-- Welcome Section -->
+  <div
+    class="welcome-section position-relative overflow-hidden py-5 text-white text-center"
+    style="
+      background: linear-gradient(135deg, #00c9a7 0%, #92fe9d 100%);
+      min-height: 100vh;
+    "
+  >
+    <!-- Animated background elements -->
+    <div class="position-absolute top-0 start-0 w-100 h-100">
+      <div class="eco-bubble bubble-1"></div>
+      <div class="eco-bubble bubble-2"></div>
+      <div class="eco-bubble bubble-3"></div>
+      <div class="eco-leaf leaf-1"></div>
+      <div class="eco-leaf leaf-2"></div>
     </div>
 
-    <form (ngSubmit)="onSubmit()" #registerForm="ngForm" novalidate>
-      <!-- Full Name -->
-      <div class="mb-3 text-start">
-        <label for="name" class="form-label">Full Name</label>
-        <div class="input-group">
-          <span class="input-group-text bg-white border-end-0">
-            <i class="bi bi-person"></i>
-          </span>
-          <input
-            type="text"
-            id="name"
-            name="name"
-            class="form-control border-start-0"
-            placeholder="Your full name"
-            [(ngModel)]="user.name"
-            required
-            #name="ngModel"
-          />
-        </div>
-        @if (name.invalid && name.touched) {
-          <div class="text-danger small mt-1">
-            Name is required.
-          </div>
-        }
-      </div>
-
-      <!-- Email -->
-      <div class="mb-3 text-start">
-        <label for="email" class="form-label">Email</label>
-        <div class="input-group">
-          <span class="input-group-text bg-white border-end-0">
-            <i class="bi bi-envelope"></i>
-          </span>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            class="form-control border-start-0"
-            placeholder="example@email.com"
-            [(ngModel)]="user.email"
-            required
-            email
-            #email="ngModel"
-          />
-        </div>
-        @if (email.invalid && email.touched) {
-          <div class="text-danger small mt-1">
-            Please enter a valid email address.
-          </div>
-        }
-      </div>
-
-<div class="mb-3 text-start">
-  <label for="role" class="form-label">Register as</label>
-  <select
-    id="role"
-    name="role"
-    class="form-select"
-    [(ngModel)]="user.role"
-    required
-  >
-    <option value="" disabled selected>Select your role</option>
-    <option value="seller">Seller</option>
-    <option value="buyer">Buyer</option>
-  </select>
-</div>
-
-
-      <!-- Password -->
-      <div class="mb-3 text-start">
-        <label for="password" class="form-label">Password</label>
-        <div class="input-group">
-          <span class="input-group-text bg-white border-end-0">
-            <i class="bi bi-lock"></i>
-          </span>
-          <input
-            type="password"
-            id="password"
-            name="password"
-            class="form-control border-start-0"
-            placeholder="••••••••"
-            [(ngModel)]="user.password"
-            required
-            minlength="6"
-            #password="ngModel"
-          />
-        </div>
-        @if (password.invalid && password.touched) {
-          <div class="text-danger small mt-1">
-            Password is required (min 6 characters).
-          </div>
-        }
-      </div>
-
-      <!-- Confirm Password -->
-      <div class="mb-3 text-start">
-        <label for="confirmPassword" class="form-label">Confirm Password</label>
-        <div class="input-group">
-          <span class="input-group-text bg-white border-end-0">
-            <i class="bi bi-lock-fill"></i>
-          </span>
-          <input
-            type="password"
-            id="confirmPassword"
-            name="confirmPassword"
-            class="form-control border-start-0"
-            placeholder="Repeat your password"
-            [(ngModel)]="user.confirmPassword"
-            required
-            #confirmPassword="ngModel"
-          />
-        </div>
-        @if (confirmPassword.invalid && confirmPassword.touched) {
-          <div class="text-danger small mt-1">
-            Please confirm your password.
-          </div>
-        }
-
-        @if (user.password && user.confirmPassword && user.password !== user.confirmPassword) {
-          <div class="text-danger small mt-1">
-            Passwords do not match.
-          </div>
-        }
-      </div>
-
-      <!-- Register Button -->
-      <button
-        type="submit"
-        class="btn btn-primary w-100"
-        [disabled]="registerForm.invalid || user.password !== user.confirmPassword"
+    <div
+      class="container d-flex flex-column justify-content-center align-items-center h-100 position-relative"
+      style="z-index: 2"
+    >
+      <!-- Logo with pulse animation -->
+      <div
+        class="logo-container animate__animated animate__fadeIn animate__slow mb-4"
       >
-        Register
-      </button>
-
-      <!-- Divider -->
-      <div class="text-center my-3 text-muted">
-        <span>or</span>
+        <img
+          src="../../../../assets/images/eco1-logo.jpeg"
+          alt="Eco-Points Logo"
+          class="eco-logo img-fluid"
+        />
       </div>
 
-      <!-- Social Buttons -->
-      <div class="d-grid gap-2 mb-3">
-        <button type="button" class="btn btn-outline-danger">
-          <i class="bi bi-google me-2"></i> Sign up with Google
+      <!-- Main heading with typed effect -->
+      <h1 class="display-3 fw-bold mb-3 animate__animated animate__fadeInDown">
+        <span class="typed-text">Welcome to Eco-Points</span>
+      </h1>
+
+      <!-- Subheading with gradient text -->
+      <p
+        class="lead mb-5 fs-3 animate__animated animate__fadeIn animate__delay-1s"
+        style="
+          background: linear-gradient(to right, #ffffff, #e6ffe6);
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        "
+      >
+        Join our community and make a difference
+      </p>
+
+      <!-- Button Group -->
+      <div
+        class="d-flex flex-wrap justify-content-center gap-3 animate__animated animate__fadeInUp animate__delay-2s"
+      >
+        <!-- Join Us Button -->
+        <button
+          class="btn btn-light btn-lg px-5 py-3 fw-bold hover-grow"
+          (click)="scrollToRegister()"
+          style="
+            border-radius: 50px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
+          "
+        >
+          <span class="d-flex align-items-center">
+            Join Us Now
+            <i class="bi bi-arrow-down ms-3 fs-5 arrow-bounce"></i>
+          </span>
         </button>
-        <button type="button" class="btn btn-outline-primary">
-          <i class="bi bi-facebook me-2"></i> Sign up with Facebook
+
+        <!-- Know More Button -->
+        <button
+          class="btn btn-outline-light btn-lg px-5 py-3 fw-bold hover-grow"
+          (click)="scrollToWhyJoin()"
+          style="border-radius: 50px; border-width: 2px"
+        >
+          <span class="d-flex align-items-center">
+            Know More
+            <i class="bi bi-info-circle ms-3 fs-5"></i>
+          </span>
         </button>
       </div>
-
-      <!-- Footer -->
-      <div class="text-start mt-3">
-        <p class="mb-0">
-          Already have an account?
-          <a routerLink="/login" class="text-decoration-none">Login here</a>
-        </p>
-      </div>
-
-      @if (errorMessage) {
-        <div class="alert alert-danger mt-3">{{ errorMessage }}</div>
-      }
-
-      @if (successMessage) {
-        <div class="alert alert-success mt-3">{{ successMessage }}</div>
-      }
-    </form>
+    </div>
   </div>
+
+  <!-- Why Join Section - Enhanced -->
+  <div
+    class="why-join-section py-5"
+    id="whyJoin"
+    style="background-color: #f8f9fa"
+  >
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-10 text-center mb-5">
+          <h2
+            class="display-5 fw-bold text-primary mb-3 animate__animated animate__fadeInDown"
+          >
+            Why Join Eco-Points?
+          </h2>
+          <p
+            class="lead text-muted animate__animated animate__fadeIn animate__delay-1s"
+          >
+            Discover the benefits of being part of our eco-friendly community
+          </p>
+        </div>
+      </div>
+
+      <div class="row g-4 justify-content-center">
+        <!-- Card 1 -->
+        <div class="col-md-5 animate__animated animate__fadeInUp">
+          <div class="card h-100 border-0 shadow-sm eco-card">
+            <div class="card-body p-4 text-center">
+              <div class="icon-container mb-4">
+                <span class="eco-icon">🌍</span>
+              </div>
+              <h3 class="h4 fw-bold mb-3">Earn Points</h3>
+              <p class="mb-0 text-muted">
+                Get rewarded for every recycling action you take. Turn your
+                green actions into valuable points.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 2 -->
+        <div
+          class="col-md-5 animate__animated animate__fadeInUp animate__delay-1s"
+        >
+          <div class="card h-100 border-0 shadow-sm eco-card">
+            <div class="card-body p-4 text-center">
+              <div class="icon-container mb-4">
+                <span class="eco-icon">♻️</span>
+              </div>
+              <h3 class="h4 fw-bold mb-3">Track Your Impact</h3>
+              <p class="mb-0 text-muted">
+                See real-time statistics on how your actions contribute to a
+                healthier planet.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 3 -->
+        <div
+          class="col-md-5 animate__animated animate__fadeInUp animate__delay-2s"
+        >
+          <div class="card h-100 border-0 shadow-sm eco-card">
+            <div class="card-body p-4 text-center">
+              <div class="icon-container mb-4">
+                <span class="eco-icon">🤝</span>
+              </div>
+              <h3 class="h4 fw-bold mb-3">Green Community</h3>
+              <p class="mb-0 text-muted">
+                Connect with thousands of like-minded environmental enthusiasts
+                worldwide.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Card 4 -->
+        <div
+          class="col-md-5 animate__animated animate__fadeInUp animate__delay-3s"
+        >
+          <div class="card h-100 border-0 shadow-sm eco-card">
+            <div class="card-body p-4 text-center">
+              <div class="icon-container mb-4">
+                <span class="eco-icon">🎁</span>
+              </div>
+              <h3 class="h4 fw-bold mb-3">Exclusive Rewards</h3>
+              <p class="mb-0 text-muted">
+                Redeem your points for special discounts, gifts, and partner
+                benefits.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-5">
+        <button
+          class="btn btn-outline-primary btn-lg px-4 py-2 fw-bold"
+          (click)="scrollToRegister()"
+        >
+          Ready to Join? Register Now <i class="bi bi-arrow-right ms-2"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Spacer between sections -->
+  <div class="section-spacer py-5" style="background-color: #ffffff"></div>
+
+  <!-- Registration Form Section - Enhanced -->
+  <div
+    class="register-form-section py-5"
+    id="registerForm"
+    style="background-color: #ffffff"
+  >
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-lg-8">
+          <div class="auth-card card p-4 p-lg-5 shadow">
+            <div class="auth-header text-center mb-5">
+              <h2 class="display-6 fw-bold text-primary mb-2">
+                Create Your Account
+              </h2>
+              <p class="text-muted">Start your eco-friendly journey today</p>
+            </div>
+
+            <!-- Your existing form content remains the same -->
+            <form (ngSubmit)="onSubmit()" #registerForm="ngForm" novalidate>
+              <div class="mb-3">
+                <label for="name" class="form-label">Full Name</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white">
+                    <i class="bi bi-person text-muted"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="name"
+                    name="name"
+                    class="form-control"
+                    placeholder="Your full name"
+                    [(ngModel)]="user.name"
+                    required
+                    #name="ngModel"
+                  />
+                </div>
+                <div
+                  class="text-danger small mt-1"
+                  *ngIf="name.invalid && name.touched"
+                >
+                  Name is required.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="email" class="form-label">Email</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white">
+                    <i class="bi bi-envelope text-muted"></i>
+                  </span>
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="example@email.com"
+                    [(ngModel)]="user.email"
+                    required
+                    email
+                    #email="ngModel"
+                  />
+                </div>
+                <div
+                  class="text-danger small mt-1"
+                  *ngIf="email.invalid && email.touched"
+                >
+                  Please enter a valid email address.
+                </div>
+              </div>
+
+              <div class="mb-3">
+                <label for="role" class="form-label">Register as</label>
+                <select
+                  id="role"
+                  name="role"
+                  class="form-select"
+                  [(ngModel)]="user.role"
+                  required
+                >
+                  <option value="" disabled selected>Select your role</option>
+                  <option value="seller">Seller</option>
+                  <option value="buyer">Buyer</option>
+                </select>
+              </div>
+
+              <div class="mb-3">
+                <label for="password" class="form-label">Password</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white">
+                    <i class="bi bi-lock text-muted"></i>
+                  </span>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="••••••••"
+                    [(ngModel)]="user.password"
+                    required
+                    minlength="6"
+                    #password="ngModel"
+                  />
+                </div>
+                <div
+                  class="text-danger small mt-1"
+                  *ngIf="password.invalid && password.touched"
+                >
+                  Password must be at least 6 characters.
+                </div>
+              </div>
+
+              <div class="mb-4">
+                <label for="confirmPassword" class="form-label"
+                  >Confirm Password</label
+                >
+                <div class="input-group">
+                  <span class="input-group-text bg-white">
+                    <i class="bi bi-lock-fill text-muted"></i>
+                  </span>
+                  <input
+                    type="password"
+                    id="confirmPassword"
+                    name="confirmPassword"
+                    class="form-control"
+                    placeholder="Repeat your password"
+                    [(ngModel)]="user.confirmPassword"
+                    required
+                    #confirmPassword="ngModel"
+                  />
+                </div>
+                <div
+                  class="text-danger small mt-1"
+                  *ngIf="confirmPassword.invalid && confirmPassword.touched"
+                >
+                  Please confirm your password.
+                </div>
+                <div
+                  class="text-danger small mt-1"
+                  *ngIf="
+                    user.password &&
+                    user.confirmPassword &&
+                    user.password !== user.confirmPassword
+                  "
+                >
+                  Passwords do not match.
+                </div>
+              </div>
+
+              <button
+                type="submit"
+                class="btn btn-primary w-100 py-2 fw-bold"
+                [disabled]="
+                  registerForm.invalid || user.password !== user.confirmPassword
+                "
+              >
+                Register Now
+              </button>
+
+              <div class="d-flex align-items-center my-4">
+                <hr class="flex-grow-1" />
+                <span class="px-3 text-muted">or</span>
+                <hr class="flex-grow-1" />
+              </div>
+
+
+              
+              <div class="d-grid gap-2 mb-4">
+                <button
+                  type="button"
+                  class="btn btn-outline-danger d-flex align-items-center justify-content-center"
+                >
+                  <i class="bi bi-google me-2"></i> Continue with Google
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-outline-primary d-flex align-items-center justify-content-center"
+                >
+                  <i class="bi bi-facebook me-2"></i> Continue with Facebook
+                </button>
+              </div>
+
+              <div class="text-center mt-3">
+                <p class="mb-0">
+                  Already have an account?
+                  <a routerLink="/login" class="text-decoration-none fw-bold"
+                    >Sign in</a
+                  >
+                </p>
+              </div>
+
+              @if (errorMessage) {
+              <div class="alert alert-danger mt-3 mb-0">{{ errorMessage }}</div>
+              } @if (successMessage) {
+              <div class="alert alert-success mt-3 mb-0">
+                {{ successMessage }}
+              </div>
+              }
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    rel="stylesheet"
+  />
 </div>
