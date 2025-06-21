@@ -5,14 +5,14 @@
   <section class="hero">
     <div class="hero-image"></div>
     <div class="hero-content">
-      <h1>{{ 'HOME.TITLE' | translate }}</h1>
-      <p class="hero-description">{{ 'HOME.DESCRIPTION' | translate }}</p>
+      <h1>{{ "HOME.TITLE" | translate }}</h1>
+      <p class="hero-description">{{ "HOME.DESCRIPTION" | translate }}</p>
       <div class="hero-buttons">
         <button class="btn-primary">
-          {{ 'HOME.BUTTON_1' | translate }}
+          {{ "HOME.BUTTON_1" | translate }}
         </button>
         <button class="btn-secondary">
-          {{ 'HOME.BUTTON_2' | translate }}
+          {{ "HOME.BUTTON_2" | translate }}
         </button>
       </div>
     </div>
@@ -22,77 +22,145 @@
   <section class="stats">
     <div class="stat-item">
       <h3>10,000+</h3>
-      <p>{{ 'HOME.USERS' | translate }}</p>
+      <p>{{ "HOME.USERS" | translate }}</p>
     </div>
     <div class="stat-item">
       <h3>500+</h3>
-      <p>{{ 'HOME.PARTNERS' | translate }}</p>
+      <p>{{ "HOME.PARTNERS" | translate }}</p>
     </div>
     <div class="stat-item">
       <h3>100+</h3>
-      <p>{{ 'HOME.LOCATIONS' | translate }}</p>
+      <p>{{ "HOME.LOCATIONS" | translate }}</p>
     </div>
     <div class="stat-item">
       <h3>50+</h3>
-      <p>{{ 'HOME.REWARDS' | translate }}</p>
+      <p>{{ "HOME.REWARDS" | translate }}</p>
+    </div>
+  </section>
+  <!-- materilas -->
+  <section class="how-it-works">
+    <h2 class="pb-5">{{ "HOME.HOW_IT_WORKS" | translate }}</h2>
+    <div class="row">
+      @for (material of topMaterials; track material.id) {
+      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
+        <!-- Update the material card to show price -->
+        <div class="card material-card h-100">
+          <img
+            [src]="material.image"
+            class="card-img-top"
+            [alt]="material.name"
+            style="height: 200px; object-fit: cover"
+          />
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ material.name }}</h5>
+            <p class="card-text">
+              <small class="text-muted d-block mb-2">{{ material.desc }}</small>
+              <span
+                class="badge"
+                [ngClass]="'badge-' + material.category.toLowerCase()"
+              >
+                {{ material.category }}
+              </span>
+            </p>
+            <div class="mt-2">
+              <h6 class="text-success">
+                {{ material.price | currency }}
+                <small class="text-muted">per {{ material.priceUnit }}</small>
+              </h6>
+            </div>
+            <div class="mt-auto">
+              <a
+                [routerLink]="['/materials', material.id]"
+                class="btn btn-success btn-sm w-100"
+                >View Details</a
+              >
+            </div>
+          </div>
+        </div>
+        <!-- <div class="card material-card h-100">
+          <img [src]="material.image" class="card-img-top" [alt]="material.name" style="height: 200px; object-fit: cover;">
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ material.name }}</h5>
+            <p class="card-text">
+              <small class="text-muted d-block mb-2">{{ material.desc }}</small>
+              <span class="badge" [ngClass]="'badge-' + material.category.toLowerCase()">
+                {{ material.category }}
+              </span>
+            </p>
+            <div class="mt-auto">
+              <a [routerLink]="['/materials', material.id]" class="btn btn-success btn-sm w-100">View Details</a>
+            </div>
+          </div>
+        </div> -->
+      </div>
+      } @empty {
+      <div class="col-12 text-center py-5">
+        <p class="text-muted">No materials found matching your criteria</p>
+      </div>
+      }
+    </div>
+    <div class="pt-4 m-auto w-25">
+      <a routerLink="/materials" class="btn btn-success btn-sm w-100"
+        >View More</a
+      >
     </div>
   </section>
 
   <!-- How It Works (Enhanced) -->
   <section class="how-it-works">
-    <h2>{{ 'HOME.HOW_IT_WORKS' | translate }}</h2>
+    <h2>{{ "HOME.HOW_IT_WORKS" | translate }}</h2>
     <div class="steps">
       <div class="step">
         <div class="step-number">1</div>
-        <h3>{{ 'HOME.STEP_1_TITLE' | translate }}</h3>
-        <p>{{ 'HOME.STEP_1' | translate }}</p>
+        <h3>{{ "HOME.STEP_1_TITLE" | translate }}</h3>
+        <p>{{ "HOME.STEP_1" | translate }}</p>
       </div>
       <div class="step">
         <div class="step-number">2</div>
-        <h3>{{ 'HOME.STEP_2_TITLE' | translate }}</h3>
-        <p>{{ 'HOME.STEP_2' | translate }}</p>
+        <h3>{{ "HOME.STEP_2_TITLE" | translate }}</h3>
+        <p>{{ "HOME.STEP_2" | translate }}</p>
       </div>
       <div class="step">
         <div class="step-number">3</div>
-        <h3>{{ 'HOME.STEP_3_TITLE' | translate }}</h3>
-        <p>{{ 'HOME.STEP_3' | translate }}</p>
+        <h3>{{ "HOME.STEP_3_TITLE" | translate }}</h3>
+        <p>{{ "HOME.STEP_3" | translate }}</p>
       </div>
     </div>
   </section>
 
   <!-- Featured Rewards (New) -->
   <section class="rewards">
-    <h2>{{ 'HOME.FEATURED_REWARDS' | translate }}</h2>
+    <h2>{{ "HOME.FEATURED_REWARDS" | translate }}</h2>
     <div class="reward-cards">
       <div class="card">
-        <img src="../../../assets/images/gift-card.jpg" alt="Gift card">
-        <h3>{{ 'HOME.REWARD_1' | translate }}</h3>
-        <p>500 {{ 'HOME.POINTS' | translate }}</p>
+        <img src="../../../assets/images/gift-card.jpg" alt="Gift card" />
+        <h3>{{ "HOME.REWARD_1" | translate }}</h3>
+        <p>500 {{ "HOME.POINTS" | translate }}</p>
       </div>
       <div class="card">
-        <img src="../../../assets/images/friendly-bag.jpg" alt="Eco bag">
-        <h3>{{ 'HOME.REWARD_2' | translate }}</h3>
-        <p>300 {{ 'HOME.POINTS' | translate }}</p>
+        <img src="../../../assets/images/friendly-bag.jpg" alt="Eco bag" />
+        <h3>{{ "HOME.REWARD_2" | translate }}</h3>
+        <p>300 {{ "HOME.POINTS" | translate }}</p>
       </div>
       <div class="card">
-        <img src="../../../assets/images/house-plant.jpg" alt="Plant">
-        <h3>{{ 'HOME.REWARD_3' | translate }}</h3>
-        <p>200 {{ 'HOME.POINTS' | translate }}</p>
+        <img src="../../../assets/images/house-plant.jpg" alt="Plant" />
+        <h3>{{ "HOME.REWARD_3" | translate }}</h3>
+        <p>200 {{ "HOME.POINTS" | translate }}</p>
       </div>
     </div>
   </section>
 
   <!-- Testimonials (New) -->
   <section class="testimonials">
-    <h2>{{ 'HOME.TESTIMONIALS' | translate }}</h2>
+    <h2>{{ "HOME.TESTIMONIALS" | translate }}</h2>
     <div class="testimonial-cards">
       <div class="testimonial">
-        <p>"{{ 'HOME.TESTIMONIAL_1' | translate }}"</p>
-        <div class="author">- {{ 'HOME.USER_1' | translate }}</div>
+        <p>"{{ "HOME.TESTIMONIAL_1" | translate }}"</p>
+        <div class="author">- {{ "HOME.USER_1" | translate }}</div>
       </div>
       <div class="testimonial">
-        <p>"{{ 'HOME.TESTIMONIAL_2' | translate }}"</p>
-        <div class="author">- {{ 'HOME.USER_2' | translate }}</div>
+        <p>"{{ "HOME.TESTIMONIAL_2" | translate }}"</p>
+        <div class="author">- {{ "HOME.USER_2" | translate }}</div>
       </div>
     </div>
   </section>
