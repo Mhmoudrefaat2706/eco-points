@@ -79,6 +79,34 @@
             <i class="bi bi-info-circle ms-3 fs-5"></i>
           </span>
         </button>
+
+        <!-- Login Button (new addition) -->
+        <!-- Enhanced Login Button -->
+        <button
+          class="btn btn-outline-light btn-lg px-5 py-3 fw-bold hover-grow position-relative overflow-hidden"
+          routerLink="/login"
+          style="
+            border-radius: 50px;
+            border-width: 2px;
+            transition: all 0.3s ease;
+          "
+        >
+          <span class="d-flex align-items-center position-relative z-index-1">
+            Have an account?
+            <span
+              class="text-primary fw-bolder ms-1"
+              style="text-shadow: 0 0 8px rgba(0, 123, 255, 0.4)"
+              >Login</span
+            >
+            <i class="bi bi-box-arrow-in-right ms-3 fs-5 text-primary"></i>
+          </span>
+
+          <!-- Optional hover effect background -->
+          <span
+            class="position-absolute top-0 start-0 w-100 h-100 bg-primary opacity-0 hover-opacity-10"
+            style="transition: opacity 0.3s ease; border-radius: 50px"
+          ></span>
+        </button>
       </div>
     </div>
   </div>
@@ -355,8 +383,6 @@
                 <hr class="flex-grow-1" />
               </div>
 
-
-              
               <div class="d-grid gap-2 mb-4">
                 <button
                   type="button"

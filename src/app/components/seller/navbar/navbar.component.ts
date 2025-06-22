@@ -105,4 +105,5 @@ export class NavbarComponent implements OnInit {
   isProfileActive(): boolean {
     return this.router.url.includes('/profile');
   }
+
 }
