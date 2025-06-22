@@ -13,6 +13,17 @@ export interface User {
 })
 export class AuthService {
 
+  constructor() {
+    const savedUser = localStorage.getItem('loggedInUser');
+    if (savedUser) {
+      try {
+        this.loggedInUser = JSON.parse(savedUser);
+      } catch (e) {
+        localStorage.removeItem('loggedInUser');
+      }
+    }
+  }
+
   private users: User[] = [
     {
       name: 'Seller User',
@@ -31,16 +42,6 @@ export class AuthService {
 
   private loggedInUser: User | null = null;
 
-  constructor() {
-    const savedUser = localStorage.getItem('loggedInUser');
-    if (savedUser) {
-      try {
-        this.loggedInUser = JSON.parse(savedUser);
-      } catch (e) {
-        localStorage.removeItem('loggedInUser');
-      }
-    }
-  }
 
 login(email: string, password: string): boolean {
   const user = this.users.find(

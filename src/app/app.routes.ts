@@ -23,7 +23,7 @@ import { BCheckoutComponent } from './components/buyer/b-checkout/b-checkout.com
 import { BProfileComponent } from './components/buyer/b-profile/b-profile.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: 'login', pathMatch: 'full' },
+  { path: '', redirectTo: 'register', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'logout', redirectTo: 'login', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent },
