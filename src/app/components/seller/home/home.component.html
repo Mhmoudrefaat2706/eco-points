@@ -2,21 +2,30 @@
 <!-- <h1>seller</h1> -->
 <main>
   <!-- Hero Section -->
-  <section class="hero">
-    <div class="hero-image"></div>
-    <div class="hero-content">
-      <h1>{{ "HOME.TITLE" | translate }}</h1>
-      <p class="hero-description">{{ "HOME.DESCRIPTION" | translate }}</p>
-      <div class="hero-buttons">
-        <button class="btn-primary">
-          {{ "HOME.BUTTON_1" | translate }}
-        </button>
-        <button class="btn-secondary">
-          {{ "HOME.BUTTON_2" | translate }}
-        </button>
-      </div>
+<!-- Enhanced Hero Section -->
+<section class="hero">
+  <div class="hero-image"></div>
+  <div class="hero-content">
+    <h1>{{ "HOME.TITLE" | translate }}</h1>
+    <p class="hero-description">{{ "HOME.DESCRIPTION" | translate }}</p>
+    <div class="hero-buttons">
+      <button class="btn btn-primary btn-lg px-5 py-3 fw-bold hover-glow">
+        {{ "HOME.BUTTON_1" | translate }}
+        <i class="bi bi-arrow-right ms-2"></i>
+      </button>
+      <button class="btn btn-outline-light btn-lg px-5 py-3 fw-bold hover-grow">
+        {{ "HOME.BUTTON_2" | translate }}
+        <i class="bi bi-info-circle ms-2"></i>
+      </button>
     </div>
-  </section>
+  </div>
+  
+  <!-- Scroll indicator -->
+  <div class="scroll-indicator">
+    <span>Scroll to explore</span>
+    <i class="bi bi-chevron-down bounce"></i>
+  </div>
+</section>
 
   <!-- Stats Section (New) -->
   <section class="stats">
@@ -37,133 +46,300 @@
       <p>{{ "HOME.REWARDS" | translate }}</p>
     </div>
   </section>
-  <!-- materilas -->
-  <section class="how-it-works">
-    <h2 class="pb-5">{{ "HOME.HOW_IT_WORKS" | translate }}</h2>
-    <div class="row">
+  <!-- Last Added -->
+
+<!-- Enhanced Last Added Materials -->
+<section class="last-added py-5">
+  <div class="container">
+    <div class="section-header mb-5 text-center">
+      <h2 class="display-5 fw-bold position-relative d-inline-block text-dark-emphasis">
+        {{ "HOME.LAST ADDED" | translate }}
+        <span class="section-title-decoration"></span>
+      </h2>
+      <p class="text-muted mt-3">Discover our newest sustainable materials</p>
+    </div>
+    
+    <div class="row g-4">
       @for (material of topMaterials; track material.id) {
-      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-        <!-- Update the material card to show price -->
-        <div class="card material-card h-100">
-          <img
-            [src]="material.image"
-            class="card-img-top"
-            [alt]="material.name"
-            style="height: 200px; object-fit: cover"
-          />
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="card material-card h-100 border-0 shadow-sm">
+          <div class="card-img-top overflow-hidden">
+            <img 
+              [src]="material.image" 
+              class="img-fluid w-100" 
+              [alt]="material.name"
+              style="height: 200px; object-fit: cover;"
+            >
+          </div>
           <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{ material.name }}</h5>
+            <h5 class="card-title fw-bold text-dark-emphasis">{{ material.name }}</h5>
             <p class="card-text">
-              <small class="text-muted d-block mb-2">{{ material.desc }}</small>
-              <span
-                class="badge"
-                [ngClass]="'badge-' + material.category.toLowerCase()"
-              >
+              <span class="badge rounded-pill bg-success bg-opacity-10 text-success">
                 {{ material.category }}
               </span>
             </p>
             <div class="mt-2">
-              <h6 class="text-success">
+              <h6 class="text-success fw-bold">
                 {{ material.price | currency }}
-                <small class="text-muted">per {{ material.priceUnit }}</small>
+                <small class="text-dark-emphasis">per {{ material.priceUnit }}</small>
               </h6>
             </div>
-            <div class="mt-auto">
-              <a
-                [routerLink]="['/materials', material.id]"
-                class="btn btn-success btn-sm w-100"
-                >View Details</a
+            <div class="mt-auto pt-3">
+              <a 
+                [routerLink]="['/materials', material.id]" 
+                class="btn btn-outline-success w-100 d-flex align-items-center justify-content-center"
               >
+                View Details <i class="bi bi-arrow-right ms-2"></i>
+              </a>
             </div>
           </div>
         </div>
-        <!-- <div class="card material-card h-100">
-          <img [src]="material.image" class="card-img-top" [alt]="material.name" style="height: 200px; object-fit: cover;">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{ material.name }}</h5>
-            <p class="card-text">
-              <small class="text-muted d-block mb-2">{{ material.desc }}</small>
-              <span class="badge" [ngClass]="'badge-' + material.category.toLowerCase()">
-                {{ material.category }}
-              </span>
-            </p>
-            <div class="mt-auto">
-              <a [routerLink]="['/materials', material.id]" class="btn btn-success btn-sm w-100">View Details</a>
-            </div>
-          </div>
-        </div> -->
-      </div>
-      } @empty {
-      <div class="col-12 text-center py-5">
-        <p class="text-muted">No materials found matching your criteria</p>
       </div>
       }
     </div>
-    <div class="pt-4 m-auto w-25">
-      <a routerLink="/materials" class="btn btn-success btn-sm w-100"
-        >View More</a
-      >
-    </div>
-  </section>
+  </div>
+</section>
 
   <!-- How It Works (Enhanced) -->
-  <section class="how-it-works">
-    <h2>{{ "HOME.HOW_IT_WORKS" | translate }}</h2>
-    <div class="steps">
+<!-- Enhanced How It Works Section -->
+<section class="how-it-works py-5 position-relative overflow-hidden">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="display-6 fw-bold position-relative d-inline-block">
+        {{ "HOME.HOW_IT_WORKS" | translate }}
+        <span class="section-title-decoration"></span>
+      </h2>
+    </div>
+
+    <div class="steps position-relative">
+      <!-- Connecting line between steps -->
+      <div class="step-connector"></div>
+      
       <div class="step">
         <div class="step-number">1</div>
-        <h3>{{ "HOME.STEP_1_TITLE" | translate }}</h3>
-        <p>{{ "HOME.STEP_1" | translate }}</p>
+        <div class="step-icon">
+          <i class="bi bi-search"></i>
+        </div>
+        <h3 class="mt-3">{{ "HOME.STEP_1_TITLE" | translate }}</h3>
+        <p class="text-muted">
+          {{ "HOME.STEP_1" | translate }}
+          <span class="d-block mt-2 fst-italic">
+            {{ "HOME.STEP_1_DESC" | translate }}
+          </span>
+        </p>
       </div>
+
       <div class="step">
         <div class="step-number">2</div>
-        <h3>{{ "HOME.STEP_2_TITLE" | translate }}</h3>
-        <p>{{ "HOME.STEP_2" | translate }}</p>
+        <div class="step-icon">
+          <i class="bi bi-arrow-left-right"></i>
+        </div>
+        <h3 class="mt-3">{{ "HOME.STEP_2_TITLE" | translate }}</h3>
+        <p class="text-muted">
+          {{ "HOME.STEP_2" | translate }}
+          <span class="d-block mt-2 fst-italic">
+            {{ "HOME.STEP_2_DESC" | translate }}
+          </span>
+        </p>
       </div>
+
       <div class="step">
         <div class="step-number">3</div>
-        <h3>{{ "HOME.STEP_3_TITLE" | translate }}</h3>
-        <p>{{ "HOME.STEP_3" | translate }}</p>
+        <div class="step-icon">
+          <i class="bi bi-gift"></i>
+        </div>
+        <h3 class="mt-3">{{ "HOME.STEP_3_TITLE" | translate }}</h3>
+        <p class="text-muted">
+          {{ "HOME.STEP_3" | translate }}
+          <span class="d-block mt-2 fst-italic">
+            {{ "HOME.STEP_3_DESC" | translate }}
+          </span>
+        </p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
   <!-- Featured Rewards (New) -->
-  <section class="rewards">
-    <h2>{{ "HOME.FEATURED_REWARDS" | translate }}</h2>
-    <div class="reward-cards">
-      <div class="card">
-        <img src="../../../assets/images/gift-card.jpg" alt="Gift card" />
-        <h3>{{ "HOME.REWARD_1" | translate }}</h3>
-        <p>500 {{ "HOME.POINTS" | translate }}</p>
-      </div>
-      <div class="card">
-        <img src="../../../assets/images/friendly-bag.jpg" alt="Eco bag" />
-        <h3>{{ "HOME.REWARD_2" | translate }}</h3>
-        <p>300 {{ "HOME.POINTS" | translate }}</p>
-      </div>
-      <div class="card">
-        <img src="../../../assets/images/house-plant.jpg" alt="Plant" />
-        <h3>{{ "HOME.REWARD_3" | translate }}</h3>
-        <p>200 {{ "HOME.POINTS" | translate }}</p>
-      </div>
+<!-- Enhanced Featured Rewards Section -->
+<section class="rewards py-5 position-relative">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="display-5 fw-bold position-relative d-inline-block">
+        {{ "HOME.FEATURED_REWARDS" | translate }}
+        <span class="section-title-decoration"></span>
+      </h2>
+      <p class="lead text-muted max-w-800 mx-auto">
+        {{ "HOME.FEATURED_REWARDS_DESC" | translate }}
+      </p>
     </div>
-  </section>
 
-  <!-- Testimonials (New) -->
-  <section class="testimonials">
-    <h2>{{ "HOME.TESTIMONIALS" | translate }}</h2>
-    <div class="testimonial-cards">
-      <div class="testimonial">
-        <p>"{{ "HOME.TESTIMONIAL_1" | translate }}"</p>
-        <div class="author">- {{ "HOME.USER_1" | translate }}</div>
+    <div class="reward-cards row g-4 justify-content-center">
+      <div class="col-lg-4 col-md-6">
+        <div class="card reward-card h-100 border-0 shadow-sm hover-lift">
+          <div class="card-img-top overflow-hidden rounded-top">
+            <img 
+              src="../../../assets/images/gift-card.jpg" 
+              alt="Gift card" 
+              class="img-fluid w-100"
+              style="height: 220px; object-fit: cover; transition: transform 0.4s ease"
+            >
+            <div class="points-badge">
+              <span class="badge bg-success">500 {{ "HOME.POINTS" | translate }}</span>
+            </div>
+          </div>
+          <div class="card-body text-center">
+            <h3 class="h4 fw-bold mb-3">{{ "HOME.REWARD_1" | translate }}</h3>
+            <p class="text-muted mb-4">
+              {{ "HOME.REWARD_1_DESC" | translate }}
+            </p>
+            <button class="btn btn-outline-success w-100">
+              {{ "HOME.REWARD_REDEEM" | translate }} <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+          </div>
+        </div>
       </div>
-      <div class="testimonial">
-        <p>"{{ "HOME.TESTIMONIAL_2" | translate }}"</p>
-        <div class="author">- {{ "HOME.USER_2" | translate }}</div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card reward-card h-100 border-0 shadow-sm hover-lift">
+          <div class="card-img-top overflow-hidden rounded-top">
+            <img 
+              src="../../../assets/images/friendly-bag.jpg" 
+              alt="Eco bag" 
+              class="img-fluid w-100"
+              style="height: 220px; object-fit: cover; transition: transform 0.4s ease"
+            >
+            <div class="points-badge">
+              <span class="badge bg-success">300 {{ "HOME.POINTS" | translate }}</span>
+            </div>
+          </div>
+          <div class="card-body text-center">
+            <h3 class="h4 fw-bold mb-3">{{ "HOME.REWARD_2" | translate }}</h3>
+            <p class="text-muted mb-4">
+              {{ "HOME.REWARD_2_DESC" | translate }}
+            </p>
+            <button class="btn btn-outline-success w-100">
+              {{ "HOME.REWARD_REDEEM" | translate }} <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-lg-4 col-md-6">
+        <div class="card reward-card h-100 border-0 shadow-sm hover-lift">
+          <div class="card-img-top overflow-hidden rounded-top">
+            <img 
+              src="../../../assets/images/house-plant.jpg" 
+              alt="Plant" 
+              class="img-fluid w-100"
+              style="height: 220px; object-fit: cover; transition: transform 0.4s ease"
+            >
+            <div class="points-badge">
+              <span class="badge bg-success">200 {{ "HOME.POINTS" | translate }}</span>
+            </div>
+          </div>
+          <div class="card-body text-center">
+            <h3 class="h4 fw-bold mb-3">{{ "HOME.REWARD_3" | translate }}</h3>
+            <p class="text-muted mb-4">
+              {{ "HOME.REWARD_3_DESC" | translate }}
+            </p>
+            <button class="btn btn-outline-success w-100">
+              {{ "HOME.REWARD_REDEEM" | translate }} <i class="bi bi-arrow-right ms-2"></i>
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </section>
+
+  </div>
+</section>
+
+<!-- Enhanced Testimonials Section -->
+<section class="testimonials py-5 position-relative">
+  <div class="container">
+    <div class="section-header text-center mb-5">
+      <h2 class="display-5 fw-bold position-relative d-inline-block">
+        {{ "HOME.TESTIMONIALS" | translate }}
+        <span class="section-title-decoration"></span>
+      </h2>
+      <p class="lead text-muted max-w-800 mx-auto">
+        {{ "HOME.TESTIMONIALS_DESC" | translate }}
+      </p>
+    </div>
+
+    <div class="testimonial-cards row g-4 justify-content-center">
+      <!-- Testimonial 1 -->
+      <div class="col-lg-6">
+        <div class="testimonial-card p-4 p-lg-5 h-100">
+          <div class="quote-icon text-success opacity-25">
+            <i class="bi bi-quote fs-1"></i>
+          </div>
+          <div class="testimonial-content">
+            <p class="fs-5 fst-italic text-dark">
+              "{{ "HOME.TESTIMONIAL_1" | translate }}"
+            </p>
+            <div class="author-info mt-4 d-flex align-items-center">
+              <div class="author-avatar me-3">
+                <img src="../../../../assets/images/user-1.png" alt="User avatar" class="rounded-circle" width="60">
+              </div>
+              <div>
+                <div class="author-name fw-bold">{{ "HOME.USER_1" | translate }}</div>
+                <div class="author-title small text-muted">{{ "HOME.USER_1_DESC" | translate }}</div>
+                <div class="rating mt-1 text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Testimonial 2 -->
+      <div class="col-lg-6">
+        <div class="testimonial-card p-4 p-lg-5 h-100">
+          <div class="quote-icon text-success opacity-25">
+            <i class="bi bi-quote fs-1"></i>
+          </div>
+          <div class="testimonial-content">
+            <p class="fs-5 fst-italic text-dark">
+              "{{ "HOME.TESTIMONIAL_2" | translate }}"
+            </p>
+            <div class="author-info mt-4 d-flex align-items-center">
+              <div class="author-avatar me-3">
+                <img src="../../../../assets/images/user-2.png" alt="User avatar" class="rounded-circle" width="60">
+              </div>
+              <div>
+                <div class="author-name fw-bold">{{ "HOME.USER_2" | translate }}</div>
+                <div class="author-title small text-muted">{{ "HOME.USER_2_DESC" | translate }}</div>
+                <div class="rating mt-1 text-warning">
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-fill"></i>
+                  <i class="bi bi-star-half"></i>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="text-center mt-5">
+      <button class="btn btn-outline-success px-4 py-2">
+        {{ "HOME.TESTIMONIALS_BTN" | translate }} <i class="bi bi-pencil-square ms-2"></i>
+      </button>
+      <p class="small text-muted mt-3">
+        {{ "HOME.TESTIMONIALS_BTN_DESC" | translate }}
+      </p>
+    </div>
+  </div>
+</section>
+
 </main>
 
 <app-footer></app-footer>

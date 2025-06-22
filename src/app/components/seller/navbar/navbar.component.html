@@ -3,9 +3,11 @@
   [class.dark-mode]="isDarkMode"
   [attr.dir]="currentLanguage === 'ar' ? 'rtl' : 'ltr'"
 >
-  <div class="logo">
-    <img src="../.././../../assets/images/new-logo.jpeg" alt="Logo" style="width: 70px; height: 70px;"/>
-  </div>
+
+<div class="logo">
+  <img src="../.././../../assets/images/new-logo.jpeg" alt="Logo" class="logo-img"/>
+  <span class="logo-text">EcoPoints</span> <!-- Optional text -->
+</div>
 
   <button
     class="mobile-menu-btn"
@@ -88,7 +90,7 @@
       {{ "NAVBAR.CONTACT" | translate }}
     </a>
     <a routerLink="/dashboard" class="mobile-nav-link" (click)="closeMobileMenu()">
-      {{ "NAVBAR.DASHBOARD" | translate }}
+      {{ "NAVBAR.MY MATERIALS" | translate }}
     </a>
 
 

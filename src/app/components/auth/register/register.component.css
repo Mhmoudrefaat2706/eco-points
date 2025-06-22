@@ -359,3 +359,108 @@ a:hover {
     width: 100%;
   }
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* Social Buttons */
+.btn-social {
+  position: relative;
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  border: 2px solid transparent;
+}
+
+.btn-social-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  margin-right: 12px;
+  font-size: 1.2rem;
+  transition: all 0.3s ease;
+}
+
+.btn-social-text {
+  transition: all 0.3s ease;
+}
+
+/* Google Button */
+.btn-google {
+  background-color: white;
+  color: #757575;
+  border-color: #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-google:hover {
+  background-color: #f8f9fa;
+  color: #4285F4;
+  border-color: #d2d3d5;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.btn-google:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Facebook Button */
+.btn-facebook {
+  background-color: white;
+  color: #1877f2;
+  border-color: #e0e0e0;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.btn-facebook:hover {
+  background-color: #f0f2f5;
+  color: #1877f2;
+  border-color: #d2d3d5;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  transform: translateY(-2px);
+}
+
+.btn-facebook:active {
+  transform: translateY(0);
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Loading State */
+.btn-social.loading .btn-social-icon {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}

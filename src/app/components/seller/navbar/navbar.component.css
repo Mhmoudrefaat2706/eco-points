@@ -301,18 +301,7 @@ body.dark-mode {
 
 }
 
-
-
-
-
-
-
-
-
-
-
 /* Make navbar sticky */
-
 
 .nav-content {
   display: flex;
@@ -330,4 +319,66 @@ body.dark-mode {
   padding: 0.5rem 1rem;
   border-radius: 6px;
   transition: all 0.3s ease;
+}
+
+/* Logo Styles */
+.logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  transition: all 0.3s ease;
+}
+
+.logo-img {
+  width: 70px;
+  height: 70px;
+  object-fit: contain;
+  border-radius: 50%;
+  padding: 5px;
+  background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.1),
+    0 0 0 2px rgba(76, 175, 80, 0.3);
+  transition: all 0.3s ease;
+}
+
+.logo:hover .logo-img {
+  transform: scale(1.05);
+  box-shadow: 
+    0 6px 12px rgba(0, 0, 0, 0.15),
+    0 0 0 3px rgba(76, 175, 80, 0.4);
+}
+
+.logo-text {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--primary-color);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+/* Dark mode adjustments */
+.dark-mode .logo-img {
+  background: linear-gradient(135deg, #81c784 0%, #4caf50 100%);
+  box-shadow: 
+    0 4px 6px rgba(0, 0, 0, 0.3),
+    0 0 0 2px rgba(129, 199, 132, 0.4);
+}
+
+.dark-mode .logo-text {
+  color: #81c784;
+  text-shadow: 1px 1px 2px rgba(0,0,0,0.3);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .logo-img {
+    width: 50px;
+    height: 50px;
+  }
+  
+  .logo-text {
+    font-size: 1.2rem;
+  }
 }
