@@ -1,48 +1,90 @@
 <app-navbar></app-navbar>
 
-<div class="container my-4">
-  <div class="search-filter d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4">
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">Premium Construction Materials</h1>
+      <p class="hero-subtitle">
+        Discover high-quality materials for your next project at competitive
+        prices
+      </p>
+      <div class="hero-buttons">
+        <button
+          class="btn btn-primary btn-lg hero-btn"
+          (click)="scrollToMaterials()"
+        >
+          Discover Our Materials
+        </button>
+        <a routerLink="/contact" class="btn btn-outline-light btn-lg hero-btn">
+          Contact Us
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<div class="container my-5" id="materialsSection">
+  <!-- Search and Filter Section (keep existing) -->
+  <div
+    class="search-filter d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4"
+  >
     <!-- Category Filter -->
     <div class="mb-3 mb-md-0">
-      <select class="form-select category-filter" [(ngModel)]="selectedCategory" (change)="onCategoryChange()">
+      <select
+        class="form-select category-filter"
+        [(ngModel)]="selectedCategory"
+        (change)="onCategoryChange()"
+      >
         <option value="All">All Categories</option>
-        @for (category of categories; track category) {
-          @if (category !== 'All') {
-            <option [value]="category">{{ category }}</option>
-          }
-        }
+        @for (category of categories; track category) { @if (category !== 'All')
+        {
+        <option [value]="category">{{ category }}</option>
+        } }
       </select>
     </div>
 
     <!-- Search -->
-    <div class="search-container flex-grow-3" style="min-width: 250px;">
-      <input type="text" class="form-control search-input" 
-             placeholder="Search by name or category..." 
-             [(ngModel)]="searchQuery"
-             (input)="onSearchChange()">
+    <div class="search-container flex-grow-3" style="min-width: 250px">
+      <input
+        type="text"
+        class="form-control search-input"
+        placeholder="Search by name or category..."
+        [(ngModel)]="searchQuery"
+        (input)="onSearchChange()"
+      />
     </div>
 
-    <!-- Price Filter -->
+    <!-- Enhanced Price Filter -->
     <div class="mb-3 mb-md-0">
       <div class="input-group">
-        <input 
-          type="number" 
-          class="form-control" 
-          placeholder="Min price" 
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Min price"
           [(ngModel)]="minPrice"
-          (change)="applyPriceFilter()"
-        >
+          min="0"
+        />
         <span class="input-group-text">to</span>
-        <input 
-          type="number" 
-          class="form-control" 
-          placeholder="Max price" 
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Max price"
           [(ngModel)]="maxPrice"
-          (change)="applyPriceFilter()"
+          min="0"
+        />
+        <button
+          class="btn btn-primary"
+          type="button"
+          (click)="applyPriceFilter()"
+          [disabled]="!minPrice && !maxPrice"
         >
-        <button 
-          class="btn btn-outline-secondary" 
-          type="button" 
+          Apply
+        </button>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
           (click)="clearPriceFilter()"
           [disabled]="!priceFilterActive"
         >
@@ -50,80 +92,124 @@
         </button>
       </div>
     </div>
-  </div>
 
-  @if (isLoading) {
+    @if (priceFilterError) {
+    <div class="price-filter-error text-danger small mt-1">
+      {{ priceFilterError }}
+    </div>
+    }
+
+    <!-- Materials Count -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <!-- <h2 class="section-title mb-0">Our Material Collection</h2> -->
+      <span class="badge bg-primary"
+        >{{ filteredMaterials.length }} materials available</span
+      >
+    </div>
+
+    @if (isLoading) {
     <div class="text-center my-5">
       <div class="spinner-border text-primary" role="status">
         <span class="visually-hidden">Loading...</span>
       </div>
       <p>Loading materials...</p>
     </div>
-  }
-
-  @if (errorMessage) {
+    } @if (errorMessage) {
     <div class="alert alert-danger">{{ errorMessage }}</div>
-  }
+    }
 
-  <div class="mb-3">
-    Showing {{ filteredMaterials.length }} materials
-  </div>
-
-  <div class="row">
-    @for (material of filteredMaterials; track material.id) {
-      <div class="col-lg-3 col-md-4 col-sm-6 mb-4">
-
-        <!-- Update the material card to show price -->
-        <div class="card material-card h-100">
-          <img [src]="material.image" class="card-img-top" [alt]="material.name" style="height: 200px; object-fit: cover;">
-          <div class="card-body d-flex flex-column">
-            <h5 class="card-title">{{ material.name }}</h5>
-            <p class="card-text">
-              <small class="text-muted d-block mb-2">{{ material.desc }}</small>
-              <span class="badge" [ngClass]="'badge-' + material.category.toLowerCase()">
+    <!-- Materials Grid -->
+    <div class="row g-4">
+      @for (material of filteredMaterials; track material.id) {
+      <div class="col-lg-3 col-md-4 col-sm-6">
+        <div class="material-card card h-100 border-0 shadow-sm">
+          <div class="card-img-container">
+            <img
+              [src]="material.image"
+              class="card-img-top"
+              [alt]="material.name"
+            />
+            <div class="card-badge">
+              <span
+                class="badge"
+                [ngClass]="'badge-' + material.category.toLowerCase()"
+              >
                 {{ material.category }}
               </span>
+            </div>
+          </div>
+          <div class="card-body d-flex flex-column">
+            <h5 class="card-title">{{ material.name }}</h5>
+            <p class="card-text text-muted mb-3">
+              {{ truncateText(material.desc, 60) }}
             </p>
-            <div class="mt-2">
-              <h6 class="text-success">
-                {{ material.price | currency }} <small class="text-muted">per {{ material.priceUnit }}</small>
-              </h6>
+            <div class="price-section mb-3">
+              <span class="price">{{ material.price | currency }}</span>
+              <span class="price-unit">/ {{ material.priceUnit }}</span>
             </div>
             <div class="mt-auto">
-              <a [routerLink]="['/materials', material.id]" class="btn btn-success btn-sm w-100">View Details</a>
+              <a
+                [routerLink]="['/materials', material.id]"
+                class="btn btn-outline-primary w-100"
+              >
+                View Details <i class="bi bi-arrow-right ms-2"></i>
+              </a>
             </div>
           </div>
         </div>
       </div>
-    } @empty {
+      } @empty {
       <div class="col-12 text-center py-5">
-        <p class="text-muted">No materials found matching your criteria</p>
+        <div class="empty-state">
+          <i class="bi bi-box-seam display-4 text-muted mb-3"></i>
+          <h3 class="text-muted">No materials found</h3>
+          <p class="text-muted">Try adjusting your search or filters</p>
+          <button class="btn btn-link" (click)="clearFilters()">
+            Clear all filters
+          </button>
+        </div>
       </div>
-    }
+      }
+    </div>
+
+    <!-- Pagination (keep existing) -->
+    <nav
+      aria-label="Materials pagination"
+      *ngIf="
+        materialsList.length > itemsPerPage && filteredMaterials.length > 0
+      "
+    >
+      <ul class="pagination justify-content-center">
+        <li class="page-item" [class.disabled]="currentPage === 1">
+          <a
+            class="page-link"
+            (click)="changePage(currentPage - 1)"
+            aria-label="Previous"
+          >
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+
+        <li
+          class="page-item"
+          *ngFor="let page of pages"
+          [class.active]="page === currentPage"
+        >
+          <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+        </li>
+
+        <li class="page-item" [class.disabled]="currentPage === totalPages">
+          <a
+            class="page-link"
+            (click)="changePage(currentPage + 1)"
+            aria-label="Next"
+          >
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
   </div>
 
-
-  <nav aria-label="Materials pagination" *ngIf="materialsList.length > itemsPerPage && filteredMaterials.length > 0">
-    <ul class="pagination justify-content-center">
-      <li class="page-item" [class.disabled]="currentPage === 1">
-        <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
-          <span aria-hidden="true">&laquo;</span>
-        </a>
-      </li>
-      
-      <li class="page-item" *ngFor="let page of pages" [class.active]="page === currentPage">
-        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
-      </li>
-      
-      <li class="page-item" [class.disabled]="currentPage === totalPages">
-        <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
-          <span aria-hidden="true">&raquo;</span>
-        </a>
-      </li>
-    </ul>
-  </nav>
 </div>
-
-
-
 <app-footer></app-footer>

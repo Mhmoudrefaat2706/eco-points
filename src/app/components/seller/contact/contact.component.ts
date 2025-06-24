@@ -26,7 +26,7 @@ export class ContactComponent {
   contactForm: FormGroup;
   
   // إحداثيات الموقع - يمكن استبدالها بإحداثيات موقعك الفعلي
-  mapUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3456.789012345678!2d31.23456789012345!3d30.12345678901234!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zMzDCsDA3JzI0LjQiTiAzMcKwMTQnMDcuNiJF!5e0!3m2!1sen!2seg!4v1620000000000!5m2!1sen!2seg';
+  mapUrl = 'https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1026.9098075937954!2d31.152603349109356!3d29.009568717423523!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145a25e6d62da0d3%3A0x2697971af768c6d5!2sCreativa%20IHUB-Bani%20Suef!5e0!3m2!1sar!2seg!4v1749462965731!5m2!1sar!2seg';
 
   constructor(
     private fb: FormBuilder,
