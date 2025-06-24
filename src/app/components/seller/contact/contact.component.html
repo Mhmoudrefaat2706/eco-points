@@ -1,74 +1,128 @@
 <app-navbar></app-navbar>
 
 <div class="contact-container">
-  <div class="contact-header">
-    <h1>{{ 'CONTACT.TITLE' | translate }}</h1>
-    <p>{{ 'CONTACT.SUBTITLE' | translate }}</p>
-  </div>
-  
-  <div class="contact-content">
-    <div class="contact-info">
-      <div class="info-card">
-        <i class="fas fa-map-marker-alt"></i>
-        <h3>{{ 'CONTACT.ADDRESS_TITLE' | translate }}</h3>
-        <p>{{ 'CONTACT.ADDRESS' | translate }}</p>
-      </div>
-
-      
-      
-<div class="map-container">
-    <iframe 
-      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d1026.9098075937954!2d31.152603349109356!3d29.009568717423523!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x145a25e6d62da0d3%3A0x2697971af768c6d5!2sCreativa%20IHUB-Bani%20Suef!5e0!3m2!1sar!2seg!4v1749462965731!5m2!1sar!2seg"
-      width="100%" 
-      height="300"
-      style="border:0;" 
-      allowfullscreen="" 
-      loading="lazy"
-      referrerpolicy="no-referrer-when-downgrade">
-    </iframe>
-  </div>
-</div>
-
-      
-      <div class="info-card">
-        <i class="fas fa-phone"></i>
-        <h3>{{ 'CONTACT.PHONE_TITLE' | translate }}</h3>
-        <p>+1 (123) 456-7890</p>
-      </div>
-      
-      <div class="info-card">
-        <i class="fas fa-envelope"></i>
-        <h3>{{ 'CONTACT.EMAIL_TITLE' | translate }}</h3>
-        <p>contact&#64;example.com</p>
+  <!-- Hero Section -->
+  <section class="contact-hero">
+    <div class="container">
+      <div class="hero-content">
+        <h1 class="hero-title">{{ "CONTACT.TITLE" | translate }}</h1>
+        <p class="hero-subtitle">{{ "CONTACT.SUBTITLE" | translate }}</p>
       </div>
     </div>
-    
-    <form [formGroup]="contactForm" (ngSubmit)="onSubmit()" class="contact-form">
-      <div class="form-group">
-        <label for="name">{{ 'CONTACT.NAME' | translate }}</label>
-        <input type="text" id="name" formControlName="name" required>
-      </div>
-      
-      <div class="form-group">
-        <label for="email">{{ 'CONTACT.EMAIL' | translate }}</label>
-        <input type="email" id="email" formControlName="email" required>
-      </div>
-      
-      <div class="form-group">
-        <label for="subject">{{ 'CONTACT.SUBJECT' | translate }}</label>
-        <input type="text" id="subject" formControlName="subject" required>
-      </div>
-      
-      <div class="form-group">
-        <label for="message">{{ 'CONTACT.MESSAGE' | translate }}</label>
-        <textarea id="message" formControlName="message" rows="5" required></textarea>
-      </div>
-      
-      <button type="submit" class="submit-btn" [disabled]="!contactForm.valid">
-        {{ 'CONTACT.SUBMIT' | translate }}
-      </button>
-    </form>
-  </div>
+  </section>
 
+  <!-- Contact Content -->
+  <div class="container contact-content">
+    <!-- Contact Info Column -->
+    <div class="contact-info">
+      <!-- Contact Card -->
+      <div class="contact-card">
+        <div class="card-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <div class="card-content">
+          <h3>{{ "CONTACT.ADDRESS_TITLE" | translate }}</h3>
+          <p>{{ "CONTACT.ADDRESS" | translate }}</p>
+        </div>
+      </div>
+
+      <!-- Map -->
+      <div class="map-container">
+        <iframe 
+          [src]="safeMapUrl"
+          width="100%" 
+          height="300"
+          style="border:0;" 
+          allowfullscreen="" 
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade">
+        </iframe>
+      </div>
+
+      <!-- Additional Contact Cards -->
+      <div class="contact-card">
+        <div class="card-icon">
+          <i class="fas fa-phone"></i>
+        </div>
+        <div class="card-content">
+          <h3>{{ "CONTACT.PHONE_TITLE" | translate }}</h3>
+          <p>+1 (123) 456-7890</p>
+        </div>
+      </div>
+
+      <div class="contact-card">
+        <div class="card-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <div class="card-content">
+          <h3>{{ "CONTACT.EMAIL_TITLE" | translate }}</h3>
+          <p>contact&#64;example.com</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form Column -->
+    <div class="contact-form-wrapper">
+      <form
+        [formGroup]="contactForm"
+        (ngSubmit)="onSubmit()"
+        class="contact-form"
+      >
+        <div class="form-group">
+          <label for="name">{{ "CONTACT.NAME" | translate }}</label>
+          <input type="text" id="name" formControlName="name" required />
+          @if (contactForm.get('name')?.invalid &&
+          (contactForm.get('name')?.dirty || contactForm.get('name')?.touched))
+          {
+          <div class="error-message">{{ getErrorMessage("name") }}</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="email">{{ "CONTACT.EMAIL" | translate }}</label>
+          <input type="email" id="email" formControlName="email" required />
+          @if (contactForm.get('email')?.invalid &&
+          (contactForm.get('email')?.dirty ||
+          contactForm.get('email')?.touched)) {
+          <div class="error-message">{{ getErrorMessage("email") }}</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="subject">{{ "CONTACT.SUBJECT" | translate }}</label>
+          <input type="text" id="subject" formControlName="subject" required />
+          @if (contactForm.get('subject')?.invalid &&
+          (contactForm.get('subject')?.dirty ||
+          contactForm.get('subject')?.touched)) {
+          <div class="error-message">{{ getErrorMessage("subject") }}</div>
+          }
+        </div>
+
+        <div class="form-group">
+          <label for="message">{{ "CONTACT.MESSAGE" | translate }}</label>
+          <textarea
+            id="message"
+            formControlName="message"
+            rows="5"
+            required
+          ></textarea>
+          @if (contactForm.get('message')?.invalid &&
+          (contactForm.get('message')?.dirty ||
+          contactForm.get('message')?.touched)) {
+          <div class="error-message">{{ getErrorMessage("message") }}</div>
+          }
+        </div>
+
+        <button
+          type="submit"
+          class="submit-btn"
+          [disabled]="!contactForm.valid"
+        >
+          {{ "CONTACT.SUBMIT" | translate }}
+        </button>
+      </form>
+    </div>
+  </div>
+</div>
 
 <app-footer></app-footer>
