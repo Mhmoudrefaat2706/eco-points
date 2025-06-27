@@ -21,6 +21,9 @@ import { BCartComponent } from './components/buyer/b-cart/b-cart.component';
 import { DashboardComponent } from './components/seller/dashboard/dashboard.component';
 import { BCheckoutComponent } from './components/buyer/b-checkout/b-checkout.component';
 import { BProfileComponent } from './components/buyer/b-profile/b-profile.component';
+import { BAboutComponent } from './components/buyer/b-about/b-about.component';
+import { FeedbackComponent } from './components/buyer/b-feadback/b-feadback.component';
+import { BOrderConfirmationComponent } from './components/buyer/b-order-confirmation/b-order-confirmation.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },
@@ -41,9 +44,12 @@ export const routes: Routes = [
   { path: 'buyer-home', component: BuyerHomeComponent , title: 'Buyer Home', canActivate: [RoleGuard], data: { role: 'buyer' } },
   { path: 'b-materials', component: BMaterialsComponent, pathMatch: 'full' , title: 'Buyer Matirials', canActivate: [RoleGuard], data: { role: 'buyer' } },
   { path: 'b-materials/:id',component: BMaterialsDetailsComponent,title: 'Buyer Material Details', canActivate: [RoleGuard], data: { role: 'buyer' } },
+  { path: 'b-about', component: BAboutComponent, title: 'Buyer About', canActivate: [RoleGuard], data: { role: 'buyer' } },
   { path: 'b-cart', component: BCartComponent, pathMatch: 'full' ,title: 'My Cart', canActivate: [RoleGuard], data: { role: 'buyer' } },
   { path: 'b-profile', component: BProfileComponent, title: 'My Profile', canActivate: [RoleGuard], data: { role: 'buyer' } },
+  { path: 'feedback/:seller', component: FeedbackComponent,title: 'feadback', canActivate: [RoleGuard], data: { role: 'buyer' } },
   { path: 'b-checkout', component: BCheckoutComponent, pathMatch: 'full' ,title: 'Checkout', canActivate: [RoleGuard], data: { role: 'buyer' } },
+  { path: 'order-confirmation', component: BOrderConfirmationComponent, pathMatch: 'full' ,title: 'Order Confirmation', canActivate: [RoleGuard], data: { role: 'buyer' } },
 
   // Not found
   { path: '404', component: NotFoundComponent, title: 'Page Not Found' },

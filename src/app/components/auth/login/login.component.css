@@ -1,6 +1,7 @@
 /* Login Container */
 .login-container {
   background: linear-gradient(135deg, #00c9a7 0%, #92fe9d 100%);
+  padding: 2rem 0;
 }
 
 /* Auth Card */
@@ -9,11 +10,13 @@
   border-radius: 16px;
   border: none;
   box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
+  position: relative;
+  z-index: 2;
 }
 
 /* Logo */
 .eco-logo {
-  max-height: 80px;
+  max-height: 100px;
   border-radius: 50%;
   border: 3px solid rgba(0, 201, 167, 0.3);
   box-shadow: 0 5px 15px rgba(0,0,0,0.1);
@@ -86,5 +89,91 @@
   
   .eco-logo {
     max-height: 60px;
+  }
+}
+
+/* Enlarged Animated Elements */
+.eco-bubble {
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(2px);
+  animation: float 8s infinite ease-in-out;
+  z-index: 1;
+  opacity: 0.8;
+}
+
+
+/* Enhanced Leaf Styles */
+.eco-leaf {
+  position: absolute;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  opacity: 0.9;
+  z-index: 1;
+  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
+  animation: float 10s infinite ease-in-out, rotate 15s infinite linear;
+}
+
+/* Animation Keyframes */
+@keyframes float {
+  0%, 100% {
+    transform: translateY(0) translateX(0);
+  }
+  25% {
+    transform: translateY(-20px);
+  }
+  50% {
+    transform: translateY(10px);
+  }
+  75% {
+    transform: translateY(-10px);
+  }
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+/* Enhanced Container for Better Visibility */
+.login-container {
+  background: linear-gradient(135deg, #00c9a7 0%, #92fe9d 100%);
+  overflow: hidden;
+  position: relative;
+}
+
+.form-label, 
+.form-control, 
+.btn, 
+.text-muted, 
+.small {
+  font-size: 1.05rem; /* Consistent sizing */
+}
+
+.form-control {
+  padding: 14px 16px; /* Larger input fields */
+}
+
+/* Responsive Adjustments */
+@media (max-width: 768px) {
+  .auth-card {
+    max-width: 90% !important;
+    padding: 2.5rem !important;
+  }
+
+    .eco-bubble {
+    width: 100px !important;
+    height: 100px !important;
+  }
+  
+  .eco-leaf {
+    width: 70px !important;
+    height: 70px !important;
   }
 }

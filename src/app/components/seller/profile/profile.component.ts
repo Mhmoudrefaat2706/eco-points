@@ -71,47 +71,4 @@ export class ProfileComponent {
     console.log('Profile updated:', this.userData);
     this.isEditing = false;
   }
-
-
-
-  // userData: any = {
-  //   name: 'User',
-  //   email: '',
-  //   role: '',
-  //   location: 'Cairo, Egypt',
-  //   gender: 'Male',
-  //   address: ''
-  // };
-  // isEditing = false;
-  // currentDate = new Date();
-  // @Input() isDarkMode = false;
-
-  // constructor(private authService: AuthService, private router: Router) {}
-
-  // ngOnInit() {
-  //   // Get user data from auth service
-  //   const loggedInUser = this.authService.getLoggedInUser();
-  //   if (loggedInUser) {
-  //     this.userData = {
-  //       ...this.userData,
-  //       email: loggedInUser.email,
-  //       role: loggedInUser.role.charAt(0).toUpperCase() + loggedInUser.role.slice(1)
-  //     };
-  //     // Set name from email if available
-  //     if (loggedInUser.email) {
-  //       this.userData.name = loggedInUser.email.split('@')[0];
-  //     }
-  //   }
-  // }
-
-  // toggleEdit() {
-  //   this.isEditing = !this.isEditing;
-  // }
-
-  // saveProfile() {
-  //   // Here you would typically call an API to save the profile
-  //   this.isEditing = false;
-  //   // For demo purposes, we'll just update the local data
-  // }
-  
 }

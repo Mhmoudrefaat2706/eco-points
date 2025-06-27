@@ -6,10 +6,10 @@
     "CONTACT": "Contact",
     "MY MATERIALS": "My Materials",
     "LOGIN": "Login",
-
     "LOGOUT": "LOGOUT",
-
     "REGISTER": "Register",
+    "LIGHT_MODE": "Light Mode",
+    "DARK_MODE": "Dark Mode",
     "LANGUAGE": "Language"
   },
   "HOME": {
@@ -17,8 +17,9 @@
     "DESCRIPTION": "Recycle your materials and earn points redeemable for amazing rewards",
     "BUTTON_1": "Get Started",
     "BUTTON_2": "Know More",
-    "LAST ADDED": "Last Added",
-    "LAST ADDED DESC": "Discover our newest sustainable materials",
+    "LAST_ADDED": "Last Added",
+    "LAST_ADDED_DESC": "Discover our newest sustainable materials",
+    "VIEW_ALL": "View All",
     "HOW_IT_WORKS": "How It Works",
     "STEP_1_TITLE": "Collect",
     "STEP_1": "Collect recyclables",
@@ -95,12 +96,9 @@
     "EMAIL_TITLE": "Email",
     "EMAIL": "contact@ecopoints.com",
     "NAME": "Your Name",
-    
     "SUBJECT": "Subject",
     "MESSAGE": "Your Message",
-    "SUBMIT": "Send Message",
-    "SUCCESS_MESSAGE": "Thank you for your message! We will get back to you soon.",
-    "ERROR_MESSAGE": "Please fill all required fields correctly"
+    "SUBMIT": "Send Message"
   },
   "FOOTER": {
     "COPYRIGHT": "© 2025 EcoPoints. All rights reserved",

@@ -229,61 +229,61 @@ export class MaterialsService {
     return [...this.categories];
   }
 
-getDefaultMaterials(): Material[] {
-    return this.defaultMaterials.map(material => ({
+  getDefaultMaterials(): Material[] {
+    return this.defaultMaterials.map((material) => ({
+      id: material.id,
+      name: material.name,
+      category: material.category,
+      image: material.image,
+      desc: material.desc,
+      price: material.price,
+      priceUnit: material.priceUnit,
+      isUserAdded: false, // Corrected property name (was 'issUserAdded')
+    }));
+  }
+
+  getUserMaterials(): Material[] {
+    const storedMaterials = localStorage.getItem(this.userMaterialsKey);
+    if (!storedMaterials) return [];
+
+    try {
+      return JSON.parse(storedMaterials).map((material: any) => ({
         id: material.id,
         name: material.name,
         category: material.category,
         image: material.image,
         desc: material.desc,
-        price: material.price,
-        priceUnit: material.priceUnit,
-        isUserAdded: false // Corrected property name (was 'issUserAdded')
-    }));
-}
-
-getUserMaterials(): Material[] {
-    const storedMaterials = localStorage.getItem(this.userMaterialsKey);
-    if (!storedMaterials) return [];
-    
-    try {
-        return JSON.parse(storedMaterials).map((material: any) => ({
-            id: material.id,
-            name: material.name,
-            category: material.category,
-            image: material.image,
-            desc: material.desc,
-            price: material.price || 0, // Default to 0 if missing
-            priceUnit: material.priceUnit || 'piece', // Default to 'piece' if missing
-            isUserAdded: true
-        }));
+        price: material.price || 0, // Default to 0 if missing
+        priceUnit: material.priceUnit || 'piece', // Default to 'piece' if missing
+        isUserAdded: true,
+      }));
     } catch (e) {
-        console.error('Error parsing user materials:', e);
-        return [];
+      console.error('Error parsing user materials:', e);
+      return [];
     }
-}
+  }
 
   // Update getAllMaterials to include user-added categories
-getAllMaterials(): Material[] {
+  getAllMaterials(): Material[] {
     const allMaterials = [
-        ...this.getDefaultMaterials(),
-        ...this.getUserMaterials()
+      ...this.getDefaultMaterials(),
+      ...this.getUserMaterials(),
     ];
-    
+
     // Extract unique categories from user materials that aren't in predefined categories
     const userCategories = new Set(
-        this.getUserMaterials()
-            .map((m) => m.category)
-            .filter((cat) => !this.categories.includes(cat))
+      this.getUserMaterials()
+        .map((m) => m.category)
+        .filter((cat) => !this.categories.includes(cat))
     );
 
     // If there are user-added categories not in our predefined list, add 'Other' if not already present
     if (userCategories.size > 0 && !this.categories.includes('Other')) {
-        this.categories.push('Other');
+      this.categories.push('Other');
     }
 
     return allMaterials;
-}
+  }
 
   addUserMaterial(material: Omit<Material, 'id'>): Material {
     const userMaterials = this.getUserMaterials();
@@ -323,5 +323,10 @@ getAllMaterials(): Material[] {
 
   private saveUserMaterials(materials: Material[]): void {
     localStorage.setItem(this.userMaterialsKey, JSON.stringify(materials));
+  }
+
+  // In your materials.service.ts
+  getMaterialById(id: number): Material | undefined {
+    return this.getAllMaterials().find((material) => material.id === id);
   }
 }

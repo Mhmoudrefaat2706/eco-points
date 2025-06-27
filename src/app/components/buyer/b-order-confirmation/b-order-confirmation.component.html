@@ -1,0 +1,126 @@
+<app-b-navbar></app-b-navbar>
+
+<div class="confirmation-container">
+  <div class="confirmation-card">
+    <div class="confirmation-icon">
+      <i class="fas fa-check-circle"></i>
+    </div>
+    <h2>Order Confirmed!</h2>
+    <p class="confirmation-text">
+      Thank you for your purchase. Your order
+      <strong>{{ orderNumber }}</strong> has been placed successfully.
+    </p>
+
+    <div *ngIf="orderData" class="order-details">
+      <!-- Customer Information -->
+      <div class="detail-section">
+        <h3>Customer Information</h3>
+        <div class="detail-row">
+          <span>Name:</span>
+          <span>{{ orderData.customerInfo.name }}</span>
+        </div>
+        <div class="detail-row">
+          <span>Email:</span>
+          <span>{{ orderData.customerInfo.email }}</span>
+        </div>
+        <div class="detail-row">
+          <span>Phone:</span>
+          <span>{{ orderData.customerInfo.phone }}</span>
+        </div>
+      </div>
+
+      <!-- Shipping Information -->
+      <div class="detail-section">
+        <h3>Shipping Information</h3>
+        <div class="detail-row">
+          <span>Address:</span>
+          <span
+            >{{ orderData.customerInfo.address }},
+            {{ orderData.customerInfo.city }},
+            {{ orderData.customerInfo.country }}</span
+          >
+        </div>
+        <div class="detail-row">
+          <span>Estimated Delivery:</span>
+          <span>{{ orderData.estimatedDelivery | date : "mediumDate" }}</span>
+        </div>
+      </div>
+
+      <!-- Payment Information -->
+      <div class="detail-section">
+        <h3>Payment Information</h3>
+        <div class="detail-row">
+          <span>Method:</span>
+          <span>{{ orderData.paymentMethod | titlecase }}</span>
+        </div>
+        <div class="detail-row">
+          <span>Total Paid:</span>
+          <span>EGP {{ orderData.total | number : "1.2-2" }}</span>
+        </div>
+      </div>
+
+      <!-- Order Summary -->
+      <div class="order-summary">
+        <h3>Order Summary</h3>
+        <div *ngFor="let item of orderData.orderItems" class="order-item">
+          <div class="item-image">
+            <img [src]="item.image" [alt]="item.name" />
+          </div>
+          <div class="item-details">
+            <span class="item-name">{{ item.name }}</span>
+            <span class="item-quantity">× {{ item.quantity || 1 }}</span>
+          </div>
+          <span class="item-price"
+            >EGP
+            {{ item.price * (item.quantity || 1) | number : "1.2-2" }}</span
+          >
+        </div>
+        <div class="order-totals">
+          <div class="total-row">
+            <span>Subtotal:</span>
+            <span>EGP {{ orderData.subtotal | number : "1.2-2" }}</span>
+          </div>
+          <div class="total-row">
+            <span>Shipping:</span>
+            <span>EGP {{ orderData.shippingCost | number : "1.2-2" }}</span>
+          </div>
+          <div class="total-row">
+            <span>Tax:</span>
+            <span>EGP {{ orderData.tax | number : "1.2-2" }}</span>
+          </div>
+          <div class="total-row grand-total">
+            <span>Total:</span>
+            <span>EGP {{ orderData.total | number : "1.2-2" }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="customer-support">
+      <div class="support-card">
+        <h3><i class="fas fa-headset"></i> Need Help?</h3>
+        <div class="support-options">
+          <div class="support-option">
+            <i class="fas fa-envelope"></i>
+            <div>
+              <h4>Email Support</h4>
+              <a href="mailto:support@example.com">support&#64;.com</a>
+            </div>
+          </div>
+          <div class="support-option">
+            <i class="fas fa-phone"></i>
+            <div>
+              <h4>Phone Support</h4>
+              <p>+20 123 456 7890</p>
+              <p class="hours">Available 9AM-5PM, Sunday-Thursday</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <button class="btn-continue" (click)="continueShopping()">
+      Continue Shopping
+    </button>
+  </div>
+</div>

@@ -74,6 +74,9 @@
   transition: all 0.5s ease;
 }
 
+.logo-container {
+
+}
 .logo-container:hover .eco-logo {
   transform: scale(1.05) rotate(5deg);
   box-shadow: 0 15px 40px rgba(0,0,0,0.3);
@@ -129,8 +132,18 @@
   overflow: hidden;
   white-space: nowrap;
   border-right: 3px solid white;
+  font-size: 4rem; /* Increased from 3rem */
+  margin: 2rem 0;  /* Added margin */
+  padding: 0.9rem 0;
   animation: typing 3s steps(20, end) 1s 1 normal both,
              blink-caret 0.75s step-end infinite;
+}
+
+@media (max-width: 768px) {
+  .typed-text {
+    font-size: 2.5rem; /* Adjusted for mobile */
+    margin: 1.5rem 0;  /* Adjusted for mobile */
+  }
 }
 
 /* Why Join Section Styles */

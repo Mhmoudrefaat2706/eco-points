@@ -1,10 +1,10 @@
 .feedback-container {
-  max-width: 600px;
+  max-width: 800px;
   margin: 40px auto;
-  padding: 20px 25px;
+  padding: 30px;
   background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 6px 15px rgba(0,0,0,0.1);
+  border-radius: 16px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #333;
 }
@@ -13,24 +13,41 @@ h2 {
   text-align: center;
   margin-bottom: 30px;
   color: #2c3e50;
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.seller-name {
+  color: #4a6fa5;
+  font-weight: 600;
 }
 
 .card {
-  border: 1px solid #e0e0e0;
-  border-radius: 10px;
+  border: none;
+  border-radius: 12px;
   margin-bottom: 20px;
-  background-color: #fafafa;
+  background-color: #f8f9fa;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  transition: transform 0.3s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
 }
 
 .card-body {
-  padding: 15px 20px;
+  padding: 20px;
 }
 
 .comment-text {
-  font-style: italic;
   font-size: 1.1em;
   margin-bottom: 12px;
   color: #555;
+  line-height: 1.6;
+  background-color: #fff;
+  padding: 15px;
+  border-radius: 8px;
+  border-left: 4px solid #4a6fa5;
 }
 
 .stars {
@@ -40,64 +57,72 @@ h2 {
 }
 
 .star-filled {
-  color: #f1c40f; /* ذهبية */
+  color: #f1c40f;
 }
 
 .no-feedback {
   text-align: center;
   font-style: italic;
   color: #999;
-  margin-bottom: 30px;
+  margin: 30px 0;
+  padding: 20px;
+  background-color: #f8f9fa;
+  border-radius: 8px;
 }
 
 .feedback-form {
-  margin-top: 30px;
+  margin-top: 40px;
+  padding: 25px;
+  background-color: #f8f9fa;
+  border-radius: 12px;
 }
 
 .rating-input {
-  margin-bottom: 15px;
+  margin-bottom: 20px;
 }
 
 .rating-label {
   display: block;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
   font-weight: 600;
   color: #34495e;
+  font-size: 1.1rem;
 }
 
 .interactive-stars i {
   cursor: pointer;
-  transition: color 0.3s ease;
-  margin-right: 5px;
+  transition: all 0.3s ease;
+  margin-right: 8px;
+  font-size: 1.5rem;
 }
 
-.interactive-stars i:hover,
-.interactive-stars i:focus {
-  color: #f39c12; /* لون ناري على الهوف */
-  outline: none;
+.interactive-stars i:hover {
+  transform: scale(1.2);
 }
 
 .comment-input {
   width: 100%;
-  padding: 12px 15px;
+  padding: 15px;
   border-radius: 8px;
   border: 1.5px solid #ddd;
   resize: vertical;
   font-size: 1rem;
   font-family: inherit;
   margin-bottom: 20px;
-  transition: border-color 0.3s ease;
+  transition: all 0.3s ease;
+  min-height: 120px;
 }
 
 .comment-input:focus {
-  border-color: #3498db;
+  border-color: #4a6fa5;
   outline: none;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.2);
 }
 
 .btn-submit {
   display: block;
   width: 100%;
-  background-color: #27ae60;
+  background-color: #4a6fa5;
   color: white;
   padding: 12px 0;
   font-size: 1.1rem;
@@ -105,14 +130,273 @@ h2 {
   border-radius: 8px;
   cursor: pointer;
   font-weight: 600;
-  transition: background-color 0.3s ease;
+  transition: all 0.3s ease;
+  margin-top: 15px;
+}
+
+.btn-submit:hover {
+  background-color: #3a5a80;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(74, 111, 165, 0.3);
 }
 
 .btn-submit:disabled {
   background-color: #95a5a6;
   cursor: not-allowed;
+  transform: none;
+  box-shadow: none;
 }
 
-.btn-submit:not(:disabled):hover {
+.edit-buttons {
+  display: flex;
+  gap: 10px;
+  margin-top: 15px;
+}
+
+.btn-outline-primary, .btn-outline-danger {
+  padding: 8px 15px;
+  border-radius: 8px;
+  font-weight: 600;
+  transition: all 0.3s ease;
+}
+
+.btn-outline-primary {
+  border: 2px solid #4a6fa5;
+  color: #4a6fa5;
+}
+
+.btn-outline-primary:hover {
+  background-color: rgba(74, 111, 165, 0.1);
+}
+
+.btn-outline-danger {
+  border: 2px solid #e74c3c;
+  color: #e74c3c;
+}
+
+.btn-outline-danger:hover {
+  background-color: rgba(231, 76, 60, 0.1);
+}
+
+.back-button {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+  padding: 8px 16px;
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  color: #4a5568;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  text-decoration: none;
+}
+
+.back-button:hover {
+  background-color: #e9ecef;
+  transform: translateY(-2px);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+
+.snackbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: #4a6fa5;
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: fadeInUp 0.3s ease-out, fadeOutDown 0.3s ease-out 2.7s forwards;
+  display: flex;
+  align-items: center;
+  max-width: 80%;
+  text-align: center;
+}
+
+/* Optional: Different colors for different actions */
+.snackbar.deleting {
+  background-color: #e74c3c;
+}
+
+.snackbar.editing {
+  background-color: #f39c12;
+}
+
+.snackbar.adding {
   background-color: #2ecc71;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+}
+
+/* Dark mode styles */
+.dark-mode .feedback-container,
+.dark-mode .feedback-form,
+.dark-mode .card {
+  background-color: #2d3748;
+  color: #f8f9fa;
+}
+
+.dark-mode .comment-text {
+  background-color: #1a202c;
+  color: #e2e8f0;
+}
+
+.dark-mode .no-feedback {
+  background-color: #1a202c;
+  color: #a0aec0;
+}
+
+.dark-mode .feedback-form {
+  background-color: #1a202c;
+  border: 1px solid #4a5568;
+}
+
+.dark-mode .comment-input {
+  background-color: #2d3748;
+  border-color: #4a5568;
+  color: #f8f9fa;
+}
+
+.dark-mode .comment-input:focus {
+  border-color: #4a6fa5;
+  box-shadow: 0 0 0 3px rgba(74, 111, 165, 0.3);
+}
+
+.dark-mode .rating-label {
+  color: #e2e8f0;
+}
+
+.dark-mode .back-button {
+  background-color: #1a202c;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+.dark-mode .back-button:hover {
+  background-color: #2d3748;
+}
+
+/* Delete Dialog Styles */
+.delete-dialog-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.delete-dialog {
+  background-color: #fff;
+  padding: 25px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.delete-dialog h3 {
+  margin-top: 0;
+  color: #2c3e50;
+  font-size: 1.4rem;
+}
+
+.delete-dialog p {
+  margin: 15px 0 25px;
+  color: #555;
+  line-height: 1.5;
+}
+
+.dialog-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.btn-dialog-cancel, .btn-dialog-confirm {
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.btn-dialog-cancel {
+  background-color: #f8f9fa;
+  border: 1px solid #ddd;
+  color: #4a5568;
+}
+
+.btn-dialog-cancel:hover {
+  background-color: #e9ecef;
+}
+
+.btn-dialog-confirm {
+  background-color: #e74c3c;
+  border: 1px solid #e74c3c;
+  color: white;
+}
+
+.btn-dialog-confirm:hover {
+  background-color: #c0392b;
+  border-color: #c0392b;
+}
+
+/* Dark mode styles for dialog */
+.dark-mode .delete-dialog {
+  background-color: #2d3748;
+  border: 1px solid #4a5568;
+}
+
+.dark-mode .delete-dialog h3 {
+  color: #f8f9fa;
+}
+
+.dark-mode .delete-dialog p {
+  color: #e2e8f0;
+}
+
+.dark-mode .btn-dialog-cancel {
+  background-color: #1a202c;
+  border-color: #4a5568;
+  color: #e2e8f0;
+}
+
+.dark-mode .btn-dialog-cancel:hover {
+  background-color: #2d3748;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-20px); }
+  to { opacity: 1; transform: translateY(0); }
 }

@@ -1,68 +1,109 @@
 <app-b-navbar></app-b-navbar>
-<div class="card my-5">
-  <div class="row">
-    <div class="col-md-8 cart">
-      <div class="title">
-        <div class="row">
-          <div class="col">
-            <h4><b>Shopping Cart</b></h4>
-          </div>
-          <div class="col align-self-center text-right text-muted">
-            {{ materails.length }} items
-          </div>
-        </div>
-      </div>
-      <div class="row border-top border-bottom">
-        @for( items of materails; track materails.id){
-        <div class="row main align-items-center">
-          <div class="col-2">
-            <img class="img-fluid" [src]="items.image" />
-          </div>
-          <div class="col">
-            <div class="row text-muted">{{ items.name }}</div>
-            <div class="row">{{ items.category }}</div>
-          </div>
-          <div class="col">
-            <span>-</span><span class="border p-2 mx-2">1</span><span>+</span>
-          </div>
-          <div class="col d-flex">
-            <div>EGP{{ items.price }}</div>
-            <span class="close" (click)="removeFromCart(items.id)">
-              <i class="fa-solid fa-trash pt-2"></i
-            ></span>
-          </div>
-        </div>
-        }
-      </div>
-    </div>
-    <div class="col-md-4 summary">
-      <div>
-        <h5><b>Summary</b></h5>
-      </div>
-      <hr />
-      <div class="row">
-        <div class="col" style="padding-left: 0">
-          ITEMS {{ materails.length }}
-        </div>
-        <div class="col text-right">EGP{{ subtotal }}</div>
-      </div>
-      <form>
-        <p>SHIPPING</p>
-        <select>
-          <option class="text-muted disabled">Standard-Delivery- 5.00</option>
-        </select>
-        <p>GIVE CODE</p>
-        <input id="code" placeholder="Enter your code" />
-      </form>
-      <div
-        class="row"
-        style="border-top: 1px solid rgba(0, 0, 0, 0.1); padding: 2vh 0"
+<div class="cart-container">
+  <div class="cart-header">
+    <h1>Your Shopping Cart</h1>
+    <div class="cart-actions">
+      <span class="items-count"
+        >{{ materails.length }}
+        {{ materails.length === 1 ? "item" : "items" }}</span
       >
-        <div class="col">TOTAL PRICE</div>
-        <div class="col text-right">EGP {{ subtotal }}</div>
-      </div>
-      <a class="btn bg-success" routerLink="/b-checkout">CHECKOUT</a>
+      @if (materails.length > 0) {
+      <button class="btn-delete-all" (click)="clearCart()">
+        <i class="fas fa-trash-alt"></i> Clear Cart
+      </button>
+      }
     </div>
+  </div>
+
+  <div class="cart-wrapper">
+    <div class="cart-items">
+      @if (materails.length === 0) {
+      <div class="empty-cart">
+        <i class="fas fa-shopping-cart"></i>
+        <h3>Your cart is empty</h3>
+        <p>Looks like you haven't added anything to your cart yet</p>
+        <a routerLink="/b-materials" class="btn-continue-shopping"
+          >Continue Shopping</a
+        >
+      </div>
+      } @else { @for (item of materails; track item.id) {
+      <div class="cart-item">
+        <div class="item-image">
+          <img [src]="item.image" [alt]="item.name" />
+        </div>
+        <div class="item-details">
+          <h3>{{ item.name }}</h3>
+          <span class="item-category">{{ item.category }}</span>
+          <div class="item-price">EGP {{ item.price | number : "1.2-2" }}</div>
+        </div>
+        <div class="item-quantity">
+          <button
+            class="quantity-btn"
+            (click)="decrementQuantity(item)"
+            [disabled]="item.quantity <= 1"
+          >
+            <i class="fas fa-minus"></i>
+          </button>
+          <span class="quantity">{{ item.quantity || 1 }}</span>
+          <button class="quantity-btn" (click)="incrementQuantity(item)">
+            <i class="fas fa-plus"></i>
+          </button>
+        </div>
+        <div class="item-total">
+          EGP {{ item.price * (item.quantity || 1) | number : "1.2-2" }}
+        </div>
+        <button class="item-delete" (click)="removeFromCart(item.id)">
+          <i class="fas fa-trash-alt"></i>
+        </button>
+      </div>
+      } }
+    </div>
+
+    @if (materails.length > 0) {
+    <div class="cart-summary">
+      <h2>Order Summary</h2>
+      <div class="summary-row">
+        <span>Subtotal ({{ getTotalItems() }} items)</span>
+        <span>EGP {{ subtotal | number : "1.2-2" }}</span>
+      </div>
+      <div class="summary-row">
+        <span>Shipping</span>
+        <span>EGP 5.00</span>
+      </div>
+      <div class="summary-row">
+        <span>Tax</span>
+        <span>EGP {{ getTax() | number : "1.2-2" }}</span>
+      </div>
+      <div class="summary-row total">
+        <span>Total</span>
+        <span>EGP {{ getTotal() | number : "1.2-2" }}</span>
+      </div>
+      <div class="coupon-section">
+        <input type="text" placeholder="Enter coupon code" />
+        <button class="btn-apply">Apply</button>
+      </div>
+      <button class="btn-checkout" routerLink="/b-checkout">
+        Proceed to Checkout
+      </button>
+      <a routerLink="/b-materials" class="continue-shopping">
+        <i class="fas fa-arrow-left"></i> Continue Shopping
+      </a>
+    </div>
+    }
+  </div>
+
+  <!-- Replace the existing snackbar div with this -->
+  <div
+    *ngIf="showSnackbar"
+    class="snackbar"
+    [ngClass]="{
+      adding: snackbarActionType === 'add',
+      removing: snackbarActionType === 'remove',
+      clearing: snackbarActionType === 'clear',
+      updating: snackbarActionType === 'update'
+    }"
+  >
+    <i class="fas fa-check-circle me-2"></i> {{ snackbarMessage }}
   </div>
 </div>
 <app-b-footer></app-b-footer>

@@ -1,36 +1,79 @@
-<nav class="navbar" [class.dark-mode]="isDarkMode" [attr.dir]="currentLanguage === 'ar' ? 'rtl' : 'ltr'">
-  <div class="logo">
-    <img src="../../../../assets/images/new-logo.jpeg" alt="Logo" style="width: 70px; height: 70px;">
-  </div>
+<nav
+  class="navbar"
+  [class.dark-mode]="isDarkMode"
+  [attr.dir]="currentLanguage === 'ar' ? 'rtl' : 'ltr'"
+>
 
-  <button class="mobile-menu-btn" (click)="toggleMobileMenu()" aria-label="Toggle mobile menu">
+<div class="logo">
+  <img src="../.././../../assets/images/new-logo.jpeg" alt="Logo" class="logo-img"/>
+  <span class="logo-text">EcoPoints</span>
+</div>
+
+  <button
+    class="mobile-menu-btn"
+    (click)="toggleMobileMenu()"
+    aria-label="Toggle mobile menu"
+  >
     <i class="fas fa-bars"></i>
   </button>
 
   <div class="nav-links">
-    <a routerLink="/buyer-home" class="nav-link">{{ "NAVBAR.HOME" | translate }}</a>
-    <a routerLink="/b-materials" class="nav-link">{{ "NAVBAR.MATERIALS" | translate }}</a>
+    <a
+      routerLink="/buyer-home"
+      class="nav-link"
+      [class.active]="isRouteActive('buyer-home')"
+    >
+      {{ "NAVBAR.HOME" | translate }}
+    </a>
+    <a
+      routerLink="/b-materials"
+      class="nav-link"
+      [class.active]="isRouteActive('b-materials')"
+    >
+      {{ "NAVBAR.MATERIALS" | translate }}
+    </a>
+    <a
+      routerLink="/b-about"
+      class="nav-link"
+      [class.active]="isRouteActive('b-about')"
+    >
+      {{ "NAVBAR.ABOUT" | translate }}
+    </a>
   </div>
 
   <div class="nav-actions">
     <button class="language-toggle" (click)="changeLanguage()">
+      <i class="fas fa-globe"></i>
       {{ currentLanguage === "en" ? "عربي" : "English" }}
     </button>
+
     <button class="theme-toggle" (click)="toggleTheme()">
       <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
     </button>
 
-    <button class="btn profile-btn" routerLink="/b-profile" [class.active]="isProfileActive()" title="Profile">
-      <i class="fas fa-user"></i>
+    <!-- Update the profile button section in the desktop nav -->
+    <button
+      class="btn profile-btn"
+      (click)="goToProfile()"
+      [class.active]="isRouteActive('b-profile')"
+      title="Profile"
+      *ngIf="userName"
+    >
+      <img [src]="getUserAvatar()" alt="User Avatar" class="profile-avatar" />
+      <div class="profile-info">
+        <span class="profile-name">{{ userName }}</span>
+        <span class="profile-role">{{ userRole }}</span>
+      </div>
     </button>
 
     <button class="btn login-btn" routerLink="/login">
+      <i class="fas fa-sign-out-alt"></i>
       {{ "NAVBAR.LOGOUT" | translate }}
     </button>
 
     <div class="cart-container">
       <button class="btn cart-btn" routerLink="/b-cart">
-        <i class="fa-solid fa-cart-shopping fa-xl"></i>
+        <i class="fa-solid fa-cart-shopping"></i>
         <span class="cart-counter">{{ counter }}</span>
       </button>
     </div>
@@ -39,29 +82,68 @@
 
 <div class="mobile-menu" [class.active]="mobileMenuActive">
   <div class="mobile-menu-content">
-    <button class="mobile-menu-close-btn" (click)="closeMobileMenu()" aria-label="Close menu">
+    <button
+      class="mobile-menu-close-btn"
+      (click)="closeMobileMenu()"
+      aria-label="Close menu"
+    >
       &times;
     </button>
-    
-    <a routerLink="/buyer-home" class="mobile-nav-link" (click)="closeMobileMenu()">
+
+    <a
+      routerLink="/buyer-home"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+      [class.active]="isRouteActive('buyer-home')"
+    >
+      <i class="fas fa-home"></i>
       {{ "NAVBAR.HOME" | translate }}
     </a>
-    <a routerLink="/b-material" class="mobile-nav-link" (click)="closeMobileMenu()">
+
+    <a
+      routerLink="/b-materials"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+      [class.active]="isRouteActive('b-materials')"
+    >
+      <i class="fas fa-box-open"></i>
       {{ "NAVBAR.MATERIALS" | translate }}
     </a>
 
-        <a routerLink="/b-profile" class="mobile-nav-link" (click)="closeMobileMenu()" [class.active]="isProfileActive()">
-      <i class="fas fa-user me-2"></i>{{ "NAVBAR.PROFILE" | translate }}
+    <!-- Update the profile link in the mobile menu -->
+    <a
+      routerLink="/b-profile"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+      [class.active]="isRouteActive('b-profile')"
+      *ngIf="userName"
+    >
+      <img [src]="getUserAvatar()" alt="User Avatar" class="profile-avatar" />
+      <div class="profile-info">
+        <span class="profile-name">{{ userName }}</span>
+        <span class="profile-role">{{ userRole }}</span>
+      </div>
     </a>
-    
+
     <div class="mobile-nav-actions">
       <button (click)="changeLanguage()">
+        <i class="fas fa-globe"></i>
         {{ currentLanguage === "en" ? "عربي" : "English" }}
       </button>
       <button (click)="toggleTheme()">
         <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
+        {{
+          isDarkMode
+            ? ("NAVBAR.LIGHT_MODE" | translate)
+            : ("NAVBAR.DARK_MODE" | translate)
+        }}
       </button>
-      <button class="btn logout-btn" routerLink="/logout" (click)="closeMobileMenu()">
+      <button
+        class="btn logout-btn"
+        routerLink="/logout"
+        (click)="closeMobileMenu()"
+      >
+        <i class="fas fa-sign-out-alt"></i>
         {{ "NAVBAR.LOGOUT" | translate }}
       </button>
     </div>

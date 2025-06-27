@@ -6,16 +6,17 @@
 
 <div class="logo">
   <img src="../.././../../assets/images/new-logo.jpeg" alt="Logo" class="logo-img"/>
-  <span class="logo-text">EcoPoints</span> <!-- Optional text -->
+  <span class="logo-text">EcoPoints</span>
 </div>
 
-  <button
-    class="mobile-menu-btn"
-    (click)="toggleMobileMenu()"
-    aria-label="Toggle mobile menu"
-  >
-    <i class="fas fa-bars"></i>
-  </button>
+<button
+  class="mobile-menu-btn"
+  (click)="toggleMobileMenu()"
+  aria-label="Toggle mobile menu"
+  [class.fixed]="mobileMenuActive"
+>
+  <i class="fas fa-bars"></i>
+</button>
 
   <div class="nav-links">
     <a routerLink="/home" class="nav-link" routerLinkActive="active">{{ "NAVBAR.HOME" | translate }}</a>
@@ -107,3 +108,9 @@
     </div>
   </div>
 </div>
+
+<div 
+  class="mobile-menu-overlay" 
+  [class.active]="mobileMenuActive"
+  (click)="closeMobileMenu()"
+></div>

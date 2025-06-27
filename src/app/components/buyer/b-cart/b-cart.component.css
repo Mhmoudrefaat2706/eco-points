@@ -1,151 +1,359 @@
-body {
-  background: #ddd;
-  min-height: 100vh;
-  vertical-align: middle;
+.cart-container {
+  max-width: 1200px;
+  margin: 2rem auto;
+  padding: 0 1rem;
+}
+
+.cart-header {
   display: flex;
-  font-family: sans-serif;
-  font-size: 0.8rem;
-  font-weight: bold;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #eaeaea;
 }
-.title {
-  margin-bottom: 5vh;
-}
-.card {
-  margin: auto;
-  max-width: 950px;
-  width: 90%;
-  box-shadow: 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  border-radius: 1rem;
-  border: transparent;
-}
-@media (max-width: 767px) {
-  .card {
-    margin: 3vh auto;
-  }
-}
-.cart {
-  background-color: #fff;
-  padding: 4vh 5vh;
-  border-bottom-left-radius: 1rem;
-  border-top-left-radius: 1rem;
-}
-@media (max-width: 767px) {
-  .cart {
-    padding: 4vh;
-    border-bottom-left-radius: unset;
-    border-top-right-radius: 1rem;
-  }
-}
-.summary {
-  background-color: #ddd;
-  border-top-right-radius: 1rem;
-  border-bottom-right-radius: 1rem;
-  padding: 4vh;
-  color: rgb(65, 65, 65);
-}
-@media (max-width: 767px) {
-  .summary {
-    border-top-right-radius: unset;
-    border-bottom-left-radius: 1rem;
-  }
-}
-.summary .col-2 {
-  padding: 0;
-}
-.summary .col-10 {
-  padding: 0;
-}
-.row {
+
+.cart-header h1 {
+  font-size: 2rem;
+  color: #333;
   margin: 0;
 }
-.title b {
-  font-size: 1.5rem;
+
+.cart-actions {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
 }
-.main {
-  margin: 0;
-  padding: 2vh 0;
-  width: 100%;
+
+.items-count {
+  color: #666;
+  font-size: 0.9rem;
 }
-.col-2,
-.col {
-  padding: 0 1vh;
-}
-a {
-  padding: 0 1vh;
-}
-.close {
-  margin-left: auto;
-  font-size: 0.7rem;
-}
-img {
-  width: 3.5rem;
-}
-.back-to-shop {
-  margin-top: 4.5rem;
-}
-h5 {
-  margin-top: 4vh;
-}
-hr {
-  margin-top: 1.25rem;
-}
-form {
-  padding: 2vh 0;
-}
-select {
-  border: 1px solid rgba(0, 0, 0, 0.137);
-  padding: 1.5vh 1vh;
-  margin-bottom: 4vh;
-  outline: none;
-  width: 100%;
-  background-color: rgb(247, 247, 247);
-}
-input {
-  border: 1px solid rgba(0, 0, 0, 0.137);
-  padding: 1vh;
-  margin-bottom: 4vh;
-  outline: none;
-  width: 100%;
-  background-color: rgb(247, 247, 247);
-}
-input:focus::-webkit-input-placeholder {
-  color: transparent;
-}
-.btn {
+
+.btn-delete-all {
+  background-color: #ff4444;
   color: white;
-  width: 100%;
-  font-size: 0.7rem;
-  margin-top: 4vh;
-  padding: 1vh;
-  border-radius: 0;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: all 0.2s;
 }
-.btn:focus {
-  box-shadow: none;
-  outline: none;
-  box-shadow: none;
+
+.btn-delete-all:hover {
+  background-color: #cc0000;
+}
+
+.cart-wrapper {
+  display: flex;
+  gap: 2rem;
+  flex-direction: column;
+}
+
+@media (min-width: 992px) {
+  .cart-wrapper {
+    flex-direction: row;
+  }
+  
+  .cart-items {
+    flex: 2;
+  }
+  
+  .cart-summary {
+    flex: 1;
+  }
+}
+
+.empty-cart {
+  text-align: center;
+  padding: 3rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.empty-cart i {
+  font-size: 3rem;
+  color: #ccc;
+  margin-bottom: 1rem;
+}
+
+.empty-cart h3 {
+  color: #333;
+  margin-bottom: 0.5rem;
+}
+
+.empty-cart p {
+  color: #666;
+  margin-bottom: 1.5rem;
+}
+
+.btn-continue-shopping {
+  background-color: #4CAF50;
   color: white;
-  -webkit-box-shadow: none;
-  -webkit-user-select: none;
-  transition: none;
-}
-.btn:hover {
-  color: white;
-}
-a {
-  color: black;
-}
-a:hover {
-  color: black;
+  padding: 0.75rem 1.5rem;
+  border-radius: 4px;
   text-decoration: none;
+  display: inline-block;
+  transition: background-color 0.2s;
 }
-#code {
-  background-image: linear-gradient(
-      to left,
-      rgba(255, 255, 255, 0.253),
-      rgba(255, 255, 255, 0.185)
-    ),
-    url("https://img.icons8.com/small/16/000000/long-arrow-right.png");
-  background-repeat: no-repeat;
-  background-position-x: 95%;
-  background-position-y: center;
+
+.btn-continue-shopping:hover {
+  background-color: #3e8e41;
+}
+
+.cart-items {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.cart-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  position: relative;
+  gap: 1.5rem;
+}
+
+.item-image {
+  width: 100px;
+  height: 100px;
+  flex-shrink: 0;
+}
+
+.item-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 4px;
+}
+
+.item-details {
+  flex: 1;
+}
+
+.item-details h3 {
+  margin: 0 0 0.5rem 0;
+  color: #333;
+  font-size: 1.1rem;
+}
+
+.item-category {
+  display: block;
+  font-size: 0.8rem;
+  color: #666;
+  margin-bottom: 0.5rem;
+}
+
+.item-price {
+  font-weight: bold;
+  color: #333;
+}
+
+.item-quantity {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.quantity-btn {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: #f0f0f0;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.quantity-btn:hover {
+  background: #e0e0e0;
+}
+
+.quantity-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.quantity {
+  min-width: 30px;
+  text-align: center;
+}
+
+.item-total {
+  font-weight: bold;
+  color: #333;
+  min-width: 80px;
+  text-align: right;
+}
+
+.item-delete {
+  background: none;
+  border: none;
+  color: #ff4444;
+  cursor: pointer;
+  font-size: 1.1rem;
+  transition: color 0.2s;
+  padding: 0.5rem;
+}
+
+.item-delete:hover {
+  color: #cc0000;
+}
+
+.cart-summary {
+  background: white;
+  padding: 1.5rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  align-self: flex-start;
+  position: sticky;
+  top: 1rem;
+}
+
+.cart-summary h2 {
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.3rem;
+  color: #333;
+}
+
+.summary-row {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.summary-row.total {
+  font-weight: bold;
+  font-size: 1.1rem;
+  border-bottom: none;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #f0f0f0;
+}
+
+.coupon-section {
+  display: flex;
+  gap: 0.5rem;
+  margin: 1.5rem 0;
+}
+
+.coupon-section input {
+  flex: 1;
+  padding: 0.75rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.btn-apply {
+  background: #f0f0f0;
+  border: none;
+  padding: 0 1rem;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-apply:hover {
+  background: #e0e0e0;
+}
+
+.btn-checkout {
+  width: 100%;
+  background: #4CAF50;
+  color: white;
+  border: none;
+  padding: 1rem;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+  margin-bottom: 1rem;
+}
+
+.btn-checkout:hover {
+  background: #3e8e41;
+}
+
+.continue-shopping {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #666;
+  text-decoration: none;
+  font-size: 0.9rem;
+  justify-content: center;
+}
+
+.continue-shopping:hover {
+  color: #333;
+}
+
+/* Add these styles to your existing CSS */
+.snackbar {
+  position: fixed;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: white;
+  padding: 12px 24px;
+  border-radius: 8px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  z-index: 1000;
+  animation: fadeInUp 0.3s ease-out, fadeOutDown 0.3s ease-out 2.7s forwards;
+  display: flex;
+  align-items: center;
+  max-width: 80%;
+  text-align: center;
+}
+
+.snackbar.adding {
+  background-color: #2ecc71; /* Green for adding */
+}
+
+.snackbar.removing {
+  background-color: #e74c3c; /* Red for removing */
+}
+
+.snackbar.clearing {
+  background-color: #e74c3c; /* Red for clearing */
+}
+
+.snackbar.updating {
+  background-color: #f39c12; /* Orange for updating */
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+}
+
+@keyframes fadeOutDown {
+  from {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateX(-50%) translateY(20px);
+  }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { RouterModule, ActivatedRoute } from '@angular/router';
+import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { BFooterComponent } from '../b-footer/b-footer.component';
 import { BNavbarComponent } from '../b-navbar/b-navbar.component';
@@ -12,12 +12,19 @@ interface Feedback {
   comment: string;
   date: Date;
   buyer: string;
+  seller: string;
 }
 
 @Component({
   selector: 'app-feedback',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterModule , BFooterComponent, BNavbarComponent],
+  imports: [
+    CommonModule,
+    FormsModule,
+    RouterModule,
+    BFooterComponent,
+    BNavbarComponent,
+  ],
   templateUrl: './b-feadback.component.html',
   styleUrls: ['./b-feadback.component.css'],
 })
@@ -30,29 +37,38 @@ export class FeedbackComponent implements OnInit {
   editRating = 0;
   editComment = '';
   currentUser: string | null = null;
+  showSnackbar = false;
+  isDarkMode = false;
+  feedbackToDelete: number | null = null;
+  showDeleteDialog = false;
+  snackbarMessage = '';
+  currentAction: 'add' | 'edit' | 'delete' | null = null;
 
   constructor(
     private route: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private router: Router
   ) {}
 
   ngOnInit() {
     this.currentUser = this.authService.getLoggedInUser()?.name || null;
 
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.seller = params.get('seller') || '';
       this.loadFeedbacks();
     });
   }
 
+  goBack() {
+    this.router.navigate(['/materials']);
+  }
+
   loadFeedbacks() {
-    const saved = localStorage.getItem(`feedback_${this.seller.toLowerCase()}`);
-    if (saved) {
-      this.feedbackList = JSON.parse(saved);
-      this.feedbackList = this.feedbackList.map(fb => ({
-        ...fb,
-        date: new Date(fb.date)
-      }));
+    const storedFeedbacks = localStorage.getItem('feedbacks');
+    if (storedFeedbacks) {
+      this.feedbackList = JSON.parse(storedFeedbacks).filter(
+        (fb: Feedback) => fb.seller === this.seller
+      );
     } else {
       this.feedbackList = [];
     }
@@ -66,6 +82,7 @@ export class FeedbackComponent implements OnInit {
     this.editRating = star;
   }
 
+  // Update the submitFeedback method
   submitFeedback() {
     if (this.newRating === 0 || !this.newComment.trim()) {
       alert('Please provide both rating and comment');
@@ -77,14 +94,23 @@ export class FeedbackComponent implements OnInit {
       rating: this.newRating,
       comment: this.newComment.trim(),
       date: new Date(),
-      buyer: this.currentUser || 'Anonymous'
+      buyer: this.currentUser || 'Anonymous',
+      seller: this.seller,
     };
 
-    this.feedbackList.push(newFeedback);
-    this.saveFeedbacks();
+    const storedFeedbacks = localStorage.getItem('feedbacks');
+    let allFeedbacks = storedFeedbacks ? JSON.parse(storedFeedbacks) : [];
+    allFeedbacks.push(newFeedback);
+    localStorage.setItem('feedbacks', JSON.stringify(allFeedbacks));
+
+    this.loadFeedbacks();
 
     this.newRating = 0;
     this.newComment = '';
+    this.currentAction = 'add';
+    this.snackbarMessage = 'Feedback submitted successfully!';
+    this.showSnackbar = true;
+    setTimeout(() => (this.showSnackbar = false), 3000);
   }
 
   startEdit(feedback: Feedback) {
@@ -99,34 +125,64 @@ export class FeedbackComponent implements OnInit {
     this.editComment = '';
   }
 
+  // Update the saveEdit method
   saveEdit() {
     if (this.editingFeedbackId === null) return;
 
-    const feedbackIndex = this.feedbackList.findIndex(fb => fb.id === this.editingFeedbackId);
-    if (feedbackIndex !== -1) {
-      this.feedbackList[feedbackIndex] = {
-        ...this.feedbackList[feedbackIndex],
-        rating: this.editRating,
-        comment: this.editComment.trim(),
-        date: new Date()
-      };
+    const storedFeedbacks = localStorage.getItem('feedbacks');
+    if (storedFeedbacks) {
+      let allFeedbacks = JSON.parse(storedFeedbacks);
+      const feedbackIndex = allFeedbacks.findIndex(
+        (fb: Feedback) => fb.id === this.editingFeedbackId
+      );
 
-      this.saveFeedbacks();
-      this.cancelEdit();
+      if (feedbackIndex !== -1) {
+        const updatedFeedback = {
+          ...allFeedbacks[feedbackIndex],
+          rating: this.editRating,
+          comment: this.editComment.trim(),
+          date: new Date(),
+        };
+
+        allFeedbacks[feedbackIndex] = updatedFeedback;
+        localStorage.setItem('feedbacks', JSON.stringify(allFeedbacks));
+        this.loadFeedbacks();
+        this.cancelEdit();
+        this.currentAction = 'edit';
+        this.snackbarMessage = 'Feedback updated successfully!';
+        this.showSnackbar = true;
+        setTimeout(() => (this.showSnackbar = false), 3000);
+      }
     }
   }
 
   deleteFeedback(feedbackId: number) {
-    if (confirm('Are you sure you want to delete this feedback?')) {
-      this.feedbackList = this.feedbackList.filter(fb => fb.id !== feedbackId);
-      this.saveFeedbacks();
-    }
+    this.feedbackToDelete = feedbackId;
+    this.showDeleteDialog = true;
   }
 
-  private saveFeedbacks() {
-    localStorage.setItem(
-      `feedback_${this.seller.toLowerCase()}`,
-      JSON.stringify(this.feedbackList)
-    );
+  cancelDelete() {
+    this.feedbackToDelete = null;
+    this.showDeleteDialog = false;
+  }
+
+  // Update the confirmDelete method
+  confirmDelete() {
+    if (this.feedbackToDelete !== null) {
+      const storedFeedbacks = localStorage.getItem('feedbacks');
+      if (storedFeedbacks) {
+        let allFeedbacks = JSON.parse(storedFeedbacks);
+        allFeedbacks = allFeedbacks.filter(
+          (fb: Feedback) => fb.id !== this.feedbackToDelete
+        );
+        localStorage.setItem('feedbacks', JSON.stringify(allFeedbacks));
+        this.loadFeedbacks();
+        this.currentAction = 'delete';
+        this.snackbarMessage = 'Feedback deleted successfully!';
+        this.showSnackbar = true;
+        setTimeout(() => (this.showSnackbar = false), 3000);
+      }
+    }
+    this.cancelDelete();
   }
 }

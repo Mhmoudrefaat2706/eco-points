@@ -87,3 +87,75 @@ main {
     flex-direction: column;
   }
 }
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+
+/* Global snackbar styles */
+.mat-mdc-snack-bar-container {
+  &.success-snackbar {
+    --mdc-snackbar-container-color: #2e7d32;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+
+  &.error-snackbar {
+    --mdc-snackbar-container-color: #d32f2f;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+
+  &.info-snackbar {
+    --mdc-snackbar-container-color: #1976d2;
+    --mat-mdc-snack-bar-button-color: #fff;
+    --mdc-snackbar-supporting-text-color: #fff;
+  }
+}
+
+/* Global snackbar styles - add to styles.css */
+.red-snackbar {
+  background: #F44336 !important;
+  color: white !important;
+}
+
+.red-snackbar .mat-simple-snackbar-action {
+  color: white !important;
+}
+
+.red-snackbar .mat-simple-snackbar-action:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 4px;
+}
+
+.green-snackbar {
+  background: #4CAF50 !important;
+  color: white !important;
+}
+
+.green-snackbar .mat-simple-snackbar-action {
+  color: white !important;
+}
+
+.green-snackbar .mat-simple-snackbar-action:hover {
+  background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 4px;
+}
+
+/* Material Snackbar Custom Styles */
+.custom-snackbar {
+  --mdc-snackbar-container-color: #28a745;
+  --mdc-snackbar-supporting-text-color: white;
+  --mat-snack-bar-button-color: white;
+}
+
+.custom-snackbar .mdc-snackbar__surface {
+  background-color: #28a745 !important;
+}
+
+.custom-snackbar .mdc-snackbar__label {
+  color: white !important;
+}
+
+.custom-snackbar .mat-mdc-snack-bar-action .mdc-button__label {
+  color: white !important;
+}

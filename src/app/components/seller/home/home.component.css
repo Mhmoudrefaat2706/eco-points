@@ -1,7 +1,7 @@
 :root {
   --dark-bg-color: #888888;
   --dark-card-bg: #bdbdbd;
-  --success-color: #4CAF50;
+  --success-color: #4caf50;
 }
 
 main {
@@ -27,28 +27,35 @@ main {
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url('/assets/images/hero-bg.jpg');
+  background-image: url("/assets/images/hero-bg.jpg");
   background-size: cover;
   background-position: center;
   z-index: 0;
   opacity: 0.7;
-  background-attachment: fixed;
   animation: zoomIn 20s infinite alternate;
 }
 
 @keyframes zoomIn {
-  from { transform: scale(1); }
-  to { transform: scale(1.1); }
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.1);
+  }
 }
 
 .hero-image::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(to bottom, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0.3) 100%);
+  background: linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0.7) 0%,
+    rgba(0, 0, 0, 0.3) 100%
+  );
 }
 
 .hero-content {
@@ -103,9 +110,19 @@ main {
 }
 
 @keyframes bounce {
-  0%, 20%, 50%, 80%, 100% { transform: translateY(0) translateX(-50%); }
-  40% { transform: translateY(-20px) translateX(-50%); }
-  60% { transform: translateY(-10px) translateX(-50%); }
+  0%,
+  20%,
+  50%,
+  80%,
+  100% {
+    transform: translateY(0) translateX(-50%);
+  }
+  40% {
+    transform: translateY(-20px) translateX(-50%);
+  }
+  60% {
+    transform: translateY(-10px) translateX(-50%);
+  }
 }
 
 /* Enhanced Last Added Section */
@@ -116,7 +133,7 @@ main {
 }
 
 .last-added::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
@@ -131,7 +148,7 @@ main {
 }
 
 .section-header h2::after {
-  content: '';
+  content: "";
   position: absolute;
   bottom: -10px;
   left: 50%;
@@ -173,16 +190,16 @@ main {
   .hero-content h1 {
     font-size: 2.5rem;
   }
-  
+
   .hero-description {
     font-size: 1.2rem;
   }
-  
+
   .hero-buttons {
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .hero-buttons .btn {
     width: 100%;
     max-width: 300px;
@@ -248,7 +265,11 @@ main {
 /* Enhanced How It Works Section */
 .how-it-works {
   background-color: var(--card-bg);
-  background-image: radial-gradient(circle at 10% 20%, rgba(46, 125, 50, 0.05) 0%, rgba(46, 125, 50, 0.05) 90%);
+  background-image: radial-gradient(
+    circle at 10% 20%,
+    rgba(46, 125, 50, 0.05) 0%,
+    rgba(46, 125, 50, 0.05) 90%
+  );
 }
 
 .section-title-decoration {
@@ -273,7 +294,7 @@ main {
   padding: 2.5rem 2rem;
   background: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
   text-align: center;
   position: relative;
   z-index: 2;
@@ -282,7 +303,7 @@ main {
 
 .step:hover {
   transform: translateY(-10px);
-  box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+  box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
 }
 
 .step-number {
@@ -313,13 +334,15 @@ main {
   transform: translateX(-50%);
   width: 80%;
   height: 3px;
-  background: linear-gradient(to right, 
-    var(--primary-color) 0%, 
-    var(--primary-color) 33%, 
-    #e0e0e0 33%, 
-    #e0e0e0 66%, 
-    var(--primary-color) 66%, 
-    var(--primary-color) 100%);
+  background: linear-gradient(
+    to right,
+    var(--primary-color) 0%,
+    var(--primary-color) 33%,
+    #e0e0e0 33%,
+    #e0e0e0 66%,
+    var(--primary-color) 66%,
+    var(--primary-color) 100%
+  );
   z-index: 1;
 }
 
@@ -328,11 +351,11 @@ main {
     flex-direction: column;
     gap: 2rem;
   }
-  
+
   .step-connector {
     display: none;
   }
-  
+
   .step {
     padding: 2rem 1.5rem;
   }
@@ -341,8 +364,11 @@ main {
 /* Enhanced Rewards Section */
 .rewards {
   background-color: var(--bg-color);
-  background-image: 
-    radial-gradient(circle at 10% 20%, rgba(46, 125, 50, 0.03) 0%, transparent 50%),
+  background-image: radial-gradient(
+      circle at 10% 20%,
+      rgba(46, 125, 50, 0.03) 0%,
+      transparent 50%
+    ),
     linear-gradient(to bottom, transparent 95%, var(--card-bg) 100%);
 }
 
@@ -390,12 +416,12 @@ main {
     flex-direction: column;
     align-items: center;
   }
-  
+
   .reward-card {
     max-width: 350px;
     margin-bottom: 2rem;
   }
-  
+
   .reward-card:last-child {
     margin-bottom: 0;
   }
@@ -404,8 +430,11 @@ main {
 /* Enhanced Testimonials Section */
 .testimonials {
   background-color: var(--card-bg);
-  background-image: 
-    radial-gradient(circle at 90% 10%, rgba(46, 125, 50, 0.03) 0%, transparent 50%);
+  background-image: radial-gradient(
+    circle at 90% 10%,
+    rgba(46, 125, 50, 0.03) 0%,
+    transparent 50%
+  );
 }
 
 .testimonial-card {
@@ -452,7 +481,7 @@ main {
   .testimonial-card {
     padding: 2rem !important;
   }
-  
+
   .quote-icon {
     top: 15px;
     right: 20px;
@@ -487,15 +516,15 @@ main {
     height: 80vh;
     min-height: 500px;
   }
-  
+
   .hero-content h1 {
     font-size: 2.5rem;
   }
-  
+
   .hero-description {
     font-size: 1.2rem;
   }
-  
+
   .hero-buttons {
     flex-direction: column;
     align-items: center;
@@ -510,4 +539,187 @@ main {
 .dark-mode .hero-content h1,
 .dark-mode .hero-description {
   text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+}
+
+/* Stats Section */
+.stats .stat-item h3 {
+  font-size: 2.5rem !important;
+}
+.stats .stat-item p {
+  font-size: 1.25rem !important;
+}
+
+/* Last Added Section */
+.featured-materials .section-header h2 {
+  font-size: 2.5rem !important;
+}
+.featured-materials .section-header p {
+  font-size: 1.25rem !important;
+}
+.featured-materials .card-title {
+  font-size: 1.5rem !important;
+}
+.featured-materials .card-text {
+  font-size: 1.1rem !important;
+}
+.featured-materials .badge {
+  font-size: 1rem !important;
+}
+.featured-materials h6 {
+  font-size: 1.25rem !important;
+}
+.featured-materials small {
+  font-size: 1rem !important;
+}
+.featured-materials .btn {
+  font-size: 1.1rem !important;
+}
+
+/* How It Works Section */
+.how-it-works .section-header h2 {
+  font-size: 2.5rem !important;
+}
+.how-it-works .step h3 {
+  font-size: 1.75rem !important;
+}
+.how-it-works .step p {
+  font-size: 1.25rem !important;
+}
+.how-it-works .step .fst-italic {
+  font-size: 1.1rem !important;
+}
+
+/* Rewards Section */
+.rewards .section-header h2 {
+  font-size: 2.5rem !important;
+}
+.rewards .section-header p {
+  font-size: 1rem !important;
+}
+.rewards .reward-card h3 {
+  font-size: 1.5rem !important;
+}
+.rewards .reward-card p {
+  font-size: 0.9rem !important;
+}
+.rewards .badge {
+  font-size: 0.9rem !important;
+}
+.rewards .btn {
+  font-size: 1.1rem !important;
+}
+
+/* Testimonials Section */
+.testimonials .section-header h2 {
+  font-size: 2.5rem !important;
+}
+.testimonials .section-header p {
+  font-size: 1.25rem !important;
+}
+.testimonials .testimonial-content p {
+  font-size: 1.25rem !important;
+}
+.testimonials .author-name {
+  font-size: 1.25rem !important;
+}
+.testimonials .author-title {
+  font-size: 1rem !important;
+}
+.testimonials .btn {
+  font-size: 1.1rem !important;
+}
+.testimonials .small {
+  font-size: 1rem !important;
+}
+
+/* Featured Materials Carousel */
+.featured-materials {
+  background-color: #f8f9fa;
+  position: relative;
+}
+
+.carousel {
+  padding: 0 3rem;
+}
+
+.carousel-control-prev,
+.carousel-control-next {
+  width: 4rem;
+  height: 4rem;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 50%;
+  top: 50%;
+  transform: translateY(-50%);
+  opacity: 1;
+  transition: all 0.3s ease;
+}
+
+.carousel-control-prev {
+  left: -1rem;
+}
+
+.carousel-control-next {
+  right: -1rem;
+}
+
+.carousel-control-prev:hover,
+.carousel-control-next:hover {
+  background-color: var(--primary-color);
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+/* Auto-rotate animation */
+#materialsCarousel {
+  transition: transform 0.6s ease-in-out;
+}
+
+/* Material card specific styles */
+.material-card {
+  transition: all 0.3s ease;
+}
+
+.material-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .carousel {
+    padding: 0 1.5rem;
+  }
+  
+  .carousel-control-prev {
+    left: 0;
+  }
+  
+  .carousel-control-next {
+    right: 0;
+  }
+}
+
+/* View All button styles */
+.featured-materials .btn-primary {
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  border-radius: 50px;
+  transition: all 0.3s ease;
+}
+
+.featured-materials .btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.featured-materials .btn-primary i {
+  transition: transform 0.3s ease;
+}
+
+.featured-materials .btn-primary:hover i {
+  transform: translateX(3px);
 }

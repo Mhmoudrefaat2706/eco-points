@@ -1,28 +1,96 @@
 <app-b-navbar></app-b-navbar>
 
 <div class="about-container">
-  <div class="about-header">
-    <h1>{{ "ABOUT.TITLE" | translate }}</h1>
-    <p>{{ "ABOUT.SUBTITLE" | translate }}</p>
+  <div class="about-hero">
+    <div class="hero-content">
+      <h1>{{ 'ABOUT.TITLE' | translate }}</h1>
+      <p class="lead">{{ 'ABOUT.SUBTITLE' | translate }}</p>
+      <div class="hero-stats">
+        <div class="stat-item">
+          <span class="stat-number mb-4">1000+</span>
+          <span class="stat-label">{{ 'ABOUT.USERS' | translate }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number mb-4">500+</span>
+          <span class="stat-label">{{ 'ABOUT.MATERIALS' | translate }}</span>
+        </div>
+        <div class="stat-item">
+          <span class="stat-number mb-4">50+</span>
+          <span class="stat-label">{{ 'ABOUT.PARTNERS' | translate }}</span>
+        </div>
+      </div>
+    </div>
   </div>
 
-  <div class="about-content">
+  <div class="about-content py-5">
     <div class="about-card">
       <i class="bi bi-clock-history"></i>
-      <h2>{{ "ABOUT.HISTORY_TITLE" | translate }}</h2>
-      <p>{{ "ABOUT.HISTORY_CONTENT" | translate }}</p>
+      <h2>{{ 'ABOUT.HISTORY_TITLE' | translate }}</h2>
+      <p>{{ 'ABOUT.HISTORY_CONTENT' | translate }}</p>
     </div>
-
+    
     <div class="about-card">
       <i class="bi bi-bullseye"></i>
-      <h2>{{ "ABOUT.MISSION_TITLE" | translate }}</h2>
-      <p>{{ "ABOUT.MISSION_CONTENT" | translate }}</p>
+      <h2>{{ 'ABOUT.MISSION_TITLE' | translate }}</h2>
+      <p>{{ 'ABOUT.MISSION_CONTENT' | translate }}</p>
     </div>
-
+    
     <div class="about-card">
       <i class="bi bi-people"></i>
-      <h2>{{ "ABOUT.TEAM_TITLE" | translate }}</h2>
-      <p>{{ "ABOUT.TEAM_CONTENT" | translate }}</p>
+      <h2>{{ 'ABOUT.TEAM_TITLE' | translate }}</h2>
+      <p>{{ 'ABOUT.TEAM_CONTENT' | translate }}</p>
+    </div>
+  </div>
+
+
+  <div class="about-values">
+    <div class="container">
+      <h2>{{ 'ABOUT.OUR_VALUES' | translate }}</h2>
+      <div class="values-grid">
+        <div class="value-card">
+          <i class="bi bi-globe"></i>
+          <h3>{{ 'ABOUT.SUSTAINABILITY' | translate }}</h3>
+          <p>{{ 'ABOUT.SUSTAINABILITY_DESC' | translate }}</p>
+        </div>
+        <div class="value-card">
+          <i class="bi bi-lightbulb"></i>
+          <h3>{{ 'ABOUT.INNOVATION' | translate }}</h3>
+          <p>{{ 'ABOUT.INNOVATION_DESC' | translate }}</p>
+        </div>
+        <div class="value-card">
+          <i class="bi bi-people-fill"></i>
+          <h3>{{ 'ABOUT.COMMUNITY' | translate }}</h3>
+          <p>{{ 'ABOUT.COMMUNITY_DESC' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+  
+
+  <div class="about-team">
+    <div class="container">
+      <h2>{{ 'ABOUT.TEAM_TITLE' | translate }}</h2>
+      <p class="team-intro">{{ 'ABOUT.TEAM_INTRO' | translate }}</p>
+      <div class="team-grid">
+        <div class="team-member">
+          <div class="member-photo"></div>
+          <h3>Sarah Johnson</h3>
+          <p class="position">CEO & Founder</p>
+          <p class="bio">{{ 'ABOUT.TEAM_MEMBER_1' | translate }}</p>
+        </div>
+        <div class="team-member">
+          <div class="member-photo"></div>
+          <h3>Michael Chen</h3>
+          <p class="position">CTO</p>
+          <p class="bio">{{ 'ABOUT.TEAM_MEMBER_2' | translate }}</p>
+        </div>
+        <div class="team-member">
+          <div class="member-photo"></div>
+          <h3>Elena Rodriguez</h3>
+          <p class="position">Sustainability Lead</p>
+          <p class="bio">{{ 'ABOUT.TEAM_MEMBER_3' | translate }}</p>
+        </div>
+      </div>
     </div>
   </div>
 </div>

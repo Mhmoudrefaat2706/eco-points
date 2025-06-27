@@ -1,14 +1,49 @@
 <app-b-navbar></app-b-navbar>
 
-<div class="container my-5">
-  <h2 class="mb-4">Checkout</h2>
+<div class="checkout-container">
+  <div class="checkout-header">
+    <h1>Checkout</h1>
+  </div>
 
-  <div class="row">
-    <!-- Billing form -->
-    <div class="col-md-6 mb-4">
-      <h5>Billing Information</h5>
-      <form>
-        <div class="mb-3">
+  <div class="checkout-grid">
+    <!-- Left Column - Forms -->
+    <div class="checkout-forms">
+
+      <!-- Back to Cart Button -->
+      <button class="btn-back" (click)="backToCart()">
+        <i class="fas fa-arrow-left"></i> Back to Cart
+      </button>
+      <!-- Contact Information -->
+      <div class="checkout-section">
+        <h3 class="section-title">Contact Information</h3>
+        <div class="form-group">
+          <label for="email" class="form-label">Email</label>
+          <input
+            type="email"
+            id="email"
+            class="form-control"
+            [(ngModel)]="email"
+            name="email"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="phone" class="form-label">Phone Number</label>
+          <input
+            type="tel"
+            id="phone"
+            class="form-control"
+            [(ngModel)]="phone"
+            name="phone"
+            required
+          />
+        </div>
+      </div>
+
+      <!-- Shipping Address -->
+      <div class="checkout-section">
+        <h3 class="section-title">Shipping Address</h3>
+        <div class="form-group">
           <label for="name" class="form-label">Full Name</label>
           <input
             type="text"
@@ -16,9 +51,10 @@
             class="form-control"
             [(ngModel)]="name"
             name="name"
+            required
           />
         </div>
-        <div class="mb-3">
+        <div class="form-group">
           <label for="address" class="form-label">Address</label>
           <input
             type="text"
@@ -26,51 +62,190 @@
             class="form-control"
             [(ngModel)]="address"
             name="address"
+            required
           />
         </div>
-        <div class="mb-3">
-          <label for="phone" class="form-label">Phone</label>
+        <div class="form-group">
+          <label for="city" class="form-label">City</label>
           <input
             type="text"
-            id="phone"
+            id="city"
             class="form-control"
-            [(ngModel)]="phone"
-            name="phone"
+            [(ngModel)]="city"
+            name="city"
+            required
           />
         </div>
-      </form>
+        <div class="form-group">
+          <label for="zipCode" class="form-label">ZIP Code</label>
+          <input
+            type="text"
+            id="zipCode"
+            class="form-control"
+            [(ngModel)]="zipCode"
+            name="zipCode"
+            required
+          />
+        </div>
+        <div class="form-group">
+          <label for="country" class="form-label">Country</label>
+          <select
+            id="country"
+            class="form-control"
+            [(ngModel)]="country"
+            name="country"
+          >
+            <option value="Egypt">Egypt</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Payment Method -->
+      <div class="checkout-section">
+        <h3 class="section-title">Payment Method</h3>
+        <div class="payment-methods">
+          <div
+            class="payment-method"
+            [class.selected]="paymentMethod === 'credit'"
+            (click)="paymentMethod = 'credit'"
+          >
+            <div class="payment-icon">
+              <i class="fas fa-credit-card"></i>
+            </div>
+            <span>Credit Card</span>
+          </div>
+          <div
+            class="payment-method"
+            [class.selected]="paymentMethod === 'paypal'"
+            (click)="paymentMethod = 'paypal'"
+          >
+            <div class="payment-icon">
+              <i class="fab fa-paypal"></i>
+            </div>
+            <span>PayPal</span>
+          </div>
+          <div
+            class="payment-method"
+            [class.selected]="paymentMethod === 'cash'"
+            (click)="paymentMethod = 'cash'"
+          >
+            <div class="payment-icon">
+              <i class="fas fa-money-bill-wave"></i>
+            </div>
+            <span>Cash on Delivery</span>
+          </div>
+        </div>
+
+        <!-- Credit Card Form (shown when selected) -->
+        <div *ngIf="paymentMethod === 'credit'">
+          <div class="form-group">
+            <label for="cardNumber" class="form-label">Card Number</label>
+            <input
+              type="text"
+              id="cardNumber"
+              class="form-control"
+              [(ngModel)]="cardNumber"
+              name="cardNumber"
+              placeholder="1234 5678 9012 3456"
+            />
+          </div>
+          <div class="form-group">
+            <label for="cardName" class="form-label">Name on Card</label>
+            <input
+              type="text"
+              id="cardName"
+              class="form-control"
+              [(ngModel)]="cardName"
+              name="cardName"
+              placeholder="John Doe"
+            />
+          </div>
+          <div class="form-row">
+            <div class="form-group" style="flex: 1; margin-right: 1rem">
+              <label for="expiryDate" class="form-label">Expiry Date</label>
+              <input
+                type="text"
+                id="expiryDate"
+                class="form-control"
+                [(ngModel)]="expiryDate"
+                name="expiryDate"
+                placeholder="MM/YY"
+              />
+            </div>
+            <div class="form-group" style="flex: 1">
+              <label for="cvv" class="form-label">CVV</label>
+              <input
+                type="text"
+                id="cvv"
+                class="form-control"
+                [(ngModel)]="cvv"
+                name="cvv"
+                placeholder="123"
+              />
+            </div>
+          </div>
+        </div>
+
+        <!-- PayPal Notice (shown when selected) -->
+        <div *ngIf="paymentMethod === 'paypal'" class="alert alert-info">
+          You will be redirected to PayPal to complete your payment.
+        </div>
+
+        <!-- Cash on Delivery Notice (shown when selected) -->
+        <div *ngIf="paymentMethod === 'cash'" class="alert alert-info">
+          Pay with cash when your order is delivered.
+        </div>
+      </div>
     </div>
 
-    <!-- Order Summary -->
-    <div class="col-md-6">
-      <h5>Order Summary</h5>
-      <ul class="list-group mb-3" *ngIf="cartItems.length > 0">
-        <li
-          class="list-group-item d-flex justify-content-between align-items-center"
-          *ngFor="let item of cartItems"
-        >
-          <span>{{ item.name }}</span>
-          <strong>EGP {{ item.price }}</strong>
-        </li>
-        <li class="list-group-item d-flex justify-content-between">
-          <span>Subtotal</span>
-          <strong>EGP {{ subtotal }}</strong>
-        </li>
-        <li class="list-group-item d-flex justify-content-between">
-          <span>Shipping</span>
-          <strong>EGP {{ shippingCost }}</strong>
-        </li>
-        <li class="list-group-item d-flex justify-content-between bg-light">
-          <strong>Total</strong>
-          <strong>EGP {{ total }}</strong>
-        </li>
-      </ul>
+    <!-- Right Column - Order Summary -->
+    <div class="order-summary">
+      <div class="checkout-section">
+        <h3 class="section-title">Order Summary</h3>
 
-      <button class="btn btn-success w-100" (click)="placeOrder()">
-        Place Order
-      </button>
+        <!-- Cart Items -->
+        <div *ngFor="let item of cartItems">
+          <div class="cart-item">
+            <img [src]="item.image" [alt]="item.name" class="cart-item-image" />
+            <div class="cart-item-details">
+              <div class="cart-item-name">{{ item.name }}</div>
+              <div class="cart-item-price">
+                EGP {{ item.price | number : "1.2-2" }} ×
+                {{ item.quantity || 1 }}
+              </div>
+            </div>
+            <div>
+              EGP {{ item.price * (item.quantity || 1) | number : "1.2-2" }}
+            </div>
+          </div>
+        </div>
+
+        <!-- Order Totals -->
+        <div class="summary-item">
+          <span>Subtotal ({{ getTotalItems() }} items)</span>
+          <span>EGP {{ subtotal | number : "1.2-2" }}</span>
+        </div>
+        <div class="summary-item">
+          <span>Shipping</span>
+          <span>EGP {{ shippingCost | number : "1.2-2" }}</span>
+        </div>
+        <div class="summary-item">
+          <span>Tax (14%)</span>
+          <span>EGP {{ tax | number : "1.2-2" }}</span>
+        </div>
+        <div class="summary-item summary-total">
+          <span>Total</span>
+          <span>EGP {{ total | number : "1.2-2" }}</span>
+        </div>
+
+        <!-- Place Order Button -->
+        <button class="btn-place-order" (click)="placeOrder()">
+          Place Order
+        </button>
+      </div>
     </div>
   </div>
 </div>
 
-
+<app-b-footer></app-b-footer>
