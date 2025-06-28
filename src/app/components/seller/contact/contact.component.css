@@ -2,22 +2,22 @@
 
 :root {
   /* Primary Colors */
-  --primary-color: #4CAF50; /* Green - matches the eco-friendly theme */
+  --primary-color: #4caf50; /* Green - matches the eco-friendly theme */
   --primary-dark: #3d8b40; /* Darker green for hover states */
-  
+
   /* Background Colors */
   --bg-color: #ffffff; /* Light mode background */
   --card-bg: #f8f9fa; /* Slightly darker for cards */
   --input-bg: #ffffff; /* Input field background */
-  
+
   /* Text Colors */
   --text-color: #333333; /* Main text color */
   --text-contrast: #ffffff; /* Text on primary color */
   --disabled-text: #6c757d; /* Disabled text color */
-  
+
   /* Border Colors */
   --border-color: #e0e0e0; /* Light gray for borders */
-  
+
   /* State Colors */
   --disabled-bg: #e9ecef; /* Disabled elements background */
 }
@@ -32,8 +32,9 @@
   --disabled-bg: #3d3d3d; /* Dark disabled background */
 }
 
-
-
+html {
+  scroll-behavior: smooth;
+}
 
 .contact-container {
   padding: 4rem 2rem;
@@ -45,27 +46,55 @@
 
 /* Hero Section */
 .contact-hero {
-  background: linear-gradient(135deg, rgba(44, 62, 80, 0.9) 0%, rgba(76, 161, 175, 0.9) 100%);
+  background: linear-gradient(
+    135deg,
+    rgba(44, 62, 80, 0.9) 0%,
+    rgba(76, 161, 175, 0.9) 100%
+  );
   color: white;
   padding: 6rem 0;
   position: relative;
   overflow: hidden;
   margin-bottom: 4rem;
-  /* margin-top: 0; */
   height: 100vh;
+  animation: gradientShift 30s ease infinite;
+  background-size: 200% 200%;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
 }
 
 .contact-hero::before {
-  content: '';
+  content: "";
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background: url('../../../../assets/images/contact-us.jpg') no-repeat center center;
+  background: url("../../../../assets/images/contact-us.jpg") no-repeat center
+    center;
   background-size: cover;
-  opacity: 0.2;
+  opacity: 0.3;
   z-index: 0;
+  animation: zoomIn 20s ease infinite alternate;
+}
+
+@keyframes zoomIn {
+  0% {
+    transform: scale(1);
+  }
+  100% {
+    transform: scale(1.1);
+  }
 }
 
 .hero-content {
@@ -74,13 +103,32 @@
   max-width: 800px;
   margin: 0 auto;
   text-align: center;
+  opacity: 0;
+  animation: fadeIn 0.8s ease-out 0.3s forwards;
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1;
+  }
 }
 
 .hero-title {
   font-size: 3rem;
   font-weight: 700;
   margin-bottom: 1rem;
-  text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+  transform: translateY(-30px);
+  opacity: 0;
+  animation: slideInTop 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.5s
+    forwards;
+}
+
+@keyframes slideInTop {
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
 }
 
 .hero-subtitle {
@@ -90,6 +138,16 @@
   line-height: 1.6;
   max-width: 700px;
   margin: 0 auto;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: fadeInUp 0.8s ease-out 0.8s forwards;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 0.9;
+    transform: translateY(0);
+  }
 }
 
 /* Contact Content Layout */
@@ -115,14 +173,37 @@
   padding: 2rem;
   background-color: var(--card-bg);
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
   border: 1px solid var(--border-color);
+  opacity: 0;
+  transform: translateX(-20px);
+  transition: all 0.5s ease;
 }
 
 .contact-card:hover {
   transform: translateY(-5px);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+}
+
+.contact-card:nth-child(1) {
+  animation: fadeInLeft 0.8s ease-out 0.8s forwards;
+}
+.contact-card:nth-child(2) {
+  animation: fadeInLeft 0.8s ease-out 1s forwards;
+}
+.contact-card:nth-child(3) {
+  animation: fadeInLeft 0.8s ease-out 1.2s forwards;
+}
+.contact-card:nth-child(4) {
+  animation: fadeInLeft 0.8s ease-out 1.4s forwards;
+}
+
+@keyframes fadeInLeft {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .card-icon {
@@ -152,13 +233,13 @@
   margin-top: 1.5rem;
   border-radius: 12px;
   overflow: hidden;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-color);
   height: 300px;
 }
 
 .dark-mode .map-container {
-  box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
   border-color: #555;
 }
 
@@ -174,8 +255,18 @@
   background-color: var(--card-bg);
   padding: 2.5rem;
   border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid var(--border-color);
+  opacity: 0;
+  transform: translateX(20px);
+  animation: fadeInRight 0.8s ease-out 1s forwards;
+}
+
+@keyframes fadeInRight {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
 }
 
 .form-group {
@@ -226,12 +317,43 @@
   transition: all 0.3s ease;
   margin-top: 1rem;
   width: 100%;
+  position: relative;
+  overflow: hidden;
 }
 
 .submit-btn:hover {
   background-color: rgb(4, 130, 4);
   transform: translateY(-2px);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.submit-btn::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  background: rgba(255, 255, 255, 0.5);
+  opacity: 0;
+  border-radius: 100%;
+  transform: scale(1, 1) translate(-50%);
+  transform-origin: 50% 50%;
+}
+
+.submit-btn:hover::after {
+  animation: ripple 1s ease-out;
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0, 0);
+    opacity: 0.5;
+  }
+  100% {
+    transform: scale(20, 20);
+    opacity: 0;
+  }
 }
 
 .submit-btn:disabled {
@@ -248,11 +370,11 @@
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-  
+
   .contact-hero {
     padding: 4rem 0;
   }
-  
+
   .hero-title {
     font-size: 2.5rem;
   }
@@ -263,31 +385,31 @@
     padding: 2rem 1rem;
     margin-top: 70px;
   }
-  
+
   .contact-content {
     padding: 0 1.5rem 3rem;
   }
-  
+
   .hero-title {
     font-size: 2rem;
   }
-  
+
   .hero-subtitle {
     font-size: 1rem;
   }
-  
+
   .contact-card {
     padding: 1.5rem;
     flex-direction: column;
     gap: 1rem;
   }
-  
+
   .card-icon {
     width: 40px;
     height: 40px;
     font-size: 1.25rem;
   }
-  
+
   .contact-form {
     padding: 1.5rem;
   }
@@ -297,12 +419,12 @@
   .contact-hero {
     padding: 3rem 0;
   }
-  
+
   .hero-title {
     font-size: 1.75rem;
     margin-bottom: 0.5rem;
   }
-  
+
   .contact-content {
     padding: 0 1rem 2rem;
   }

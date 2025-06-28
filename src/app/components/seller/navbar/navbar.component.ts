@@ -72,13 +72,23 @@ export class NavbarComponent implements OnInit {
     document.documentElement.dir = lang === 'ar' ? 'rtl' : 'ltr';
   }
 
-  toggleMobileMenu(): void {
-    this.mobileMenuActive = !this.mobileMenuActive;
-  }
+toggleMobileMenu() {
+  this.mobileMenuActive = !this.mobileMenuActive;
+  this.toggleBodyScroll();
+}
 
-  closeMobileMenu(): void {
-    this.mobileMenuActive = false;
+closeMobileMenu() {
+  this.mobileMenuActive = false;
+  this.toggleBodyScroll();
+}
+
+private toggleBodyScroll() {
+  if (this.mobileMenuActive) {
+    document.body.style.overflow = 'hidden';
+  } else {
+    document.body.style.overflow = '';
   }
+}
 
   logout(): void {
     this.authService.logout();
@@ -105,5 +115,9 @@ export class NavbarComponent implements OnInit {
   isProfileActive(): boolean {
     return this.router.url.includes('/profile');
   }
+
+  ngOnDestroy() {
+  document.body.style.overflow = '';
+}
 
 }

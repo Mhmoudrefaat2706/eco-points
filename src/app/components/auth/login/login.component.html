@@ -1,21 +1,22 @@
 <div class="login-container position-relative overflow-hidden min-vh-100" dir="ltr">
   <!-- Animated background elements -->
   <div class="position-absolute top-0 start-0 w-100 h-100">
-    <div class="eco-bubble bubble-1"></div>
-    <div class="eco-bubble bubble-2"></div>
-    <div class="eco-leaf leaf-1"></div>
+    <div class="eco-bubble bubble-1" style="width: 150px; height: 150px; top: 15%; left: 10%;"></div>
+    <div class="eco-bubble bubble-2" style="width: 200px; height: 200px; top: 25%; left: 15%;"></div>
+    <div class="eco-bubble bubble-3" style="width: 150px; height: 150px; top: 50%; left: 70%;"></div>
+    <div class="eco-bubble bubble-4" style="width: 200px; height: 200px; top: 60%; left: 80%;"></div>
   </div>
 
-  <div class="container d-flex justify-content-center align-items-center h-100 position-relative" style="z-index: 2;">
-    <div class="auth-card card p-4 p-md-5 shadow-lg" style="max-width: 500px; width: 100%;">
+  <div class="container d-flex justify-content-center align-items-center h-100 position-relative" style="z-index: 2; max-width: 800px;">
+    <div class="auth-card card p-4 p-md-5 shadow-lg" style="max-width: 600px; width: 100%;">
       <div class="auth-header text-center mb-4">
         <!-- Logo -->
         <div class="logo-container mb-4">
           <img src="../../../../assets/images/eco1-logo.jpeg" alt="Eco-Points Logo" 
-               class="eco-logo img-fluid">
+               class="eco-logo img-fluid fs-3">
         </div>
         
-        <h2 class="display-6 fw-bold text-primary mb-2">Welcome Back to Eco-Points</h2>
+        <h2 class="display-6 fw-bold text-primary mb-2" style="font-size: 1.7rem;">Welcome Back to Eco-Points</h2>
         <p class="text-muted">Sign in to continue your eco-friendly journey</p>
       </div>
 
@@ -36,7 +37,7 @@
               type="email"
               id="email"
               name="email"
-              class="form-control"
+              class="form-control fs-5"
               placeholder="example@email.com"
               [(ngModel)]="credentials.email"
               required
@@ -60,7 +61,7 @@
               type="password"
               id="password"
               name="password"
-              class="form-control"
+              class="form-control fs-4"
               placeholder="••••••••"
               [(ngModel)]="credentials.password"
               required

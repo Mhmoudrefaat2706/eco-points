@@ -1,10 +1,36 @@
 <app-b-navbar></app-b-navbar>
-<!-- HTML -->
-<div class="container my-4">
+
+<!-- Hero Section -->
+<section class="hero-section">
+  <div class="container">
+    <div class="hero-content">
+      <h1 class="hero-title">Premium Construction Materials</h1>
+      <p class="hero-subtitle">
+        Discover high-quality materials for your next project at competitive
+        prices
+      </p>
+      <div class="hero-buttons">
+        <button
+          class="btn btn-primary btn-lg hero-btn"
+          (click)="scrollToMaterials()"
+        >
+          Discover Our Materials
+        </button>
+        <a routerLink="/b-about" class="btn btn-outline-light btn-lg hero-btn">
+          Know More About Us
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Main Content -->
+<div class="container my-5" id="materialsSection">
+  <!-- Search and Filter Section -->
   <div
     class="search-filter d-flex flex-wrap align-items-center justify-content-between gap-3 mb-4"
   >
-    <!-- فلتر الفئات -->
+    <!-- Category Filter -->
     <div class="mb-3 mb-md-0">
       <select
         class="form-select category-filter"
@@ -19,7 +45,7 @@
       </select>
     </div>
 
-    <!-- بحث -->
+    <!-- Search -->
     <div class="search-container flex-grow-3" style="min-width: 250px">
       <input
         type="text"
@@ -29,50 +55,140 @@
         (input)="onSearchChange()"
       />
     </div>
+
+    <!-- Price Filter -->
+    <div class="mb-3 mb-md-0">
+      <div class="input-group">
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Min price"
+          [(ngModel)]="minPrice"
+          min="0"
+        />
+        <span class="input-group-text">to</span>
+        <input
+          type="number"
+          class="form-control"
+          placeholder="Max price"
+          [(ngModel)]="maxPrice"
+          min="0"
+        />
+        <button
+          class="btn btn-primary"
+          type="button"
+          (click)="applyPriceFilter()"
+          [disabled]="!minPrice && !maxPrice"
+        >
+          Apply
+        </button>
+        <button
+          class="btn btn-outline-secondary"
+          type="button"
+          (click)="clearPriceFilter()"
+          [disabled]="!priceFilterActive"
+        >
+          Clear
+        </button>
+      </div>
+      @if (priceFilterError) {
+      <div class="price-filter-error text-danger small mt-1">
+        {{ priceFilterError }}
+      </div>
+      }
+    </div>
+
+    <!-- Materials Count -->
+    <div class="d-flex justify-content-between align-items-center mb-4">
+      <span class="badge bg-primary"
+        >{{ filteredMaterials.length }} materials available</span
+      >
+    </div>
   </div>
 
-  <!-- هنا تحط عرض المواد (cards) -->
-  <div class="row">
-    <!-- مثال بطاقة مادة -->
-    <div
-      class="col-lg-3 col-md-4 col-sm-6 mb-4"
-      *ngFor="let material of filteredMaterials"
-    >
-      <div class="card material-card h-100">
-        <img
-          [src]="material.image"
-          class="card-img-top"
-          [alt]="material.name"
-        />
-        <div class="card-body d-flex flex-column">
-          <h5 class="card-title">{{ material.name }}</h5>
-          <p class="card-text">
-            <small class="text-muted d-block mb-2">{{ material.desc }}</small>
+  @if (isLoading) {
+  <div class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p>Loading materials...</p>
+  </div>
+  } @if (errorMessage) {
+  <div class="alert alert-danger">{{ errorMessage }}</div>
+  }
+
+  <!-- Materials Grid -->
+  <div class="row g-4">
+    @for (material of filteredMaterials; track material.id) {
+    <div class="col-lg-4 col-md-6 col-sm-12">
+      <!-- Changed col-lg-3 to col-lg-4 for 3 columns on large screens. col-md-6 for 2 columns on medium, col-sm-12 for single column on small screens -->
+      <div class="material-card card h-100 border-0 shadow-sm">
+        <div class="card-img-container">
+          <img
+            [src]="material.image"
+            class="card-img-top"
+            [alt]="material.name"
+          />
+          <div class="card-badge">
             <span
-              class="category-badge badge-{{ material.category.toLowerCase() }}"
+              class="badge"
+              [ngClass]="'badge-' + material.category.toLowerCase()"
             >
               {{ material.category }}
             </span>
+          </div>
+        </div>
+        <div class="card-body d-flex flex-column">
+          <h5 class="card-title">{{ material.name }}</h5>
+          <p class="card-text text-muted mb-3">
+            {{ truncateText(material.desc, 100) }}
+            <!-- Truncate description for better card aesthetics -->
           </p>
-          <div class="mt-auto d-flex justify-content-between">
+          <div class="price-section mb-3" *ngIf="material.price">
+            <span class="price">${{ material.price | number : "1.2-2" }}</span>
+            <span class="price-unit" *ngIf="material.priceUnit"
+              >/ {{ material.priceUnit }}</span
+            >
+          </div>
+          <div
+            class="mt-auto d-flex justify-content-between align-items-center"
+          >
             <a
               [routerLink]="['/b-materials', material.id]"
-              class="btn btn-details btn-success btn-sm"
-              >View Details</a
+              class="btn btn-outline-primary btn-sm view-details-btn"
             >
-            <a class="btn btn-sm" (click)="addToCart(material)">
-              <i class="fa-solid fa-cart-shopping text-success"></i>
+              View Details <i class="bi bi-arrow-right ms-2"></i>
             </a>
+            <button
+              class="btn btn-success btn-sm add-to-cart-btn"
+              (click)="addToCart(material)"
+              [disabled]="isInCart(material.id)"
+            >
+              <i class="bi bi-cart-plus"></i>
+              {{ isInCart(material.id) ? "In Cart" : "Add to Cart" }}
+            </button>
           </div>
         </div>
       </div>
     </div>
+    } @empty {
+    <div class="col-12 text-center py-5">
+      <div class="empty-state">
+        <i class="bi bi-box-seam display-4 text-muted mb-3"></i>
+        <h3 class="text-muted">No materials found</h3>
+        <p class="text-muted">Try adjusting your search or filters</p>
+        <button class="btn btn-link" (click)="clearFilters()">
+          Clear all filters
+        </button>
+      </div>
+    </div>
+    }
   </div>
 
-  <!-- الباجينيشن -->
+  <!-- Pagination -->
   <nav
     aria-label="Materials pagination"
-    *ngIf="materialsList.length > itemsPerPage && filteredMaterials.length > 0"
+    *ngIf="allMaterials.length > itemsPerPage && filteredMaterials.length > 0"
   >
     <ul class="pagination justify-content-center">
       <li class="page-item" [class.disabled]="currentPage === 1">
@@ -84,7 +200,6 @@
           <span aria-hidden="true">&laquo;</span>
         </a>
       </li>
-
       <li
         class="page-item"
         *ngFor="let page of pages"
@@ -92,7 +207,6 @@
       >
         <a class="page-link" (click)="changePage(page)">{{ page }}</a>
       </li>
-
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <a
           class="page-link"

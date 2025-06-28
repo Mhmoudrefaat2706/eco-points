@@ -3,6 +3,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
+import { ScrollTopService } from './services/scroll-top.service';
 // import { ProfileComponent } from './components/seller/profile/profile.component';
 // import { MaterialsComponent } from './components/bayer/bayer-materials/bayer-materials.component';
 
@@ -16,5 +17,11 @@ import { AuthService } from './services/auth.service';
 export class AppComponent {
   authService = inject(AuthService);
   title = 'Final';
+
+  constructor(private scrollTopService: ScrollTopService) {}
+
+  ngOnInit() {
+    this.scrollTopService.init();
+  }
 }
 
