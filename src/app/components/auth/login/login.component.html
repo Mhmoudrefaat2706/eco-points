@@ -7,15 +7,15 @@
     <div class="eco-bubble bubble-4" style="width: 200px; height: 200px; top: 60%; left: 80%;"></div>
   </div>
 
-  <div class="container d-flex justify-content-center align-items-center h-100 position-relative" style="z-index: 2; max-width: 800px;">
+  <div class="container d-flex justify-content-center align-items-center h-100 position-relative"
+    style="z-index: 2; max-width: 800px;">
     <div class="auth-card card p-4 p-md-5 shadow-lg" style="max-width: 600px; width: 100%;">
       <div class="auth-header text-center mb-4">
         <!-- Logo -->
         <div class="logo-container mb-4">
-          <img src="../../../../assets/images/eco1-logo.jpeg" alt="Eco-Points Logo" 
-               class="eco-logo img-fluid fs-3">
+          <img src="../../../../assets/images/eco1-logo.jpeg" alt="Eco-Points Logo" class="eco-logo img-fluid fs-3">
         </div>
-        
+
         <h2 class="display-6 fw-bold text-primary mb-2" style="font-size: 1.7rem;">Welcome Back to Eco-Points</h2>
         <p class="text-muted">Sign in to continue your eco-friendly journey</p>
       </div>
@@ -25,29 +25,30 @@
         {{ logoutMessage }}
       </div>
 
-      <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)" novalidate>
-        <!-- Email Field -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="mb-3">
           <label for="email" class="form-label">Email</label>
           <div class="input-group">
             <span class="input-group-text bg-white">
               <i class="bi bi-envelope text-muted"></i>
             </span>
-            <input
-              type="email"
-              id="email"
-              name="email"
-              class="form-control fs-5"
-              placeholder="example@email.com"
-              [(ngModel)]="credentials.email"
-              required
-              email
-              #email="ngModel"
-            />
+            <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com"
+              formControlName="email" />
           </div>
-          <div class="text-danger small mt-1" *ngIf="email.invalid && email.touched">
+
+          @let emailNameError = loginForm.get('email');
+          @if(emailNameError?.getError('required') && emailNameError?.touched) {
+          <div class="text-danger small mt-1">
+            Email is required.
+          </div>
+          }
+
+          @if(emailNameError?.getError('email') && emailNameError?.touched) {
+          <div class="text-danger small mt-1">
             Please enter a valid email address.
           </div>
+          }
+
         </div>
 
         <!-- Password Field -->
@@ -57,44 +58,38 @@
             <span class="input-group-text bg-white">
               <i class="bi bi-lock text-muted"></i>
             </span>
-            <input
-              type="password"
-              id="password"
-              name="password"
-              class="form-control fs-4"
-              placeholder="••••••••"
-              [(ngModel)]="credentials.password"
-              required
-              minlength="4"
-              #password="ngModel"
-            />
+            <input type="password" id="password" name="password" class="form-control" placeholder="••••••••"
+              formControlName="password" />
           </div>
-          <div class="text-danger small mt-1" *ngIf="password.invalid && password.touched">
-            Password is required (min 4 characters).
+
+          @let passwordError = loginForm.get('password');
+          @if(passwordError?.getError('required') && passwordError?.touched) {
+          <div class="text-danger small mt-1 ">
+            Password is required.
           </div>
+          }
+          @if(passwordError?.getError('minlength') && passwordError?.touched) {
+          <div class="text-danger small mt-1 ">
+            must be at least 6 characters.
+          </div>
+          }
+
+
+
         </div>
 
         <!-- Remember Me -->
         <div class="d-flex justify-content-between align-items-center mb-4">
           <div class="form-check">
-            <input
-              type="checkbox"
-              id="rememberMe"
-              class="form-check-input"
-              [(ngModel)]="rememberMe"
-              name="rememberMe"
-            />
+            <input type="checkbox" id="rememberMe" class="form-check-input"
+              name="rememberMe" />
             <label for="rememberMe" class="form-check-label">Remember me</label>
           </div>
           <a routerLink="/forgot-password" class="text-decoration-none small">Forgot password?</a>
         </div>
 
         <!-- Submit Button -->
-        <button
-          type="submit"
-          class="btn btn-primary w-100 py-2 fw-bold"
-          [disabled]="loginForm.invalid"
-        >
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" [disabled]="loginForm.invalid">
           Sign In
         </button>
 
