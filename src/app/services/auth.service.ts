@@ -1,12 +1,21 @@
-import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { inject, Injectable } from '@angular/core';
+import { Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
+
 
 export interface User {
-  name: string;
+  first_name: string;
+  last_name: string;
   email: string;
   password: string;
   role: 'seller' | 'buyer';
+ 
 }
-
+export interface loginUser {
+  email: string;
+  password: string;
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -23,40 +32,37 @@ export class AuthService {
     }
   }
 
-  private users: User[] = [
-    {
-      name: 'Seller User',
-      email: 'seller@seller.com',
-      password: '123456',
-      role: 'seller',
-    },
-    {
-      name: 'Buyer User',
-      email: 'buyer@buyer.com',
-      password: '123456',
-      role: 'buyer',
-    },
+  private readonly _HttpClient= inject(HttpClient);
 
-  ];
+  headers = new HttpHeaders({
+    'accept': 'application/json',
+    'Content-Type': 'application/json', 
+    'Accept': "*/*" ,
+    'Content-Length': '<calcuulated when request is sent>',
+  })
+
+private users: User[] = [
+  {
+    first_name: 'Seller',
+    last_name: 'User',
+    email: 'seller@seller.com',
+    password: '123456',
+    role: 'seller',
+  },
+  {
+    first_name: 'Buyer',
+    last_name: 'User',
+    email: 'buyer@buyer.com',
+    password: '123456',
+    role: 'buyer',
+  },
+];
+
 
   private loggedInUser: User | null = null;
 
 
-login(email: string, password: string): boolean {
-  const user = this.users.find(
-    (u) =>
-      u.email.toLowerCase() === email.toLowerCase() &&
-      u.password === password
-  );
 
-  if (user) {
-    this.loggedInUser = user;
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
-    return true;
-  }
-
-  return false;
-}
 
 
   logout(): void {
@@ -70,22 +76,29 @@ login(email: string, password: string): boolean {
 
 
   getLoggedInUser(): User | null {
-    return this.loggedInUser;
+  const savedUser = localStorage.getItem('loggedInUser');
+  if (savedUser) {
+    return JSON.parse(savedUser);
   }
+  return null;
+}
 
   getUserRole(): 'seller' | 'buyer' | null {
     return this.loggedInUser?.role ?? null;
   }
 
-  register(name: string, email: string, password: string, role: string): boolean {
-    const exists = this.users.some(
-      (u) => u.email.toLowerCase() === email.toLowerCase()
-    );
-    if (exists) return false;
-
-    const newUser: User = { name, email, password, role: role as 'seller' | 'buyer' };
-    this.users.push(newUser);
-    return true;
-
+  register(data:User): Observable<any> {
+    return this._HttpClient.post('http://localhost:8000/api/register',data , {headers:this.headers} )
   }
+
+  login(data: object): Observable<any> {
+  return this._HttpClient.post('http://localhost:8000/api/login', data, { headers: this.headers }).pipe(
+    tap((res: any) => {
+      if (res.status && res.user) {
+        localStorage.setItem('loggedInUser', JSON.stringify(res.user));
+      }
+    })
+  );
+}
+
 }

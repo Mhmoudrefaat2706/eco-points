@@ -51,8 +51,9 @@ export class FeedbackComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.currentUser = this.authService.getLoggedInUser()?.name || null;
-
+    //this.currentUser = this.authService.getLoggedInUser()?.name || null;
+   const user = this.authService.getLoggedInUser();
+   this.currentUser = user ? user.first_name + ' ' + user.last_name : null;
     this.route.paramMap.subscribe((params) => {
       this.seller = params.get('seller') || '';
       this.loadFeedbacks();
