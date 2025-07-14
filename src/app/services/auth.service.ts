@@ -1,91 +1,92 @@
+// auth.service.ts
 import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+import { tap } from 'rxjs/operators';
 
 export interface User {
-  name: string;
+  id?: number;
+  name: string; // Will combine first_name + last_name
   email: string;
-  password: string;
   role: 'seller' | 'buyer';
+  token?: string;
 }
 
 @Injectable({
   providedIn: 'root',
 })
 export class AuthService {
+  private currentUserSubject: BehaviorSubject<User | null>;
+  public currentUser: Observable<User | null>;
+  private apiUrl = 'http://localhost:8000/api';
 
-  constructor() {
+  constructor(private http: HttpClient) {
     const savedUser = localStorage.getItem('loggedInUser');
-    if (savedUser) {
-      try {
-        this.loggedInUser = JSON.parse(savedUser);
-      } catch (e) {
-        localStorage.removeItem('loggedInUser');
-      }
-    }
+    this.currentUserSubject = new BehaviorSubject<User | null>(
+      savedUser ? JSON.parse(savedUser) : null
+    );
+    this.currentUser = this.currentUserSubject.asObservable();
   }
 
-  private users: User[] = [
-    {
-      name: 'Seller User',
-      email: 'seller@seller.com',
-      password: '123456',
-      role: 'seller',
-    },
-    {
-      name: 'Buyer User',
-      email: 'buyer@buyer.com',
-      password: '123456',
-      role: 'buyer',
-    },
-
-  ];
-
-  private loggedInUser: User | null = null;
-
-
-login(email: string, password: string): boolean {
-  const user = this.users.find(
-    (u) =>
-      u.email.toLowerCase() === email.toLowerCase() &&
-      u.password === password
-  );
-
-  if (user) {
-    this.loggedInUser = user;
-    localStorage.setItem('loggedInUser', JSON.stringify(user));
-    return true;
+  public get currentUserValue(): User | null {
+    return this.currentUserSubject.value;
   }
 
-  return false;
-}
+  initializeCsrf(): Observable<any> {
+    return this.http.get(`${this.apiUrl}/sanctum/csrf-cookie`, {
+      withCredentials: true,
+    });
+  }
 
+  login(email: string, password: string): Observable<any> {
+    return this.http
+      .post<any>(`${this.apiUrl}/login`, { email, password })
+      .pipe(
+        tap((response) => {
+          const user = {
+            id: response.user.id,
+            name: `${response.user.first_name} ${response.user.last_name}`,
+            email: response.user.email,
+            role: response.user.role,
+            token: response.access_token, // Changed from token to access_token
+          };
+          localStorage.setItem('loggedInUser', JSON.stringify(user));
+          this.currentUserSubject.next(user);
+        })
+      );
+  }
+
+  register(
+    first_name: string,
+    last_name: string,
+    email: string,
+    password: string,
+    role: string
+  ): Observable<any> {
+    return this.http.post(`${this.apiUrl}/register`, {
+      first_name,
+      last_name,
+      email,
+      password,
+      role,
+    });
+  }
 
   logout(): void {
-    this.loggedInUser = null;
     localStorage.removeItem('loggedInUser');
+    this.currentUserSubject.next(null);
+    this.http.post(`${this.apiUrl}/logout`, {}).subscribe();
   }
 
   isAuthenticated(): boolean {
-    return this.loggedInUser !== null;
+    return this.currentUserValue !== null;
   }
 
-
   getLoggedInUser(): User | null {
-    return this.loggedInUser;
+    return this.currentUserValue;
   }
 
   getUserRole(): 'seller' | 'buyer' | null {
-    return this.loggedInUser?.role ?? null;
-  }
-
-  register(name: string, email: string, password: string, role: string): boolean {
-    const exists = this.users.some(
-      (u) => u.email.toLowerCase() === email.toLowerCase()
-    );
-    if (exists) return false;
-
-    const newUser: User = { name, email, password, role: role as 'seller' | 'buyer' };
-    this.users.push(newUser);
-    return true;
-
+    return this.currentUserValue?.role ?? null;
   }
 }

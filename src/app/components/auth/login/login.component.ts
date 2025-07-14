@@ -18,6 +18,7 @@ export class LoginComponent implements OnInit {
   errorMessage = '';
   successMessage = '';
   logoutMessage = '';
+  isLoading = false;
 
   private authService = inject(AuthService);
   private router = inject(Router);
@@ -41,27 +42,31 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    const success = this.authService.login(
+    this.isLoading = true;
+    this.authService.login(
       this.credentials.email,
       this.credentials.password
-    );
+    ).subscribe({
+      next: () => {
+        this.successMessage = 'Login successful!';
+        this.errorMessage = '';
+        this.logoutMessage = '';
+        this.isLoading = false;
 
-    if (success) {
-      this.successMessage = 'Login successful!';
-      this.errorMessage = '';
-      this.logoutMessage = '';
-
-      const role = this.authService.getUserRole();
-      if (role === 'seller') {
-        this.router.navigate(['/home']);
-      } else if (role === 'buyer') {
-        this.router.navigate(['/buyer-home']);
+        const role = this.authService.getUserRole();
+        if (role === 'seller') {
+          this.router.navigate(['/home']);
+        } else if (role === 'buyer') {
+          this.router.navigate(['/buyer-home']);
+        }
+      },
+      error: (error) => {
+        this.errorMessage = error.error?.message || 'Invalid email or password.';
+        this.successMessage = '';
+        this.logoutMessage = '';
+        this.isLoading = false;
       }
-    } else {
-      this.errorMessage = 'Invalid email or password.';
-      this.successMessage = '';
-      this.logoutMessage = '';
-    }
+    });
   }
 
   logout() {

@@ -1,115 +1,126 @@
 <app-b-navbar></app-b-navbar>
 
-<!-- Loading State -->
-<div *ngIf="isLoading" class="loading-container">
-  <div class="spinner-border text-primary" role="status">
-    <span class="visually-hidden">Loading...</span>
-  </div>
-  <p>Loading material details...</p>
-</div>
-
-<!-- Error State -->
-<div
-  *ngIf="errorMessage && !isLoading"
-  class="alert alert-danger text-center mx-auto my-5"
-  style="max-width: 800px"
->
-  {{ errorMessage }}
-  <button class="btn btn-link" (click)="goBack()">
-    Return to materials list
-  </button>
-</div>
-
-<!-- Main Content (when loaded successfully) -->
-<div
-  *ngIf="material && !isLoading && !errorMessage"
-  class="material-details-container"
->
-  <div class="material-header">
-    <h1>{{ material.name }}</h1>
-    <span class="category-badge">{{ material.category }}</span>
-  </div>
-
-  <div class="material-content">
-    <div class="image-container">
-      <img
-        [src]="material.image"
-        [alt]="material.name"
-        class="material-image"
-      />
-    </div>
-
-    <div class="details-container">
-      <p class="material-description">{{ material.desc }}</p>
-
-      <div class="price-section">
-        <span class="material-price">
-          {{ material.price | currency : "EGP" : "symbol" : "1.2-2" }}
-          <span *ngIf="material.priceUnit" class="price-unit"
-            >/ {{ material.priceUnit }}</span
-          >
-        </span>
-      </div>
-
-      <div class="action-section">
-        <div class="action-buttons">
-          <button
-            class="btn btn-primary"
-            (click)="addToCart(material)"
-            [disabled]="isInCart"
-          >
-            <i class="bi bi-cart-plus"></i>
-            {{ isInCart ? "Already in Cart" : "Add to Cart" }}
-          </button>
-          <button class="btn btn-outline" (click)="goBack()">
-            <i class="bi bi-arrow-left"></i> Back to List
-          </button>
+<div class="material-details-container">
+  <div class="container">
+    <!-- Loading State -->
+    @if (isLoading) {
+      <div class="loading-spinner">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
+        <p class="mt-3 mb-0">Loading material details...</p>
       </div>
+    }
 
-      <div class="feedback-button-container">
-        <button class="btn btn-feedback" [routerLink]="['/feedback/:seller']">
-          <i class="bi bi-chat-square-text"></i> Leave Feedback
+    <!-- Error State -->
+    @if (errorMessage && !isLoading) {
+      <div class="error-container">
+        <i class="bi bi-exclamation-triangle error-icon"></i>
+        <h3 class="text-danger">Oops! Something went wrong</h3>
+        <p class="text-muted mb-4">{{ errorMessage }}</p>
+        <button class="btn back-button" (click)="goBack()">
+          <i class="bi bi-arrow-left me-2"></i>Back to Materials
         </button>
       </div>
+    }
 
-      <div class="material-features">
-        <h3><i class="bi bi-stars"></i> Key Features</h3>
-        <ul class="feature-list">
-          <li class="feature-item">
-            <i class="bi bi-check-circle feature-icon"></i>
-            <span>Premium quality materials</span>
-          </li>
-          <li class="feature-item">
-            <i class="bi bi-check-circle feature-icon"></i>
-            <span>Competitive market pricing</span>
-          </li>
-          <li class="feature-item">
-            <i class="bi bi-check-circle feature-icon"></i>
-            <span>Reliable sourcing</span>
-          </li>
-          <li class="feature-item">
-            <i class="bi bi-check-circle feature-icon"></i>
-            <span>Verified seller ratings</span>
-          </li>
-        </ul>
+    <!-- Material Details Content -->
+    @if (material && !isLoading && !errorMessage) {
+      <div class="material-content">
+        <div class="row g-4">
+          <!-- Material Image -->
+          <div class="col-lg-6">
+            <div class="material-image-container">
+              <img 
+                [src]="material.image_url" 
+                [alt]="material.name" 
+                class="material-image"
+              >
+            </div>
+          </div>
+
+          <!-- Material Information -->
+          <div class="col-lg-6">
+            <div class="material-info">
+              <span class="category-badge">{{ material.category }}</span>
+              <h1 class="material-title">{{ material.name }}</h1>
+              <p class="material-description">{{ material.description }}</p>
+              
+              <div class="price-section">
+                <span class="material-price">
+                  {{ material.price | currency : "EGP" : "symbol" : "1.2-2" }}
+                  <span *ngIf="material.price_unit" class="price-unit">
+                    / {{ material.price_unit }}
+                  </span>
+                </span>
+              </div>
+
+              <div class="action-section">
+                <div class="action-buttons">
+                  <button
+                    class="btn btn-primary"
+                    (click)="addToCart(material)"
+                    [disabled]="isInCart"
+                  >
+                    <i class="bi bi-cart-plus"></i>
+                    {{ isInCart ? "Already in Cart" : "Add to Cart" }}
+                  </button>
+                  <button class="btn btn-outline-secondary" (click)="goBack()">
+                    <i class="bi bi-arrow-left"></i> Back to List
+                  </button>
+                </div>
+
+                <div class="feedback-button">
+                  <button class="btn btn-feedback" [routerLink]="['/feedback/:seller']">
+                    <i class="bi bi-chat-square-text"></i> Leave Feedback
+                  </button>
+                </div>
+              </div>
+
+              <div class="features-section">
+                <h5 class="features-title">
+                  <i class="bi bi-stars"></i> Key Features
+                </h5>
+                
+                <ul class="features-list">
+                  <li class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Premium quality materials</span>
+                  </li>
+                  <li class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Competitive market pricing</span>
+                  </li>
+                  <li class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Reliable sourcing</span>
+                  </li>
+                  <li class="feature-item">
+                    <i class="bi bi-check-circle"></i>
+                    <span>Verified seller ratings</span>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    }
+
+    <!-- Not Found State -->
+    @if (!material && !isLoading && !errorMessage) {
+      <div class="not-found-container">
+        <h2><i class="bi bi-exclamation-triangle"></i> Material Not Found</h2>
+        <p>
+          We couldn't find the material you're looking for. It may have been removed
+          or the link is incorrect.
+        </p>
+        <button class="btn btn-primary" (click)="goBack()">
+          <i class="bi bi-arrow-left"></i> Return to Materials List
+        </button>
+      </div>
+    }
   </div>
 </div>
-
-<!-- Not Found State (fallback) -->
-<ng-template #notFound>
-  <div class="not-found-container">
-    <h2><i class="bi bi-exclamation-triangle"></i> Material Not Found</h2>
-    <p>
-      We couldn't find the material you're looking for. It may have been removed
-      or the link is incorrect.
-    </p>
-    <button class="btn btn-primary" (click)="goBack()">
-      <i class="bi bi-arrow-left"></i> Return to Materials List
-    </button>
-  </div>
-</ng-template>
 
 <app-b-footer></app-b-footer>

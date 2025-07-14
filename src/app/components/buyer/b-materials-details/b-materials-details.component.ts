@@ -7,20 +7,24 @@ import { BNavbarComponent } from '../b-navbar/b-navbar.component';
 import { Material } from '../../../models/material.model';
 import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 import { MaterialsService } from '../../../services/materials.service';
-import { filter } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-b-materials-details',
   standalone: true,
-  imports: [CommonModule, RouterModule, BFooterComponent, BNavbarComponent, MatSnackBarModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    BFooterComponent,
+    BNavbarComponent,
+    MatSnackBarModule,
+  ],
   templateUrl: './b-materials-details.component.html',
-  styleUrls: ['./b-materials-details.component.css']
+  styleUrls: ['./b-materials-details.component.css'],
 })
 export class BMaterialsDetailsComponent implements OnInit {
-  
-
-  material: Material | undefined;
+  material: Material | null = null;
   id: number = 0;
   quantity: number = 1;
   isLoading: boolean = true;
@@ -28,48 +32,58 @@ export class BMaterialsDetailsComponent implements OnInit {
   isInCart: boolean = false;
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private router: Router,
     private cartMaterials: SharedMatarialsService,
     private materialsService: MaterialsService,
     private snackBar: MatSnackBar
   ) {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      window.scrollTo(0, 0);
-    });
+    this.router.events
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
+      .subscribe(() => {
+        window.scrollTo(0, 0);
+      });
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.id = Number(params.get('id'));
       this.loadMaterial();
-      window.scrollTo(0, 0);
-      this.checkIfInCart();
     });
   }
 
   loadMaterial(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    
-    try {
-      this.material = this.materialsService.getMaterialById(this.id);
-      if (!this.material) {
-        this.errorMessage = 'Material not found';
-      }
-      this.isLoading = false;
-    } catch (error) {
-      this.errorMessage = 'Failed to load material details';
-      this.isLoading = false;
-      console.error('Error loading material:', error);
-    }
+
+    this.materialsService.getMaterialById(this.id).subscribe({
+      next: (material) => {
+        this.material = material;
+        this.isLoading = false;
+        this.checkIfInCart();
+
+        if (!material) {
+          this.errorMessage = 'Material not found';
+        }
+      },
+      error: (error) => {
+        this.errorMessage = 'Failed to load material details';
+        this.isLoading = false;
+        console.error('Error loading material:', error);
+      },
+    });
   }
 
+  // Update checkIfInCart to handle null case
   checkIfInCart(): void {
     if (this.material) {
       this.isInCart = this.cartMaterials.isInCart(this.material.id);
+    } else {
+      this.isInCart = false;
     }
   }
 
@@ -77,17 +91,23 @@ export class BMaterialsDetailsComponent implements OnInit {
     this.router.navigate(['/b-materials']);
   }
 
+  // Update addToCart to handle null case
   addToCart(material: Material) {
+    if (!material) return;
+
     if (this.isInCart) {
-      this.showSnackbar(`${material.name} is already in your cart`, 'info-snackbar');
+      this.showSnackbar(
+        `${material.name} is already in your cart`,
+        'info-snackbar'
+      );
       return;
     }
 
     const itemToAdd = {
       ...material,
-      quantity: this.quantity
+      quantity: this.quantity,
     };
-    
+
     this.cartMaterials.addToCart(itemToAdd);
     this.isInCart = true;
     this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
@@ -98,7 +118,7 @@ export class BMaterialsDetailsComponent implements OnInit {
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
-      panelClass: [panelClass]
+      panelClass: [panelClass],
     });
   }
 }

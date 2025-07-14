@@ -13,7 +13,14 @@ import { AuthService } from '../../../services/auth.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-  user = { name: '', email: '', password: '', confirmPassword: '', role: '' };
+  user = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: '',
+  };
   errorMessage = '';
   successMessage = '';
 
@@ -27,22 +34,28 @@ export class RegisterComponent {
       return;
     }
 
-    const success = this.authService.register(
-      this.user.name,
-      this.user.email,
-      this.user.password,
-      this.user.role
-    );
-
-    if (success) {
-      this.successMessage = 'Registration successful! You can now login.';
-      this.errorMessage = '';
-      setTimeout(() => this.router.navigate(['/login']), 2000);
-    } else {
-      this.errorMessage = 'Registration failed. Try again.';
-      this.successMessage = '';
-    }
+    this.authService
+      .register(
+        this.user.firstName,
+        this.user.lastName,
+        this.user.email,
+        this.user.password,
+        this.user.role
+      )
+      .subscribe({
+        next: (response) => {
+          this.successMessage = 'Registration successful! You can now login.';
+          this.errorMessage = '';
+          setTimeout(() => this.router.navigate(['/login']), 2000);
+        },
+        error: (error) => {
+          this.errorMessage =
+            error.error?.message || 'Registration failed. Try again.';
+          this.successMessage = '';
+        },
+      });
   }
+
   scrollToRegister() {
     const element = document.getElementById('registerForm');
     if (element) {
@@ -54,7 +67,7 @@ export class RegisterComponent {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   }
@@ -70,7 +83,7 @@ export class RegisterComponent {
 
       window.scrollTo({
         top: offsetPosition,
-        behavior: 'smooth'
+        behavior: 'smooth',
       });
     }
   }

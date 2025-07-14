@@ -245,27 +245,51 @@
             <!-- Your existing form content remains the same -->
             <form (ngSubmit)="onSubmit()" #registerForm="ngForm" novalidate>
               <div class="mb-3">
-                <label for="name" class="form-label">Full Name</label>
+                <label for="firstName" class="form-label">First Name</label>
                 <div class="input-group">
                   <span class="input-group-text bg-white">
                     <i class="bi bi-person text-muted"></i>
                   </span>
                   <input
                     type="text"
-                    id="name"
-                    name="name"
+                    id="firstName"
+                    name="firstName"
                     class="form-control"
-                    placeholder="Your full name"
-                    [(ngModel)]="user.name"
+                    placeholder="Your first name"
+                    [(ngModel)]="user.firstName"
                     required
-                    #name="ngModel"
+                    #firstName="ngModel"
                   />
                 </div>
                 <div
                   class="text-danger small mt-1"
-                  *ngIf="name.invalid && name.touched"
+                  *ngIf="firstName.invalid && firstName.touched"
                 >
-                  Name is required.
+                  First name is required.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white">
+                    <i class="bi bi-person text-muted"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    class="form-control"
+                    placeholder="Your last name"
+                    [(ngModel)]="user.lastName"
+                    required
+                    #lastName="ngModel"
+                  />
+                </div>
+                <div
+                  class="text-danger small mt-1"
+                  *ngIf="lastName.invalid && lastName.touched"
+                >
+                  Last name is required.
                 </div>
               </div>
 

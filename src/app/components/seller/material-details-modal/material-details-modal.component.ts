@@ -1,11 +1,11 @@
 // material-details-modal.component.ts
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-material-details-modal',
-  imports: [CurrencyPipe],
+  imports: [CurrencyPipe, NgIf],
   template: `
     <div class="modal-header">
       <h4 class="modal-title">{{ material?.name }}</h4>
