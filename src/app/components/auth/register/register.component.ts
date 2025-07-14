@@ -1,18 +1,24 @@
-import { Component, HostListener, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService, User } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register',
   standalone: true,
-  imports: [CommonModule, FormsModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink, ReactiveFormsModule],
   templateUrl: './register.component.html',
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
+
   user = {
     firstName: '',
     lastName: '',
@@ -21,18 +27,26 @@ export class RegisterComponent {
     confirmPassword: '',
     role: '',
   };
+
   errorMessage = '';
   successMessage = '';
 
   private authService = inject(AuthService);
+  private formBuilder = inject(FormBuilder);
   private router = inject(Router);
 
+  registerForm = this.formBuilder.group({
+    first_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+    last_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+    role: ['', [Validators.required]],
+  });
+
   onSubmit() {
-    if (this.user.password !== this.user.confirmPassword) {
-      this.errorMessage = 'Passwords do not match.';
-      this.successMessage = '';
-      return;
-    }
+    if (this.registerForm.valid) {
+      const data = this.registerForm.value as User;
+
 
     this.authService
       .register(
@@ -69,22 +83,22 @@ export class RegisterComponent {
         top: offsetPosition,
         behavior: 'smooth',
       });
+
     }
   }
 
-  scrollToWhyJoin() {
-    const element = document.getElementById('whyJoin');
-    if (element) {
-      const offset = 80;
-      const bodyRect = document.body.getBoundingClientRect().top;
-      const elementRect = element.getBoundingClientRect().top;
-      const elementPosition = elementRect - bodyRect;
-      const offsetPosition = elementPosition - offset;
+  sendRegisterData(data: User) {
+    this.authService.register(data).subscribe({
+      next: (res) => {
+        console.log(res);
+        this.successMessage = 'User registered successfully.';
+        this.errorMessage = '';
 
       window.scrollTo({
         top: offsetPosition,
         behavior: 'smooth',
       });
     }
+
   }
 }

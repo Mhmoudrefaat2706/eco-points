@@ -1,9 +1,14 @@
-import { Component, inject, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { Component, inject } from '@angular/core';
+import { Router } from '@angular/router';
 import { CommonModule } from '@angular/common';
-import { FormsModule, NgForm, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthService } from '../../../services/auth.service';
+import { AuthService, loginUser, User } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,35 +17,29 @@ import { AuthService } from '../../../services/auth.service';
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
 })
-export class LoginComponent implements OnInit {
-  credentials = { email: '', password: '' };
-  rememberMe = false;
+export class LoginComponent {
   errorMessage = '';
   successMessage = '';
   logoutMessage = '';
   isLoading = false;
 
+  private router = inject(Router); 
   private authService = inject(AuthService);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  private _FormBuilder = inject(FormBuilder);
 
-  ngOnInit() {
-    this.route.queryParams.subscribe(params => {
-      if (params['loggedOut']) {
-        this.logoutMessage = 'تم تسجيل الخروج بنجاح.';
-        this.errorMessage = '';
-        this.successMessage = '';
-      }
-    });
-  }
+  loginForm = this._FormBuilder.group({
+    email: ['', [Validators.required, Validators.email]],
+    password: ['', [Validators.required, Validators.minLength(6)]],
+  });
 
-  onSubmit(form: NgForm) {
-    if (form.invalid) {
-      this.errorMessage = 'Please fill out all required fields correctly.';
-      this.successMessage = '';
-      this.logoutMessage = '';
-      return;
+  onSubmit() {
+    if (this.loginForm.valid) {
+      this.sendLoginData(this.loginForm.value);
+    } else {
+      console.log('not valid');
+      this.loginForm.markAllAsTouched();
     }
+  }
 
     this.isLoading = true;
     this.authService.login(
@@ -68,6 +67,7 @@ export class LoginComponent implements OnInit {
       }
     });
   }
+
 
   logout() {
     this.authService.logout();

@@ -1,3 +1,4 @@
+
 // auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
@@ -7,11 +8,13 @@ import { tap } from 'rxjs/operators';
 export interface User {
   id?: number;
   name: string; // Will combine first_name + last_name
+
   email: string;
   role: 'seller' | 'buyer';
-  token?: string;
-}
 
+  token?: string;
+
+}
 @Injectable({
   providedIn: 'root',
 })
@@ -27,6 +30,7 @@ export class AuthService {
     );
     this.currentUser = this.currentUserSubject.asObservable();
   }
+
 
   public get currentUserValue(): User | null {
     return this.currentUserSubject.value;
@@ -83,10 +87,27 @@ export class AuthService {
   }
 
   getLoggedInUser(): User | null {
+
     return this.currentUserValue;
+
   }
+  return null;
+}
 
   getUserRole(): 'seller' | 'buyer' | null {
+
     return this.currentUserValue?.role ?? null;
+
   }
+
+  login(data: object): Observable<any> {
+  return this._HttpClient.post('http://localhost:8000/api/login', data, { headers: this.headers }).pipe(
+    tap((res: any) => {
+      if (res.status && res.user) {
+        localStorage.setItem('loggedInUser', JSON.stringify(res.user));
+      }
+    })
+  );
+}
+
 }
