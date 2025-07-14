@@ -65,6 +65,7 @@
             border-radius: 50px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
           "
+          (click)="scrollToRegister()"
         >
           <span class="d-flex align-items-center">
             Join Us Now
@@ -76,6 +77,7 @@
         <button
           class="btn btn-outline-light btn-lg px-5 py-3 fw-bold hover-grow"
           style="border-radius: 50px; border-width: 2px"
+          (click)="scrollToWhyJoin()"
         >
           <span class="d-flex align-items-center">
             Know More
@@ -218,7 +220,10 @@
       </div>
 
       <div class="text-center mt-5">
-        <button class="btn btn-outline-primary btn-lg px-4 py-2 fw-bold">
+        <button
+          class="btn btn-outline-primary btn-lg px-4 py-2 fw-bold"
+          (click)="scrollToRegister()"
+        >
           Ready to Join? Register Now <i class="bi bi-arrow-right ms-2"></i>
         </button>
       </div>
@@ -384,8 +389,21 @@
                 }
               </div>
 
-              <button type="submit" class="btn btn-primary w-100 py-2 fw-bold">
-                Register Now
+              <button
+                type="submit"
+                class="btn btn-primary w-100 py-2 fw-bold"
+                [disabled]="registerForm.invalid || isLoading"
+              >
+                @if (!isLoading) {
+                <span>Register Now</span>
+                } @if (isLoading) {
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                <span class="ms-2">Registering...</span>
+                }
               </button>
 
               <div class="d-flex align-items-center my-4">
