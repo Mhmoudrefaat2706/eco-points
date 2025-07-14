@@ -757,3 +757,9 @@ main {
     right: -20px;
   }
 }
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.25em;
+}

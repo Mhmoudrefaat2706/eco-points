@@ -30,6 +30,7 @@ import { Material } from '../../../models/material.model';
 export class HomeComponent implements AfterViewInit {
   @ViewChild('materialsCarousel') carousel!: ElementRef;
   featuredMaterials: Material[] = [];
+  isLoadingMaterials = true;
 
   constructor(private materialsService: MaterialsService) {}
 
@@ -45,10 +46,12 @@ export class HomeComponent implements AfterViewInit {
     this.materialsService.getLatestMaterials().subscribe({
       next: (materials: Material[]) => {
         this.featuredMaterials = materials;
+        this.isLoadingMaterials = false; // Add this line
         setTimeout(() => this.initializeCarousel(), 0);
       },
       error: (error) => {
         console.error('Error loading latest materials:', error);
+        this.isLoadingMaterials = false; // Add this line
       },
     });
   }

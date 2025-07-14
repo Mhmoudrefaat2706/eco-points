@@ -22,7 +22,7 @@ import { Material } from '../../../models/material.model';
 })
 export class BuyerHomeComponent {
   private carouselInitialized = false;
-
+  isLoadingMaterials = true;
   translate = inject(TranslateService);
 
   @ViewChild('carouselTrack') carouselTrack!: ElementRef;
@@ -45,16 +45,17 @@ export class BuyerHomeComponent {
       this.updateSlideDirection();
     });
 
-    // Get latest materials instead of all materials
     this.materialsService.getLatestMaterials().subscribe({
       next: (materials: Material[]) => {
         this.featuredMaterials = materials;
+        this.isLoadingMaterials = false; // Add this line
         this.totalSlides = Math.ceil(
           this.featuredMaterials.length / this.slidesToShow
         );
       },
       error: (error) => {
         console.error('Error loading latest materials:', error);
+        this.isLoadingMaterials = false; // Add this line
       },
     });
   }

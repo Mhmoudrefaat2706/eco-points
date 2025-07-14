@@ -1,5 +1,3 @@
-
-// auth.service.ts
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
@@ -8,13 +6,11 @@ import { tap } from 'rxjs/operators';
 export interface User {
   id?: number;
   name: string; // Will combine first_name + last_name
-
   email: string;
   role: 'seller' | 'buyer';
-
   token?: string;
-
 }
+
 @Injectable({
   providedIn: 'root',
 })
@@ -31,7 +27,6 @@ export class AuthService {
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
-
   public get currentUserValue(): User | null {
     return this.currentUserSubject.value;
   }
@@ -43,21 +38,19 @@ export class AuthService {
   }
 
   login(email: string, password: string): Observable<any> {
-    return this.http
-      .post<any>(`${this.apiUrl}/login`, { email, password })
-      .pipe(
-        tap((response) => {
-          const user = {
-            id: response.user.id,
-            name: `${response.user.first_name} ${response.user.last_name}`,
-            email: response.user.email,
-            role: response.user.role,
-            token: response.access_token, // Changed from token to access_token
-          };
-          localStorage.setItem('loggedInUser', JSON.stringify(user));
-          this.currentUserSubject.next(user);
-        })
-      );
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap((response) => {
+        const user = {
+          id: response.user.id,
+          name: `${response.user.first_name} ${response.user.last_name}`,
+          email: response.user.email,
+          role: response.user.role,
+          token: response.access_token,
+        };
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
+      })
+    );
   }
 
   register(
@@ -87,27 +80,10 @@ export class AuthService {
   }
 
   getLoggedInUser(): User | null {
-
     return this.currentUserValue;
-
   }
-  return null;
-}
 
   getUserRole(): 'seller' | 'buyer' | null {
-
     return this.currentUserValue?.role ?? null;
-
   }
-
-  login(data: object): Observable<any> {
-  return this._HttpClient.post('http://localhost:8000/api/login', data, { headers: this.headers }).pipe(
-    tap((res: any) => {
-      if (res.status && res.user) {
-        localStorage.setItem('loggedInUser', JSON.stringify(res.user));
-      }
-    })
-  );
-}
-
 }
