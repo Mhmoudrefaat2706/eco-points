@@ -21,6 +21,7 @@ export class LoginComponent {
   errorMessage = '';
   successMessage = '';
   logoutMessage = '';
+  isLoading = false;
 
   private router = inject(Router); 
   private authService = inject(AuthService);
@@ -40,24 +41,32 @@ export class LoginComponent {
     }
   }
 
- sendLoginData(data: object) {
-  this.authService.login(data).subscribe({
-    next: (res) => {
-      console.log(res);
+    this.isLoading = true;
+    this.authService.login(
+      this.credentials.email,
+      this.credentials.password
+    ).subscribe({
+      next: () => {
+        this.successMessage = 'Login successful!';
+        this.errorMessage = '';
+        this.logoutMessage = '';
+        this.isLoading = false;
 
-      const role = res.user.role;
-      if (role === 'seller') {
-        this.router.navigate(['/home']);
-      } else if (role === 'buyer') {
-        this.router.navigate(['/buyer-home']);
+        const role = this.authService.getUserRole();
+        if (role === 'seller') {
+          this.router.navigate(['/home']);
+        } else if (role === 'buyer') {
+          this.router.navigate(['/buyer-home']);
+        }
+      },
+      error: (error) => {
+        this.errorMessage = error.error?.message || 'Invalid email or password.';
+        this.successMessage = '';
+        this.logoutMessage = '';
+        this.isLoading = false;
       }
-    },
-    error: (err) => {
-      console.log(err);
-      this.errorMessage = err.error.message || 'Login failed';
-    },
-  });
-}
+    });
+  }
 
 
   logout() {

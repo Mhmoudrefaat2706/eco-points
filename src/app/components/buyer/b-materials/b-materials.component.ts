@@ -9,6 +9,10 @@ import { MaterialsService } from '../../../services/materials.service';
 import { Material } from '../../../models/material.model';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 
+interface DisplayMaterial extends Omit<Material, 'category'> {
+  category: string; // Override to be always string
+}
+
 @Component({
   selector: 'app-b-materials',
   imports: [
@@ -23,11 +27,10 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   styleUrl: './b-materials.component.css',
 })
 export class BMaterialsComponent {
-  // Pagination variables
+  allMaterials: DisplayMaterial[] = [];
+  filteredMaterials: DisplayMaterial[] = [];
   currentPage = 1;
   itemsPerPage = 6;
-  allMaterials: Material[] = []; // To store all materials from the service
-  filteredMaterials: Material[] = [];
   isLoading = false;
   errorMessage = '';
   searchQuery = '';
@@ -55,19 +58,36 @@ export class BMaterialsComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    try {
-      this.allMaterials = this.materialsService.getAllMaterials(); // Get all materials from the service
-      this.categories = [
-        'All',
-        ...new Set(this.allMaterials.map((material) => material.category)),
-      ];
-      this.updateFilteredMaterials();
-      this.isLoading = false;
-    } catch (error) {
-      this.errorMessage = 'Failed to load materials.';
-      this.isLoading = false;
-      console.error('Error loading materials:', error);
-    }
+    this.materialsService.getAllMaterials().subscribe({
+      next: (response) => {
+        this.allMaterials = response.data.map((material) => {
+          // Get category name whether it's string or Category object
+          const categoryName =
+            typeof material.category === 'string'
+              ? material.category
+              : material.category?.name || 'Uncategorized';
+
+          return {
+            ...material,
+            category: categoryName,
+          } as DisplayMaterial;
+        });
+
+        // Extract unique categories
+        this.categories = [
+          'All',
+          ...new Set(this.allMaterials.map((material) => material.category)),
+        ];
+
+        this.updateFilteredMaterials();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.errorMessage = 'Failed to load materials.';
+        this.isLoading = false;
+        console.error('Error loading materials:', error);
+      },
+    });
   }
 
   scrollToMaterials() {
@@ -125,12 +145,14 @@ export class BMaterialsComponent {
 
   updateFilteredMaterials() {
     const filtered = this.allMaterials.filter((material) => {
-      // Use allMaterials
-      const matchesSearch =
-        material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        material.category
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
+      const matchesSearch = this.searchQuery
+        ? material.name
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase()) ||
+          material.category
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())
+        : true;
 
       const matchesCategory =
         this.selectedCategory === 'All' ||
@@ -138,10 +160,8 @@ export class BMaterialsComponent {
 
       const matchesPrice =
         !this.priceFilterApplied ||
-        ((this.minPrice === null ||
-          (material.price && material.price >= this.minPrice)) &&
-          (this.maxPrice === null ||
-            (material.price && material.price <= this.maxPrice)));
+        ((this.minPrice === null || material.price >= this.minPrice) &&
+          (this.maxPrice === null || material.price <= this.maxPrice));
 
       return matchesSearch && matchesCategory && matchesPrice;
     });
@@ -170,12 +190,14 @@ export class BMaterialsComponent {
 
   get totalPages(): number {
     const filtered = this.allMaterials.filter((material) => {
-      // Use allMaterials
-      const matchesSearch =
-        material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        material.category
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
+      const matchesSearch = this.searchQuery
+        ? material.name
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase()) ||
+          material.category
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())
+        : true;
 
       const matchesCategory =
         this.selectedCategory === 'All' ||
@@ -183,13 +205,12 @@ export class BMaterialsComponent {
 
       const matchesPrice =
         !this.priceFilterApplied ||
-        ((this.minPrice === null ||
-          (material.price && material.price >= this.minPrice)) &&
-          (this.maxPrice === null ||
-            (material.price && material.price <= this.maxPrice)));
+        ((this.minPrice === null || material.price >= this.minPrice) &&
+          (this.maxPrice === null || material.price <= this.maxPrice));
 
       return matchesSearch && matchesCategory && matchesPrice;
     });
+
     return Math.ceil(filtered.length / this.itemsPerPage);
   }
 
@@ -197,7 +218,7 @@ export class BMaterialsComponent {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  addToCart(material: Material) {
+  addToCart(material: DisplayMaterial) {
     // Check if material is already in cart
     if (this.cartMatrials.isInCart(material.id)) {
       this.showSnackbar(

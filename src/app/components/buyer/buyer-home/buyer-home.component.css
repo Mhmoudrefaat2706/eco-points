@@ -839,3 +839,35 @@ main {
 .testimonials .small {
   font-size: 1rem !important;
 }
+
+.carousel-container {
+  overflow: hidden;
+  position: relative;
+  padding: 1rem 0;
+  width: 100%;
+}
+
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease-in-out;
+  gap: 1rem;
+  will-change: transform;
+}
+
+.carousel-slide {
+  flex: 0 0 calc(33.333% - 1rem);
+  min-width: 0;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 992px) {
+  .carousel-slide {
+    flex: 0 0 calc(50% - 1rem);
+  }
+}
+
+@media (max-width: 768px) {
+  .carousel-slide {
+    flex: 0 0 calc(100% - 1rem);
+  }
+}

@@ -14,7 +14,10 @@
       <h4 class="card-title">
         {{ isEditing ? "Edit Material" : "Add New Material" }}
       </h4>
-      <form (ngSubmit)="isEditing ? updateMaterial() : addMaterial()">
+      <form
+        (ngSubmit)="isEditing ? updateMaterial() : addMaterial()"
+        [class.loading]="isLoading"
+      >
         <div class="mb-3">
           <label for="name" class="form-label">Name</label>
           <input
@@ -32,33 +35,33 @@
           <select
             class="form-select"
             id="category"
-            [(ngModel)]="materialForm.category"
-            name="category"
+            [(ngModel)]="materialForm.category_id"
+            name="category_id"
             required
           >
             <option value="" disabled selected>Select a category</option>
-            @for (category of getUniqueCategories(); track category) {
-            <option [value]="category">{{ category }}</option>
-            }
+            <ng-container *ngIf="categories$ | async as categories">
+              <option *ngFor="let category of categories" [value]="category.id">
+                {{ category.name }}
+              </option>
+            </ng-container>
           </select>
-          <small class="text-muted" *ngIf="materialForm.category === 'Other'">
-            You've selected 'Other'. Please specify your custom category in the
-            description.
-          </small>
         </div>
 
-        <div *ngIf="getUniqueCategories().length > 0" class="mb-2">
-          <small class="text-muted"
-            >Or you can choose of these Existing categories:
-            <span
-              *ngFor="let cat of getUniqueCategories()"
-              class="badge bg-secondary me-1"
-              (click)="selectCategory(cat)"
-            >
-              {{ cat }}
-            </span>
+        <!-- <div *ngIf="(categories$ | async)?.length > 0" class="mb-2">
+          <small class="text-muted">
+            Or you can choose from these existing categories:
+            <ng-container *ngIf="categories$ | async as categories">
+              <span
+                *ngFor="let cat of categories"
+                class="badge bg-secondary me-1 cursor-pointer"
+                (click)="selectCategory(cat)"
+              >
+                {{ cat }}
+              </span>
+            </ng-container>
           </small>
-        </div>
+        </div> -->
 
         <!-- Update the price input section in your form -->
         <div class="mb-3">
@@ -81,7 +84,7 @@
             />
             <select
               class="form-select"
-              [(ngModel)]="materialForm.priceUnit"
+              [(ngModel)]="materialForm.price_unit"
               name="priceUnit"
               required
               #priceUnitSelect="ngModel"
@@ -126,15 +129,33 @@
             class="form-control"
             id="image"
             (change)="handleImageUpload($event)"
-            accept="image/*"
+            accept="image/jpeg, image/png, image/jpg, image/gif, image/webp"
+            [disabled]="isLoading"
           />
+          <div class="form-text">Max size: 2MB (JPEG, PNG, JPG, GIF, WEBP)</div>
 
-          <div *ngIf="materialForm.image" class="mt-2">
+          <div *ngIf="materialForm.image && !isLoading" class="mt-2">
+            <!-- Show image preview only if it's a string URL -->
             <img
-              [src]="materialForm.image"
+              *ngIf="materialForm.image"
+              [src]="getImageUrl(materialForm.image)"
               class="img-thumbnail"
               style="max-height: 150px"
+              (load)="onImageLoad($event)"
             />
+            <!-- Show file name if it's a File object -->
+            <div
+              *ngIf="materialForm.image; instanceof: File"
+              class="text-muted"
+            >
+              Selected file: {{ uploadedFileName }}
+            </div>
+            <button
+              class="btn btn-sm btn-danger ms-2"
+              (click)="materialForm.image = ''"
+            >
+              Remove
+            </button>
           </div>
         </div>
 
@@ -155,15 +176,26 @@
             type="button"
             class="btn btn-secondary"
             (click)="toggleAddForm()"
+            [disabled]="isLoading"
           >
             Cancel
           </button>
           <button
             type="submit"
             class="btn btn-primary"
-            [disabled]="!isFormValid()"
+            [disabled]="
+              !isFormValid() || materialForm.category_id === null || isLoading
+            "
           >
-            {{ isEditing ? "Update" : "Add" }}
+            <span *ngIf="!isLoading">
+              {{ isEditing ? "Update" : "Add" }}
+            </span>
+            <span
+              *ngIf="isLoading"
+              class="spinner-border spinner-border-sm"
+              role="status"
+              aria-hidden="true"
+            ></span>
           </button>
         </div>
       </form>
@@ -201,8 +233,10 @@
             [(ngModel)]="searchTerm"
             (ngModelChange)="currentPage = 1"
             placeholder="Search by name or category"
+            [disabled]="loadingMaterials"
           />
         </div>
+        <!-- In your category filter dropdown -->
         <div class="col-md-4 mb-3 mb-md-0">
           <label for="categoryFilter" class="form-label"
             >Filter by Category</label
@@ -211,12 +245,15 @@
             class="form-select"
             id="categoryFilter"
             [(ngModel)]="selectedCategory"
-            (ngModelChange)="currentPage = 1"
+            (ngModelChange)="onCategoryChange()"
+            [disabled]="loadingMaterials"
           >
             <option value="">All Categories</option>
-            <option *ngFor="let cat of getUniqueCategories()" [value]="cat">
-              {{ cat }}
-            </option>
+            <ng-container *ngIf="categories$ | async as categories">
+              <option *ngFor="let cat of categories" [value]="cat.name">
+                {{ cat.name }}
+              </option>
+            </ng-container>
           </select>
         </div>
         <div class="col-md-2 d-flex align-items-end">
@@ -232,89 +269,99 @@
   </div>
 
   <!-- Materials Table -->
-
-  <!-- Materials Table -->
   <div class="card">
     <div class="card-body">
       <div class="table-responsive">
-        <table class="table table-hover align-middle">
-          <!-- Update the table header -->
-          <thead class="table-light">
-            <tr>
-              <th style="width: 5%">ID</th>
-              <th style="width: 15%">Name</th>
-              <th style="width: 10%">Category</th>
-              <th style="width: 10%">Price</th>
-              <th style="width: 15%">Image</th>
-              <th style="width: 25%">Description</th>
-              <th style="width: 20%">Actions</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              *ngFor="let material of paginatedMaterials"
-              class="material-row"
-            >
-              <td class="fw-semibold">{{ material.id }}</td>
-              <td>{{ material.name }}</td>
-              <td>
-                <span class="badge rounded-pill bg-primary">
-                  {{ material.category }}
-                </span>
-              </td>
-              <td class="text-success">
-                {{ material.price | currency }}<br />
-                <small class="text-muted">per {{ material.priceUnit }}</small>
-              </td>
-              <td>
-                <div class="material-image-container">
-                  <img
-                    [src]="material.image"
-                    alt="{{ material.name }}"
-                    class="material-image"
-                    (click)="openImageModal(material.image)"
-                  />
-                </div>
-              </td>
-              <td>
-                <div class="material-desc" [title]="material.desc">
-                  {{ material.desc | slice : 0 : 50
-                  }}{{ material.desc.length > 100 ? "..." : "......" }}
-                </div>
-              </td>
-              <td>
-                <div class="d-flex gap-2">
-                  <button
-                    class="btn btn-sm btn-action btn-edit"
-                    (click)="editMaterial(material)"
-                    title="Edit"
+        <!-- Loading indicator -->
+        <div *ngIf="loadingMaterials" class="text-center py-4">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="mt-2">Loading materials...</p>
+        </div>
+
+        <!-- Table content shown only when not loading -->
+        <ng-container *ngIf="!loadingMaterials">
+          <table class="table table-hover align-middle">
+            <thead class="table-light">
+              <tr>
+                <th style="width: 5%">ID</th>
+                <th style="width: 15%">Name</th>
+                <th style="width: 10%">Category</th>
+                <th style="width: 10%">Price</th>
+                <th style="width: 15%">Image</th>
+                <th style="width: 25%">Description</th>
+                <th style="width: 20%">Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                *ngFor="let material of paginatedMaterials"
+                class="material-row"
+              >
+                <td class="fw-semibold">{{ material.id }}</td>
+                <td>{{ material.name }}</td>
+                <td>
+                  <span class="badge rounded-pill bg-primary">
+                    {{ material.category }}
+                  </span>
+                </td>
+                <td class="text-success">
+                  {{ material.price | currency }}<br />
+                  <small class="text-muted"
+                    >per {{ material.price_unit }}</small
                   >
-                    <i class="bi bi-pencil-square"></i>
-                  </button>
-                  <button
-                    class="btn btn-sm btn-action btn-delete"
-                    (click)="deleteMaterial(material.id)"
-                    title="Delete"
-                  >
-                    <i class="bi bi-trash"></i>
-                  </button>
-                  <button
-                    class="btn btn-sm btn-action btn-info"
-                    (click)="viewDetails(material)"
-                    title="View Details"
-                  >
-                    <i class="bi bi-info-circle"></i>
-                  </button>
-                </div>
-              </td>
-            </tr>
-            <tr *ngIf="paginatedMaterials.length === 0">
-              <td colspan="6" class="text-center py-4 text-muted">
-                No materials found matching your criteria
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                </td>
+                <td>
+                  <div class="material-image-container">
+                    <img
+                      [src]="getImageUrl(material.image_url)"
+                      alt="{{ material.name }}"
+                      class="material-image"
+                      (click)="openImageModal(material.image_url)"
+                    />
+                  </div>
+                </td>
+                <td>
+                  <div class="material-desc" [title]="material.description">
+                    {{ material.description | slice : 0 : 50
+                    }}{{ material.description.length > 100 ? "..." : "......" }}
+                  </div>
+                </td>
+                <td>
+                  <div class="d-flex gap-2">
+                    <button
+                      class="btn btn-sm btn-action btn-edit"
+                      (click)="editMaterial(material)"
+                      title="Edit"
+                    >
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-action btn-delete"
+                      (click)="deleteMaterial(material.id)"
+                      title="Delete"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
+                    <button
+                      class="btn btn-sm btn-action btn-info"
+                      (click)="viewDetails(material)"
+                      title="View Details"
+                    >
+                      <i class="bi bi-info-circle"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              <tr *ngIf="paginatedMaterials.length === 0 && !loadingMaterials">
+                <td colspan="7" class="text-center py-4 text-muted">
+                  No materials found matching your criteria
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </ng-container>
       </div>
     </div>
   </div>

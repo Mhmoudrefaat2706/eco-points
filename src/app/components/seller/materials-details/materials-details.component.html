@@ -1,45 +1,120 @@
 <app-navbar></app-navbar>
 
-<div class="container my-4">
-  @if (material) {
-    <div class="card material-details-card">
-      <div class="row g-0">
-        <div class="col-md-5">
-          <img [src]="material.image" class="img-fluid rounded-start" [alt]="material.name">
-        </div>
-        <div class="col-md-7">
-          <div class="card-body">
-            <h1 class="card-title">{{ material.name }}</h1>
-            <span class="badge bg-primary mb-3">{{ material.category }}</span>
-            
-            <!-- Add price display -->
-            <div class="price-display mb-3">
-              <h4 class="text-success">
-                {{ material.price | currency }} 
-                <small class="text-muted">per {{ material.priceUnit }}</small>
-              </h4>
-            </div>
-            
-            <p class="card-text">{{ material.desc }}</p>
-            
-            <div class="mt-4">
-              <button class="btn btn-outline-primary" (click)="goBack()">
-                ← Back to Materials List
-              </button>
-            </div>
+<div class="material-details-container">
+  <div class="container">
+    <!-- Replace the existing title div with this enhanced version -->
+    <div class="page-header-container">
+      <div class="page-header">
+        <h1 class="page-title">
+          <i class="bi bi-box-seam page-title-icon"></i>
+          Material Details
+        </h1>
+        <div class="page-header-divider"></div>
+      </div>
+    </div>
+
+    <!-- Loading State -->
+    @if (isLoading) {
+    <div class="loading-spinner">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-3 mb-0">Loading material details...</p>
+    </div>
+    }
+
+    <!-- Error State -->
+    @if (error && !isLoading) {
+    <div class="error-container">
+      <i class="bi bi-exclamation-triangle error-icon"></i>
+      <h3 class="text-danger">Oops! Something went wrong</h3>
+      <p class="text-muted mb-4">{{ error }}</p>
+      <button class="btn back-button" (click)="goBack()">
+        <i class="bi bi-arrow-left me-2"></i>Back to Materials
+      </button>
+    </div>
+    }
+
+    <!-- Material Details Content -->
+    @if (material && !isLoading && !error) {
+    <div class="material-content">
+      <div class="row">
+        <!-- Material Image -->
+        <div class="col-lg-6 mb-4">
+          <div class="material-card">
+            <img
+              [src]="material.image_url"
+              [alt]="material.name"
+              class="material-image"
+            />
           </div>
         </div>
+
+        <!-- Material Information -->
+        <div class="col-lg-6">
+          <div class="info-section">
+            <span class="category-badge">{{ material.category }}</span>
+            <h1 class="material-title pt-4">{{ material.name }}</h1>
+            <p class="material-description">{{ material.description }}</p>
+
+            <div class="price-badge">
+              <i class="bi bi-currency-dollar me-2"></i
+              >{{ material.price | currency }} / {{ material.price_unit }}
+            </div>
+          </div>
+
+          <!-- Additional Information -->
+          <div class="info-section">
+            <h5 class="mb-3">
+              <i class="bi bi-info-circle me-2"></i>Additional Information
+            </h5>
+
+            <div class="info-item">
+              <i class="bi bi-tag"></i>
+              <div>
+                <strong>Category:</strong>
+                <span>{{ material.category }}</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <i class="bi bi-currency-dollar"></i>
+              <div>
+                <strong>Price per Unit:</strong>
+                <span>{{ material.price | currency }}</span>
+              </div>
+            </div>
+
+            <div class="info-item">
+              <i class="bi bi-rulers"></i>
+              <div>
+                <strong>Unit:</strong>
+                <span>{{ material.price_unit }}</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Seller Information -->
+          <!-- <div class="seller-info">
+            <h6><i class="bi bi-person-badge me-2"></i>Seller Information</h6>
+            <a routerLink="/contact" class="contact-button">
+              <i class="bi bi-envelope me-2"></i>Contact Seller
+            </a>
+          </div> -->
+        </div>
+      </div>
+
+      <!-- Back Button -->
+      <div class="row mt-4">
+        <div class="col-12">
+          <button class="btn back-button" (click)="goBack()">
+            <i class="bi bi-arrow-left me-2"></i>Back to Materials
+          </button>
+        </div>
       </div>
     </div>
-  } @else {
-    <div class="card">
-      <div class="card-body text-center py-5">
-        <h2 class="card-title">Material not found</h2>
-        <p class="card-text">The requested material could not be found.</p>
-        <button class="btn btn-primary" (click)="goBack()">
-          ← Back to Materials List
-        </button>
-      </div>
-    </div>
-  }
+    }
+  </div>
 </div>
+
+<app-footer></app-footer>

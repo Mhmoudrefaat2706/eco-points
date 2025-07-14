@@ -1,4 +1,3 @@
-
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { BFooterComponent } from '../b-footer/b-footer.component';
 import { BNavbarComponent } from '../b-navbar/b-navbar.component';
@@ -7,17 +6,25 @@ import { CommonModule } from '@angular/common';
 import { MaterialsService } from '../../../services/materials.service';
 import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 import { RouterModule } from '@angular/router';
+import { Material } from '../../../models/material.model';
 
 @Component({
   selector: 'app-buyer-home',
-  imports: [CommonModule, TranslateModule, BFooterComponent, BNavbarComponent, RouterModule],
+  imports: [
+    CommonModule,
+    TranslateModule,
+    BFooterComponent,
+    BNavbarComponent,
+    RouterModule,
+  ],
   templateUrl: './buyer-home.component.html',
   styleUrls: ['./buyer-home.component.css'],
 })
 export class BuyerHomeComponent {
+  private carouselInitialized = false;
 
   translate = inject(TranslateService);
-  
+
   @ViewChild('carouselTrack') carouselTrack!: ElementRef;
   featuredMaterials: any[] = [];
   currentSlide = 0;
@@ -32,27 +39,98 @@ export class BuyerHomeComponent {
     private cartMaterials: SharedMatarialsService
   ) {}
 
-ngOnInit(): void {
-  this.translate.onLangChange.subscribe((event) => {
-    this.isRTL = event.lang === 'ar'; // Assuming 'ar' is your Arabic language code
-    this.updateSlideDirection();
-  });
-  
-  this.featuredMaterials = this.materialsService.getAllMaterials().slice(0, 6);
-  this.totalSlides = Math.ceil(this.featuredMaterials.length / this.slidesToShow);
-}
+  ngOnInit(): void {
+    this.translate.onLangChange.subscribe((event) => {
+      this.isRTL = event.lang === 'ar';
+      this.updateSlideDirection();
+    });
 
-updateSlideDirection(): void {
-  if (this.carouselTrack?.nativeElement) {
-    this.carouselTrack.nativeElement.style.direction = this.isRTL ? 'rtl' : 'ltr';
-    this.goToSlide(this.currentSlide); // Reset position after direction change
+    // Get latest materials instead of all materials
+    this.materialsService.getLatestMaterials().subscribe({
+      next: (materials: Material[]) => {
+        this.featuredMaterials = materials;
+        this.totalSlides = Math.ceil(
+          this.featuredMaterials.length / this.slidesToShow
+        );
+      },
+      error: (error) => {
+        console.error('Error loading latest materials:', error);
+      },
+    });
   }
-}
 
   ngAfterViewInit(): void {
     this.updateSlideWidth();
     this.startAutoSlide();
     window.addEventListener('resize', this.updateSlideWidth.bind(this));
+    this.carouselInitialized = true;
+  }
+
+  updateSlideWidth(): void {
+    const width = window.innerWidth;
+    if (width < 768) {
+      this.slidesToShow = 1;
+    } else if (width < 992) {
+      this.slidesToShow = 2;
+    } else {
+      this.slidesToShow = 3;
+    }
+
+    // Calculate slide width properly
+    if (this.carouselTrack?.nativeElement?.children[0]) {
+      const track = this.carouselTrack.nativeElement;
+      const slide = track.children[0];
+      const style = window.getComputedStyle(slide);
+      const marginLeft = parseFloat(style.marginLeft);
+      const marginRight = parseFloat(style.marginRight);
+      this.slideWidth = slide.offsetWidth + marginLeft + marginRight;
+    }
+
+    this.totalSlides = Math.ceil(
+      this.featuredMaterials.length / this.slidesToShow
+    );
+
+    // Only go to slide if carousel is initialized
+    if (this.carouselInitialized) {
+      this.goToSlide(this.currentSlide);
+    }
+  }
+
+  goToSlide(index: number): void {
+    if (
+      !this.carouselTrack?.nativeElement ||
+      this.featuredMaterials.length === 0
+    )
+      return;
+
+    // Ensure index is within bounds
+    if (index >= this.totalSlides) {
+      index = 0;
+    } else if (index < 0) {
+      index = this.totalSlides - 1;
+    }
+
+    const track = this.carouselTrack.nativeElement;
+    const gap = 16; // 1rem gap (match your CSS)
+    let offset = index * (this.slideWidth * this.slidesToShow + gap);
+
+    // Adjust for RTL direction
+    if (this.isRTL) {
+      offset = -offset;
+    }
+
+    track.style.transition = 'transform 0.5s ease-in-out';
+    track.style.transform = `translateX(${offset}px)`;
+    this.currentSlide = index;
+  }
+
+  updateSlideDirection(): void {
+    if (this.carouselTrack?.nativeElement) {
+      this.carouselTrack.nativeElement.style.direction = this.isRTL
+        ? 'rtl'
+        : 'ltr';
+      this.goToSlide(this.currentSlide); // Reset position after direction change
+    }
   }
 
   ngOnDestroy(): void {
@@ -82,24 +160,6 @@ updateSlideDirection(): void {
     return text.length > length ? text.substring(0, length) + '...' : text;
   }
 
-  updateSlideWidth(): void {
-    const width = window.innerWidth;
-    if (width < 768) {
-      this.slidesToShow = 1;
-    } else if (width < 992) {
-      this.slidesToShow = 2;
-    } else {
-      this.slidesToShow = 3;
-    }
-    
-    if (this.carouselTrack?.nativeElement?.children[0]) {
-      this.slideWidth = this.carouselTrack.nativeElement.children[0].offsetWidth;
-    }
-    
-    this.totalSlides = Math.ceil(this.featuredMaterials.length / this.slidesToShow);
-    this.goToSlide(this.currentSlide);
-  }
-
   startAutoSlide(): void {
     this.autoSlideInterval = setInterval(() => {
       this.nextSlide();
@@ -111,23 +171,6 @@ updateSlideDirection(): void {
       clearInterval(this.autoSlideInterval);
     }
   }
-
-goToSlide(index: number): void {
-  if (!this.carouselTrack?.nativeElement) return;
-  
-  const track = this.carouselTrack.nativeElement;
-  const gap = 16; // 1rem gap
-  let offset = -(index * (this.slideWidth + gap) * this.slidesToShow);
-  
-  // Adjust for RTL direction
-  if (this.isRTL) {
-    offset = -offset;
-  }
-  
-  track.style.transition = 'transform 1s ease-in-out';
-  track.style.transform = `translateX(${offset}px)`;
-  this.currentSlide = index;
-}
 
   nextSlide(): void {
     if (this.currentSlide >= this.totalSlides - 1) {

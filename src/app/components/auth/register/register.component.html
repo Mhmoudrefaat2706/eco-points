@@ -189,18 +189,53 @@
             <!-- Your existing form content remains the same -->
             <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
               <div class="mb-3">
-                <label for="name" class="form-label">Full Name</label>
+                <label for="firstName" class="form-label">First Name</label>
                 <div class="input-group">
                   <span class="input-group-text bg-white">
                     <i class="bi bi-person text-muted"></i>
                   </span>
-                  <input type="text" id="first_name" name="first_name" class="form-control" placeholder="first Name"
-                    formControlName="first_name" />
+
+                  <input
+                    type="text"
+                    id="firstName"
+                    name="firstName"
+                    class="form-control"
+                    placeholder="Your first name"
+                    [(ngModel)]="user.firstName"
+                    required
+                    #firstName="ngModel"
+                  />
                 </div>
-                @let firstNameError = registerForm.get('first_name');
-                @if(firstNameError?.getError('required') && firstNameError?.touched) {
-                <div class="text-danger small mt-1">
-                  Name is required.
+                <div
+                  class="text-danger small mt-1"
+                  *ngIf="firstName.invalid && firstName.touched"
+                >
+                  First name is required.
+                </div>
+              </div>
+              <div class="mb-3">
+                <label for="lastName" class="form-label">Last Name</label>
+                <div class="input-group">
+                  <span class="input-group-text bg-white">
+                    <i class="bi bi-person text-muted"></i>
+                  </span>
+                  <input
+                    type="text"
+                    id="lastName"
+                    name="lastName"
+                    class="form-control"
+                    placeholder="Your last name"
+                    [(ngModel)]="user.lastName"
+                    required
+                    #lastName="ngModel"
+                  />
+                </div>
+                <div
+                  class="text-danger small mt-1"
+                  *ngIf="lastName.invalid && lastName.touched"
+                >
+                  Last name is required.
+
                 </div>
                 }
 

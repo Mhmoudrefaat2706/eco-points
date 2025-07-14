@@ -16,13 +16,12 @@
             "outputPath": "dist/eco-points",
             "index": "src/index.html",
             "browser": "src/main.ts",
-            "polyfills": [
-              "zone.js",
-              "@angular/localize/init"
-            ],
+            "polyfills": ["zone.js", "@angular/localize/init"],
             "tsConfig": "tsconfig.app.json",
-            "assets": ["src/favicon.ico",
-               "src/assets",
+            "assets": [
+              "src/favicon.ico",
+              "src/assets",
+              "src/assets/uploads",
               {
                 "glob": "**/*",
                 "input": "public"
@@ -92,9 +91,7 @@
                 "input": "public"
               }
             ],
-            "styles": [
-              "src/styles.css"
-            ],
+            "styles": ["src/styles.css"],
             "scripts": []
           }
         }

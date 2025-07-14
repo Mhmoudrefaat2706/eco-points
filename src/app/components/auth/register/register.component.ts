@@ -18,6 +18,16 @@ import { AuthService, User } from '../../../services/auth.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
+
+  user = {
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    confirmPassword: '',
+    role: '',
+  };
+
   errorMessage = '';
   successMessage = '';
 
@@ -37,15 +47,43 @@ export class RegisterComponent {
     if (this.registerForm.valid) {
       const data = this.registerForm.value as User;
 
-      // تحقق إضافي على الدور
-      if (!['buyer', 'seller'].includes(data.role)) {
-        this.errorMessage = 'Please select a valid role (buyer or seller).';
-        return;
-      }
 
-      this.sendRegisterData(data);
-    } else {
-      this.registerForm.markAllAsTouched();
+    this.authService
+      .register(
+        this.user.firstName,
+        this.user.lastName,
+        this.user.email,
+        this.user.password,
+        this.user.role
+      )
+      .subscribe({
+        next: (response) => {
+          this.successMessage = 'Registration successful! You can now login.';
+          this.errorMessage = '';
+          setTimeout(() => this.router.navigate(['/login']), 2000);
+        },
+        error: (error) => {
+          this.errorMessage =
+            error.error?.message || 'Registration failed. Try again.';
+          this.successMessage = '';
+        },
+      });
+  }
+
+  scrollToRegister() {
+    const element = document.getElementById('registerForm');
+    if (element) {
+      const offset = 80;
+      const bodyRect = document.body.getBoundingClientRect().top;
+      const elementRect = element.getBoundingClientRect().top;
+      const elementPosition = elementRect - bodyRect;
+      const offsetPosition = elementPosition - offset;
+
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+
     }
   }
 
@@ -56,20 +94,11 @@ export class RegisterComponent {
         this.successMessage = 'User registered successfully.';
         this.errorMessage = '';
 
-        // Redirect after short delay
-        setTimeout(() => {
-          this.router.navigate(['/login']);
-        }, 1500);
-      },
-      error: (err) => {
-        console.error("err", err);
-        if (err.status === 422 && err.error.errors) {
-          const errors = err.error.errors;
-          this.errorMessage = Object.values(errors).flat().join(' ');
-        } else {
-          this.errorMessage = err.error.message || 'Something went wrong!';
-        }
-      },
-    });
+      window.scrollTo({
+        top: offsetPosition,
+        behavior: 'smooth',
+      });
+    }
+
   }
 }
