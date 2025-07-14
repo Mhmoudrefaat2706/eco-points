@@ -156,9 +156,9 @@
                         style="height: 220px; object-fit: cover"
                       />
                       <div class="points-badge">
-                        <span class="badge bg-primary">{{
-                          material.category
-                        }}</span>
+                        <span class="badge" [ngClass]="'badge-' + (getCategoryName(material.category)?.toLowerCase())">
+                          {{ material.category }}
+                        </span>
                       </div>
                     </div>
                     <div class="card-body text-center">

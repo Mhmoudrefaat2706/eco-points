@@ -145,10 +145,13 @@
                     class="card-img-top"
                     [alt]="material.name"
                   />
-                  <div class="card-badge">
+                  <div class="points-badge">
                     <span
                       class="badge"
-                      [ngClass]="'badge-' + material.category.toLowerCase()"
+                      [ngClass]="
+                        'badge-' +
+                        getCategoryName(material.category)?.toLowerCase()
+                      "
                     >
                       {{ material.category }}
                     </span>

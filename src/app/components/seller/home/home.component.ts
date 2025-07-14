@@ -12,7 +12,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { MaterialsService } from '../../../services/materials.service';
-import { Material } from '../../../models/material.model';
+import { Category, Material } from '../../../models/material.model';
 
 @Component({
   selector: 'app-home',
@@ -75,5 +75,10 @@ export class HomeComponent implements AfterViewInit {
       groups.push(this.featuredMaterials.slice(i, i + 3));
     }
     return groups;
+  }
+
+  getCategoryName(category: string | Category): string | null {
+    if (!category) return null;
+    return typeof category === 'string' ? category : category.name;
   }
 }

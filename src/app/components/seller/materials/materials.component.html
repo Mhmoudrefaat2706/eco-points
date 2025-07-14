@@ -132,9 +132,11 @@
           <div class="card-badge" *ngIf="material.category">
             <span
               class="badge"
-              [ngClass]="'badge-' + material.category"
+              [ngClass]="
+                'badge-' + (getCategoryName(material.category) | lowercase)
+              "
             >
-              {{ material.category }}
+              {{ getCategoryName(material.category) }}
             </span>
           </div>
         </div>
@@ -148,7 +150,10 @@
             <span class="price-unit">/ {{ material.price_unit }}</span>
           </div>
           <div class="mt-auto">
-            <a [routerLink]="['/materials', material.id]" class="btn btn-outline-primary btn-sm">
+            <a
+              [routerLink]="['/materials', material.id]"
+              class="btn btn-outline-primary btn-sm"
+            >
               View Details <i class="bi bi-arrow-right ms-2"></i>
             </a>
           </div>

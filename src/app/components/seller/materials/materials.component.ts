@@ -258,4 +258,8 @@ export class MaterialsComponent implements OnInit {
       },
     });
   }
+
+  getCategoryName(category: string | Category): string {
+  return typeof category === 'string' ? category : category.name;
+}
 }

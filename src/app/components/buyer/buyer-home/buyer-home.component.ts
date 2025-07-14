@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialsService } from '../../../services/materials.service';
 import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 import { RouterModule } from '@angular/router';
-import { Material } from '../../../models/material.model';
+import { Category, Material } from '../../../models/material.model';
 
 @Component({
   selector: 'app-buyer-home',
@@ -189,5 +189,10 @@ export class BuyerHomeComponent {
       this.currentSlide--;
     }
     this.goToSlide(this.currentSlide);
+  }
+
+  getCategoryName(category: string | Category): string | null {
+    if (!category) return null;
+    return typeof category === 'string' ? category : category.name;
   }
 }
