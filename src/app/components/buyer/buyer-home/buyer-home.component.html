@@ -108,7 +108,7 @@
     </div>
   </section>
 
-  <!-- Replace the existing carousel section with this: -->
+  <!-- buyer-home.component.html -->
   <section class="featured-materials">
     <div class="container">
       <div class="section-header text-center mb-5">
@@ -121,7 +121,14 @@
         </p>
       </div>
 
-      @if (featuredMaterials.length > 0) {
+      @if (isLoadingMaterials) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p class="mt-3">Loading materials...</p>
+      </div>
+      } @else if (featuredMaterials.length > 0) {
       <div class="position-relative">
         <div class="carousel-container">
           <div
@@ -138,10 +145,13 @@
                     class="card-img-top"
                     [alt]="material.name"
                   />
-                  <div class="card-badge">
+                  <div class="points-badge">
                     <span
                       class="badge"
-                      [ngClass]="'badge-' + material.category.toLowerCase()"
+                      [ngClass]="
+                        'badge-' +
+                        getCategoryName(material.category)?.toLowerCase()
+                      "
                     >
                       {{ material.category }}
                     </span>

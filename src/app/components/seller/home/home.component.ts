@@ -12,7 +12,7 @@ import { FooterComponent } from '../footer/footer.component';
 import { Router } from '@angular/router';
 import { RouterModule } from '@angular/router';
 import { MaterialsService } from '../../../services/materials.service';
-import { Material } from '../../../models/material.model';
+import { Category, Material } from '../../../models/material.model';
 
 @Component({
   selector: 'app-home',
@@ -30,6 +30,7 @@ import { Material } from '../../../models/material.model';
 export class HomeComponent implements AfterViewInit {
   @ViewChild('materialsCarousel') carousel!: ElementRef;
   featuredMaterials: Material[] = [];
+  isLoadingMaterials = true;
 
   constructor(private materialsService: MaterialsService) {}
 
@@ -45,10 +46,12 @@ export class HomeComponent implements AfterViewInit {
     this.materialsService.getLatestMaterials().subscribe({
       next: (materials: Material[]) => {
         this.featuredMaterials = materials;
+        this.isLoadingMaterials = false; // Add this line
         setTimeout(() => this.initializeCarousel(), 0);
       },
       error: (error) => {
         console.error('Error loading latest materials:', error);
+        this.isLoadingMaterials = false; // Add this line
       },
     });
   }
@@ -72,5 +75,10 @@ export class HomeComponent implements AfterViewInit {
       groups.push(this.featuredMaterials.slice(i, i + 3));
     }
     return groups;
+  }
+
+  getCategoryName(category: string | Category): string | null {
+    if (!category) return null;
+    return typeof category === 'string' ? category : category.name;
   }
 }

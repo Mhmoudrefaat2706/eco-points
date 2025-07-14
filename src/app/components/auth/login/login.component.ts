@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthService, loginUser, User } from '../../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -25,49 +25,47 @@ export class LoginComponent {
 
   private router = inject(Router); 
   private authService = inject(AuthService);
-  private _FormBuilder = inject(FormBuilder);
+  private formBuilder = inject(FormBuilder);
 
-  loginForm = this._FormBuilder.group({
+  loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
   onSubmit() {
     if (this.loginForm.valid) {
-      this.sendLoginData(this.loginForm.value);
+      this.isLoading = true;
+      const credentials = this.loginForm.value;
+      
+      this.authService.login(
+        credentials.email!,
+        credentials.password!
+      ).subscribe({
+        next: () => {
+          this.successMessage = 'Login successful!';
+          this.errorMessage = '';
+          this.logoutMessage = '';
+          this.isLoading = false;
+
+          const role = this.authService.getUserRole();
+          if (role === 'seller') {
+            this.router.navigate(['/home']);
+          } else if (role === 'buyer') {
+            this.router.navigate(['/buyer-home']);
+          }
+        },
+        error: (error) => {
+          this.errorMessage = error.error?.message || 'Invalid email or password.';
+          this.successMessage = '';
+          this.logoutMessage = '';
+          this.isLoading = false;
+        }
+      });
     } else {
-      console.log('not valid');
+      console.log('Form not valid');
       this.loginForm.markAllAsTouched();
     }
   }
-
-    this.isLoading = true;
-    this.authService.login(
-      this.credentials.email,
-      this.credentials.password
-    ).subscribe({
-      next: () => {
-        this.successMessage = 'Login successful!';
-        this.errorMessage = '';
-        this.logoutMessage = '';
-        this.isLoading = false;
-
-        const role = this.authService.getUserRole();
-        if (role === 'seller') {
-          this.router.navigate(['/home']);
-        } else if (role === 'buyer') {
-          this.router.navigate(['/buyer-home']);
-        }
-      },
-      error: (error) => {
-        this.errorMessage = error.error?.message || 'Invalid email or password.';
-        this.successMessage = '';
-        this.logoutMessage = '';
-        this.isLoading = false;
-      }
-    });
-  }
-
 
   logout() {
     this.authService.logout();

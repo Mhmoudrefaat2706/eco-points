@@ -8,7 +8,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthService, User } from '../../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-register',
@@ -18,18 +18,9 @@ import { AuthService, User } from '../../../services/auth.service';
   styleUrls: ['./register.component.css'],
 })
 export class RegisterComponent {
-
-  user = {
-    firstName: '',
-    lastName: '',
-    email: '',
-    password: '',
-    confirmPassword: '',
-    role: '',
-  };
-
   errorMessage = '';
   successMessage = '';
+  isLoading = false;
 
   private authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
@@ -45,29 +36,31 @@ export class RegisterComponent {
 
   onSubmit() {
     if (this.registerForm.valid) {
-      const data = this.registerForm.value as User;
-
-
-    this.authService
-      .register(
-        this.user.firstName,
-        this.user.lastName,
-        this.user.email,
-        this.user.password,
-        this.user.role
-      )
-      .subscribe({
+      this.isLoading = true;
+      const formData = this.registerForm.value;
+      
+      this.authService.register(
+        formData.first_name!,
+        formData.last_name!,
+        formData.email!,
+        formData.password!,
+        formData.role! as 'seller' | 'buyer'
+      ).subscribe({
         next: (response) => {
           this.successMessage = 'Registration successful! You can now login.';
           this.errorMessage = '';
+          this.isLoading = false;
           setTimeout(() => this.router.navigate(['/login']), 2000);
         },
         error: (error) => {
-          this.errorMessage =
-            error.error?.message || 'Registration failed. Try again.';
+          this.errorMessage = error.error?.message || 'Registration failed. Try again.';
           this.successMessage = '';
+          this.isLoading = false;
         },
       });
+    } else {
+      this.registerForm.markAllAsTouched();
+    }
   }
 
   scrollToRegister() {
@@ -83,22 +76,22 @@ export class RegisterComponent {
         top: offsetPosition,
         behavior: 'smooth',
       });
-
     }
   }
 
-  sendRegisterData(data: User) {
-    this.authService.register(data).subscribe({
-      next: (res) => {
-        console.log(res);
-        this.successMessage = 'User registered successfully.';
-        this.errorMessage = '';
+  scrollToWhyJoin() {
+  const element = document.getElementById('whyJoin');
+  if (element) {
+    const offset = 80;
+    const bodyRect = document.body.getBoundingClientRect().top;
+    const elementRect = element.getBoundingClientRect().top;
+    const elementPosition = elementRect - bodyRect;
+    const offsetPosition = elementPosition - offset;
 
-      window.scrollTo({
-        top: offsetPosition,
-        behavior: 'smooth',
-      });
-    }
-
+    window.scrollTo({
+      top: offsetPosition,
+      behavior: 'smooth',
+    });
   }
+}
 }

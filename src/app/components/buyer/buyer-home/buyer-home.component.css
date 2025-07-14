@@ -871,3 +871,13 @@ main {
     flex: 0 0 calc(100% - 1rem);
   }
 }
+
+.spinner-border {
+  width: 3rem;
+  height: 3rem;
+  border-width: 0.25em;
+}
+
+.featured-materials .spinner-border {
+  color: var(--bs-primary);
+}

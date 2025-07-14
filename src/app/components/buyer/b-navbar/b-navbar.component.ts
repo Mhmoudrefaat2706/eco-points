@@ -52,7 +52,7 @@ export class BNavbarComponent implements OnInit {
     const user = this.authService.getLoggedInUser();
     if (user) {
       //this.userName = user.name;
-      this.userName = user.first_name + ' ' + user.last_name; 
+      this.userName = user.name; 
       this.userRole = user.role === 'buyer' ? 'Buyer' : 'Seller';
     }
   }

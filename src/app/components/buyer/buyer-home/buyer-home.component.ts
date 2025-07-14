@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { MaterialsService } from '../../../services/materials.service';
 import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 import { RouterModule } from '@angular/router';
-import { Material } from '../../../models/material.model';
+import { Category, Material } from '../../../models/material.model';
 
 @Component({
   selector: 'app-buyer-home',
@@ -22,7 +22,7 @@ import { Material } from '../../../models/material.model';
 })
 export class BuyerHomeComponent {
   private carouselInitialized = false;
-
+  isLoadingMaterials = true;
   translate = inject(TranslateService);
 
   @ViewChild('carouselTrack') carouselTrack!: ElementRef;
@@ -45,16 +45,17 @@ export class BuyerHomeComponent {
       this.updateSlideDirection();
     });
 
-    // Get latest materials instead of all materials
     this.materialsService.getLatestMaterials().subscribe({
       next: (materials: Material[]) => {
         this.featuredMaterials = materials;
+        this.isLoadingMaterials = false; // Add this line
         this.totalSlides = Math.ceil(
           this.featuredMaterials.length / this.slidesToShow
         );
       },
       error: (error) => {
         console.error('Error loading latest materials:', error);
+        this.isLoadingMaterials = false; // Add this line
       },
     });
   }
@@ -188,5 +189,10 @@ export class BuyerHomeComponent {
       this.currentSlide--;
     }
     this.goToSlide(this.currentSlide);
+  }
+
+  getCategoryName(category: string | Category): string | null {
+    if (!category) return null;
+    return typeof category === 'string' ? category : category.name;
   }
 }
