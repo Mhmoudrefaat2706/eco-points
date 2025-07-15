@@ -90,6 +90,10 @@ export class BMaterialsDetailsComponent implements OnInit {
   goBack() {
     this.router.navigate(['/b-materials']);
   }
+getImageUrl(image: string | undefined): string {
+  if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
+  return `http://localhost:8000/materials/${image}`;
+}
 
   // Update addToCart to handle null case
   addToCart(material: Material) {
