@@ -43,25 +43,16 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
-
       const { email, password } = this.loginForm.value;
       
       this.authService.login(email!, password!).subscribe({
-
-      const credentials = this.loginForm.value;
-      
-      this.authService.login(
-        credentials.email!,
-        credentials.password!
-      ).subscribe({
-
         next: () => {
           this.successMessage = 'Login successful!';
           this.errorMessage = '';
           this.logoutMessage = '';
           this.isLoading = false;
 
-
+          // Get user role and navigate accordingly
           const role = this.authService.getUserRole();
           if (role === 'seller') {
             this.router.navigate(['/home']);
@@ -77,9 +68,6 @@ export class LoginComponent {
         }
       });
     } else {
-
-      console.log('Form not valid');
-
       this.loginForm.markAllAsTouched();
     }
   }
