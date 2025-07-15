@@ -5,10 +5,11 @@ import { RouterModule } from '@angular/router';
 import { BFooterComponent } from '../b-footer/b-footer.component';
 import { BNavbarComponent } from '../b-navbar/b-navbar.component';
 import { Material } from '../../../models/material.model';
-import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 import { MaterialsService } from '../../../services/materials.service';
 import { filter } from 'rxjs/operators';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CartService } from '../../../services/cart.service';
+import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 
 @Component({
   selector: 'app-b-materials-details',
@@ -19,7 +20,6 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
     BFooterComponent,
     BNavbarComponent,
     MatSnackBarModule,
-  ],
   templateUrl: './b-materials-details.component.html',
   styleUrls: ['./b-materials-details.component.css'],
 })
@@ -30,15 +30,18 @@ export class BMaterialsDetailsComponent implements OnInit {
   isLoading: boolean = true;
   errorMessage: string = '';
   isInCart: boolean = false;
+  addingToCart: boolean = false;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private cartMaterials: SharedMatarialsService,
     private materialsService: MaterialsService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cartService: CartService,
+    private cartMaterials: SharedMatarialsService
   ) {
     this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
       .pipe(
         filter(
           (event): event is NavigationEnd => event instanceof NavigationEnd
@@ -53,10 +56,6 @@ export class BMaterialsDetailsComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.id = Number(params.get('id'));
       this.loadMaterial();
-    });
-  }
-
-  loadMaterial(): void {
     this.isLoading = true;
     this.errorMessage = '';
 
@@ -80,11 +79,19 @@ export class BMaterialsDetailsComponent implements OnInit {
 
   // Update checkIfInCart to handle null case
   checkIfInCart(): void {
-    if (this.material) {
-      this.isInCart = this.cartMaterials.isInCart(this.material.id);
     } else {
       this.isInCart = false;
-    }
+
+    this.cartService.viewCart().subscribe({
+      next: (res: any[]) => {
+        this.isInCart = res.some(
+          (item) => item.material.id === this.material?.id
+        );
+      },
+      error: (err) => {
+        console.error('Error checking cart:', err);
+      },
+    });
   }
 
   goBack() {
@@ -95,6 +102,14 @@ getImageUrl(image: string | undefined): string {
   return `http://localhost:8000/materials/${image}`;
 }
 
+  getImageUrl(image: string | undefined): string {
+    if (!image) return 'assets/images/placeholder.png';
+    return `http://localhost:8000/materials/${image}`;
+  }
+
+  // Update addToCart method
+  addToCart(material: Material) {
+    if (!material || this.addingToCart) return;
   // Update addToCart to handle null case
   addToCart(material: Material) {
     if (!material) return;
@@ -107,6 +122,19 @@ getImageUrl(image: string | undefined): string {
       return;
     }
 
+    this.addingToCart = true;
+
+    this.cartService.addToCart(material.id).subscribe({
+      next: (res) => {
+        this.isInCart = true;
+        this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
+        this.addingToCart = false;
+      },
+      error: (err) => {
+        this.showSnackbar('Failed to add to cart', 'error-snackbar');
+        this.addingToCart = false;
+      },
+    });
     const itemToAdd = {
       ...material,
       quantity: this.quantity,

@@ -8,8 +8,17 @@
         {{ materails.length === 1 ? "item" : "items" }}</span
       >
       @if (materails.length > 0) {
-      <button class="btn-delete-all" (click)="clearCart()">
-        <i class="fas fa-trash-alt"></i> Clear Cart
+      <button
+        class="btn-delete-all"
+        (click)="clearCart()"
+        [disabled]="clearingCart"
+      >
+        <span
+          *ngIf="clearingCart"
+          class="spinner-border spinner-border-sm me-1"
+        ></span>
+        <i class="fas fa-trash-alt" *ngIf="!clearingCart"></i>
+        {{ clearingCart ? "Clearing..." : "Clear Cart" }}
       </button>
       }
     </div>
@@ -17,7 +26,14 @@
 
   <div class="cart-wrapper">
     <div class="cart-items">
-      @if (materails.length === 0) {
+      @if (loadingCart) {
+      <div class="text-center py-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <p>Loading your cart...</p>
+      </div>
+      } @else if (materails.length === 0 && !loadingCart) {
       <div class="empty-cart">
         <i class="fas fa-shopping-cart"></i>
         <h3>Your cart is empty</h3>
@@ -36,6 +52,7 @@
           <span class="item-category">{{ item.category }}</span>
           <div class="item-price">EGP {{ item.price | number : "1.2-2" }}</div>
         </div>
+        <!-- Update the quantity buttons section -->
         <div class="item-quantity">
           <button
             class="quantity-btn"
@@ -52,8 +69,16 @@
         <div class="item-total">
           EGP {{ item.price * (item.quantity || 1) | number : "1.2-2" }}
         </div>
-        <button class="item-delete" (click)="removeFromCart(item.id)">
-          <i class="fas fa-trash-alt"></i>
+        <button
+          class="item-delete"
+          (click)="removeFromCart(item.id)"
+          [disabled]="deletingItemId === item.id"
+        >
+          <span
+            *ngIf="deletingItemId === item.id"
+            class="spinner-border spinner-border-sm"
+          ></span>
+          <i class="fas fa-trash-alt" *ngIf="deletingItemId !== item.id"></i>
         </button>
       </div>
       } }
@@ -82,7 +107,7 @@
         <input type="text" placeholder="Enter coupon code" />
         <button class="btn-apply">Apply</button>
       </div>
-      <button class="btn-checkout" routerLink="/b-checkout">
+      <button class="btn-checkout" (click)="proceedToCheckout()">
         Proceed to Checkout
       </button>
       <a routerLink="/b-materials" class="continue-shopping">

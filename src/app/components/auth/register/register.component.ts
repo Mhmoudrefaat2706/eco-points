@@ -30,7 +30,7 @@ export class RegisterComponent {
     first_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
     last_name: ['', [Validators.required, Validators.minLength(3), Validators.maxLength(10)]],
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.minLength(6)]],
+    password: ['', [Validators.required, Validators.minLength(8)]],
     role: ['', [Validators.required]],
   });
 

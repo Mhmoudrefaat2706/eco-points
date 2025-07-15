@@ -8,6 +8,11 @@ import { SharedMatarialsService } from '../../../services/shared-matarials.servi
 import { MaterialsService } from '../../../services/materials.service';
 import { Material } from '../../../models/material.model';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CartService } from '../../../services/cart.service';
+
+interface DisplayMaterial extends Omit<Material, 'category'> {
+  category: string; // Override to be always string
+}
 
 interface DisplayMaterial extends Omit<Material, 'category'> {
   category: string; // Override to be always string
@@ -27,6 +32,10 @@ interface DisplayMaterial extends Omit<Material, 'category'> {
   styleUrl: './b-materials.component.css',
 })
 export class BMaterialsComponent {
+  currentPage = 1;
+  itemsPerPage = 6;
+  allMaterials: DisplayMaterial[] = [];
+  filteredMaterials: DisplayMaterial[] = [];
   allMaterials: DisplayMaterial[] = [];
   filteredMaterials: DisplayMaterial[] = [];
   currentPage = 1;
@@ -40,18 +49,20 @@ export class BMaterialsComponent {
   priceFilterActive = false;
   priceFilterApplied = false;
   priceFilterError = '';
-
-  // Unique categories for the filter dropdown
   categories: string[] = ['All'];
+  cartMaterialIds: number[] = [];
+  addingToCartId: number | null = null;
 
   constructor(
     private cartMatrials: SharedMatarialsService,
     private materialsService: MaterialsService,
-    private snackBar: MatSnackBar // Inject MaterialsService
+    private snackBar: MatSnackBar,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.loadMaterials();
+    this.loadCartMaterialIds();
   }
 
   loadMaterials(): void {
@@ -90,6 +101,17 @@ export class BMaterialsComponent {
     });
   }
 
+  loadCartMaterialIds(): void {
+    this.cartService.viewCart().subscribe({
+      next: (res) => {
+        this.cartMaterialIds = res.map((item: any) => item.material.id);
+      },
+      error: (err) => {
+        console.error('Failed to load cart items', err);
+      },
+    });
+  }
+
   scrollToMaterials() {
     const element = document.getElementById('materialsSection');
     if (element) {
@@ -100,6 +122,11 @@ getImageUrl(image: string | undefined): string {
   if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
   return `http://localhost:8000/materials/${image}`;
 }
+
+  getImageUrl(image: string | undefined): string {
+    if (!image) return 'assets/images/placeholder.png';
+    return `http://localhost:8000/materials/${image}`;
+  }
 
   clearFilters() {
     this.searchQuery = '';
@@ -119,7 +146,6 @@ getImageUrl(image: string | undefined): string {
   }
 
   applyPriceFilter() {
-    // Validate inputs
     if (
       this.minPrice !== null &&
       this.maxPrice !== null &&
@@ -222,9 +248,16 @@ getImageUrl(image: string | undefined): string {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
+  // Update the addToCart method
+  addToCart(material: DisplayMaterial) {
+    if (this.addingToCartId !== null) return;
+
+    if (this.cartMaterialIds.includes(material.id)) {
+
   addToCart(material: DisplayMaterial) {
     // Check if material is already in cart
     if (this.cartMatrials.isInCart(material.id)) {
+
       this.showSnackbar(
         `${material.name} is already in your cart`,
         'info-snackbar'
@@ -232,14 +265,21 @@ getImageUrl(image: string | undefined): string {
       return;
     }
 
-    // Add to cart with quantity 1
-    const itemToAdd = {
-      ...material,
-      quantity: 1,
-    };
+    this.addingToCartId = material.id;
 
-    this.cartMatrials.addToCart(itemToAdd);
-    this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
+    this.cartService.addToCart(material.id).subscribe({
+      next: (res) => {
+        this.cartMaterialIds.push(material.id);
+        this.cartService.loadCartCount();
+        this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
+        this.addingToCartId = null;
+      },
+      error: (err) => {
+        console.error('Add to cart failed', err);
+        this.showSnackbar('Error adding to cart', 'error-snackbar');
+        this.addingToCartId = null;
+      },
+    });
   }
 
   private showSnackbar(message: string, panelClass: string): void {
@@ -251,8 +291,7 @@ getImageUrl(image: string | undefined): string {
     });
   }
 
-  // Add this method to your BMaterialsComponent class
   isInCart(materialId: number): boolean {
-    return this.cartMatrials.isInCart(materialId);
+    return this.cartMaterialIds.includes(materialId);
   }
 }

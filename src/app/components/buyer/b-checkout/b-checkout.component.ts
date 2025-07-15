@@ -54,9 +54,21 @@ export class BCheckoutComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  // Update the ngOnInit in b-checkout.component.ts
   ngOnInit() {
-    this.cartItems = this.materialsService.getCartItems();
-    this.calcPrices();
+    const navigation = this.router.getCurrentNavigation();
+    const state = navigation?.extras.state as { cartData: any };
+
+    if (state?.cartData) {
+      this.cartItems = state.cartData.items;
+      this.subtotal = state.cartData.subtotal;
+      this.tax = state.cartData.tax;
+      this.total = state.cartData.total;
+    } else {
+      // Fallback to service if no state (shouldn't happen in normal flow)
+      this.cartItems = this.materialsService.getCartItems();
+      this.calcPrices();
+    }
   }
 
   calcPrices() {
@@ -72,7 +84,8 @@ export class BCheckoutComponent implements OnInit {
     return this.cartItems.reduce((acc, item) => acc + (item.quantity || 1), 0);
   }
 
-  placeOrder() {
+  // In b-checkout.component.ts
+  async placeOrder() {
     if (!this.name || !this.address || !this.phone) {
       this.showSnackbar('Please fill in all required fields.');
       return;
@@ -97,7 +110,13 @@ export class BCheckoutComponent implements OnInit {
         country: this.country,
       },
       paymentMethod: this.paymentMethod,
-      orderItems: this.cartItems,
+      orderItems: this.cartItems.map((item) => ({
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        image: item.image,
+        quantity: item.quantity || 1,
+      })),
       subtotal: this.subtotal,
       tax: this.tax,
       shippingCost: this.shippingCost,
@@ -108,10 +127,18 @@ export class BCheckoutComponent implements OnInit {
       ).toISOString(),
     };
 
-    this.materialsService.clearCart();
-    this.router.navigate(['/order-confirmation'], {
-      state: { orderData },
-    });
+    try {
+      // First clear the cart
+      await this.materialsService.clearCart().toPromise();
+
+      // Then navigate to confirmation page
+      this.router.navigate(['/order-confirmation'], {
+        state: { orderData },
+      });
+    } catch (error) {
+      console.error('Error clearing cart:', error);
+      this.showSnackbar('Error processing your order. Please try again.');
+    }
   }
 
   private showSnackbar(message: string) {

@@ -124,6 +124,10 @@
       <!-- Changed col-lg-3 to col-lg-4 for 3 columns on large screens. col-md-6 for 2 columns on medium, col-sm-12 for single column on small screens -->
       <div class="material-card card h-100 border-0 shadow-sm">
         <div class="card-img-container">
+            [src]="getImageUrl(material.image_url)"
+            class="card-img-top"
+            [alt]="material.name"
+          />
         <img [src]="getImageUrl(material.image_url)" class="card-img-top" [alt]="material.name" />
 
           <div class="card-badge">
@@ -156,10 +160,25 @@
             <button
               class="btn btn-success btn-sm add-to-cart-btn"
               (click)="addToCart(material)"
-              [disabled]="isInCart(material.id)"
+              [disabled]="
+                isInCart(material.id) || addingToCartId === material.id
+              "
             >
-              <i class="bi bi-cart-plus"></i>
-              {{ isInCart(material.id) ? "In Cart" : "Add to Cart" }}
+              <span
+                *ngIf="addingToCartId === material.id"
+                class="spinner-border spinner-border-sm me-1"
+              ></span>
+              <i
+                class="bi bi-cart-plus"
+                *ngIf="addingToCartId !== material.id"
+              ></i>
+              {{
+                isInCart(material.id)
+                  ? "In Cart"
+                  : addingToCartId === material.id
+                  ? "Adding..."
+                  : "Add to Cart"
+              }}
             </button>
           </div>
         </div>

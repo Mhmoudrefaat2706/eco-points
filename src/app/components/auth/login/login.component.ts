@@ -32,20 +32,35 @@ export class LoginComponent {
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
+  ngOnInit() {
+    // Check for logout query parameter
+    const queryParams = new URLSearchParams(window.location.search);
+    if (queryParams.get('loggedOut') === 'true') {
+      this.logoutMessage = 'You have been logged out successfully.';
+    }
+  }
+
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
+
+      const { email, password } = this.loginForm.value;
+      
+      this.authService.login(email!, password!).subscribe({
+
       const credentials = this.loginForm.value;
       
       this.authService.login(
         credentials.email!,
         credentials.password!
       ).subscribe({
+
         next: () => {
           this.successMessage = 'Login successful!';
           this.errorMessage = '';
           this.logoutMessage = '';
           this.isLoading = false;
+
 
           const role = this.authService.getUserRole();
           if (role === 'seller') {
@@ -62,7 +77,9 @@ export class LoginComponent {
         }
       });
     } else {
+
       console.log('Form not valid');
+
       this.loginForm.markAllAsTouched();
     }
   }
