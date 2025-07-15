@@ -147,14 +147,9 @@
                     class="card material-card h-100 border-0 shadow-sm hover-lift"
                   >
                     <div class="card-img-top overflow-hidden rounded-top">
-                      <img
-                        [src]="
-                          material.image_url || './assets/default-material.jpg'
-                        "
-                        [alt]="material.name"
-                        class="img-fluid w-100"
-                        style="height: 220px; object-fit: cover"
-                      />
+                
+                      <img [src]="getImageUrl(material.image_url)" class="card-img-top" [alt]="material.name" />
+
                       <div class="points-badge">
                         <span class="badge" [ngClass]="'badge-' + (getCategoryName(material.category)?.toLowerCase())">
                           {{ material.category }}

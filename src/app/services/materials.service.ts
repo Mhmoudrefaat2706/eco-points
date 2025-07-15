@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable, of, throwError } from 'rxjs';
+import { Observable, of, throwError, firstValueFrom } from 'rxjs';
 import { catchError, map, tap } from 'rxjs/operators';
 import { Material } from '../models/material.model';
 import { AuthService } from './auth.service';
@@ -110,45 +110,42 @@ export class MaterialsService {
       );
   }
 
-// Update getMaterialById to expect the nested response
-getMaterialById(id: number): Observable<Material | null> {  // Changed from Material | undefined
-  return this.http.get<any>(`${this.apiUrl}/materials/details/${id}`).pipe(
-    map(response => this.mapApiToMaterial(response.material) || null),
-    catchError((error) => {
-      console.error(`Error fetching material ${id}:`, error);
-      return of(null);
-    })
-  );
-}
+  // Update getMaterialById to expect the nested response
+  getMaterialById(id: number): Observable<Material | null> {
+    return this.http.get<any>(`${this.apiUrl}/materials/details/${id}`).pipe(
+      map(response => this.mapApiToMaterial(response.material) || null),
+      catchError((error) => {
+        console.error(`Error fetching material ${id}:`, error);
+        return of(null);
+      })
+    );
+  }
 
   // Update the addMaterial method
-addMaterial(material: any): Observable<any> {
-  const materialData = {
-    name: material.name,
-    category_id: material.category_id,
-    description: material.description,
-    price: material.price,
-    price_unit: material.price_unit,
-    // Send just the filename to the backend
-    image_url: typeof material.image_url === 'string' ? 
-      material.image_url.split('/').pop() : 
-      material.image_url
-  };
+  addMaterial(material: any): Observable<any> {
+    const materialData = {
+      name: material.name,
+      category_id: material.category_id,
+      description: material.description,
+      price: material.price,
+      price_unit: material.price_unit,
+      image_url: material.image_url
+    };
 
-  return this.http.post<any>(`${this.apiUrl}/materials`, materialData, {
-    headers: this.getHeaders(),
-  });
-}
+    return this.http.post<any>(`${this.apiUrl}/materials`, materialData, {
+      headers: this.getHeaders(),
+    });
+  }
 
   // Update material
   updateMaterial(id: number, material: any): Observable<any> {
     const materialData = {
       name: material.name,
-      category: material.category,
-      description: material.desc,
+      category_id: material.category_id,
+      description: material.description,
       price: material.price,
-      price_unit: material.price_unit, // Changed from priceUnit
-      image_url: material.image,
+      price_unit: material.price_unit,
+      image_url: material.image_url,
     };
 
     return this.http
@@ -189,7 +186,7 @@ addMaterial(material: any): Observable<any> {
       );
   }
 
-  // Get latest materials (optional)
+  // Get latest materials
   getLatestMaterials(): Observable<Material[]> {
     return this.http.get<Material[]>(`${this.apiUrl}/materials/latest`).pipe(
       map((materials) =>
@@ -203,29 +200,29 @@ addMaterial(material: any): Observable<any> {
   }
 
   // Helper method to map API response to Material model
-private mapApiToMaterial(apiMaterial: any): Material {
-  return {
-    id: apiMaterial.id,
-    name: apiMaterial.name,
-    category: apiMaterial.category?.name || apiMaterial.category || 'Uncategorized',
-    category_id: apiMaterial.category_id,
-    image_url: apiMaterial.image_url || apiMaterial.image || './assets/default-material.jpg',
-    description: apiMaterial.description || apiMaterial.desc || 'No description available',
-    price: apiMaterial.price,
-    price_unit: apiMaterial.price_unit || 'piece'
-  };
-}
+  private mapApiToMaterial(apiMaterial: any): Material {
+    return {
+      id: apiMaterial.id,
+      name: apiMaterial.name,
+      category: apiMaterial.category?.name || apiMaterial.category || 'Uncategorized',
+      category_id: apiMaterial.category_id,
+      image_url: apiMaterial.image_url || apiMaterial.image || './assets/default-material.jpg',
+      description: apiMaterial.description || apiMaterial.desc || 'No description available',
+      price: apiMaterial.price,
+      price_unit: apiMaterial.price_unit || 'piece'
+    };
+  }
 
+  // Fixed uploadImage method
   uploadImage(imageFile: FormData): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${
-        this.authService.getLoggedInUser()?.token || ''
-      }`,
+      Authorization: `Bearer ${this.authService.getLoggedInUser()?.token || ''}`,
       Accept: 'application/json',
     });
 
+    // Use the correct endpoint
     return this.http
-      .post(`${this.apiUrl}/upload-image`, imageFile, {
+      .post(`${this.apiUrl}/materials/upload-image`, imageFile, {
         headers: headers,
       })
       .pipe(
