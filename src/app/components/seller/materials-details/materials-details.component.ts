@@ -72,4 +72,9 @@ export class MaterialsDetailsComponent implements OnInit {
   goBack() {
     this.router.navigate(['/materials']);
   }
+  getImageUrl(image: string | undefined): string {
+  if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
+  return `http://localhost:8000/materials/${image}`;
+}
+
 }
