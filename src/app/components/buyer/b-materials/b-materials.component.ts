@@ -14,10 +14,6 @@ interface DisplayMaterial extends Omit<Material, 'category'> {
   category: string; // Override to be always string
 }
 
-interface DisplayMaterial extends Omit<Material, 'category'> {
-  category: string; // Override to be always string
-}
-
 @Component({
   selector: 'app-b-materials',
   imports: [
@@ -32,10 +28,6 @@ interface DisplayMaterial extends Omit<Material, 'category'> {
   styleUrl: './b-materials.component.css',
 })
 export class BMaterialsComponent {
-  currentPage = 1;
-  itemsPerPage = 6;
-  allMaterials: DisplayMaterial[] = [];
-  filteredMaterials: DisplayMaterial[] = [];
   allMaterials: DisplayMaterial[] = [];
   filteredMaterials: DisplayMaterial[] = [];
   currentPage = 1;
@@ -118,10 +110,6 @@ export class BMaterialsComponent {
       element.scrollIntoView({ behavior: 'smooth' });
     }
   }
-getImageUrl(image: string | undefined): string {
-  if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
-  return `http://localhost:8000/materials/${image}`;
-}
 
   getImageUrl(image: string | undefined): string {
     if (!image) return 'assets/images/placeholder.png';
@@ -248,16 +236,10 @@ getImageUrl(image: string | undefined): string {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  // Update the addToCart method
   addToCart(material: DisplayMaterial) {
     if (this.addingToCartId !== null) return;
 
     if (this.cartMaterialIds.includes(material.id)) {
-
-  addToCart(material: DisplayMaterial) {
-    // Check if material is already in cart
-    if (this.cartMatrials.isInCart(material.id)) {
-
       this.showSnackbar(
         `${material.name} is already in your cart`,
         'info-snackbar'
