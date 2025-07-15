@@ -3,14 +3,12 @@ import { inject, Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 
-
 export interface User {
   first_name: string;
   last_name: string;
   email: string;
   password: string;
   role: 'seller' | 'buyer';
- 
 }
 export interface loginUser {
   email: string;
@@ -20,7 +18,6 @@ export interface loginUser {
   providedIn: 'root',
 })
 export class AuthService {
-
   constructor() {
     const savedUser = localStorage.getItem('loggedInUser');
     if (savedUser) {
@@ -32,38 +29,33 @@ export class AuthService {
     }
   }
 
-  private readonly _HttpClient= inject(HttpClient);
+  private readonly _HttpClient = inject(HttpClient);
 
   headers = new HttpHeaders({
-    'accept': 'application/json',
-    'Content-Type': 'application/json', 
-    'Accept': "*/*" ,
+    accept: 'application/json',
+    'Content-Type': 'application/json',
+    Accept: '*/*',
     'Content-Length': '<calcuulated when request is sent>',
-  })
+  });
 
-private users: User[] = [
-  {
-    first_name: 'Seller',
-    last_name: 'User',
-    email: 'seller@seller.com',
-    password: '123456',
-    role: 'seller',
-  },
-  {
-    first_name: 'Buyer',
-    last_name: 'User',
-    email: 'buyer@buyer.com',
-    password: '123456',
-    role: 'buyer',
-  },
-];
-
+  private users: User[] = [
+    {
+      first_name: 'Seller',
+      last_name: 'User',
+      email: 'seller@seller.com',
+      password: '123456',
+      role: 'seller',
+    },
+    {
+      first_name: 'Buyer',
+      last_name: 'User',
+      email: 'buyer@buyer.com',
+      password: '123456',
+      role: 'buyer',
+    },
+  ];
 
   private loggedInUser: User | null = null;
-
-
-
-
 
   logout(): void {
     this.loggedInUser = null;
@@ -74,31 +66,60 @@ private users: User[] = [
     return this.loggedInUser !== null;
   }
 
-
   getLoggedInUser(): User | null {
-  const savedUser = localStorage.getItem('loggedInUser');
-  if (savedUser) {
-    return JSON.parse(savedUser);
+    const savedUser = localStorage.getItem('loggedInUser');
+    if (savedUser) {
+      return JSON.parse(savedUser);
+    }
+    return null;
   }
-  return null;
-}
 
   getUserRole(): 'seller' | 'buyer' | null {
     return this.loggedInUser?.role ?? null;
   }
 
-  register(data:User): Observable<any> {
-    return this._HttpClient.post('http://localhost:8000/api/register',data , {headers:this.headers} )
+  register(data: User): Observable<any> {
+    return this._HttpClient.post('http://localhost:8000/api/register', data, {
+      headers: this.headers,
+    });
   }
 
   login(data: object): Observable<any> {
-  return this._HttpClient.post('http://localhost:8000/api/login', data, { headers: this.headers }).pipe(
-    tap((res: any) => {
-      if (res.status && res.user) {
-        localStorage.setItem('loggedInUser', JSON.stringify(res.user));
-      }
-    })
-  );
-}
+    return this._HttpClient
+      .post('http://localhost:8000/api/login', data, { headers: this.headers })
+      .pipe(
+        tap((res: any) => {
+          if (res.status && res.user) {
+            localStorage.setItem('loggedInUser', JSON.stringify(res.user));
+            localStorage.setItem('token', res.access_token);
+          }
+        })
+      );
+  }
+  getProfile(): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
 
+    return this._HttpClient.get('http://localhost:8000/api/user/profile', {
+      headers,
+    });
+  }
+  updateProfile(data: any): Observable<any> {
+    const token = localStorage.getItem('token');
+    const headers = new HttpHeaders({
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${token}`,
+    });
+
+    return this._HttpClient.put(
+      'http://localhost:8000/api/user/profile',
+      data,
+      { headers }
+    );
+  }
 }

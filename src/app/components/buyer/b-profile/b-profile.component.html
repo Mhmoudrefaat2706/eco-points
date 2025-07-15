@@ -6,7 +6,7 @@
     <div class="header-content">
       <div class="header-text">
         <h3>Hello, {{ userData.name }}!</h3>
-        <p class="text-muted">{{ currentDate | date:'EEEE, MMMM d, y' }}</p>
+        <p class="text-muted">{{ currentDate | date : "EEEE, MMMM d, y" }}</p>
       </div>
       <div class="user-icon">
         <i class="fa fa-user fa-2x text-white"></i>
@@ -18,9 +18,15 @@
   <div class="user-section">
     <div class="user-content">
       <div class="user-main">
-        <img [src]="'https://ui-avatars.com/api/?name=' + userData.name + '&background=3a8ffe&color=fff'" 
-             alt="User Avatar" 
-             class="avatar">
+        <img
+          [src]="
+            'https://ui-avatars.com/api/?name=' +
+            userData.name +
+            '&background=3a8ffe&color=fff'
+          "
+          alt="User Avatar"
+          class="avatar"
+        />
         <div class="user-details">
           <h4>{{ userData.name }}</h4>
           <p class="text-muted">{{ userData.email }}</p>
@@ -31,43 +37,90 @@
         </div>
       </div>
       <button type="button" class="btn btn-edit" (click)="toggleEdit()">
-        <i class="fas fa-edit me-2"></i>{{ isEditing ? 'Cancel' : 'Edit' }}
+        <i class="fas fa-edit me-2"></i>{{ isEditing ? "Cancel" : "Edit" }}
       </button>
     </div>
   </div>
 
   <!-- Profile Form Section -->
-   
+
   <div class="profile-form" *ngIf="isEditing; else viewMode">
     <h5><i class="fas fa-user-edit me-2"></i>Edit Profile</h5>
     <form (ngSubmit)="saveProfile()" class="needs-validation" novalidate>
       <div class="form-grid">
         <div class="form-group">
-          <label for="fullname"><i class="fas fa-user me-2"></i>Full Name</label>
-          <input type="text" class="form-control" id="fullname" [(ngModel)]="userData.name" name="name" required>
+          <label for="fullname"
+            ><i class="fas fa-user me-2"></i>Full Name</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="fullname"
+            [(ngModel)]="userData.name"
+            name="name"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="email"><i class="fas fa-envelope me-2"></i>Email</label>
-          <input type="email" class="form-control" id="email" [(ngModel)]="userData.email" name="email" readonly>
+          <input
+            type="email"
+            class="form-control"
+            id="email"
+            [(ngModel)]="userData.email"
+            name="email"
+            readonly
+          />
         </div>
         <div class="form-group">
-          <label for="gender"><i class="fas fa-venus-mars me-2"></i>Gender</label>
-          <select class="form-select" id="gender" [(ngModel)]="userData.gender" name="gender" required>
+          <label for="gender"
+            ><i class="fas fa-venus-mars me-2"></i>Gender</label
+          >
+          <select
+            class="form-select"
+            id="gender"
+            [(ngModel)]="userData.gender"
+            name="gender"
+            required
+          >
             <option value="Male" class="text-light bg-dark">Male</option>
             <option value="Female" class="text-light bg-dark">Female</option>
           </select>
         </div>
         <div class="form-group">
-          <label for="location"><i class="fas fa-map-marker-alt me-2"></i>City</label>
-          <input type="text" class="form-control" id="location" [(ngModel)]="userData.location" name="location" required>
+          <label for="location"
+            ><i class="fas fa-map-marker-alt me-2"></i>City</label
+          >
+          <input
+            type="text"
+            class="form-control"
+            id="location"
+            [(ngModel)]="userData.location"
+            name="location"
+            required
+          />
         </div>
         <div class="form-group">
           <label for="address"><i class="fas fa-home me-2"></i>Address</label>
-          <input type="text" class="form-control" id="address" [(ngModel)]="userData.address" name="address" placeholder="Enter your full address">
+          <input
+            type="text"
+            class="form-control"
+            id="address"
+            [(ngModel)]="userData.address"
+            name="address"
+            placeholder="Enter your full address"
+          />
         </div>
         <div class="form-group">
           <label for="role"><i class="fas fa-user-tag me-2"></i>Role</label>
-          <input type="text" class="form-control" id="role" [(ngModel)]="userData.role" name="role" readonly>
+          <input
+            type="text"
+            class="form-control"
+            id="role"
+            [(ngModel)]="userData.role"
+            name="role"
+            readonly
+          />
         </div>
       </div>
       <div class="d-flex justify-content-end mt-4">
@@ -99,14 +152,16 @@
         </div>
 
         <div class="info-card">
-          <h6><i class="fas fa-map-marker-alt me-2"></i>Location Information</h6>
+          <h6>
+            <i class="fas fa-map-marker-alt me-2"></i>Location Information
+          </h6>
           <div class="info-item">
             <span>Location:</span>
             <span>{{ userData.location }}</span>
           </div>
           <div class="info-item">
             <span>Address:</span>
-            <span>{{ userData.address || 'Not specified' }}</span>
+            <span>{{ userData.address || "Not specified" }}</span>
           </div>
         </div>
 
@@ -118,7 +173,7 @@
           </div>
           <div class="info-item">
             <span>Member Since:</span>
-            <span>{{ currentDate | date:'MMMM y' }}</span>
+            <span>{{ currentDate | date : "MMMM y" }}</span>
           </div>
         </div>
       </div>
@@ -126,7 +181,7 @@
   </ng-template>
 
   <div class="footer">
-    <p>© {{ currentDate | date:'y' }} EcoPoints. All rights reserved.</p>
+    <p>© {{ currentDate | date : "y" }} EcoPoints. All rights reserved.</p>
     <p>Designed with <span class="heart">❤</span> for a sustainable future</p>
   </div>
 </div>
