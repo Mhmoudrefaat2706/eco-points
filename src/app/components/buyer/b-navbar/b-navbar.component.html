@@ -3,11 +3,10 @@
   [class.dark-mode]="isDarkMode"
   [attr.dir]="currentLanguage === 'ar' ? 'rtl' : 'ltr'"
 >
-
-<div class="logo">
-  <img src="../.././../../assets/images/new-logo.jpeg" alt="Logo" class="logo-img"/>
-  <span class="logo-text">EcoPoints</span>
-</div>
+  <div class="logo">
+    <img src="../.././../../assets/images/new-logo.jpeg" alt="Logo" class="logo-img" />
+    <span class="logo-text">EcoPoints</span>
+  </div>
 
   <button
     class="mobile-menu-btn"
@@ -18,25 +17,13 @@
   </button>
 
   <div class="nav-links">
-    <a
-      routerLink="/buyer-home"
-      class="nav-link"
-      [class.active]="isRouteActive('buyer-home')"
-    >
+    <a routerLink="/buyer-home" class="nav-link" [class.active]="isRouteActive('buyer-home')">
       {{ "NAVBAR.HOME" | translate }}
     </a>
-    <a
-      routerLink="/b-materials"
-      class="nav-link"
-      [class.active]="isRouteActive('b-materials')"
-    >
+    <a routerLink="/b-materials" class="nav-link" [class.active]="isRouteActive('b-materials')">
       {{ "NAVBAR.MATERIALS" | translate }}
     </a>
-    <a
-      routerLink="/b-about"
-      class="nav-link"
-      [class.active]="isRouteActive('b-about')"
-    >
+    <a routerLink="/b-about" class="nav-link" [class.active]="isRouteActive('b-about')">
       {{ "NAVBAR.ABOUT" | translate }}
     </a>
   </div>
@@ -51,7 +38,6 @@
       <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
     </button>
 
-    <!-- Update the profile button section in the desktop nav -->
     <button
       class="btn profile-btn"
       (click)="goToProfile()"
@@ -74,7 +60,7 @@
     <div class="cart-container">
       <button class="btn cart-btn" routerLink="/b-cart">
         <i class="fa-solid fa-cart-shopping"></i>
-        <span class="cart-counter">{{ counter }}</span>
+        <span class="cart-counter" *ngIf="counter > 0">{{ counter }}</span>
       </button>
     </div>
   </div>
@@ -110,7 +96,17 @@
       {{ "NAVBAR.MATERIALS" | translate }}
     </a>
 
-    <!-- Update the profile link in the mobile menu -->
+    <a
+      routerLink="/b-cart"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+      [class.active]="isRouteActive('b-cart')"
+    >
+      <i class="fa-solid fa-cart-shopping"></i>
+      Cart
+      <span class="cart-counter" *ngIf="counter > 0">{{ counter }}</span>
+    </a>
+
     <a
       routerLink="/b-profile"
       class="mobile-nav-link"

@@ -40,11 +40,41 @@ export class LoginComponent {
     }
   }
 
- sendLoginData(data: object) {
+//  sendLoginData(data: object) {
+//   this.authService.login(data).subscribe({
+//     next: (res) => {
+//       console.log(res);
+
+//       const role = res.user.role;
+//       if (role === 'seller') {
+//         this.router.navigate(['/home']);
+//       } else if (role === 'buyer') {
+//         this.router.navigate(['/buyer-home']);
+//       }
+//     },
+//     error: (err) => {
+//       console.log(err);
+//       this.errorMessage = err.error.message || 'Login failed';
+//     },
+//   });
+// }
+
+sendLoginData(data: object) {
   this.authService.login(data).subscribe({
     next: (res) => {
       console.log(res);
 
+      // ✅ حفظ التوكن في localStorage
+      if (res.access_token) {
+        localStorage.setItem('token', res.access_token);
+      }
+
+      // ✅ حفظ بيانات المستخدم
+      if (res.user) {
+        localStorage.setItem('loggedInUser', JSON.stringify(res.user));
+      }
+
+      // ✅ التوجيه حسب الدور
       const role = res.user.role;
       if (role === 'seller') {
         this.router.navigate(['/home']);
@@ -58,6 +88,7 @@ export class LoginComponent {
     },
   });
 }
+
 
 
   logout() {

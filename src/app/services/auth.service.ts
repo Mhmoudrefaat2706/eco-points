@@ -94,8 +94,10 @@ private users: User[] = [
   login(data: object): Observable<any> {
   return this._HttpClient.post('http://localhost:8000/api/login', data, { headers: this.headers }).pipe(
     tap((res: any) => {
-      if (res.status && res.user) {
+      if (res.status && res.user && res.access_token) {
         localStorage.setItem('loggedInUser', JSON.stringify(res.user));
+        localStorage.setItem('token', res.access_token); 
+        this.loggedInUser = res.user;
       }
     })
   );

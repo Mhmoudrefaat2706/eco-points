@@ -5,21 +5,25 @@ import { RouterModule } from '@angular/router';
 import { BFooterComponent } from '../b-footer/b-footer.component';
 import { BNavbarComponent } from '../b-navbar/b-navbar.component';
 import { Material } from '../../../models/material.model';
-import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 import { MaterialsService } from '../../../services/materials.service';
 import { filter } from 'rxjs';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-b-materials-details',
   standalone: true,
-  imports: [CommonModule, RouterModule, BFooterComponent, BNavbarComponent, MatSnackBarModule],
+  imports: [
+    CommonModule,
+    RouterModule,
+    BFooterComponent,
+    BNavbarComponent,
+    MatSnackBarModule,
+  ],
   templateUrl: './b-materials-details.component.html',
-  styleUrls: ['./b-materials-details.component.css']
+  styleUrls: ['./b-materials-details.component.css'],
 })
 export class BMaterialsDetailsComponent implements OnInit {
-  
-
   material: Material | undefined;
   id: number = 0;
   quantity: number = 1;
@@ -28,24 +32,23 @@ export class BMaterialsDetailsComponent implements OnInit {
   isInCart: boolean = false;
 
   constructor(
-    private route: ActivatedRoute, 
+    private route: ActivatedRoute,
     private router: Router,
-    private cartMaterials: SharedMatarialsService,
     private materialsService: MaterialsService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private cartService: CartService
   ) {
-    this.router.events.pipe(
-      filter(event => event instanceof NavigationEnd)
-    ).subscribe(() => {
-      window.scrollTo(0, 0);
-    });
+    this.router.events
+      .pipe(filter((event) => event instanceof NavigationEnd))
+      .subscribe(() => {
+        window.scrollTo(0, 0);
+      });
   }
 
   ngOnInit(): void {
-    this.route.paramMap.subscribe(params => {
+    this.route.paramMap.subscribe((params) => {
       this.id = Number(params.get('id'));
       this.loadMaterial();
-      window.scrollTo(0, 0);
       this.checkIfInCart();
     });
   }
@@ -53,7 +56,7 @@ export class BMaterialsDetailsComponent implements OnInit {
   loadMaterial(): void {
     this.isLoading = true;
     this.errorMessage = '';
-    
+
     try {
       this.material = this.materialsService.getMaterialById(this.id);
       if (!this.material) {
@@ -68,9 +71,15 @@ export class BMaterialsDetailsComponent implements OnInit {
   }
 
   checkIfInCart(): void {
-    if (this.material) {
-      this.isInCart = this.cartMaterials.isInCart(this.material.id);
-    }
+    if (!this.material) return;
+    this.cartService.viewCart().subscribe({
+      next: (res: any[]) => {
+        this.isInCart = res.some((item) => item.material.id === this.material?.id);
+      },
+      error: (err) => {
+        console.error('Error checking cart:', err);
+      },
+    });
   }
 
   goBack() {
@@ -83,14 +92,17 @@ export class BMaterialsDetailsComponent implements OnInit {
       return;
     }
 
-    const itemToAdd = {
-      ...material,
-      quantity: this.quantity
-    };
-    
-    this.cartMaterials.addToCart(itemToAdd);
-    this.isInCart = true;
-    this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
+    this.cartService.addToCart(material.id).subscribe({
+      next: (res) => {
+        this.isInCart = true;
+        this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
+        console.log('Added to cart:', res);
+      },
+      error: (err) => {
+        this.showSnackbar('Failed to add to cart', 'error-snackbar');
+        console.error('Error:', err);
+      },
+    });
   }
 
   private showSnackbar(message: string, panelClass: string): void {
@@ -98,7 +110,7 @@ export class BMaterialsDetailsComponent implements OnInit {
       duration: 3000,
       horizontalPosition: 'center',
       verticalPosition: 'bottom',
-      panelClass: [panelClass]
+      panelClass: [panelClass],
     });
   }
 }

@@ -30,6 +30,7 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'logout', redirectTo: 'login', pathMatch: 'full' },
   { path: 'register', component: RegisterComponent },
+{ path: 'seller-feedbacks/:seller_id/:material_id', component: SellerFeedbacksComponent },
 
   // Seller routes
   { path: 'home', component: HomeComponent, canActivate: [RoleGuard], data: { role: 'seller' } },
@@ -59,3 +60,9 @@ export const routes: Routes = [
 
 export const AppRoutingModule = RouterModule.forRoot(routes);
 export const AppRoutingProviders = importProvidersFrom(AppRoutingModule);
+
+
+//seller feadbacks
+import { SellerFeedbacksComponent } from './components/buyer/seller-feedbacks/seller-feedbacks.component'; 
+
+

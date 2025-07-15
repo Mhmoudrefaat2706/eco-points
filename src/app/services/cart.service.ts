@@ -1,0 +1,57 @@
+import { Injectable } from '@angular/core';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { BehaviorSubject, Observable } from 'rxjs';
+
+@Injectable({ providedIn: 'root' })
+export class CartService {
+  private apiUrl = 'http://127.0.0.1:8000/api/cart';
+
+  // ✅ إنشاء Observable للعدد
+  private cartCountSubject = new BehaviorSubject<number>(0);
+  cartCount$ = this.cartCountSubject.asObservable();
+
+  constructor(private http: HttpClient) {
+    this.loadCartCount(); // تحميل العدد عند بداية السيرفيس
+  }
+
+  private getHeaders(): HttpHeaders {
+    const token = localStorage.getItem('token');
+    const headersConfig: any = {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+    };
+    if (token) {
+      headersConfig['Authorization'] = `Bearer ${token}`;
+    }
+    return new HttpHeaders(headersConfig);
+  }
+
+  addToCart(material_id: number): Observable<any> {
+    return this.http.post(`${this.apiUrl}/add`, { material_id }, { headers: this.getHeaders() });
+  }
+
+  viewCart(): Observable<any> {
+    return this.http.get(this.apiUrl, { headers: this.getHeaders() });
+  }
+
+  removeFromCart(id: number): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/remove/${id}`, { headers: this.getHeaders() });
+  }
+
+  clearCart(): Observable<any> {
+    return this.http.delete(`${this.apiUrl}/clear`, { headers: this.getHeaders() });
+  }
+
+  // ✅ تحميل العدد من السيرفر وتحديث الـ observable
+  loadCartCount(): void {
+    this.viewCart().subscribe({
+      next: (cartItems: any[]) => {
+        const total = cartItems.reduce((acc, item) => acc + (item.quantity || 1), 0);
+        this.cartCountSubject.next(total);
+      },
+      error: () => {
+        this.cartCountSubject.next(0); // في حالة الخطأ نخليه 0
+      }
+    });
+  }
+}

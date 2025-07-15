@@ -1,0 +1,25 @@
+<div *ngIf="isLoading">Loading...</div>
+<div *ngIf="!isLoading && feedbacks.length === 0">No feedbacks found.</div>
+<div *ngIf="!isLoading && feedbacks.length > 0">
+  <h2>Feedbacks for Seller #{{ sellerId }}</h2>
+  <div *ngFor="let feedback of feedbacks" class="feedback-item">
+    <strong>{{ feedback.buyer?.first_name }} {{ feedback.buyer?.last_name }}</strong>
+    <span>Rating: {{ feedback.rating }}</span>
+    <p>{{ feedback.comment }}</p>
+  </div>
+</div>
+
+<!-- Add Feedback Form -->
+<div class="add-feedback">
+  <h3>Add Feedback</h3>
+  <label>Rating:</label>
+  <select [(ngModel)]="newRating">
+    <option *ngFor="let r of [1,2,3,4,5]" [value]="r">{{r}}</option>
+  </select>
+  <br>
+  <label>Comment:</label>
+  <textarea [(ngModel)]="newComment" placeholder="Write your feedback..."></textarea>
+  <br>
+  <button (click)="submitFeedback()">Submit Feedback</button>
+  <div *ngIf="feedbackError" class="error">{{ feedbackError }}</div>
+</div>

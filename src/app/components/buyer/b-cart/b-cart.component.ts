@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { BNavbarComponent } from '../b-navbar/b-navbar.component';
 import { BFooterComponent } from '../b-footer/b-footer.component';
-import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 import { RouterModule } from '@angular/router';
 import { CommonModule, DecimalPipe } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-b-cart',
@@ -21,14 +21,14 @@ import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation
 })
 export class BCartComponent implements OnInit {
   constructor(
-    protected items: SharedMatarialsService,
+    private cartService: CartService,
     private dialog: MatDialog
   ) {}
 
-  materails: any;
+  materails: any[] = [];
   subtotal!: number;
   shippingFee: number = 5.0;
-  taxRate: number = 0.14; // 14% tax
+  taxRate: number = 0.14;
   showSnackbar = false;
   snackbarMessage = '';
   snackbarActionType: 'add' | 'remove' | 'clear' | 'update' | null = null;
@@ -38,11 +38,22 @@ export class BCartComponent implements OnInit {
   }
 
   loadCartItems() {
-    this.materails = this.items.getCartItems().map((item) => ({
-      ...item,
-      quantity: item.quantity || 1,
-    }));
-    this.calcPrice();
+    this.cartService.viewCart().subscribe({
+      next: (res) => {
+        this.materails = res.map((item: any) => ({
+          id: item.id,
+          name: item.material.name,
+          price: +item.material.price,
+          image: item.material.image_url,
+          category: item.material.category_id,
+          quantity: item.quantity,
+        }));
+        this.calcPrice();
+      },
+      error: (err) => {
+        console.error(' Failed to load cart items', err);
+      },
+    });
   }
 
   calcPrice() {
@@ -67,7 +78,6 @@ export class BCartComponent implements OnInit {
     return this.subtotal + this.getTax() + this.shippingFee;
   }
 
-  // Update the showSnackbar method
   private showCustomSnackbar(
     message: string,
     actionType: 'add' | 'remove' | 'clear' | 'update'
@@ -81,18 +91,16 @@ export class BCartComponent implements OnInit {
     }, 3000);
   }
 
-  // Update all methods that show snackbars
   incrementQuantity(item: any) {
     item.quantity = (item.quantity || 1) + 1;
-    this.items.updateCartItem(item.id, item.quantity);
     this.calcPrice();
     this.showCustomSnackbar('Quantity increased', 'update');
+    // You can add a backend update if needed
   }
 
   decrementQuantity(item: any) {
     if (item.quantity > 1) {
       item.quantity -= 1;
-      this.items.updateCartItem(item.id, item.quantity);
       this.calcPrice();
       this.showCustomSnackbar('Quantity decreased', 'update');
     }
@@ -111,9 +119,15 @@ export class BCartComponent implements OnInit {
 
     const result = await dialogRef.afterClosed().toPromise();
     if (result) {
-      this.items.removeFromCart(id);
-      this.loadCartItems();
-      this.showCustomSnackbar('Item removed from cart', 'remove');
+      this.cartService.removeFromCart(id).subscribe({
+        next: () => {
+          this.loadCartItems();
+          this.showCustomSnackbar('Item removed from cart', 'remove');
+        },
+        error: (err) => {
+          console.error('❌ Error removing item from cart', err);
+        },
+      });
     }
   }
 
@@ -130,9 +144,15 @@ export class BCartComponent implements OnInit {
 
     const result = await dialogRef.afterClosed().toPromise();
     if (result) {
-      this.items.clearCart();
-      this.loadCartItems();
-      this.showCustomSnackbar('Cart cleared', 'clear');
+      this.cartService.clearCart().subscribe({
+        next: () => {
+          this.loadCartItems();
+          this.showCustomSnackbar('Cart cleared', 'clear');
+        },
+        error: (err) => {
+          console.error(' Error clearing cart', err);
+        },
+      });
     }
   }
 }

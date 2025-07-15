@@ -4,6 +4,8 @@ import { Router, RouterModule } from '@angular/router';
 import { TranslateModule, TranslateService } from '@ngx-translate/core';
 import { SharedMatarialsService } from '../../../services/shared-matarials.service';
 import { AuthService } from '../../../services/auth.service';
+import { CartService } from '../../../services/cart.service';
+
 
 @Component({
   selector: 'app-b-navbar',
@@ -28,7 +30,9 @@ export class BNavbarComponent implements OnInit {
   userRole = '';
   currentUser: any;
 
-  constructor(private sharedMaterials: SharedMatarialsService) {}
+  constructor(
+      private cartService: CartService,
+  ) {}
 
 
   getUserAvatar(): string {
@@ -43,6 +47,7 @@ export class BNavbarComponent implements OnInit {
   ngOnInit(): void {
     this.loadPreferences();
     this.setupCartSubscription();
+    this.cartService.loadCartCount(); 
     this.setActiveRoute();
     this.loadUserData();
     this.router.events.subscribe(() => this.setActiveRoute());
@@ -73,7 +78,7 @@ export class BNavbarComponent implements OnInit {
   }
 
   private setupCartSubscription(): void {
-    this.sharedMaterials.cartCount$.subscribe(count => {
+  this.cartService.cartCount$.subscribe(count => {
       this.counter = count;
     });
   }

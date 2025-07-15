@@ -8,6 +8,7 @@ import { SharedMatarialsService } from '../../../services/shared-matarials.servi
 import { MaterialsService } from '../../../services/materials.service';
 import { Material } from '../../../models/material.model';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
+import { CartService } from '../../../services/cart.service';
 
 @Component({
   selector: 'app-b-materials',
@@ -23,10 +24,9 @@ import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
   styleUrl: './b-materials.component.css',
 })
 export class BMaterialsComponent {
-  // Pagination variables
   currentPage = 1;
   itemsPerPage = 6;
-  allMaterials: Material[] = []; // To store all materials from the service
+  allMaterials: Material[] = [];
   filteredMaterials: Material[] = [];
   isLoading = false;
   errorMessage = '';
@@ -37,18 +37,20 @@ export class BMaterialsComponent {
   priceFilterActive = false;
   priceFilterApplied = false;
   priceFilterError = '';
-
-  // Unique categories for the filter dropdown
   categories: string[] = ['All'];
+
+  cartMaterialIds: number[] = []; 
 
   constructor(
     private cartMatrials: SharedMatarialsService,
     private materialsService: MaterialsService,
-    private snackBar: MatSnackBar // Inject MaterialsService
+    private snackBar: MatSnackBar,
+    private cartService: CartService
   ) {}
 
   ngOnInit(): void {
     this.loadMaterials();
+    this.loadCartMaterialIds(); 
   }
 
   loadMaterials(): void {
@@ -56,7 +58,7 @@ export class BMaterialsComponent {
     this.errorMessage = '';
 
     try {
-      this.allMaterials = this.materialsService.getAllMaterials(); // Get all materials from the service
+      this.allMaterials = this.materialsService.getAllMaterials();
       this.categories = [
         'All',
         ...new Set(this.allMaterials.map((material) => material.category)),
@@ -68,6 +70,17 @@ export class BMaterialsComponent {
       this.isLoading = false;
       console.error('Error loading materials:', error);
     }
+  }
+
+  loadCartMaterialIds(): void {
+    this.cartService.viewCart().subscribe({
+      next: (res) => {
+        this.cartMaterialIds = res.map((item: any) => item.material.id); // ✅ حفظ الـ IDs
+      },
+      error: (err) => {
+        console.error('Failed to load cart items', err);
+      },
+    });
   }
 
   scrollToMaterials() {
@@ -95,7 +108,6 @@ export class BMaterialsComponent {
   }
 
   applyPriceFilter() {
-    // Validate inputs
     if (
       this.minPrice !== null &&
       this.maxPrice !== null &&
@@ -125,7 +137,6 @@ export class BMaterialsComponent {
 
   updateFilteredMaterials() {
     const filtered = this.allMaterials.filter((material) => {
-      // Use allMaterials
       const matchesSearch =
         material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         material.category
@@ -170,7 +181,6 @@ export class BMaterialsComponent {
 
   get totalPages(): number {
     const filtered = this.allMaterials.filter((material) => {
-      // Use allMaterials
       const matchesSearch =
         material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
         material.category
@@ -197,25 +207,24 @@ export class BMaterialsComponent {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-  addToCart(material: Material) {
-    // Check if material is already in cart
-    if (this.cartMatrials.isInCart(material.id)) {
-      this.showSnackbar(
-        `${material.name} is already in your cart`,
-        'info-snackbar'
-      );
-      return;
-    }
+addToCart(material: Material) {
+  console.log('material_id sent to backend:', material.id);
+  this.cartService.addToCart(material.id).subscribe({
+    next: (res) => {
+      this.cartMaterialIds.push(material.id);
 
-    // Add to cart with quantity 1
-    const itemToAdd = {
-      ...material,
-      quantity: 1,
-    };
+      // ✅ أعد تحميل العدد من السيرفر بعد الإضافة
+      this.cartService.loadCartCount();
 
-    this.cartMatrials.addToCart(itemToAdd);
-    this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
-  }
+      this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
+    },
+    error: (err) => {
+      console.error('Add to cart failed', err);
+      this.showSnackbar('Error adding to cart', 'error-snackbar');
+    },
+  });
+}
+
 
   private showSnackbar(message: string, panelClass: string): void {
     this.snackBar.open(message, 'Close', {
@@ -226,8 +235,7 @@ export class BMaterialsComponent {
     });
   }
 
-  // Add this method to your BMaterialsComponent class
   isInCart(materialId: number): boolean {
-    return this.cartMatrials.isInCart(materialId);
+    return this.cartMaterialIds.includes(materialId);
   }
 }
