@@ -1,11 +1,14 @@
 <div class="container-fluid p-0" dir="ltr">
   <!-- Welcome Section -->
-  <div class="welcome-section position-relative overflow-hidden py-5 text-white text-center" style="
+  <div
+    class="welcome-section position-relative overflow-hidden py-5 text-white text-center"
+    style="
       background: linear-gradient(135deg, #00c9a7 0%, #92fe9d 100%);
       min-height: 100vh;
       padding-top: 4rem;
       padding-bottom: 4rem;
-    ">
+    "
+  >
     <!-- Animated background elements -->
     <div class="position-absolute top-0 start-0 w-100 h-100">
       <div class="eco-bubble bubble-1"></div>
@@ -15,35 +18,55 @@
       <div class="eco-leaf leaf-2"></div>
     </div>
 
-    <div class="container d-flex flex-column justify-content-center align-items-center h-100 position-relative"
-      style="z-index: 2; padding-top: 2rem; padding-bottom: 2rem">
+    <div
+      class="container d-flex flex-column justify-content-center align-items-center h-100 position-relative"
+      style="z-index: 2; padding-top: 2rem; padding-bottom: 2rem"
+    >
       <!-- Logo with pulse animation -->
-      <div class="logo-container animate__animated animate__fadeIn animate__slow mb-4">
-        <img src="../../../../assets/images/eco1-logo.jpeg" alt="Eco-Points Logo" class="eco-logo img-fluid" />
+      <div
+        class="logo-container animate__animated animate__fadeIn animate__slow mb-4"
+      >
+        <img
+          src="../../../../assets/images/eco1-logo.jpeg"
+          alt="Eco-Points Logo"
+          class="eco-logo img-fluid"
+        />
       </div>
 
       <!-- Main heading with typed effect -->
-      <h1 class="display-2 fw-bold mb-4 animate__animated animate__fadeInDown" style="margin-bottom: 1.5rem !important">
+      <h1
+        class="display-2 fw-bold mb-4 animate__animated animate__fadeInDown"
+        style="margin-bottom: 1.5rem !important"
+      >
         <span class="typed-text">Welcome to Eco-Points</span>
       </h1>
 
       <!-- Subheading with gradient text -->
-      <p class="lead mb-5 fs-3 animate__animated animate__fadeIn animate__delay-1s" style="
+      <p
+        class="lead mb-5 fs-3 animate__animated animate__fadeIn animate__delay-1s"
+        style="
           background: linear-gradient(to right, #ffffff, #e6ffe6);
           -webkit-background-clip: text;
           -webkit-text-fill-color: transparent;
           text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        ">
+        "
+      >
         Join our community and make a difference
       </p>
 
       <!-- Button Group -->
-      <div class="d-flex flex-wrap justify-content-center gap-3 animate__animated animate__fadeInUp animate__delay-2s">
+      <div
+        class="d-flex flex-wrap justify-content-center gap-3 animate__animated animate__fadeInUp animate__delay-2s"
+      >
         <!-- Join Us Button -->
-        <button class="btn btn-light btn-lg px-5 py-3 fw-bold hover-grow"  style="
+        <button
+          class="btn btn-light btn-lg px-5 py-3 fw-bold hover-grow"
+          style="
             border-radius: 50px;
             box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
-          ">
+          "
+          (click)="scrollToRegister()"
+        >
           <span class="d-flex align-items-center">
             Join Us Now
             <i class="bi bi-arrow-down ms-3 fs-5 arrow-bounce"></i>
@@ -51,8 +74,11 @@
         </button>
 
         <!-- Know More Button -->
-        <button class="btn btn-outline-light btn-lg px-5 py-3 fw-bold hover-grow" 
-          style="border-radius: 50px; border-width: 2px">
+        <button
+          class="btn btn-outline-light btn-lg px-5 py-3 fw-bold hover-grow"
+          style="border-radius: 50px; border-width: 2px"
+          (click)="scrollToWhyJoin()"
+        >
           <span class="d-flex align-items-center">
             Know More
             <i class="bi bi-info-circle ms-3 fs-5"></i>
@@ -61,36 +87,53 @@
 
         <!-- Login Button (new addition) -->
         <!-- Enhanced Login Button -->
-        <button class="btn btn-outline-light btn-lg px-5 py-3 fw-bold hover-grow position-relative overflow-hidden"
-          routerLink="/login" style="
+        <button
+          class="btn btn-outline-light btn-lg px-5 py-3 fw-bold hover-grow position-relative overflow-hidden"
+          routerLink="/login"
+          style="
             border-radius: 50px;
             border-width: 2px;
             transition: all 0.3s ease;
-          ">
+          "
+        >
           <span class="d-flex align-items-center position-relative z-index-1">
             Have an account?
-            <span class="text-primary fw-bolder ms-1" style="text-shadow: 0 0 8px rgba(0, 123, 255, 0.4)">Login</span>
+            <span
+              class="text-primary fw-bolder ms-1"
+              style="text-shadow: 0 0 8px rgba(0, 123, 255, 0.4)"
+              >Login</span
+            >
             <i class="bi bi-box-arrow-in-right ms-3 fs-5 text-primary"></i>
           </span>
 
           <!-- Optional hover effect background -->
-          <span class="position-absolute top-0 start-0 w-100 h-100 bg-primary opacity-0 hover-opacity-10"
-            style="transition: opacity 0.3s ease; border-radius: 50px"></span>
+          <span
+            class="position-absolute top-0 start-0 w-100 h-100 bg-primary opacity-0 hover-opacity-10"
+            style="transition: opacity 0.3s ease; border-radius: 50px"
+          ></span>
         </button>
       </div>
     </div>
   </div>
 
   <!-- Why Join Section - Enhanced -->
-  <div class="why-join-section py-5" id="whyJoin" style="background-color: #f8f9fa">
+  <div
+    class="why-join-section py-5"
+    id="whyJoin"
+    style="background-color: #f8f9fa"
+  >
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-10 text-center mb-5">
-          <h2 class="display-5 fw-bold text-primary mb-3 animate__animated animate__fadeInDown"
-            style="font-size: 2rem;">
+          <h2
+            class="display-5 fw-bold text-primary mb-3 animate__animated animate__fadeInDown"
+            style="font-size: 2rem"
+          >
             Why Join Eco-Points?
           </h2>
-          <p class="lead text-muted animate__animated animate__fadeIn animate__delay-1s">
+          <p
+            class="lead text-muted animate__animated animate__fadeIn animate__delay-1s"
+          >
             Discover the benefits of being part of our eco-friendly community
           </p>
         </div>
@@ -104,7 +147,9 @@
               <div class="icon-container mb-4">
                 <span class="eco-icon">🌍</span>
               </div>
-              <h3 class="h4 fw-bold mb-3" style="font-size: 1.5rem;">Earn Points</h3>
+              <h3 class="h4 fw-bold mb-3" style="font-size: 1.5rem">
+                Earn Points
+              </h3>
               <p class="mb-0 text-muted">
                 Get rewarded for every recycling action you take. Turn your
                 green actions into valuable points.
@@ -114,13 +159,17 @@
         </div>
 
         <!-- Card 2 -->
-        <div class="col-md-5 animate__animated animate__fadeInUp animate__delay-1s">
+        <div
+          class="col-md-5 animate__animated animate__fadeInUp animate__delay-1s"
+        >
           <div class="card h-100 border-0 shadow-sm eco-card">
             <div class="card-body p-4 text-center">
               <div class="icon-container mb-4">
                 <span class="eco-icon">♻️</span>
               </div>
-              <h3 class="h4 fw-bold mb-3" style="font-size: 1.5rem;">Track Your Impact</h3>
+              <h3 class="h4 fw-bold mb-3" style="font-size: 1.5rem">
+                Track Your Impact
+              </h3>
               <p class="mb-0 text-muted">
                 See real-time statistics on how your actions contribute to a
                 healthier planet.
@@ -130,13 +179,17 @@
         </div>
 
         <!-- Card 3 -->
-        <div class="col-md-5 animate__animated animate__fadeInUp animate__delay-2s">
+        <div
+          class="col-md-5 animate__animated animate__fadeInUp animate__delay-2s"
+        >
           <div class="card h-100 border-0 shadow-sm eco-card">
             <div class="card-body p-4 text-center">
               <div class="icon-container mb-4">
                 <span class="eco-icon">🤝</span>
               </div>
-              <h3 class="h4 fw-bold mb-3" style="font-size: 1.5rem;">Green Community</h3>
+              <h3 class="h4 fw-bold mb-3" style="font-size: 1.5rem">
+                Green Community
+              </h3>
               <p class="mb-0 text-muted">
                 Connect with thousands of like-minded environmental enthusiasts
                 worldwide.
@@ -146,13 +199,17 @@
         </div>
 
         <!-- Card 4 -->
-        <div class="col-md-5 animate__animated animate__fadeInUp animate__delay-3s">
+        <div
+          class="col-md-5 animate__animated animate__fadeInUp animate__delay-3s"
+        >
           <div class="card h-100 border-0 shadow-sm eco-card">
             <div class="card-body p-4 text-center">
               <div class="icon-container mb-4">
                 <span class="eco-icon">🎁</span>
               </div>
-              <h3 class="h4 fw-bold mb-3" style="font-size: 1.5rem;">Exclusive Rewards</h3>
+              <h3 class="h4 fw-bold mb-3" style="font-size: 1.5rem">
+                Exclusive Rewards
+              </h3>
               <p class="mb-0 text-muted">
                 Redeem your points for special discounts, gifts, and partner
                 benefits.
@@ -163,7 +220,10 @@
       </div>
 
       <div class="text-center mt-5">
-        <button class="btn btn-outline-primary btn-lg px-4 py-2 fw-bold" >
+        <button
+          class="btn btn-outline-primary btn-lg px-4 py-2 fw-bold"
+          (click)="scrollToRegister()"
+        >
           Ready to Join? Register Now <i class="bi bi-arrow-right ms-2"></i>
         </button>
       </div>
@@ -174,13 +234,20 @@
   <div class="section-spacer py-5" style="background-color: #ffffff"></div>
 
   <!-- Registration Form Section - Enhanced -->
-  <div class="register-form-section py-5" id="registerForm" style="background-color: #ffffff">
+  <div
+    class="register-form-section py-5"
+    id="registerForm"
+    style="background-color: #ffffff"
+  >
     <div class="container">
       <div class="row justify-content-center">
         <div class="col-lg-8">
           <div class="auth-card card p-4 p-lg-5 shadow">
             <div class="auth-header text-center mb-5">
-              <h2 class="display-6 fw-bold text-primary mb-2" style="font-size: 2rem;">
+              <h2
+                class="display-6 fw-bold text-primary mb-2"
+                style="font-size: 2rem"
+              >
                 Create Your Account
               </h2>
               <p class="text-muted">Start your eco-friendly journey today</p>
@@ -189,40 +256,67 @@
             <!-- Your existing form content remains the same -->
             <form (ngSubmit)="onSubmit()" [formGroup]="registerForm">
               <div class="mb-3">
-                <label for="name" class="form-label">Full Name</label>
+                <label for="first_name" class="form-label">First Name</label>
                 <div class="input-group">
                   <span class="input-group-text bg-white">
                     <i class="bi bi-person text-muted"></i>
                   </span>
-                  <input type="text" id="first_name" name="first_name" class="form-control" placeholder="first Name"
-                    formControlName="first_name" />
+                  <input
+                    type="text"
+                    id="first_name"
+                    name="first_name"
+                    class="form-control"
+                    placeholder="First Name"
+                    formControlName="first_name"
+                  />
                 </div>
-                @let firstNameError = registerForm.get('first_name');
-                @if(firstNameError?.getError('required') && firstNameError?.touched) {
+                @if(registerForm.get('first_name')?.getError('required') &&
+                registerForm.get('first_name')?.touched) {
                 <div class="text-danger small mt-1">
-                  Name is required.
+                  First name is required.
+                </div>
+                } @if(registerForm.get('first_name')?.getError('minlength') &&
+                registerForm.get('first_name')?.touched) {
+                <div class="text-danger small mt-1">
+                  Must be at least 3 characters.
+                </div>
+                } @if(registerForm.get('first_name')?.getError('maxlength') &&
+                registerForm.get('first_name')?.touched) {
+                <div class="text-danger small mt-1">
+                  Cannot exceed 10 characters.
                 </div>
                 }
-
               </div>
 
-
               <div class="mb-3">
-                <label for="name" class="form-label">Full Name</label>
+                <label for="last_name" class="form-label">Last Name</label>
                 <div class="input-group">
                   <span class="input-group-text bg-white">
                     <i class="bi bi-person text-muted"></i>
                   </span>
-                  <input type="text" id="last_name" name="last_name" class="form-control" placeholder="Last Name"
-                    formControlName="last_name" />
+                  <input
+                    type="text"
+                    id="last_name"
+                    name="last_name"
+                    class="form-control"
+                    placeholder="Last Name"
+                    formControlName="last_name"
+                  />
                 </div>
-                @let lastNameError = registerForm.get('last_name');
-                @if(lastNameError?.getError('required') && lastNameError?.touched) {
+                @if(registerForm.get('last_name')?.getError('required') &&
+                registerForm.get('last_name')?.touched) {
+                <div class="text-danger small mt-1">Last name is required.</div>
+                } @if(registerForm.get('last_name')?.getError('minlength') &&
+                registerForm.get('last_name')?.touched) {
                 <div class="text-danger small mt-1">
-                  Last Name is required.
+                  Must be at least 3 characters.
+                </div>
+                } @if(registerForm.get('last_name')?.getError('maxlength') &&
+                registerForm.get('last_name')?.touched) {
+                <div class="text-danger small mt-1">
+                  Cannot exceed 10 characters.
                 </div>
                 }
-
               </div>
 
               <div class="mb-3">
@@ -231,42 +325,43 @@
                   <span class="input-group-text bg-white">
                     <i class="bi bi-envelope text-muted"></i>
                   </span>
-                  <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com"
-                    formControlName="email" />
+                  <input
+                    type="email"
+                    id="email"
+                    name="email"
+                    class="form-control"
+                    placeholder="example@email.com"
+                    formControlName="email"
+                  />
                 </div>
-
-                @let emailNameError = registerForm.get('email');
-                @if(emailNameError?.getError('required') && emailNameError?.touched) {
-                <div class="text-danger small mt-1">
-                  Email is required.
-                </div>
-                }
-
-                @if(emailNameError?.getError('email') && emailNameError?.touched) {
+                @if(registerForm.get('email')?.getError('required') &&
+                registerForm.get('email')?.touched) {
+                <div class="text-danger small mt-1">Email is required.</div>
+                } @if(registerForm.get('email')?.getError('email') &&
+                registerForm.get('email')?.touched) {
                 <div class="text-danger small mt-1">
                   Please enter a valid email address.
                 </div>
                 }
-
               </div>
 
-          <div class="mb-3">
-  <label for="role" class="form-label">Register as</label>
-  <select id="role" name="role" class="form-select" formControlName="role">
-    <option value="" disabled>Select your role</option>
-    <option value="seller">Seller</option>
-    <option value="buyer">Buyer</option>
-  </select>
-
-  @let roleNameError = registerForm.get('role');
-  @if(roleNameError?.getError('required') && roleNameError?.touched) {
-    <div class="text-danger small mt-1 ">
-      Role is required.
-    </div>
-  }
-</div>
-
-
+              <div class="mb-3">
+                <label for="role" class="form-label">Register as</label>
+                <select
+                  id="role"
+                  name="role"
+                  class="form-select"
+                  formControlName="role"
+                >
+                  <option value="" disabled selected>Select your role</option>
+                  <option value="seller">Seller</option>
+                  <option value="buyer">Buyer</option>
+                </select>
+                @if(registerForm.get('role')?.getError('required') &&
+                registerForm.get('role')?.touched) {
+                <div class="text-danger small mt-1">Role is required.</div>
+                }
+              </div>
 
               <div class="mb-3">
                 <label for="password" class="form-label">Password</label>
@@ -274,28 +369,41 @@
                   <span class="input-group-text bg-white">
                     <i class="bi bi-lock text-muted"></i>
                   </span>
-                  <input type="password" id="password" name="password" class="form-control" placeholder="••••••••" formControlName="password"/>
+                  <input
+                    type="password"
+                    id="password"
+                    name="password"
+                    class="form-control"
+                    placeholder="••••••••"
+                    formControlName="password"
+                  />
                 </div>
-
-                @let passwordError = registerForm.get('password');
-                @if(passwordError?.getError('required') && passwordError?.touched) {
-                <div class="text-danger small mt-1 ">
-                  Password is required.
+                @if(registerForm.get('password')?.getError('required') &&
+                registerForm.get('password')?.touched) {
+                <div class="text-danger small mt-1">Password is required.</div>
+                } @if(registerForm.get('password')?.getError('minlength') &&
+                registerForm.get('password')?.touched) {
+                <div class="text-danger small mt-1">
+                  Must be at least 6 characters.
                 </div>
                 }
-                @if(passwordError?.getError('minlength') && passwordError?.touched) {
-                <div class="text-danger small mt-1 ">
-                  must be at least 6 characters.
-                </div>
-                }
-
-
-
               </div>
 
-
-              <button (click)="onSubmit()" type="submit" class="btn btn-primary w-100 py-2 fw-bold">
-                Register Now
+              <button
+                type="submit"
+                class="btn btn-primary w-100 py-2 fw-bold"
+                [disabled]="registerForm.invalid || isLoading"
+              >
+                @if (!isLoading) {
+                <span>Register Now</span>
+                } @if (isLoading) {
+                <span
+                  class="spinner-border spinner-border-sm"
+                  role="status"
+                  aria-hidden="true"
+                ></span>
+                <span class="ms-2">Registering...</span>
+                }
               </button>
 
               <div class="d-flex align-items-center my-4">
@@ -305,10 +413,16 @@
               </div>
 
               <div class="d-grid gap-2 mb-4">
-                <button type="button" class="btn btn-outline-danger d-flex align-items-center justify-content-center">
+                <button
+                  type="button"
+                  class="btn btn-outline-danger d-flex align-items-center justify-content-center"
+                >
                   <i class="bi bi-google me-2"></i> Continue with Google
                 </button>
-                <button type="button" class="btn btn-outline-primary d-flex align-items-center justify-content-center">
+                <button
+                  type="button"
+                  class="btn btn-outline-primary d-flex align-items-center justify-content-center"
+                >
                   <i class="bi bi-facebook me-2"></i> Continue with Facebook
                 </button>
               </div>
@@ -316,7 +430,9 @@
               <div class="text-center mt-3">
                 <p class="mb-0">
                   Already have an account?
-                  <a routerLink="/login" class="text-decoration-none fw-bold">Sign in</a>
+                  <a routerLink="/login" class="text-decoration-none fw-bold"
+                    >Sign in</a
+                  >
                 </p>
               </div>
 
@@ -334,5 +450,8 @@
     </div>
   </div>
 
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" rel="stylesheet" />
+  <link
+    href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+    rel="stylesheet"
+  />
 </div>
