@@ -124,11 +124,8 @@
     <div class="col-lg-3 col-md-4 col-sm-6">
       <div class="material-card card h-100 border-0 shadow-sm">
         <div class="card-img-container">
-          <img
-            [src]="material.image_url"
-            class="card-img-top"
-            [alt]="material.name"
-          />
+       <img [src]="getImageUrl(material.image_url)" class="card-img-top" [alt]="material.name" />
+
           <div class="card-badge" *ngIf="material.category">
             <span
               class="badge"

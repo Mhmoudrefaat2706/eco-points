@@ -140,11 +140,8 @@
             <div class="carousel-slide">
               <div class="material-card card h-100 border-0">
                 <div class="card-img-container position-relative">
-                  <img
-                    [src]="material.image"
-                    class="card-img-top"
-                    [alt]="material.name"
-                  />
+              <img [src]="getImageUrl(material.image_url)" class="card-img-top" [alt]="material.name" />
+
                   <div class="points-badge">
                     <span
                       class="badge"

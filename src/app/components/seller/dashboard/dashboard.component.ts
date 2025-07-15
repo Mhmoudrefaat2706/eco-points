@@ -9,7 +9,7 @@ import { MaterialDetailsModalComponent } from '../material-details-modal/materia
 import { DeleteConfirmationModalComponent } from '../delete-confirmation-modal/delete-confirmation-modal.component';
 import { MaterialsService } from '../../../services/materials.service';
 import { Material } from '../../../models/material.model';
-import { Observable, of } from 'rxjs';
+import { firstValueFrom, Observable, of } from 'rxjs';
 import { delay, map } from 'rxjs/operators';
 import { environment } from '../../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
@@ -34,7 +34,6 @@ interface Category {
 export class DashboardComponent implements OnInit {
   @ViewChild('addEditForm') addEditForm!: ElementRef;
 
-  // In the properties section of your component
   categories$: Observable<CategoryOption[]> = of([]);
   selectedCategoryId: number | null = null;
 
@@ -57,11 +56,10 @@ export class DashboardComponent implements OnInit {
 
   loadingMaterials = false;
 
-  // Update the materialForm definition to include File type for image
   materialForm = {
     name: '',
     category_id: null as number | null,
-    image: '' as string | File, // Can be either string (URL) or File (upload)
+    image: '' as string | File,
     desc: '',
     price: 0,
     price_unit: 'piece' as 'piece' | 'kg' | 'm²' | 'm³',
@@ -82,85 +80,81 @@ export class DashboardComponent implements OnInit {
     this.categories$ = this.getUniqueCategories();
   }
 
-  // Update your loadMaterials() method
-loadMaterials() {
-  this.loadingMaterials = true;
-  this.materialsService
-    .getMyMaterials(
-      this.currentPage, // Add current page parameter
-      this.searchTerm || undefined,
-      this.selectedCategory || undefined
-    )
-    .pipe(delay(300))
-    .subscribe({
-      next: (response) => {
-        this.allMaterials = response.data.map((material: any) => ({
-          id: material.id,
-          name: material.name,
-          category: material.category?.name || material.category,
-          category_id: material.category_id || 
-            (material.category?.id ? material.category.id : null),
-          image_url: material.image_url,
-          description: material.description,
-          price: material.price,
-          price_unit: material.price_unit,
-        }));
+  loadMaterials() {
+    this.loadingMaterials = true;
+    this.materialsService
+      .getMyMaterials(
+        this.currentPage,
+        this.searchTerm || undefined,
+        this.selectedCategory || undefined
+      )
+      .pipe(delay(300))
+      .subscribe({
+        next: (response) => {
+          this.allMaterials = response.data.map((material: any) => ({
+            id: material.id,
+            name: material.name,
+            category: material.category?.name || material.category,
+            category_id: material.category_id ||
+              (material.category?.id ? material.category.id : null),
+            image_url: material.image_url,
+            description: material.description,
+            price: material.price,
+            price_unit: material.price_unit,
+          }));
 
-        this.totalItems = response.total; // Use server-side total
-        this.totalPages = response.last_page; // Use server-side last_page
-        this.currentPage = response.current_page; // Use server-side current_page
-        this.loadingMaterials = false;
-      },
-      error: (error) => {
-        console.error('Error loading materials:', error);
-        this.loadingMaterials = false;
-        this.showNotificationMessage('Failed to load materials', 'error');
-      },
-    });
-}
+          this.totalItems = response.total;
+          this.totalPages = response.last_page;
+          this.currentPage = response.current_page;
+          this.loadingMaterials = false;
+        },
+        error: (error) => {
+          console.error('Error loading materials:', error);
+          this.loadingMaterials = false;
+          this.showNotificationMessage('Failed to load materials', 'error');
+        },
+      });
+  }
 
   getUniqueCategories(): Observable<CategoryOption[]> {
-  return this.materialsService.getCategories().pipe(
-    map((categories: Category[]) => {
-      // Get unique categories from API
-      const apiCategories = categories.map((c) => ({
-        id: c.id,
-        name: c.name,
-      }));
+    return this.materialsService.getCategories().pipe(
+      map((categories: Category[]) => {
+        const apiCategories = categories.map((c) => ({
+          id: c.id,
+          name: c.name,
+        }));
 
-      // Get unique categories from existing materials
-      const materialCategories = this.allMaterials
-        .map((m) => {
-          if (typeof m.category === 'string') {
+        const materialCategories = this.allMaterials
+          .map((m) => {
+            if (typeof m.category === 'string') {
+              return {
+                id: m.category_id || 0,
+                name: m.category,
+              };
+            } else if (m.category && 'id' in m.category && 'name' in m.category) {
+              return {
+                id: m.category.id,
+                name: m.category.name,
+              };
+            }
             return {
               id: m.category_id || 0,
-              name: m.category,
+              name: 'Unknown',
             };
-          } else if (m.category && 'id' in m.category && 'name' in m.category) {
-            return {
-              id: m.category.id,
-              name: m.category.name,
-            };
-          }
-          return {
-            id: m.category_id || 0,
-            name: 'Unknown',
-          };
-        })
-        .filter((cat) => cat.id && cat.name);
+          })
+          .filter((cat) => cat.id && cat.name);
 
-      // Combine and deduplicate
-      const uniqueCategories = [
-        ...apiCategories,
-        ...materialCategories,
-      ].filter(
-        (cat, index, self) => index === self.findIndex((c) => c.id === cat.id)
-      );
+        const uniqueCategories = [
+          ...apiCategories,
+          ...materialCategories,
+        ].filter(
+          (cat, index, self) => index === self.findIndex((c) => c.id === cat.id)
+        );
 
-      return uniqueCategories;
-    })
-  );
-}
+        return uniqueCategories;
+      })
+    );
+  }
 
   selectCategory(categoryName: string) {
     this.isLoading = true;
@@ -188,16 +182,15 @@ loadMaterials() {
     );
   }
 
-  // Handle search and filter changes
-onSearchChange() {
-  this.currentPage = 1;
-  this.loadMaterials(); // Reload materials with new search term
-}
+  onSearchChange() {
+    this.currentPage = 1;
+    this.loadMaterials();
+  }
 
-onCategoryChange() {
-  this.currentPage = 1;
-  this.loadMaterials(); // Reload materials with new category filter
-}
+  onCategoryChange() {
+    this.currentPage = 1;
+    this.loadMaterials();
+  }
 
   toggleAddForm() {
     this.showAddForm = !this.showAddForm;
@@ -217,7 +210,6 @@ onCategoryChange() {
     this.currentMaterialId = null;
   }
 
-  // Modify the addMaterial method
   addMaterial() {
     if (!this.isFormValid()) return;
 
@@ -228,45 +220,35 @@ onCategoryChange() {
 
     this.isLoading = true;
 
+    // Handle image upload
     if (this.materialForm.image instanceof File) {
-      // Convert the image to Base64
-      this.convertImageToBase64(this.materialForm.image)
-        .then((base64Image) => {
-          this.createMaterial(base64Image);
-        })
-        .catch((error) => {
+      const formData = new FormData();
+      formData.append('image', this.materialForm.image);
+
+      this.materialsService.uploadImage(formData).subscribe({
+        next: (res: any) => {
+          this.createMaterial(res.filename);
+        },
+        error: (err) => {
+          console.error(err);
           this.isLoading = false;
-          this.showNotificationMessage('Failed to process image', 'error');
-        });
+          this.showNotificationMessage('Failed to upload image', 'error');
+        }
+      });
     } else {
       this.createMaterial(this.materialForm.image || null);
     }
   }
 
-  // Add this helper method to convert File to Base64
-  private convertImageToBase64(file: File): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result as string);
-      reader.onerror = (error) => reject(error);
-    });
+  getImageUrl(image: string | File | undefined): string {
+    if (!image) return 'assets/images/placeholder.png';
+
+    if (typeof image === 'string') {
+      return `http://localhost:8000/materials/${image}`;
+    }
+
+    return URL.createObjectURL(image);
   }
-
-getImageUrl(image: string | File | undefined): string {
-  if (!image) return 'assets/images/placeholder.png';
-
-  if (typeof image === 'string') {
-    // If it's already a full URL (from API), use it
-    if (image.startsWith('http')) return image;
-    
-    // Otherwise assume it's a local path in assets/uploads
-    return `assets/uploads/${image}`;
-  }
-
-  // For File objects (during upload), create a preview URL
-  return URL.createObjectURL(image);
-}
 
   private createMaterial(imageUrl: string | null) {
     const materialData = {
@@ -287,13 +269,13 @@ getImageUrl(image: string | File | undefined): string {
         this.resetForm();
         this.showAddForm = false;
         this.loadMaterials();
-        this.isLoading = false; // Hide loading state
+        this.isLoading = false;
       },
       error: (error) => {
         console.error('Error adding material:', error);
         const errorMessage = error.error?.message || 'Failed to add material';
         this.showNotificationMessage(errorMessage, 'error');
-        this.isLoading = false; // Hide loading state
+        this.isLoading = false;
       },
     });
   }
@@ -304,19 +286,16 @@ getImageUrl(image: string | File | undefined): string {
       : '';
   }
 
-  // Update the editMaterial method
   editMaterial(material: Material) {
     this.isEditing = true;
     this.showAddForm = true;
     this.currentMaterialId = material.id;
 
-    // Get category name regardless of whether it's string or Category object
     const categoryName =
       typeof material.category === 'string'
         ? material.category
         : material.category?.name || '';
 
-    // If we already have the category_id, use it directly
     if (material.category_id) {
       this.materialForm = {
         name: material.name,
@@ -327,7 +306,6 @@ getImageUrl(image: string | File | undefined): string {
         price_unit: material.price_unit,
       };
     } else {
-      // Fallback to getting the ID by name
       this.getCategoryId(categoryName).subscribe((categoryId) => {
         this.materialForm = {
           name: material.name,
@@ -352,7 +330,16 @@ getImageUrl(image: string | File | undefined): string {
     if (!this.currentMaterialId) return;
 
     this.materialsService
-      .updateMaterial(this.currentMaterialId, this.materialForm)
+      .updateMaterial(this.currentMaterialId, {
+        name: this.materialForm.name,
+        category_id: this.materialForm.category_id,
+        description: this.materialForm.desc,
+        price: this.materialForm.price,
+        price_unit: this.materialForm.price_unit,
+        image_url: typeof this.materialForm.image === 'string'
+          ? this.materialForm.image
+          : ''
+      })
       .subscribe({
         next: (response) => {
           this.showNotificationMessage(
@@ -375,7 +362,7 @@ getImageUrl(image: string | File | undefined): string {
   isFormValid(): boolean {
     return (
       this.materialForm.name.trim() !== '' &&
-      this.materialForm.category_id !== null && // Changed from category
+      this.materialForm.category_id !== null &&
       this.materialForm.desc.trim() !== '' &&
       this.materialForm.price >= 0 &&
       this.materialForm.price_unit.trim() !== ''
@@ -420,64 +407,55 @@ getImageUrl(image: string | File | undefined): string {
     }
   }
 
-// Update your handleImageUpload method
-async handleImageUpload(event: Event) {
-  const input = event.target as HTMLInputElement;
-  if (!input.files || input.files.length === 0) return;
+  async handleImageUpload(event: Event) {
+    const input = event.target as HTMLInputElement;
+    if (!input.files || input.files.length === 0) return;
 
-  // Clean up previous file URL if it exists
-  if (this.materialForm.image instanceof File) {
-    URL.revokeObjectURL(this.getImageUrl(this.materialForm.image));
+    const file = input.files[0];
+
+    if (!file.type.match(/image\/(jpeg|png|jpg|gif|webp)/)) {
+      this.showNotificationMessage('Only image files allowed', 'error');
+      return;
+    }
+
+    if (file.size > 2 * 1024 * 1024) {
+      this.showNotificationMessage('Image must be less than 2MB', 'error');
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append('image', file);
+
+    try {
+      const res: any = await firstValueFrom(
+        this.materialsService.uploadImage(formData)
+      );
+
+      this.materialForm.image = res.filename;
+      this.showNotificationMessage('Image uploaded successfully', 'success');
+    } catch (err) {
+      console.error(err);
+      this.showNotificationMessage('Failed to upload image', 'error');
+    }
   }
 
-  const file = input.files[0];
-  if (!file) return;
-
-  // Validate file type
-  if (!file.type.match(/image\/(jpeg|png|jpg|gif|webp)/)) {
-    this.showNotificationMessage(
-      'Only JPEG, PNG, JPG, GIF, or WEBP images are allowed',
-      'error'
-    );
-    return;
+  changePage(page: number) {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.loadMaterials();
+    }
   }
-
-  // Validate file size (2MB max)
-  if (file.size > 2 * 1024 * 1024) {
-    this.showNotificationMessage('Image must be less than 2MB', 'error');
-    return;
-  }
-
-  try {
-    // Save to local folder and get filename
-    const fileName = await this.saveImageToLocalFolder(file);
-    
-    // Store just the filename in your form
-    this.materialForm.image = fileName;
-  } catch (error) {
-    console.error('Error saving image:', error);
-    this.showNotificationMessage('Failed to save image', 'error');
-  }
-}
-
-  // Pagination methods
-changePage(page: number) {
-  if (page >= 1 && page <= this.totalPages) {
-    this.currentPage = page;
-    this.loadMaterials(); // Reload materials for the new page
-  }
-}
 
   get pageNumbers() {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-resetFilters() {
-  this.searchTerm = '';
-  this.selectedCategory = '';
-  this.currentPage = 1;
-  this.loadMaterials(); // Reload materials with reset filters
-}
+  resetFilters() {
+    this.searchTerm = '';
+    this.selectedCategory = '';
+    this.currentPage = 1;
+    this.loadMaterials();
+  }
 
   viewDetails(material: Material) {
     const modalRef = this.modalService.open(MaterialDetailsModalComponent, {
@@ -502,45 +480,15 @@ resetFilters() {
     }, 3000);
   }
 
-  // Update the filteredMaterials getter to handle the category name comparison
-get filteredMaterials(): Material[] {
-  return this.allMaterials;
-}
+  get filteredMaterials(): Material[] {
+    return this.allMaterials;
+  }
 
-get paginatedMaterials(): Material[] {
-  return this.allMaterials;
-}
+  get paginatedMaterials(): Material[] {
+    return this.allMaterials;
+  }
 
   trackByCategory(index: number, category: string): string {
     return category;
   }
-
-  // Add this method to your component
-private saveImageToLocalFolder(file: File): Promise<string> {
-  return new Promise((resolve, reject) => {
-    // Create a unique filename
-    const uniqueName = `${Date.now()}-${file.name.replace(/\s+/g, '-')}`;
-    const filePath = `assets/uploads/${uniqueName}`;
-    
-    // Create a file reader
-    const reader = new FileReader();
-    reader.onload = (event: any) => {
-      // Create a blob from the file data
-      const blob = new Blob([event.target.result], { type: file.type });
-      
-      // Create a download link and trigger click to save
-      const a = document.createElement('a');
-      a.href = URL.createObjectURL(blob);
-      a.download = filePath;
-      a.style.display = 'none';
-      document.body.appendChild(a);
-      a.click();
-      document.body.removeChild(a);
-      
-      resolve(uniqueName); // Return just the filename
-    };
-    reader.onerror = error => reject(error);
-    reader.readAsArrayBuffer(file);
-  });
-}
 }

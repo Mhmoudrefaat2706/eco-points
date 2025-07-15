@@ -76,6 +76,10 @@ export class HomeComponent implements AfterViewInit {
     }
     return groups;
   }
+getImageUrl(image: string | undefined): string {
+  if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
+  return `http://localhost:8000/materials/${image}`;
+}
 
   getCategoryName(category: string | Category): string | null {
     if (!category) return null;

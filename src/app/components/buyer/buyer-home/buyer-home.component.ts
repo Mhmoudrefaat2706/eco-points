@@ -66,6 +66,10 @@ export class BuyerHomeComponent {
     window.addEventListener('resize', this.updateSlideWidth.bind(this));
     this.carouselInitialized = true;
   }
+getImageUrl(image: string | undefined): string {
+  if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
+  return `http://localhost:8000/materials/${image}`;
+}
 
   updateSlideWidth(): void {
     const width = window.innerWidth;

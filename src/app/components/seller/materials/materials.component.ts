@@ -159,6 +159,10 @@ export class MaterialsComponent implements OnInit {
       );
     });
   }
+getImageUrl(image: string | undefined): string {
+  if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
+  return `http://localhost:8000/materials/${image}`;
+}
 
   // Handle search input changes
   onSearchChange(): void {
