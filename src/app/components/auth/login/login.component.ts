@@ -8,7 +8,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { AuthService, loginUser, User } from '../../../services/auth.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -21,75 +21,56 @@ export class LoginComponent {
   errorMessage = '';
   successMessage = '';
   logoutMessage = '';
+  isLoading = false;
 
   private router = inject(Router); 
   private authService = inject(AuthService);
-  private _FormBuilder = inject(FormBuilder);
+  private formBuilder = inject(FormBuilder);
 
-  loginForm = this._FormBuilder.group({
+  loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required, Validators.minLength(6)]],
   });
 
-  onSubmit() {
-    if (this.loginForm.valid) {
-      this.sendLoginData(this.loginForm.value);
-    } else {
-      console.log('not valid');
-      this.loginForm.markAllAsTouched();
+  ngOnInit() {
+    // Check for logout query parameter
+    const queryParams = new URLSearchParams(window.location.search);
+    if (queryParams.get('loggedOut') === 'true') {
+      this.logoutMessage = 'You have been logged out successfully.';
     }
   }
 
-//  sendLoginData(data: object) {
-//   this.authService.login(data).subscribe({
-//     next: (res) => {
-//       console.log(res);
+  onSubmit() {
+    if (this.loginForm.valid) {
+      this.isLoading = true;
+      const { email, password } = this.loginForm.value;
+      
+      this.authService.login(email!, password!).subscribe({
+        next: () => {
+          this.successMessage = 'Login successful!';
+          this.errorMessage = '';
+          this.logoutMessage = '';
+          this.isLoading = false;
 
-//       const role = res.user.role;
-//       if (role === 'seller') {
-//         this.router.navigate(['/home']);
-//       } else if (role === 'buyer') {
-//         this.router.navigate(['/buyer-home']);
-//       }
-//     },
-//     error: (err) => {
-//       console.log(err);
-//       this.errorMessage = err.error.message || 'Login failed';
-//     },
-//   });
-// }
-
-sendLoginData(data: object) {
-  this.authService.login(data).subscribe({
-    next: (res) => {
-      console.log(res);
-
-      // ✅ حفظ التوكن في localStorage
-      if (res.access_token) {
-        localStorage.setItem('token', res.access_token);
-      }
-
-      // ✅ حفظ بيانات المستخدم
-      if (res.user) {
-        localStorage.setItem('loggedInUser', JSON.stringify(res.user));
-      }
-
-      // ✅ التوجيه حسب الدور
-      const role = res.user.role;
-      if (role === 'seller') {
-        this.router.navigate(['/home']);
-      } else if (role === 'buyer') {
-        this.router.navigate(['/buyer-home']);
-      }
-    },
-    error: (err) => {
-      console.log(err);
-      this.errorMessage = err.error.message || 'Login failed';
-    },
-  });
-}
-
-
+          // Get user role and navigate accordingly
+          const role = this.authService.getUserRole();
+          if (role === 'seller') {
+            this.router.navigate(['/home']);
+          } else if (role === 'buyer') {
+            this.router.navigate(['/buyer-home']);
+          }
+        },
+        error: (error) => {
+          this.errorMessage = error.error?.message || 'Invalid email or password.';
+          this.successMessage = '';
+          this.logoutMessage = '';
+          this.isLoading = false;
+        }
+      });
+    } else {
+      this.loginForm.markAllAsTouched();
+    }
+  }
 
   logout() {
     this.authService.logout();

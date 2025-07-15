@@ -6,17 +6,16 @@ import { BehaviorSubject, Observable } from 'rxjs';
 export class CartService {
   private apiUrl = 'http://127.0.0.1:8000/api/cart';
 
-  // ✅ إنشاء Observable للعدد
   private cartCountSubject = new BehaviorSubject<number>(0);
   cartCount$ = this.cartCountSubject.asObservable();
 
   constructor(private http: HttpClient) {
-    this.loadCartCount(); // تحميل العدد عند بداية السيرفيس
+    this.loadCartCount();
   }
 
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
-    const headersConfig: any = {
+    const headersConfig: Record<string, string> = {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
     };
@@ -42,15 +41,23 @@ export class CartService {
     return this.http.delete(`${this.apiUrl}/clear`, { headers: this.getHeaders() });
   }
 
-  // ✅ تحميل العدد من السيرفر وتحديث الـ observable
+  // Add this new method
+  updateCartItem(itemId: number, quantity: number): Observable<any> {
+    return this.http.put(
+      `${this.apiUrl}/update/${itemId}`,
+      { quantity },
+      { headers: this.getHeaders() }
+    );
+  }
+
   loadCartCount(): void {
     this.viewCart().subscribe({
-      next: (cartItems: any[]) => {
-        const total = cartItems.reduce((acc, item) => acc + (item.quantity || 1), 0);
+      next: (cartItems: any) => {
+        const total = cartItems.reduce((acc: number, item: any) => acc + (item.quantity || 1), 0);
         this.cartCountSubject.next(total);
       },
-      error: () => {
-        this.cartCountSubject.next(0); // في حالة الخطأ نخليه 0
+      error: (err: any) => {
+        this.cartCountSubject.next(0);
       }
     });
   }

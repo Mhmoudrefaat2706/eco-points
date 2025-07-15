@@ -2,13 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { FeedbackService } from '../../../services/feedback.service';
 import { FormsModule } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-seller-feedbacks',
   standalone: true,
   templateUrl: './seller-feedbacks.component.html',
   styleUrls: ['./seller-feedbacks.component.css'],
-  imports: [FormsModule],
+  imports: [FormsModule, CommonModule],
 })
 export class SellerFeedbacksComponent implements OnInit {
   sellerId: number = 0;

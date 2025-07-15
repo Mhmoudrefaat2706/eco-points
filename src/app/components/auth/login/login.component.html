@@ -1,15 +1,14 @@
 <div class="login-container position-relative overflow-hidden min-vh-100" dir="ltr">
   <!-- Animated background elements -->
   <div class="position-absolute top-0 start-0 w-100 h-100">
-    <div class="eco-bubble bubble-1" style="width: 150px; height: 150px; top: 15%; left: 10%;"></div>
-    <div class="eco-bubble bubble-2" style="width: 200px; height: 200px; top: 25%; left: 15%;"></div>
-    <div class="eco-bubble bubble-3" style="width: 150px; height: 150px; top: 50%; left: 70%;"></div>
-    <div class="eco-bubble bubble-4" style="width: 200px; height: 200px; top: 60%; left: 80%;"></div>
+    <div class="eco-bubble bubble-1" style="width: 150px; height: 150px; top: 15%; left: 10%"></div>
+    <div class="eco-bubble bubble-2" style="width: 200px; height: 200px; top: 25%; left: 15%"></div>
+    <div class="eco-bubble bubble-3" style="width: 150px; height: 150px; top: 50%; left: 70%"></div>
+    <div class="eco-bubble bubble-4" style="width: 200px; height: 200px; top: 60%; left: 80%"></div>
   </div>
 
-  <div class="container d-flex justify-content-center align-items-center h-100 position-relative"
-    style="z-index: 2; max-width: 800px;">
-    <div class="auth-card card p-4 p-md-5 shadow-lg" style="max-width: 600px; width: 100%;">
+  <div class="container d-flex justify-content-center align-items-center h-100 position-relative" style="z-index: 2; max-width: 800px;">
+    <div class="auth-card card p-4 p-md-5 shadow-lg" style="max-width: 600px; width: 100%">
       <div class="auth-header text-center mb-4">
         <!-- Logo -->
         <div class="logo-container mb-4">
@@ -21,9 +20,21 @@
       </div>
 
       <!-- Messages -->
-      <div *ngIf="logoutMessage" class="alert alert-info text-center">
-        {{ logoutMessage }}
-      </div>
+      @if (logoutMessage) {
+        <div class="alert alert-info text-center">
+          {{ logoutMessage }}
+        </div>
+      }
+      @if (errorMessage) {
+        <div class="alert alert-danger text-center">
+          {{ errorMessage }}
+        </div>
+      }
+      @if (successMessage) {
+        <div class="alert alert-success text-center">
+          {{ successMessage }}
+        </div>
+      }
 
       <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="mb-3">
@@ -35,23 +46,18 @@
             <input type="email" id="email" name="email" class="form-control" placeholder="example@email.com"
               formControlName="email" />
           </div>
-
-          @let emailNameError = loginForm.get('email');
-          @if(emailNameError?.getError('required') && emailNameError?.touched) {
-          <div class="text-danger small mt-1">
-            Email is required.
-          </div>
+          @if(loginForm.get('email')?.getError('required') && loginForm.get('email')?.touched) {
+            <div class="text-danger small mt-1">
+              Email is required.
+            </div>
           }
-
-          @if(emailNameError?.getError('email') && emailNameError?.touched) {
-          <div class="text-danger small mt-1">
-            Please enter a valid email address.
-          </div>
+          @if(loginForm.get('email')?.getError('email') && loginForm.get('email')?.touched) {
+            <div class="text-danger small mt-1">
+              Please enter a valid email address.
+            </div>
           }
-
         </div>
 
-        <!-- Password Field -->
         <div class="mb-3">
           <label for="password" class="form-label">Password</label>
           <div class="input-group">
@@ -61,46 +67,42 @@
             <input type="password" id="password" name="password" class="form-control" placeholder="••••••••"
               formControlName="password" />
           </div>
-
-          @let passwordError = loginForm.get('password');
-          @if(passwordError?.getError('required') && passwordError?.touched) {
-          <div class="text-danger small mt-1 ">
-            Password is required.
-          </div>
+          @if(loginForm.get('password')?.getError('required') && loginForm.get('password')?.touched) {
+            <div class="text-danger small mt-1">
+              Password is required.
+            </div>
           }
-          @if(passwordError?.getError('minlength') && passwordError?.touched) {
-          <div class="text-danger small mt-1 ">
-            must be at least 6 characters.
-          </div>
+          @if(loginForm.get('password')?.getError('minlength') && loginForm.get('password')?.touched) {
+            <div class="text-danger small mt-1">
+              Must be at least 6 characters.
+            </div>
           }
-
-
-
         </div>
 
-        <!-- Remember Me -->
         <div class="d-flex justify-content-between align-items-center mb-4">
           <div class="form-check">
-            <input type="checkbox" id="rememberMe" class="form-check-input"
-              name="rememberMe" />
+            <input type="checkbox" id="rememberMe" class="form-check-input" name="rememberMe" />
             <label for="rememberMe" class="form-check-label">Remember me</label>
           </div>
           <a routerLink="/forgot-password" class="text-decoration-none small">Forgot password?</a>
         </div>
 
-        <!-- Submit Button -->
-        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" [disabled]="loginForm.invalid">
-          Sign In
+        <button type="submit" class="btn btn-primary w-100 py-2 fw-bold" [disabled]="loginForm.invalid || isLoading">
+          @if (!isLoading) {
+            <span>Sign In</span>
+          }
+          @if (isLoading) {
+            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+            <span class="ms-2">Signing in...</span>
+          }
         </button>
 
-        <!-- Divider -->
         <div class="d-flex align-items-center my-4">
-          <hr class="flex-grow-1">
+          <hr class="flex-grow-1" />
           <span class="px-3 text-muted small">or</span>
-          <hr class="flex-grow-1">
+          <hr class="flex-grow-1" />
         </div>
 
-        <!-- Social Login Buttons -->
         <div class="d-grid gap-2 mb-4">
           <button type="button" class="btn btn-social btn-google">
             <i class="bi bi-google me-2"></i> Continue with Google
@@ -110,7 +112,6 @@
           </button>
         </div>
 
-        <!-- Register Link -->
         <div class="text-center mt-3">
           <p class="mb-0">
             Don't have an account?

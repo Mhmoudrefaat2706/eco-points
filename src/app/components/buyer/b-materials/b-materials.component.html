@@ -125,10 +125,11 @@
       <div class="material-card card h-100 border-0 shadow-sm">
         <div class="card-img-container">
           <img
-            [src]="material.image"
+            [src]="getImageUrl(material.image_url)"
             class="card-img-top"
             [alt]="material.name"
           />
+
           <div class="card-badge">
             <span
               class="badge"
@@ -141,13 +142,13 @@
         <div class="card-body d-flex flex-column">
           <h5 class="card-title">{{ material.name }}</h5>
           <p class="card-text text-muted mb-3">
-            {{ truncateText(material.desc, 100) }}
+            {{ truncateText(material.description, 100) }}
             <!-- Truncate description for better card aesthetics -->
           </p>
           <div class="price-section mb-3" *ngIf="material.price">
             <span class="price">${{ material.price | number : "1.2-2" }}</span>
-            <span class="price-unit" *ngIf="material.priceUnit"
-              >/ {{ material.priceUnit }}</span
+            <span class="price-unit" *ngIf="material.price_unit"
+              >/ {{ material.price_unit }}</span
             >
           </div>
           <div
@@ -162,10 +163,25 @@
             <button
               class="btn btn-success btn-sm add-to-cart-btn"
               (click)="addToCart(material)"
-              [disabled]="isInCart(material.id)"
+              [disabled]="
+                isInCart(material.id) || addingToCartId === material.id
+              "
             >
-              <i class="bi bi-cart-plus"></i>
-              {{ isInCart(material.id) ? "In Cart" : "Add to Cart" }}
+              <span
+                *ngIf="addingToCartId === material.id"
+                class="spinner-border spinner-border-sm me-1"
+              ></span>
+              <i
+                class="bi bi-cart-plus"
+                *ngIf="addingToCartId !== material.id"
+              ></i>
+              {{
+                isInCart(material.id)
+                  ? "In Cart"
+                  : addingToCartId === material.id
+                  ? "Adding..."
+                  : "Add to Cart"
+              }}
             </button>
           </div>
         </div>

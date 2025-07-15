@@ -10,6 +10,10 @@ import { Material } from '../../../models/material.model';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CartService } from '../../../services/cart.service';
 
+interface DisplayMaterial extends Omit<Material, 'category'> {
+  category: string; // Override to be always string
+}
+
 @Component({
   selector: 'app-b-materials',
   imports: [
@@ -26,8 +30,8 @@ import { CartService } from '../../../services/cart.service';
 export class BMaterialsComponent {
   currentPage = 1;
   itemsPerPage = 6;
-  allMaterials: Material[] = [];
-  filteredMaterials: Material[] = [];
+  allMaterials: DisplayMaterial[] = [];
+  filteredMaterials: DisplayMaterial[] = [];
   isLoading = false;
   errorMessage = '';
   searchQuery = '';
@@ -38,8 +42,8 @@ export class BMaterialsComponent {
   priceFilterApplied = false;
   priceFilterError = '';
   categories: string[] = ['All'];
-
-  cartMaterialIds: number[] = []; 
+  cartMaterialIds: number[] = [];
+  addingToCartId: number | null = null;
 
   constructor(
     private cartMatrials: SharedMatarialsService,
@@ -50,32 +54,49 @@ export class BMaterialsComponent {
 
   ngOnInit(): void {
     this.loadMaterials();
-    this.loadCartMaterialIds(); 
+    this.loadCartMaterialIds();
   }
 
   loadMaterials(): void {
     this.isLoading = true;
     this.errorMessage = '';
 
-    try {
-      this.allMaterials = this.materialsService.getAllMaterials();
-      this.categories = [
-        'All',
-        ...new Set(this.allMaterials.map((material) => material.category)),
-      ];
-      this.updateFilteredMaterials();
-      this.isLoading = false;
-    } catch (error) {
-      this.errorMessage = 'Failed to load materials.';
-      this.isLoading = false;
-      console.error('Error loading materials:', error);
-    }
+    this.materialsService.getAllMaterials().subscribe({
+      next: (response) => {
+        this.allMaterials = response.data.map((material) => {
+          // Get category name whether it's string or Category object
+          const categoryName =
+            typeof material.category === 'string'
+              ? material.category
+              : material.category?.name || 'Uncategorized';
+
+          return {
+            ...material,
+            category: categoryName,
+          } as DisplayMaterial;
+        });
+
+        // Extract unique categories
+        this.categories = [
+          'All',
+          ...new Set(this.allMaterials.map((material) => material.category)),
+        ];
+
+        this.updateFilteredMaterials();
+        this.isLoading = false;
+      },
+      error: (error) => {
+        this.errorMessage = 'Failed to load materials.';
+        this.isLoading = false;
+        console.error('Error loading materials:', error);
+      },
+    });
   }
 
   loadCartMaterialIds(): void {
     this.cartService.viewCart().subscribe({
       next: (res) => {
-        this.cartMaterialIds = res.map((item: any) => item.material.id); // ✅ حفظ الـ IDs
+        this.cartMaterialIds = res.map((item: any) => item.material.id);
       },
       error: (err) => {
         console.error('Failed to load cart items', err);
@@ -88,6 +109,11 @@ export class BMaterialsComponent {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  getImageUrl(image: string | undefined): string {
+    if (!image) return 'assets/images/placeholder.png';
+    return `http://localhost:8000/materials/${image}`;
   }
 
   clearFilters() {
@@ -137,11 +163,14 @@ export class BMaterialsComponent {
 
   updateFilteredMaterials() {
     const filtered = this.allMaterials.filter((material) => {
-      const matchesSearch =
-        material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        material.category
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
+      const matchesSearch = this.searchQuery
+        ? material.name
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase()) ||
+          material.category
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())
+        : true;
 
       const matchesCategory =
         this.selectedCategory === 'All' ||
@@ -149,10 +178,8 @@ export class BMaterialsComponent {
 
       const matchesPrice =
         !this.priceFilterApplied ||
-        ((this.minPrice === null ||
-          (material.price && material.price >= this.minPrice)) &&
-          (this.maxPrice === null ||
-            (material.price && material.price <= this.maxPrice)));
+        ((this.minPrice === null || material.price >= this.minPrice) &&
+          (this.maxPrice === null || material.price <= this.maxPrice));
 
       return matchesSearch && matchesCategory && matchesPrice;
     });
@@ -181,11 +208,14 @@ export class BMaterialsComponent {
 
   get totalPages(): number {
     const filtered = this.allMaterials.filter((material) => {
-      const matchesSearch =
-        material.name.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        material.category
-          .toLowerCase()
-          .includes(this.searchQuery.toLowerCase());
+      const matchesSearch = this.searchQuery
+        ? material.name
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase()) ||
+          material.category
+            .toLowerCase()
+            .includes(this.searchQuery.toLowerCase())
+        : true;
 
       const matchesCategory =
         this.selectedCategory === 'All' ||
@@ -193,13 +223,12 @@ export class BMaterialsComponent {
 
       const matchesPrice =
         !this.priceFilterApplied ||
-        ((this.minPrice === null ||
-          (material.price && material.price >= this.minPrice)) &&
-          (this.maxPrice === null ||
-            (material.price && material.price <= this.maxPrice)));
+        ((this.minPrice === null || material.price >= this.minPrice) &&
+          (this.maxPrice === null || material.price <= this.maxPrice));
 
       return matchesSearch && matchesCategory && matchesPrice;
     });
+
     return Math.ceil(filtered.length / this.itemsPerPage);
   }
 
@@ -207,24 +236,34 @@ export class BMaterialsComponent {
     return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
-addToCart(material: Material) {
-  console.log('material_id sent to backend:', material.id);
-  this.cartService.addToCart(material.id).subscribe({
-    next: (res) => {
-      this.cartMaterialIds.push(material.id);
+  // Update the addToCart method
+  addToCart(material: DisplayMaterial) {
+    if (this.addingToCartId !== null) return;
 
-      // ✅ أعد تحميل العدد من السيرفر بعد الإضافة
-      this.cartService.loadCartCount();
+    if (this.cartMaterialIds.includes(material.id)) {
+      this.showSnackbar(
+        `${material.name} is already in your cart`,
+        'info-snackbar'
+      );
+      return;
+    }
 
-      this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
-    },
-    error: (err) => {
-      console.error('Add to cart failed', err);
-      this.showSnackbar('Error adding to cart', 'error-snackbar');
-    },
-  });
-}
+    this.addingToCartId = material.id;
 
+    this.cartService.addToCart(material.id).subscribe({
+      next: (res) => {
+        this.cartMaterialIds.push(material.id);
+        this.cartService.loadCartCount();
+        this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
+        this.addingToCartId = null;
+      },
+      error: (err) => {
+        console.error('Add to cart failed', err);
+        this.showSnackbar('Error adding to cart', 'error-snackbar');
+        this.addingToCartId = null;
+      },
+    });
+  }
 
   private showSnackbar(message: string, panelClass: string): void {
     this.snackBar.open(message, 'Close', {
