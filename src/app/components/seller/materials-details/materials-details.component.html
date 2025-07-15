@@ -42,11 +42,8 @@
         <!-- Material Image -->
         <div class="col-lg-6 mb-4">
           <div class="material-card">
-            <img
-              [src]="material.image_url"
-              [alt]="material.name"
-              class="material-image"
-            />
+         <img [src]="getImageUrl(material.image_url)" class="card-img-top" [alt]="material.name" />
+
           </div>
         </div>
 
