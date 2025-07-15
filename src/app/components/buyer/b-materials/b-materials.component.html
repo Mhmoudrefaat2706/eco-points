@@ -124,19 +124,16 @@
       <!-- Changed col-lg-3 to col-lg-4 for 3 columns on large screens. col-md-6 for 2 columns on medium, col-sm-12 for single column on small screens -->
       <div class="material-card card h-100 border-0 shadow-sm">
         <div class="card-img-container">
-          <img
             [src]="getImageUrl(material.image_url)"
             class="card-img-top"
             [alt]="material.name"
           />
+        <img [src]="getImageUrl(material.image_url)" class="card-img-top" [alt]="material.name" />
 
           <div class="card-badge">
-            <span
-              class="badge"
-              [ngClass]="'badge-' + material.category.toLowerCase()"
-            >
-              {{ material.category }}
-            </span>
+            <span class="badge" [ngClass]="'badge-' + material.category.toLowerCase()">
+  {{ material.category }}
+</span>
           </div>
         </div>
         <div class="card-body d-flex flex-column">

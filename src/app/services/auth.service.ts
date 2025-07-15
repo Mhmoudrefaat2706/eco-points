@@ -53,6 +53,17 @@ export class AuthService {
           localStorage.setItem('token', response.access_token);
           this.currentUserSubject.next(user);
         }
+    return this.http.post<any>(`${this.apiUrl}/login`, { email, password }).pipe(
+      tap((response) => {
+        const user = {
+          id: response.user.id,
+          name: `${response.user.first_name} ${response.user.last_name}`,
+          email: response.user.email,
+          role: response.user.role,
+          token: response.access_token,
+        };
+        localStorage.setItem('loggedInUser', JSON.stringify(user));
+        this.currentUserSubject.next(user);
       })
     );
   }
@@ -65,6 +76,7 @@ export class AuthService {
     role: string
   ): Observable<any> {
     const data = {
+    return this.http.post(`${this.apiUrl}/register`, {
       first_name,
       last_name,
       email,
@@ -72,11 +84,13 @@ export class AuthService {
       role
     };
     return this.http.post(`${this.apiUrl}/register`, data, { headers: this.headers });
-  }
+      role,
+    });
 
   logout(): void {
     localStorage.removeItem('loggedInUser');
     localStorage.removeItem('token');
+=======
     this.currentUserSubject.next(null);
     this.http.post(`${this.apiUrl}/logout`, {}).subscribe();
   }

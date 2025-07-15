@@ -20,7 +20,6 @@ import { SharedMatarialsService } from '../../../services/shared-matarials.servi
     BFooterComponent,
     BNavbarComponent,
     MatSnackBarModule,
-  ],
   templateUrl: './b-materials-details.component.html',
   styleUrls: ['./b-materials-details.component.css'],
 })
@@ -43,6 +42,11 @@ export class BMaterialsDetailsComponent implements OnInit {
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
+      .pipe(
+        filter(
+          (event): event is NavigationEnd => event instanceof NavigationEnd
+        )
+      )
       .subscribe(() => {
         window.scrollTo(0, 0);
       });
@@ -52,11 +56,6 @@ export class BMaterialsDetailsComponent implements OnInit {
     this.route.paramMap.subscribe((params) => {
       this.id = Number(params.get('id'));
       this.loadMaterial();
-      this.checkIfInCart();
-    });
-  }
-
-  loadMaterial(): void {
     this.isLoading = true;
     this.errorMessage = '';
 
@@ -78,11 +77,10 @@ export class BMaterialsDetailsComponent implements OnInit {
     });
   }
 
+  // Update checkIfInCart to handle null case
   checkIfInCart(): void {
-    if (!this.material) {
+    } else {
       this.isInCart = false;
-      return;
-    }
 
     this.cartService.viewCart().subscribe({
       next: (res: any[]) => {
@@ -99,6 +97,10 @@ export class BMaterialsDetailsComponent implements OnInit {
   goBack() {
     this.router.navigate(['/b-materials']);
   }
+getImageUrl(image: string | undefined): string {
+  if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
+  return `http://localhost:8000/materials/${image}`;
+}
 
   getImageUrl(image: string | undefined): string {
     if (!image) return 'assets/images/placeholder.png';
@@ -108,6 +110,9 @@ export class BMaterialsDetailsComponent implements OnInit {
   // Update addToCart method
   addToCart(material: Material) {
     if (!material || this.addingToCart) return;
+  // Update addToCart to handle null case
+  addToCart(material: Material) {
+    if (!material) return;
 
     if (this.isInCart) {
       this.showSnackbar(
@@ -130,6 +135,14 @@ export class BMaterialsDetailsComponent implements OnInit {
         this.addingToCart = false;
       },
     });
+    const itemToAdd = {
+      ...material,
+      quantity: this.quantity,
+    };
+
+    this.cartMaterials.addToCart(itemToAdd);
+    this.isInCart = true;
+    this.showSnackbar(`${material.name} added to cart`, 'success-snackbar');
   }
 
   private showSnackbar(message: string, panelClass: string): void {

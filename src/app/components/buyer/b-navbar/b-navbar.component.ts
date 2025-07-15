@@ -54,6 +54,7 @@ export class BNavbarComponent implements OnInit {
     if (user) {
       //this.userName = user.name;
       this.userName = user.name;
+      this.userName = user.name; 
       this.userRole = user.role === 'buyer' ? 'Buyer' : 'Seller';
     }
   }
