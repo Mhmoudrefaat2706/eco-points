@@ -31,11 +31,8 @@
           <!-- Material Image -->
           <div class="col-lg-6">
             <div class="material-image-container">
-              <img 
-                [src]="material.image_url" 
-                [alt]="material.name" 
-                class="material-image"
-              >
+         <img [src]="getImageUrl(material.image_url)" class="card-img-top" [alt]="material.name" />
+
             </div>
           </div>
 
@@ -45,7 +42,7 @@
               <span class="category-badge">{{ material.category }}</span>
               <h1 class="material-title">{{ material.name }}</h1>
               <p class="material-description">{{ material.description }}</p>
-              
+
               <div class="price-section">
                 <span class="material-price">
                   {{ material.price | currency : "EGP" : "symbol" : "1.2-2" }}
@@ -81,7 +78,7 @@
                 <h5 class="features-title">
                   <i class="bi bi-stars"></i> Key Features
                 </h5>
-                
+
                 <ul class="features-list">
                   <li class="feature-item">
                     <i class="bi bi-check-circle"></i>
