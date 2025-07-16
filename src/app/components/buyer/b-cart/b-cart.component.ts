@@ -20,13 +20,13 @@ import { CartService } from '../../../services/cart.service';
   styleUrls: ['./b-cart.component.css'],
 })
 export class BCartComponent implements OnInit {
-  
+
   constructor(
     private cartService: CartService,
     private dialog: MatDialog,
     private router: Router
   ) {}
-
+  checkingOut: boolean = false;
   materails: any[] = [];
   subtotal!: number;
   shippingFee: number = 5.0;
@@ -78,7 +78,10 @@ export class BCartComponent implements OnInit {
       0
     );
   }
-
+  getImageUrl(image: string | undefined): string {
+    if (!image) return 'assets/images/placeholder.png';
+    return `http://localhost:8000/materials/${image}`;
+  }
   getTax(): number {
     return this.subtotal * this.taxRate;
   }
@@ -216,18 +219,29 @@ export class BCartComponent implements OnInit {
     }
   }
 
-  // Add this method to b-cart.component.ts
-  proceedToCheckout() {
-    const cartData = {
-      items: this.materails,
-      subtotal: this.subtotal,
-      shippingFee: this.shippingFee,
-      tax: this.getTax(),
-      total: this.getTotal(),
-    };
 
-    this.router.navigate(['/b-checkout'], {
-      state: { cartData },
+
+
+  proceedToCheckout() {
+    if (this.checkingOut) return;
+
+    this.checkingOut = true;
+
+    this.cartService.checkout().subscribe({
+      next: (res) => {
+        this.checkingOut = false;
+        this.showCustomSnackbar('Order placed successfully! Order ID: ' + res.order_id, 'update');
+
+        // Clear local cart
+        this.materails = [];
+        this.calcPrice();
+        this.cartService.loadCartCount();
+      },
+      error: (err) => {
+        this.checkingOut = false;
+        console.error('Checkout failed', err);
+        this.showCustomSnackbar('Checkout failed: ' + err.error.message, 'update');
+      }
     });
   }
 }

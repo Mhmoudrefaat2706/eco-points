@@ -35,6 +35,8 @@ export const routes: Routes = [
     component: SellerFeedbacksComponent,
   },
 
+  {path: 'my-orders',loadComponent: () => import('./my-orders/my-orders.component').then(m => m.MyOrdersComponent)},
+
   // Seller routes
   {
     path: 'home',

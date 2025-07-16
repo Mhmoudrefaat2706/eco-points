@@ -61,4 +61,7 @@ export class CartService {
       }
     });
   }
+   checkout(): Observable<any> {
+    return this.http.post(`${this.apiUrl}/checkout`, {}, { headers: this.getHeaders() });
+  }
 }

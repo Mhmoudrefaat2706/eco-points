@@ -45,7 +45,8 @@
       } @else { @for (item of materails; track item.id) {
       <div class="cart-item">
         <div class="item-image">
-          <img [src]="item.image" [alt]="item.name" />
+       <img [src]="getImageUrl(item.image)" [alt]="item.name" />
+
         </div>
         <div class="item-details">
           <h3>{{ item.name }}</h3>
@@ -107,9 +108,14 @@
         <input type="text" placeholder="Enter coupon code" />
         <button class="btn-apply">Apply</button>
       </div>
-      <button class="btn-checkout" (click)="proceedToCheckout()">
-        Proceed to Checkout
-      </button>
+<button
+  class="btn-checkout"
+  (click)="proceedToCheckout()"
+  [disabled]="checkingOut || materails.length === 0">
+
+  <span *ngIf="checkingOut" class="spinner-border spinner-border-sm me-1"></span>
+  {{ checkingOut ? 'Processing...' : 'Proceed to Checkout' }}
+</button>
       <a routerLink="/b-materials" class="continue-shopping">
         <i class="fas fa-arrow-left"></i> Continue Shopping
       </a>

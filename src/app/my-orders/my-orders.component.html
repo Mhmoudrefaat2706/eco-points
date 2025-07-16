@@ -1,0 +1,76 @@
+<app-b-navbar></app-b-navbar>
+
+<div class="container py-4">
+  <h2 class="mb-4 text-center">My Orders</h2>
+
+  <!-- Loading Spinner -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Orders List -->
+  <div *ngIf="!isLoading" class="row">
+    <div *ngFor="let order of orders" class="card mb-4 shadow-sm border-0">
+      <div class="card-header d-flex justify-content-between align-items-center bg-light">
+        <strong>Order : {{ order.id }}</strong>
+        <span class="{{ getStatusClass(order.status) }}">
+          {{ getStatusText(order.status) }}
+        </span>
+      </div>
+
+      <div class="card-body">
+        <h5 class="mb-3">Ordered Materials:</h5>
+
+        <div *ngIf="order.items.length === 0" class="alert alert-warning">
+          No materials in this order.
+        </div>
+
+        <div *ngIf="order.items.length > 0">
+          <div class="table-responsive">
+            <table class="table table-striped align-middle">
+              <thead class="table-dark">
+                <tr>
+                  <th>Material Name</th>
+                  <th>Quantity</th>
+                  <th>Price</th>
+                  <th>Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of order.items">
+                  <td>{{ item.material?.name || 'Unavailable' }}</td>
+                  <td>{{ item.quantity }}</td>
+                  <td>{{ item.price }} EGP</td>
+                  <td>{{ item.quantity * item.price }} EGP</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+<div class="mt-3" *ngIf="order.status === 'approved'">
+  <button class="btn btn-success"
+          (click)="payForOrder(order)"
+          [disabled]="payingOrderId === order.id">
+    <span *ngIf="payingOrderId === order.id"
+          class="spinner-border spinner-border-sm me-2"
+          role="status"
+          aria-hidden="true"></span>
+    ادفع الآن
+  </button>
+</div>
+        <!-- Cancel Order Button -->
+        <div class="mt-3" *ngIf="order.status === 'pending'">
+          <button class="btn btn-outline-danger" (click)="cancelOrder(order.id)" [disabled]="cancellingOrderId === order.id">
+            <span *ngIf="cancellingOrderId === order.id" class="spinner-border spinner-border-sm me-2" role="status" aria-hidden="true"></span>
+            Cancel Order
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<app-b-footer></app-b-footer>
