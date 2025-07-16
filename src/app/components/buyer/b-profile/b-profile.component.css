@@ -346,3 +346,50 @@ input[readonly] {
     height: 80px;
   }
 }
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: transparent;
+}
+
+/* For the payment info section */
+.info-card h6 i.fa-credit-card {
+  color: #253b80; /* PayPal blue */
+}
+
+.info-card h6 i.fa-lock {
+  color: #179bd7; /* PayPal lighter blue */
+}
+
+/* Make secret field appear masked */
+input[name="paypalSecret"] {
+  font-family: monospace;
+}
+
+/* Loading spinner styles */
+.spinner-border {
+  vertical-align: middle;
+}
+
+/* Toastr customization (optional) */
+.toast-success {
+  background-color: #51a351 !important;
+}
+.toast-error {
+  background-color: #bd362f !important;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+}
+
+.user-icon {
+  display: none; /* Hide the old user icon */
+}

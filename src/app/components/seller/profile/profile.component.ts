@@ -5,13 +5,15 @@ import { FormsModule } from '@angular/forms';
 import { NavbarComponent } from '../navbar/navbar.component';
 import { Router } from '@angular/router';
 import { ProfileService } from '../../../services/profile.service';
+import { FooterComponent } from '../footer/footer.component';
+import { ToastrService } from 'ngx-toastr';
 
 // Define the User interface
 export interface User {
   id?: number;
   first_name?: string;
   last_name?: string;
-  name?: string; // للاستخدام المركب إن أحببت
+  name?: string;
   email: string;
   role: string;
   gender?: string;
@@ -32,12 +34,12 @@ export interface User {
 
 @Component({
   selector: 'app-profile',
-  imports: [CommonModule, FormsModule, NavbarComponent],
+  standalone: true,
+  imports: [CommonModule, FormsModule, NavbarComponent, FooterComponent],
   templateUrl: './profile.component.html',
   styleUrl: './profile.component.css',
-  standalone: true,
 })
-export class ProfileComponent {
+export class ProfileComponent implements OnInit {
   userData: User = {
     name: '',
     email: '',
@@ -50,21 +52,27 @@ export class ProfileComponent {
   };
 
   isEditing = false;
+  isSaving = false;
   currentDate = new Date();
   @Input() isDarkMode = false;
 
   constructor(
     private authService: AuthService,
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
-    this.authService.getUserData(); // نبدأ بتحميل البيانات
+    this.loadUserData();
+  }
+
+  private loadUserData(): void {
+    this.authService.getUserData();
     this.authService.userProfile$.subscribe((data) => {
       if (data) {
         this.userData = {
-          name: data.first_name + ' ' + data.last_name,
+          name: `${data.first_name} ${data.last_name}`,
           email: data.email,
           role: data.role,
           gender: data.gender ?? 'Male',
@@ -77,19 +85,13 @@ export class ProfileComponent {
     });
   }
 
-  private loadUserData(): void {}
-
-  private capitalizeFirstLetter(str: string): string {
-    return str.charAt(0).toUpperCase() + str.slice(1).toLowerCase();
-  }
-
   toggleEdit(): void {
     this.isEditing = !this.isEditing;
   }
 
   saveProfile(): void {
-    console.log('✅ saveProfile() function triggered');
-
+    this.isSaving = true;
+    
     const updatedData = {
       first_name: this.userData.name?.split(' ')[0] || '',
       last_name: this.userData.name?.split(' ')[1] || '',
@@ -104,14 +106,27 @@ export class ProfileComponent {
 
     this.authService.updateProfile(updatedData).subscribe({
       next: (res) => {
-        console.log('✅ Profile updated:', res);
+        this.toastr.success('Profile updated successfully!', 'Success');
         this.isEditing = false;
-        // alert('✅ Profile updated successfully!');
       },
       error: (err) => {
-        console.error('❌ Failed to update profile:', err);
-        // alert('❌ Failed to update profile.');
+        console.error('Profile update error:', err);
+        const errorMessage = this.getErrorMessage(err);
+        this.toastr.error(errorMessage, 'Update Failed');
       },
+      complete: () => {
+        this.isSaving = false;
+      }
     });
+  }
+
+  private getErrorMessage(error: any): string {
+    if (error.error?.message) {
+      return error.error.message;
+    }
+    if (error.error?.errors) {
+      return Object.values(error.error.errors).join('\n');
+    }
+    return 'An unexpected error occurred. Please try again.';
   }
 }

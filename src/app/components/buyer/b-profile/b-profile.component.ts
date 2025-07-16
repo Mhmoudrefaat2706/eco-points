@@ -3,6 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../../services/auth.service';
 import { BNavbarComponent } from '../b-navbar/b-navbar.component';
+import { BFooterComponent } from '../b-footer/b-footer.component';
+import { ToastrService } from 'ngx-toastr';
 
 // Define the User interface with all required properties
 interface User {
@@ -12,11 +14,13 @@ interface User {
   gender?: string;
   location?: string;
   address?: string;
+  paypal_client_id?: string; // Add this
+  paypal_client_secret?: string; // Add this
 }
 
 @Component({
   selector: 'app-b-profile',
-  imports: [CommonModule, FormsModule, BNavbarComponent],
+  imports: [CommonModule, FormsModule, BNavbarComponent, BFooterComponent],
   templateUrl: './b-profile.component.html',
   styleUrl: './b-profile.component.css',
 })
@@ -28,15 +32,23 @@ export class BProfileComponent implements OnInit {
     location: 'Cairo, Egypt',
     gender: 'Male',
     address: '',
+    paypal_client_id: '', // Add this
+    paypal_client_secret: '', // Add this
   };
 
   isEditing = false;
   currentDate = new Date();
 
-  constructor(private authService: AuthService) {}
+  isSaving = false; // Add this loading state
 
+  constructor(
+    private authService: AuthService,
+    private toastr: ToastrService // Add this
+  ) {}
+
+  // Update the ngOnInit subscription:
   ngOnInit(): void {
-    this.authService.getUserData(); // نبدأ بتحميل البيانات
+    this.authService.getUserData();
     this.authService.userProfile$.subscribe((data) => {
       if (data) {
         this.userData = {
@@ -46,25 +58,12 @@ export class BProfileComponent implements OnInit {
           gender: data.gender ?? 'Male',
           location: data.city,
           address: data.address ?? '',
+          paypal_client_id: data.paypal_client_id ?? '', // Add this
+          paypal_client_secret: data.paypal_client_secret ?? '', // Add this
         };
       }
     });
   }
-
-  // private loadUserData(): void {
-  //   const loggedInUser = this.authService.getLoggedInUser() as User;
-  //   if (loggedInUser) {
-  //     this.userData = {
-  //       ...this.userData,
-  //       name: loggedInUser.name || loggedInUser.email.split('@')[0],
-  //       email: loggedInUser.email,
-  //       role: this.capitalizeFirstLetter(loggedInUser.role),
-  //       gender: loggedInUser.gender || 'Male',
-  //       location: loggedInUser.location || 'Cairo, Egypt',
-  //       address: loggedInUser.address || '',
-  //     };
-  //   }
-  // }
 
   private capitalizeFirstLetter(string: string): string {
     return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
@@ -75,6 +74,7 @@ export class BProfileComponent implements OnInit {
   }
 
   saveProfile(): void {
+    this.isSaving = true; // Start loading
     const updatedData = {
       first_name: this.userData.name?.split(' ')[0] || '',
       last_name: this.userData.name?.split(' ')[1] || '',
@@ -83,6 +83,8 @@ export class BProfileComponent implements OnInit {
       state: '',
       postal_code: '',
       country: this.userData.location?.split(',')[1]?.trim() || '',
+      paypal_client_id: this.userData.paypal_client_id ?? '', // Add this
+      paypal_client_secret: this.userData.paypal_client_secret ?? '', // Add this
     };
 
     console.log('Sending payload:', updatedData);
@@ -91,14 +93,18 @@ export class BProfileComponent implements OnInit {
       next: (res) => {
         console.log('✅ Profile updated:', res);
         this.isEditing = false;
-        alert('✅ Profile updated successfully!');
+        this.toastr.success('Profile updated successfully!', 'Success');
       },
       error: (err) => {
         console.error('❌ Failed to update profile:', err);
-        if (err.error && err.error.errors) {
-          console.error('Validation errors:', err.error.errors);
+        let errorMessage = 'Failed to update profile';
+        if (err.error?.errors) {
+          errorMessage = Object.values(err.error.errors).join('\n');
         }
-        alert('❌ Failed to update profile.');
+        this.toastr.error(errorMessage, 'Error');
+      },
+      complete: () => {
+        this.isSaving = false; // End loading
       },
     });
   }

@@ -148,8 +148,22 @@
         />
       </div>
       <div class="col-12 mt-3">
-        <button type="submit" class="btn btn-save px-4 text-white">
-          <i class="fas fa-save me-2"></i>Save Changes
+        <button
+          type="submit"
+          class="btn btn-save px-4 text-white"
+          [disabled]="isSaving"
+        >
+          <span *ngIf="!isSaving">
+            <i class="fas fa-save me-2"></i>Save Changes
+          </span>
+          <span *ngIf="isSaving">
+            <span
+              class="spinner-border spinner-border-sm me-2"
+              role="status"
+              aria-hidden="true"
+            ></span>
+            Saving...
+          </span>
         </button>
       </div>
     </form>
@@ -250,13 +264,6 @@
       </div>
     </div>
   </ng-template>
-
-  <!-- Footer -->
-  <div class="footer">
-    <p>© {{ currentDate | date : "y" }} EcoPoints. All rights reserved.</p>
-    <p>
-      Designed with <span style="color: #e84393">❤</span> for a sustainable
-      future
-    </p>
-  </div>
 </div>
+
+<app-footer></app-footer>
