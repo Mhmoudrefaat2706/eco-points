@@ -125,6 +125,28 @@
           readonly
         />
       </div>
+      <div class="col-md-6">
+        <label for="inputState" class="form-label fw-semibold">Paypal Id</label>
+        <input
+          type="text"
+          class="form-control"
+          id="inputState"
+          [(ngModel)]="userData.paypal_client_id"
+          name="paypalId"
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="inputState" class="form-label fw-semibold"
+          >Paypal Secret</label
+        >
+        <input
+          type="text"
+          class="form-control"
+          id="inputState"
+          [(ngModel)]="userData.paypal_client_secret"
+          name="payPalSecret"
+        />
+      </div>
       <div class="col-12 mt-3">
         <button type="submit" class="btn btn-save px-4 text-white">
           <i class="fas fa-save me-2"></i>Save Changes
@@ -209,6 +231,19 @@
               <button class="btn btn-outline-info m-auto">
                 view all Feedback
               </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="info-card">
+            <h6><i class="fa-solid fa-credit-card"></i>Payment Info</h6>
+            <div class="info-item">
+              <span class="label">PayPal Id</span>
+              <span class="value">{{ userData.paypal_client_id }}</span>
+            </div>
+            <div class="info-item">
+              <span class="label">PayPal Secret</span>
+              <span class="value">{{ userData.paypal_client_secret }}</span>
             </div>
           </div>
         </div>
