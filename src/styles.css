@@ -1,4 +1,5 @@
 @import "bootstrap-icons/font/bootstrap-icons.css";
+@import 'ngx-toastr/toastr';
 
 :root {
   --primary-color: #2e7d32;
@@ -158,4 +159,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 .custom-snackbar .mat-mdc-snack-bar-action .mdc-button__label {
   color: white !important;
+}
+
+/* Optional: Toastr customization */
+.toast-container {
+  margin-top: 1rem;
+}
+.toast-success {
+  background-color: #51a351;
+}
+.toast-error {
+  background-color: #bd362f;
 }
