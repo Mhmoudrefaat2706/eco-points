@@ -279,3 +279,36 @@ body {
 .dark-mode .feedback-card {
   background-color: #2d3748;
 }
+
+.loading-state {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px;
+  background: transparent;
+}
+
+/* Loading spinner styles */
+.spinner-border {
+  vertical-align: middle;
+}
+
+/* Toastr customization (optional) */
+.toast-success {
+  background-color: #51a351 !important;
+}
+.toast-error {
+  background-color: #bd362f !important;
+}
+
+.avatar {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid var(--primary-color);
+}
+
+.user-icon {
+  display: none; /* Hide the old user icon */
+}

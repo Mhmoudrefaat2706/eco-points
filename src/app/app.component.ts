@@ -1,16 +1,17 @@
+// app.component.ts
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { ScrollTopService } from './services/scroll-top.service';
-import { LoaderComponent } from './components/loader/loader.component';
+import { LoaderComponent } from "./components/loader/loader.component";
 
 @Component({
   selector: 'app-root',
+  standalone: true,
   imports: [CommonModule, RouterOutlet, LoaderComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.css',
-  template: `<router-outlet></router-outlet>`,
+  styleUrl: './app.component.css'
 })
 export class AppComponent {
   authService = inject(AuthService);
