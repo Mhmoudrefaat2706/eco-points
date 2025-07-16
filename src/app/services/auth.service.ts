@@ -78,7 +78,7 @@ export class AuthService {
       role,
     };
     return this.http.post(`${this.apiUrl}/register`, data, {
-      headers: this.headers,
+      headers: data,
     });
   }
 
