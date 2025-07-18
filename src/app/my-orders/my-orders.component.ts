@@ -16,8 +16,8 @@ export class MyOrdersComponent implements OnInit {
   orders: any[] = [];
   isLoading: boolean = false;
   cancellingOrderId: number | null = null;
-payingOrderId: number | null = null;
-paymentStatus: string | null = null;
+  payingOrderId: number | null = null;
+  paymentStatus: string | null = null;
   constructor(private orderService: OrderService,
      private router: Router,
      private route: ActivatedRoute
@@ -27,7 +27,7 @@ paymentStatus: string | null = null;
     this.route.queryParams.subscribe(params => {
       if (params['payment'] === 'success') {
         this.paymentStatus = 'success';
-        setTimeout(() => this.paymentStatus = null, 5000); // اخفاء الرسالة بعد 5 ثوان
+        setTimeout(() => this.paymentStatus = null, 5000); // Hide message after 5 seconds
       } else if (params['payment'] === 'cancelled') {
         this.paymentStatus = 'cancelled';
         setTimeout(() => this.paymentStatus = null, 5000);
@@ -87,48 +87,45 @@ paymentStatus: string | null = null;
     }
   }
 
- cancelOrder(orderId: number): void {
-  if (confirm('Are you sure you want to cancel this order?')) {
-    this.cancellingOrderId = orderId;
+  cancelOrder(orderId: number): void {
+    if (confirm('Are you sure you want to cancel this order?')) {
+      this.cancellingOrderId = orderId;
 
-    this.orderService.cancelOrder(orderId).subscribe({
-      next: () => {
+      this.orderService.cancelOrder(orderId).subscribe({
+        next: () => {
 
-        const orderIndex = this.orders.findIndex(order => order.id === orderId);
-        if (orderIndex !== -1) {
-          this.orders[orderIndex].status = 'cancelled';
+          const orderIndex = this.orders.findIndex(order => order.id === orderId);
+          if (orderIndex !== -1) {
+            this.orders[orderIndex].status = 'cancelled';
+          }
+          this.cancellingOrderId = null;
+        },
+        error: (err) => {
+          console.error('Failed to cancel order:', err);
+          this.cancellingOrderId = null;
         }
-        this.cancellingOrderId = null;
+      });
+    }
+  }
+
+  payForOrder(order: any): void {
+    this.payingOrderId = order.id;
+
+    this.orderService.createPayPalOrder(order.id).subscribe({
+      next: (response: any) => {
+        if (response.approval_url) {
+          window.location.href = response.approval_url;
+        } else {
+          console.error('Payment link not found:', response);
+          alert('Failed to initiate payment process');
+        }
+        this.payingOrderId = null;
       },
       error: (err) => {
-        console.error('Failed to cancel order:', err);
-        this.cancellingOrderId = null;
+        console.error('Error creating PayPal order:', err);
+        alert('An error occurred while trying to pay. Check the console for details.');
+        this.payingOrderId = null;
       }
     });
   }
-}
-
-
-
-payForOrder(order: any): void {
-  this.payingOrderId = order.id;
-
-  this.orderService.createPayPalOrder(order.id).subscribe({
-    next: (response: any) => {
-      if (response.approval_url) {
-        // توجيه المستخدم لصفحة الدفع في PayPal
-        window.location.href = response.approval_url;
-      } else {
-        console.error('لم يتم العثور على رابط الدفع:', response);
-        alert('فشل في بدء عملية الدفع');
-      }
-      this.payingOrderId = null;
-    },
-    error: (err) => {
-      console.error('خطأ في إنشاء طلب PayPal:', err);
-      alert('حدث خطأ أثناء محاولة الدفع. راجع الكونسول للتفاصيل');
-      this.payingOrderId = null;
-    }
-  });
-}
 }
