@@ -258,7 +258,7 @@ export class BMaterialsComponent {
       },
       error: (err) => {
         console.error('Add to cart failed', err);
-        this.showSnackbar('Error adding to cart', 'error-snackbar');
+        this.showSnackbar('You already placed this order', 'error-snackbar');
         this.addingToCartId = null;
       },
     });

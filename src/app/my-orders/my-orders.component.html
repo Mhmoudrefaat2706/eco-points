@@ -1,5 +1,23 @@
 <app-b-navbar></app-b-navbar>
 
+<div *ngIf="paymentStatus" class="alert alert-dismissible fade show" [ngClass]="{
+    'alert-success': paymentStatus === 'success',
+    'alert-danger': paymentStatus === 'cancelled'
+}">
+  <button type="button" class="btn-close" (click)="paymentStatus = null"></button>
+
+  <div *ngIf="paymentStatus === 'success'">
+    <i class="bi bi-check-circle me-2"></i>
+    تم الدفع بنجاح! شكراً لشرائك.
+  </div>
+
+  <div *ngIf="paymentStatus === 'cancelled'">
+    <i class="bi bi-x-circle me-2"></i>
+    تم إلغاء عملية الدفع.
+  </div>
+</div>
+
+
 <div class="container py-4">
   <h2 class="mb-4 text-center">My Orders</h2>
 
@@ -54,11 +72,12 @@
   <button class="btn btn-success"
           (click)="payForOrder(order)"
           [disabled]="payingOrderId === order.id">
+    <i class="bi bi-paypal me-2"></i>
     <span *ngIf="payingOrderId === order.id"
           class="spinner-border spinner-border-sm me-2"
           role="status"
           aria-hidden="true"></span>
-    ادفع الآن
+    Pay Now
   </button>
 </div>
         <!-- Cancel Order Button -->

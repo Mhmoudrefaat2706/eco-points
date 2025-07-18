@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BNavbarComponent } from '../components/buyer/b-navbar/b-navbar.component';
 import { BFooterComponent } from '../components/buyer/b-footer/b-footer.component';
 
@@ -17,9 +17,23 @@ export class MyOrdersComponent implements OnInit {
   isLoading: boolean = false;
   cancellingOrderId: number | null = null;
 payingOrderId: number | null = null;
-  constructor(private orderService: OrderService) {}
+paymentStatus: string | null = null;
+  constructor(private orderService: OrderService,
+     private router: Router,
+     private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['payment'] === 'success') {
+        this.paymentStatus = 'success';
+        setTimeout(() => this.paymentStatus = null, 5000); // اخفاء الرسالة بعد 5 ثوان
+      } else if (params['payment'] === 'cancelled') {
+        this.paymentStatus = 'cancelled';
+        setTimeout(() => this.paymentStatus = null, 5000);
+      }
+    });
+
     this.loadOrders();
   }
 
@@ -96,7 +110,6 @@ payingOrderId: number | null = null;
 
 
 
-// أضف هذه الدالة
 payForOrder(order: any): void {
   this.payingOrderId = order.id;
 
