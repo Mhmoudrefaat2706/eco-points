@@ -6,13 +6,20 @@ export interface Category {
 export interface Material {
   id: number;
   name: string;
-  category: string | Category; // Can be either string or Category object
+  category: string | Category;
   category_id?: number;
   image_url: string;
   description: string;
   price: number;
   price_unit: 'piece' | 'kg' | 'm²' | 'm³';
   seller_id?: number;
+  seller?: { 
+    id?: number;
+    first_name?: string;
+    last_name?: string;
+    name?: string;
+  } | null; // Allow null for seller
+  status?: 'active' | 'blocked' | 'pending';
   created_at?: string;
   updated_at?: string;
 }

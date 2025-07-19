@@ -1,0 +1,60 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h5 class="mb-0">Feedbacks Management</h5>
+    </div>
+    
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger m-3">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="isLoading" class="text-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading feedbacks...</p>
+    </div>
+
+    <!-- Feedbacks Table -->
+    <div *ngIf="!isLoading" class="card-body">
+      <div *ngIf="feedbacks.length === 0" class="text-center py-4">
+        <p>No feedbacks found</p>
+      </div>
+
+      <div *ngIf="feedbacks.length > 0" class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Seller</th>
+              <th>Buyer</th>
+              <th>Rating</th>
+              <th>Comment</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let feedback of feedbacks">
+              <td>{{ feedback.id }}</td>
+              <td>{{ feedback.seller?.name || 'N/A' }}</td>
+              <td>{{ feedback.buyer?.name || 'N/A' }}</td>
+              <td>
+                <span class="badge bg-primary">{{ feedback.rating }}/5</span>
+              </td>
+              <td>{{ feedback.comment || 'No comment' }}</td>
+              <td>{{ feedback.created_at | date:'short' }}</td>
+              <td>
+                <button class="btn btn-sm btn-danger" (click)="deleteFeedback(feedback.id)">
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>

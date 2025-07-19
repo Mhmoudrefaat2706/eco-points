@@ -8,7 +8,7 @@ export interface User {
   id?: number;
   name: string; // Will combine first_name + last_name
   email: string;
-  role: 'seller' | 'buyer';
+  role: 'seller' | 'buyer' | 'admin'; // Added admin role
   token?: string;
 }
 
@@ -43,11 +43,49 @@ export class AuthService {
     });
   }
 
+  getUserRole(): 'seller' | 'buyer' | 'admin' | null {
+    return this.currentUserValue?.role ?? null;
+  }
+
+  // Update login method to handle admin role
+  // login(email: string, password: string): Observable<any> {
+  //   return this.http
+  //     .post<any>(`${this.apiUrl}/login`, { email, password })
+  //     .pipe(
+  //       tap((response) => {
+  //         // Check if user is active before proceeding
+  //         if (response.user.status !== 'active') {
+  //           throw new Error(
+  //             'Your account is currently blocked. Please contact support.'
+  //           );
+  //         }
+
+  //         const user = {
+  //           id: response.user.id,
+  //           name: `${response.user.first_name} ${response.user.last_name}`,
+  //           email: response.user.email,
+  //           role: response.user.role,
+  //           token: response.access_token,
+  //           city: response.user.city,
+  //         };
+  //         localStorage.setItem('loggedInUser', JSON.stringify(user));
+  //         localStorage.setItem('token', response.access_token);
+  //         this.currentUserSubject.next(user);
+  //       })
+  //     );
+  // }
+
   login(email: string, password: string): Observable<any> {
     return this.http
       .post<any>(`${this.apiUrl}/login`, { email, password })
       .pipe(
         tap((response) => {
+          if (response.user.status !== 'active') {
+            throw new Error(
+              'Your account is currently blocked. Please contact support.'
+            );
+          }
+
           const user = {
             id: response.user.id,
             name: `${response.user.first_name} ${response.user.last_name}`,
@@ -56,13 +94,16 @@ export class AuthService {
             token: response.access_token,
             city: response.user.city,
           };
+
+          // Store both user data and token separately
           localStorage.setItem('loggedInUser', JSON.stringify(user));
-          localStorage.setItem('token', response.access_token);
+          this.setToken(response.access_token); // Use the setToken method
           this.currentUserSubject.next(user);
         })
       );
   }
 
+  // Update register method to include admin role
   register(
     first_name: string,
     last_name: string,
@@ -97,9 +138,6 @@ export class AuthService {
     return this.currentUserValue;
   }
 
-  getUserRole(): 'seller' | 'buyer' | null {
-    return this.currentUserValue?.role ?? null;
-  }
   updateProfile(data: any): Observable<any> {
     const user = localStorage.getItem('loggedInUser');
     const token = user ? JSON.parse(user).token : null;
@@ -133,5 +171,17 @@ export class AuthService {
         this.LoaderService.hide();
       },
     });
+  }
+
+  getToken(): string | null {
+    return localStorage.getItem('token');
+  }
+
+  setToken(token: string): void {
+    localStorage.setItem('token', token);
+  }
+
+  removeToken(): void {
+    localStorage.removeItem('token');
   }
 }

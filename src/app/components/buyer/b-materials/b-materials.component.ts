@@ -61,36 +61,45 @@ export class BMaterialsComponent {
     this.isLoading = true;
     this.errorMessage = '';
 
-    this.materialsService.getAllMaterials().subscribe({
-      next: (response) => {
-        this.allMaterials = response.data.map((material) => {
-          // Get category name whether it's string or Category object
-          const categoryName =
-            typeof material.category === 'string'
-              ? material.category
-              : material.category?.name || 'Uncategorized';
+    this.materialsService
+      .getAllMaterials(
+        this.currentPage,
+        undefined, // searchQuery
+        undefined, // category
+        undefined, // minPrice
+        undefined, // maxPrice
+        'active' // status filter added here
+      )
+      .subscribe({
+        next: (response) => {
+          this.allMaterials = response.data.map((material) => {
+            // Get category name whether it's string or Category object
+            const categoryName =
+              typeof material.category === 'string'
+                ? material.category
+                : material.category?.name || 'Uncategorized';
 
-          return {
-            ...material,
-            category: categoryName,
-          } as DisplayMaterial;
-        });
+            return {
+              ...material,
+              category: categoryName,
+            } as DisplayMaterial;
+          });
 
-        // Extract unique categories
-        this.categories = [
-          'All',
-          ...new Set(this.allMaterials.map((material) => material.category)),
-        ];
+          // Extract unique categories
+          this.categories = [
+            'All',
+            ...new Set(this.allMaterials.map((material) => material.category)),
+          ];
 
-        this.updateFilteredMaterials();
-        this.isLoading = false;
-      },
-      error: (error) => {
-        this.errorMessage = 'Failed to load materials.';
-        this.isLoading = false;
-        console.error('Error loading materials:', error);
-      },
-    });
+          this.updateFilteredMaterials();
+          this.isLoading = false;
+        },
+        error: (error) => {
+          this.errorMessage = 'Failed to load materials.';
+          this.isLoading = false;
+          console.error('Error loading materials:', error);
+        },
+      });
   }
 
   loadCartMaterialIds(): void {
@@ -258,7 +267,7 @@ export class BMaterialsComponent {
       },
       error: (err) => {
         console.error('Add to cart failed', err);
-        this.showSnackbar('Error adding to cart', 'error-snackbar');
+        this.showSnackbar('You already placed this order', 'error-snackbar');
         this.addingToCartId = null;
       },
     });

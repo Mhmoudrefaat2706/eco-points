@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { OrderService } from '../services/order.service';
 import { CommonModule } from '@angular/common';
-import { RouterModule } from '@angular/router';
+import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BNavbarComponent } from '../components/buyer/b-navbar/b-navbar.component';
 import { BFooterComponent } from '../components/buyer/b-footer/b-footer.component';
 
@@ -37,10 +37,25 @@ export class MyOrdersComponent implements OnInit {
   isLoading: boolean = false;
   cancellingOrderId: number | null = null;
   payingOrderId: number | null = null;
+  paymentStatus: string | null = null;
 
-  constructor(private orderService: OrderService) {}
+  constructor(
+    private orderService: OrderService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.route.queryParams.subscribe(params => {
+      if (params['payment'] === 'success') {
+        this.paymentStatus = 'success';
+        setTimeout(() => this.paymentStatus = null, 5000);
+      } else if (params['payment'] === 'cancelled') {
+        this.paymentStatus = 'cancelled';
+        setTimeout(() => this.paymentStatus = null, 5000);
+      }
+    });
+
     this.loadOrders();
   }
 
@@ -104,13 +119,16 @@ export class MyOrdersComponent implements OnInit {
 
       this.orderService.cancelOrder(orderId).subscribe({
         next: () => {
-          this.updateOrderStatus(orderId, 'cancelled');
+          const orderIndex = this.orders.findIndex(order => order.id === orderId);
+          if (orderIndex !== -1) {
+            this.orders[orderIndex].status = 'cancelled';
+          }
           this.cancellingOrderId = null;
         },
         error: (err) => {
           console.error('Failed to cancel order:', err);
           this.cancellingOrderId = null;
-        },
+        }
       });
     }
   }
@@ -131,11 +149,9 @@ export class MyOrdersComponent implements OnInit {
       },
       error: (err) => {
         console.error('Error creating PayPal order:', err);
-        alert(
-          'An error occurred during payment. Please check console for details'
-        );
+        alert('An error occurred during payment. Please check console for details');
         this.payingOrderId = null;
-      },
+      }
     });
   }
 
@@ -143,12 +159,5 @@ export class MyOrdersComponent implements OnInit {
     return order.items.reduce((total: number, item: OrderItem) => {
       return total + item.price * item.quantity;
     }, 0);
-  }
-
-  private updateOrderStatus(orderId: number, status: string): void {
-    const orderIndex = this.orders.findIndex((order) => order.id === orderId);
-    if (orderIndex !== -1) {
-      this.orders[orderIndex].status = status;
-    }
   }
 }

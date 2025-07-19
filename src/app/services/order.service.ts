@@ -35,11 +35,6 @@ cancelOrder(id: number): Observable<any> {
 
 
 
-
-
-
-
-// أضف هذه الدالة
 createPayPalOrder(orderId: number): Observable<any> {
   return this.http.post<any>(
     `${environment.apiUrl}/paypal/create-order`,
@@ -47,5 +42,4 @@ createPayPalOrder(orderId: number): Observable<any> {
     { headers: this.getHeaders() }
   );
 }
-
 }
