@@ -1,0 +1,108 @@
+<div class="container mt-4">
+  <h2>Add New User</h2>
+
+  <!-- Success message -->
+  <div *ngIf="isSuccess" class="alert alert-success alert-dismissible fade show mb-3">
+    {{ successMessage }}
+    <button type="button" class="btn-close" (click)="isSuccess = false"></button>
+  </div>
+
+  <button
+        type="button"
+        class="btn btn-outline-primary"
+        (click)="router.navigate(['/admin/users'])"
+      >
+        <i class="bi bi-arrow-left"></i> Back to Users List
+      </button>
+
+  <form (ngSubmit)="onSubmit()">
+    <div *ngIf="errorMessage" class="alert alert-danger alert-dismissible fade show mb-3">
+      {{ errorMessage }}
+      <button type="button" class="btn-close" (click)="errorMessage = ''"></button>
+    </div>
+
+    <div class="row mb-3">
+      <div class="col-md-6">
+        <label for="firstName" class="form-label">First Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="firstName"
+          [(ngModel)]="user.first_name"
+          name="firstName"
+          required
+        />
+      </div>
+      <div class="col-md-6">
+        <label for="lastName" class="form-label">Last Name</label>
+        <input
+          type="text"
+          class="form-control"
+          id="lastName"
+          [(ngModel)]="user.last_name"
+          name="lastName"
+          required
+        />
+      </div>
+    </div>
+
+    <div class="mb-3">
+      <label for="email" class="form-label">Email</label>
+      <input
+        type="email"
+        class="form-control"
+        id="email"
+        [(ngModel)]="user.email"
+        name="email"
+        required
+      />
+    </div>
+
+    <div class="mb-3">
+      <label for="role" class="form-label">Role</label>
+      <select
+        class="form-select"
+        id="role"
+        [(ngModel)]="user.role"
+        name="role"
+        required
+      >
+        <option value="buyer">Buyer</option>
+        <option value="seller">Seller</option>
+        <option value="admin">Admin</option>
+      </select>
+    </div>
+
+    <div class="mb-3">
+      <label for="password" class="form-label">Password</label>
+      <input
+        type="password"
+        class="form-control"
+        id="password"
+        [(ngModel)]="user.password"
+        name="password"
+        required
+      />
+    </div>
+
+    <div class="d-flex justify-content-between">
+      <button
+        type="button"
+        class="btn btn-secondary"
+        (click)="router.navigate(['/admin/users'])"
+      >
+        <i class="bi bi-x-circle"></i> Cancel
+      </button>
+      <button type="submit" class="btn btn-primary" [disabled]="isLoading">
+        <span *ngIf="!isLoading">Create User</span>
+        <span
+          *ngIf="isLoading"
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+      </button>
+      
+    </div>
+  </form>
+</div>

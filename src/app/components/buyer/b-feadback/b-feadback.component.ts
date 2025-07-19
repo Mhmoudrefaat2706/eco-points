@@ -61,7 +61,7 @@ export class FeedbackComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/materials']);
+    this.router.navigate(['/b-materials']);
   }
 
   loadFeedbacks() {

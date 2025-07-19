@@ -47,13 +47,14 @@ export class MaterialsService {
     return user.token || '';
   }
 
-  // Update getAllMaterials() return type
+  // Update the getAllMaterials method signature:
   getAllMaterials(
     page: number = 1,
     search?: string,
     category?: string,
     minPrice?: number,
-    maxPrice?: number
+    maxPrice?: number,
+    status?: string
   ): Observable<{
     data: Material[];
     total: number;
@@ -67,6 +68,7 @@ export class MaterialsService {
     if (category) params.append('category', category);
     if (minPrice) params.append('min_price', minPrice.toString());
     if (maxPrice) params.append('max_price', maxPrice.toString());
+    if (status) params.append('status', status);
 
     return this.http.get<{
       data: Material[];
@@ -113,7 +115,7 @@ export class MaterialsService {
   // Update getMaterialById to expect the nested response
   getMaterialById(id: number): Observable<Material | null> {
     return this.http.get<any>(`${this.apiUrl}/materials/details/${id}`).pipe(
-      map(response => this.mapApiToMaterial(response.material) || null),
+      map((response) => this.mapApiToMaterial(response.material) || null),
       catchError((error) => {
         console.error(`Error fetching material ${id}:`, error);
         return of(null);
@@ -129,7 +131,7 @@ export class MaterialsService {
       description: material.description,
       price: material.price,
       price_unit: material.price_unit,
-      image_url: material.image_url
+      image_url: material.image_url,
     };
 
     return this.http.post<any>(`${this.apiUrl}/materials`, materialData, {
@@ -188,15 +190,17 @@ export class MaterialsService {
 
   // Get latest materials
   getLatestMaterials(): Observable<Material[]> {
-    return this.http.get<Material[]>(`${this.apiUrl}/materials/latest`).pipe(
-      map((materials) =>
-        materials.map((material) => this.mapApiToMaterial(material))
-      ),
-      catchError((error) => {
-        console.error('Error fetching latest materials:', error);
-        return of([]);
-      })
-    );
+    return this.http
+      .get<Material[]>(`${this.apiUrl}/materials/latest?status=active`)
+      .pipe(
+        map((materials) =>
+          materials.map((material) => this.mapApiToMaterial(material))
+        ),
+        catchError((error) => {
+          console.error('Error fetching latest materials:', error);
+          return of([]);
+        })
+      );
   }
 
   // Helper method to map API response to Material model
@@ -204,19 +208,28 @@ export class MaterialsService {
     return {
       id: apiMaterial.id,
       name: apiMaterial.name,
-      category: apiMaterial.category?.name || apiMaterial.category || 'Uncategorized',
+      category:
+        apiMaterial.category?.name || apiMaterial.category || 'Uncategorized',
       category_id: apiMaterial.category_id,
-      image_url: apiMaterial.image_url || apiMaterial.image || './assets/default-material.jpg',
-      description: apiMaterial.description || apiMaterial.desc || 'No description available',
+      image_url:
+        apiMaterial.image_url ||
+        apiMaterial.image ||
+        './assets/default-material.jpg',
+      description:
+        apiMaterial.description ||
+        apiMaterial.desc ||
+        'No description available',
       price: apiMaterial.price,
-      price_unit: apiMaterial.price_unit || 'piece'
+      price_unit: apiMaterial.price_unit || 'piece',
     };
   }
 
   // Fixed uploadImage method
   uploadImage(imageFile: FormData): Observable<any> {
     const headers = new HttpHeaders({
-      Authorization: `Bearer ${this.authService.getLoggedInUser()?.token || ''}`,
+      Authorization: `Bearer ${
+        this.authService.getLoggedInUser()?.token || ''
+      }`,
       Accept: 'application/json',
     });
 

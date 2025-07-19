@@ -101,12 +101,13 @@ export class MaterialsComponent implements OnInit {
 
     this.materialsService
       .getAllMaterials(
-        this.currentPage,
-        this.searchQuery || undefined,
-        this.selectedCategory !== 'All' ? this.selectedCategory : undefined,
-        this.priceFilterApplied ? this.minPrice ?? undefined : undefined,
-        this.priceFilterApplied ? this.maxPrice ?? undefined : undefined
-      )
+      this.currentPage,
+      this.searchQuery || undefined,
+      this.selectedCategory !== 'All' ? this.selectedCategory : undefined,
+      this.priceFilterApplied ? this.minPrice ?? undefined : undefined,
+      this.priceFilterApplied ? this.maxPrice ?? undefined : undefined,
+      'active' // Add status filter
+    )
       .subscribe({
         next: (response) => {
           console.log('API Response:', response); // Fixed typo here

@@ -5,99 +5,135 @@ import { ActivatedRoute, Router, RouterModule } from '@angular/router';
 import { BNavbarComponent } from '../components/buyer/b-navbar/b-navbar.component';
 import { BFooterComponent } from '../components/buyer/b-footer/b-footer.component';
 
+interface OrderItem {
+  material?: {
+    name: string;
+  };
+  quantity: number;
+  price: number;
+}
+
+interface Order {
+  id: number;
+  status: string;
+  items: OrderItem[];
+  orderedMaterials?: {
+    // Keep this for backward compatibility
+    name: string;
+    quantity: number;
+    price: number;
+    total: number;
+  }[];
+}
+
 @Component({
   selector: 'app-my-orders',
   standalone: true,
   imports: [CommonModule, RouterModule, BNavbarComponent, BFooterComponent],
   templateUrl: './my-orders.component.html',
-  styleUrls: ['./my-orders.component.css']
+  styleUrls: ['./my-orders.component.css'],
 })
 export class MyOrdersComponent implements OnInit {
-  orders: any[] = [];
+  orders: Order[] = [];
   isLoading: boolean = false;
   cancellingOrderId: number | null = null;
   payingOrderId: number | null = null;
   paymentStatus: string | null = null;
-  filterStatus: string = 'all';
+  filterStatus: string = 'all'; // Add this property for filtering
 
-  constructor(private orderService: OrderService,
-     private router: Router,
-     private route: ActivatedRoute
+  constructor(
+    private orderService: OrderService,
+    private router: Router,
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.route.queryParams.subscribe(params => {
+    this.route.queryParams.subscribe((params) => {
       if (params['payment'] === 'success') {
         this.paymentStatus = 'success';
-        setTimeout(() => this.paymentStatus = null, 5000); // Hide message after 5 seconds
+        setTimeout(() => (this.paymentStatus = null), 5000);
       } else if (params['payment'] === 'cancelled') {
         this.paymentStatus = 'cancelled';
-        setTimeout(() => this.paymentStatus = null, 5000);
+        setTimeout(() => (this.paymentStatus = null), 5000);
       }
     });
 
     this.loadOrders();
   }
-setFilter(status: string): void {
-  this.filterStatus = status;
-}
-get filteredOrders(): any[] {
-  if (this.filterStatus === 'all') {
-    return this.orders;
-  }
-  return this.orders.filter(order => order.status === this.filterStatus);
-}
 
+  setFilter(status: string): void {
+    this.filterStatus = status;
+  }
+
+  get filteredOrders(): Order[] {
+    if (this.filterStatus === 'all') {
+      return this.orders;
+    }
+    return this.orders.filter((order) => order.status === this.filterStatus);
+  }
 
   loadOrders(): void {
     this.isLoading = true;
     this.orderService.getUserOrders().subscribe({
       next: (response: any) => {
-        if (Array.isArray(response)) {
-          this.orders = response;
-        } else if (response.orders) {
-          this.orders = response.orders;
-        } else {
-          console.error('Unexpected response structure:', response);
-        }
-
-        this.orders.forEach(order => {
-          order.orderedMaterials = order.items.map((item: any) => ({
-            name: item.material?.name || 'Unknown',
-            quantity: item.quantity,
-            price: item.price,
-            total: item.price * item.quantity
-          }));
-        });
-
+        this.processOrderResponse(response);
         this.isLoading = false;
       },
       error: (err) => {
         console.error('Failed to load orders:', err);
         this.isLoading = false;
-      }
+      },
+    });
+  }
+
+  private processOrderResponse(response: any): void {
+    if (Array.isArray(response)) {
+      this.orders = response;
+    } else if (response.orders) {
+      this.orders = response.orders;
+    } else {
+      console.error('Unexpected response structure:', response);
+      return;
+    }
+
+    // Keep this for backward compatibility
+    this.orders.forEach((order) => {
+      order.orderedMaterials = order.items.map((item: OrderItem) => ({
+        name: item.material?.name || 'Unknown',
+        quantity: item.quantity,
+        price: item.price,
+        total: item.price * item.quantity,
+      }));
     });
   }
 
   getStatusClass(status: string): string {
     switch (status.toLowerCase()) {
-      case 'approved': return 'badge bg-success';
-      case 'rejected': return 'badge bg-danger';
-      case 'pending': return 'badge bg-warning';
-      case 'cancelled': return 'badge bg-danger';
-      case 'paid': return 'badge bg-blue';
-      default: return 'badge bg-secondary';
+      case 'approved':
+        return 'badge bg-success';
+      case 'rejected':
+        return 'badge bg-danger';
+      case 'pending':
+        return 'badge bg-warning';
+      case 'cancelled':
+        return 'badge bg-danger';
+      default:
+        return 'badge bg-secondary';
     }
   }
 
   getStatusText(status: string): string {
     switch (status.toLowerCase()) {
-      case 'approved': return 'Accepted';
-      case 'rejected': return 'Rejected';
-      case 'pending': return 'Pending';
-      case 'cancelled': return 'Cancelled';
-      case 'paid': return 'paid';
-      default: return 'Unknown';
+      case 'approved':
+        return 'Accepted';
+      case 'rejected':
+        return 'Rejected';
+      case 'pending':
+        return 'Pending';
+      case 'cancelled':
+        return 'Cancelled';
+      default:
+        return 'Unknown';
     }
   }
 
@@ -107,8 +143,9 @@ get filteredOrders(): any[] {
 
       this.orderService.cancelOrder(orderId).subscribe({
         next: () => {
-
-          const orderIndex = this.orders.findIndex(order => order.id === orderId);
+          const orderIndex = this.orders.findIndex(
+            (order) => order.id === orderId
+          );
           if (orderIndex !== -1) {
             this.orders[orderIndex].status = 'cancelled';
           }
@@ -117,29 +154,38 @@ get filteredOrders(): any[] {
         error: (err) => {
           console.error('Failed to cancel order:', err);
           this.cancellingOrderId = null;
-        }
+        },
       });
     }
   }
 
-  payForOrder(order: any): void {
+  payForOrder(order: Order): void {
     this.payingOrderId = order.id;
 
     this.orderService.createPayPalOrder(order.id).subscribe({
       next: (response: any) => {
         if (response.approval_url) {
+          // Redirect user to PayPal payment page
           window.location.href = response.approval_url;
         } else {
-          console.error('Payment link not found:', response);
+          console.error('Payment URL not found:', response);
           alert('Failed to initiate payment process');
         }
         this.payingOrderId = null;
       },
       error: (err) => {
         console.error('Error creating PayPal order:', err);
-        alert('An error occurred while trying to pay. Check the console for details.');
+        alert(
+          'An error occurred during payment. Please check console for details'
+        );
         this.payingOrderId = null;
-      }
+      },
     });
+  }
+
+  getOrderTotal(order: Order): number {
+    return order.items.reduce((total: number, item: OrderItem) => {
+      return total + item.price * item.quantity;
+    }, 0);
   }
 }
