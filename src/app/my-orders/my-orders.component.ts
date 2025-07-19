@@ -18,6 +18,8 @@ export class MyOrdersComponent implements OnInit {
   cancellingOrderId: number | null = null;
   payingOrderId: number | null = null;
   paymentStatus: string | null = null;
+  filterStatus: string = 'all';
+
   constructor(private orderService: OrderService,
      private router: Router,
      private route: ActivatedRoute
@@ -36,6 +38,16 @@ export class MyOrdersComponent implements OnInit {
 
     this.loadOrders();
   }
+setFilter(status: string): void {
+  this.filterStatus = status;
+}
+get filteredOrders(): any[] {
+  if (this.filterStatus === 'all') {
+    return this.orders;
+  }
+  return this.orders.filter(order => order.status === this.filterStatus);
+}
+
 
   loadOrders(): void {
     this.isLoading = true;
@@ -73,6 +85,7 @@ export class MyOrdersComponent implements OnInit {
       case 'rejected': return 'badge bg-danger';
       case 'pending': return 'badge bg-warning';
       case 'cancelled': return 'badge bg-danger';
+      case 'paid': return 'badge bg-blue';
       default: return 'badge bg-secondary';
     }
   }
@@ -83,6 +96,7 @@ export class MyOrdersComponent implements OnInit {
       case 'rejected': return 'Rejected';
       case 'pending': return 'Pending';
       case 'cancelled': return 'Cancelled';
+      case 'paid': return 'paid';
       default: return 'Unknown';
     }
   }

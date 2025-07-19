@@ -26,10 +26,46 @@
       <span class="visually-hidden">Loading...</span>
     </div>
   </div>
+<!-- Filters -->
+<div class="text-center mb-4">
+  <div class="btn-group" role="group">
+    <button class="btn btn-outline-primary"
+            [class.active]="filterStatus === 'all'"
+            (click)="setFilter('all')">
+      All
+    </button>
+    <button class="btn btn-outline-success"
+            [class.active]="filterStatus === 'paid'"
+            (click)="setFilter('paid')">
+      Paid
+    </button>
+    <button class="btn btn-outline-danger"
+            [class.active]="filterStatus === 'rejected'"
+            (click)="setFilter('rejected')">
+      Rejected
+    </button>
+    <button class="btn btn-outline-warning"
+            [class.active]="filterStatus === 'pending'"
+            (click)="setFilter('pending')">
+      Pending
+    </button>
+    <button class="btn btn-outline-info"
+            [class.active]="filterStatus === 'approved'"
+            (click)="setFilter('approved')">
+      Approved
+    </button>
+    <button class="btn btn-outline-secondary"
+            [class.active]="filterStatus === 'cancelled'"
+            (click)="setFilter('cancelled')">
+      Cancelled
+    </button>
+  </div>
+</div>
 
   <!-- Orders List -->
   <div *ngIf="!isLoading" class="row">
-    <div *ngFor="let order of orders" class="card mb-4 shadow-sm border-0">
+    <div *ngFor="let order of filteredOrders"
+ class="card mb-4 shadow-sm border-0">
       <div class="card-header d-flex justify-content-between align-items-center bg-light">
         <strong>Order: {{ order.id }}</strong>
         <span class="{{ getStatusClass(order.status) }}">
@@ -78,7 +114,13 @@
                   aria-hidden="true"></span>
             Pay Now
           </button>
+
         </div>
+        <div class="mt-3" *ngIf="order.status === 'paid'">
+  <span class="badge bg-info text-dark">
+    <i class="bi bi-check-circle me-1"></i> Paid
+  </span>
+</div>
         <!-- Cancel Order Button -->
         <div class="mt-3" *ngIf="order.status === 'pending'">
           <button class="btn btn-outline-danger" (click)="cancelOrder(order.id)" [disabled]="cancellingOrderId === order.id">
