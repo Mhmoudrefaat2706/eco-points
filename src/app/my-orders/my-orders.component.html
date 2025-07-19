@@ -1,5 +1,6 @@
 <app-b-navbar></app-b-navbar>
 
+<!-- Payment status alert -->
 <div
   *ngIf="paymentStatus"
   class="alert alert-dismissible fade show"
@@ -30,128 +31,152 @@
     <div class="col-lg-10">
       <h2 class="mb-4 text-center fw-bold">My Orders</h2>
 
-      <!-- Loading Spinner -->
-      <div *ngIf="isLoading" class="text-center my-5 py-5">
-        <div
-          class="spinner-border text-primary"
-          style="width: 3rem; height: 3rem"
-          role="status"
+      <!-- Filter controls -->
+      <div class="mb-4 d-flex justify-content-center gap-2">
+        <button
+          class="btn btn-outline-primary"
+          (click)="setFilter('all')"
+          [class.active]="filterStatus === 'all'"
         >
-          <span class="visually-hidden">Loading...</span>
-        </div>
-        <p class="mt-3 text-muted">Loading your orders...</p>
+          All Orders
+        </button>
+        <button
+          class="btn btn-outline-primary"
+          (click)="setFilter('pending')"
+          [class.active]="filterStatus === 'pending'"
+        >
+          Pending
+        </button>
+        <button
+          class="btn btn-outline-primary"
+          (click)="setFilter('approved')"
+          [class.active]="filterStatus === 'approved'"
+        >
+          Approved
+        </button>
+        <button
+          class="btn btn-outline-primary"
+          (click)="setFilter('cancelled')"
+          [class.active]="filterStatus === 'cancelled'"
+        >
+          Cancelled
+        </button>
       </div>
 
-      <!-- No Orders Message -->
-      <div *ngIf="!isLoading && orders.length === 0" class="text-center py-5">
-        <div class="card border-0 bg-light no-orders-card">
-          <div class="card-body py-5">
-            <i
-              class="bi bi-box-seam display-4 text-muted mb-4 no-orders-icon"
-            ></i>
-            <h3 class="mb-3 fw-semibold">No Orders Yet</h3>
-            <p class="text-muted mb-4">
-              You haven't placed any orders yet. Start shopping now!
-            </p>
-            <a routerLink="/" class="btn btn-primary px-4 py-2">
-              <i class="bi bi-house-door me-2"></i> Go to Home
-            </a>
-          </div>
+      <!-- Loading Spinner -->
+      <div *ngIf="isLoading" class="text-center my-5">
+        <div class="spinner-border text-primary" role="status">
+          <span class="visually-hidden">Loading...</span>
         </div>
       </div>
 
       <!-- Orders List -->
-      <div *ngIf="!isLoading && orders.length > 0">
-        <div *ngFor="let order of orders" class="card mb-4 shadow-sm border-0">
+      <div *ngIf="!isLoading">
+        <div
+          *ngFor="let order of filteredOrders"
+          class="card mb-4 shadow-sm border-0"
+        >
+          <!-- Rest of your existing order card template -->
           <div
-            class="card-header d-flex justify-content-between align-items-center bg-light py-3"
+            class="card-header d-flex justify-content-between align-items-center bg-light"
           >
-            <strong class="fs-5">Order #{{ order.id }}</strong>
-            <span class="{{ getStatusClass(order.status) }} rounded-pill px-3">
+            <strong>Order: {{ order.id }}</strong>
+            <span class="{{ getStatusClass(order.status) }}">
               {{ getStatusText(order.status) }}
             </span>
           </div>
 
           <div class="card-body">
-            <h5 class="mb-3 fw-semibold">Order Details</h5>
+            <div class="card-body">
+              <h5 class="mb-3 fw-semibold">Order Details</h5>
 
-            <div
-              *ngIf="order.items.length === 0"
-              class="alert alert-warning mb-4"
-            >
-              <i class="bi bi-exclamation-circle me-2"></i> No materials in this
-              order.
-            </div>
-
-            <div *ngIf="order.items.length > 0" class="mb-4">
-              <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                  <thead class="table-light">
-                    <tr>
-                      <th class="w-40">Material</th>
-                      <th class="text-center">Qty</th>
-                      <th class="text-end">Price</th>
-                      <th class="text-end">Total</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr *ngFor="let item of order.items">
-                      <td class="fw-medium">
-                        {{ item.material?.name || "Unavailable" }}
-                      </td>
-                      <td class="text-center">{{ item.quantity }}</td>
-                      <td class="text-end">{{ item.price | number }} EGP</td>
-                      <td class="text-end">
-                        {{ item.quantity * item.price | number }} EGP
-                      </td>
-                    </tr>
-                  </tbody>
-                  <tfoot *ngIf="order.items.length > 0">
-                    <tr class="table-light">
-                      <td colspan="3" class="fw-bold text-end">Order Total:</td>
-                      <td class="fw-bold text-end">
-                        {{ getOrderTotal(order) | number }} EGP
-                      </td>
-                    </tr>
-                  </tfoot>
-                </table>
-              </div>
-            </div>
-
-            <div class="d-flex justify-content-end gap-3">
-              <div *ngIf="order.status === 'approved'">
-                <button
-                  class="btn btn-success px-4 py-2"
-                  (click)="payForOrder(order)"
-                  [disabled]="payingOrderId === order.id"
-                >
-                  <span
-                    *ngIf="payingOrderId === order.id"
-                    class="spinner-border spinner-border-sm me-2"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  <i class="bi bi-credit-card me-2"></i> Pay Now
-                </button>
+              <div
+                *ngIf="order.items.length === 0"
+                class="alert alert-warning mb-4"
+              >
+                <i class="bi bi-exclamation-circle me-2"></i> No materials in
+                this order.
               </div>
 
-              <div *ngIf="order.status === 'pending'">
-                <button
-                  class="btn btn-outline-danger px-4 py-2"
-                  (click)="cancelOrder(order.id)"
-                  [disabled]="cancellingOrderId === order.id"
-                >
-                  <span
-                    *ngIf="cancellingOrderId === order.id"
-                    class="spinner-border spinner-border-sm me-2"
-                    role="status"
-                    aria-hidden="true"
-                  ></span>
-                  <i class="bi bi-x-circle me-2"></i> Cancel Order
-                </button>
+              <div *ngIf="order.items.length > 0" class="mb-4">
+                <div class="table-responsive">
+                  <table class="table table-hover align-middle">
+                    <thead class="table-light">
+                      <tr>
+                        <th class="w-40">Material</th>
+                        <th class="text-center">Qty</th>
+                        <th class="text-end">Price</th>
+                        <th class="text-end">Total</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let item of order.items">
+                        <td class="fw-medium">
+                          {{ item.material?.name || "Unavailable" }}
+                        </td>
+                        <td class="text-center">{{ item.quantity }}</td>
+                        <td class="text-end">{{ item.price | number }} EGP</td>
+                        <td class="text-end">
+                          {{ item.quantity * item.price | number }} EGP
+                        </td>
+                      </tr>
+                    </tbody>
+                    <tfoot *ngIf="order.items.length > 0">
+                      <tr class="table-light">
+                        <td colspan="3" class="fw-bold text-end">
+                          Order Total:
+                        </td>
+                        <td class="fw-bold text-end">
+                          {{ getOrderTotal(order) | number }} EGP
+                        </td>
+                      </tr>
+                    </tfoot>
+                  </table>
+                </div>
+              </div>
+
+              <div class="d-flex justify-content-end gap-3">
+                <div *ngIf="order.status === 'approved'">
+                  <button
+                    class="btn btn-success px-4 py-2"
+                    (click)="payForOrder(order)"
+                    [disabled]="payingOrderId === order.id"
+                  >
+                    <i class="bi bi-paypal me-2"></i>
+                    <span
+                      *ngIf="payingOrderId === order.id"
+                      class="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Pay Now
+                  </button>
+                </div>
+                <!-- Cancel Order Button -->
+                <div class="mt-3" *ngIf="order.status === 'pending'">
+                  <button
+                    class="btn btn-outline-danger"
+                    (click)="cancelOrder(order.id)"
+                    [disabled]="cancellingOrderId === order.id"
+                  >
+                    <span
+                      *ngIf="cancellingOrderId === order.id"
+                      class="spinner-border spinner-border-sm me-2"
+                      role="status"
+                      aria-hidden="true"
+                    ></span>
+                    Cancel Order
+                  </button>
+                </div>
               </div>
             </div>
           </div>
+        </div>
+
+        <div *ngIf="filteredOrders.length === 0" class="text-center py-5">
+          <i class="bi bi-box-seam display-4 text-muted mb-3"></i>
+          <h3 class="text-muted">No orders found</h3>
+          <p class="text-muted">Try adjusting your filters</p>
         </div>
       </div>
     </div>
