@@ -121,6 +121,7 @@ export class BMaterialsComponent {
   }
 
   getImageUrl(image: string | undefined): string {
+    
     if (!image) return 'assets/images/placeholder.png';
     return `http://localhost:8000/materials/${image}`;
   }
