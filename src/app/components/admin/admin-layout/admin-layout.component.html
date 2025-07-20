@@ -65,72 +65,37 @@
     </div>
   </div>
 
+  <!-- Mobile Header -->
+  <div class="mobile-header" *ngIf="isMobile">
+    <div class="mobile-header-content">
+      <div class="mobile-header-title">Admin Dashboard</div>
+      <button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+        <i class="bi" [class.bi-list]="!mobileMenuExpanded" [class.bi-x]="mobileMenuExpanded"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-expanded" [class.show]="mobileMenuExpanded && isMobile">
+    <a class="mobile-menu-item" routerLink="/admin/dashboard" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="bi bi-speedometer2"></i> Dashboard
+    </a>
+    <a class="mobile-menu-item" routerLink="/admin/users" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="bi bi-people"></i> Users
+    </a>
+    <a class="mobile-menu-item" routerLink="/admin/materials" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="bi bi-box-seam"></i> Materials
+    </a>
+    <a class="mobile-menu-item" routerLink="/admin/feedbacks" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="bi bi-chat-square-text"></i> Feedbacks
+    </a>
+    <a class="mobile-menu-item" (click)="logout()">
+      <i class="bi bi-box-arrow-right"></i> Logout
+    </a>
+  </div>
+
   <!-- Main Content -->
   <div class="main-content" [class.expanded]="isSidebarCollapsed && !isMobile">
     <router-outlet></router-outlet>
-  </div>
-
-  <!-- Mobile Navigation -->
-  <div class="mobile-navbar" *ngIf="isMobile">
-    <div class="mobile-nav-items">
-      <a
-        class="mobile-nav-item"
-        routerLink="/admin/dashboard"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        <i class="bi bi-speedometer2"></i>
-        <span>Dashboard</span>
-      </a>
-      <a
-        class="mobile-nav-item"
-        routerLink="/admin/users"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        <i class="bi bi-people"></i>
-        <span>Users</span>
-      </a>
-      <a
-        class="mobile-nav-item"
-        routerLink="/admin/materials"
-        routerLinkActive="active"
-        (click)="closeMobileMenu()"
-      >
-        <i class="bi bi-box-seam"></i>
-        <span>Materials</span>
-      </a>
-      <a class="mobile-nav-item" (click)="toggleMobileMenu()">
-        <i class="bi bi-three-dots"></i>
-        <span>More</span>
-      </a>
-    </div>
-
-    <div class="mobile-menu-expanded" [class.show]="mobileMenuExpanded">
-      <a
-        class="mobile-menu-item"
-        routerLink="/admin/dashboard"
-        (click)="closeMobileMenu()"
-      >
-        <i class="bi bi-speedometer2"></i> Dashboard
-      </a>
-      <a
-        class="mobile-menu-item"
-        routerLink="/admin/users"
-        (click)="closeMobileMenu()"
-      >
-        <i class="bi bi-people"></i> Users Management
-      </a>
-      <a
-        class="mobile-menu-item"
-        routerLink="/admin/materials"
-        (click)="closeMobileMenu()"
-      >
-        <i class="bi bi-box-seam"></i> Materials Management
-      </a>
-      <a class="mobile-menu-item" (click)="logout()">
-        <i class="bi bi-box-arrow-right"></i> Logout
-      </a>
-    </div>
   </div>
 </div>
