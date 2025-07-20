@@ -45,6 +45,8 @@ export class FeedbackComponent implements OnInit {
   snackbarMessage = '';
   currentAction: 'add' | 'edit' | 'delete' | null = null;
   matrialId: any;
+  isSubmitting = false;
+
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
@@ -92,49 +94,49 @@ export class FeedbackComponent implements OnInit {
       alert('Please provide both rating and comment');
       return;
     }
+
+    this.isSubmitting = true; // Start loading
     this.FeedbackService.feedbackComment = this.newComment;
     const addFeedback = {
       material_id: this.FeedbackService.getMaterialId(),
       rating: this.FeedbackService.feedbackRating,
       comment: this.FeedbackService.feedbackComment,
     };
-    debugger;
 
     this.FeedbackService.addFeedback(addFeedback).subscribe({
       next: () => {
-        alert('Feedback added successfully!');
+        const newFeedback = {
+          id: Date.now(),
+          rating: this.newRating,
+          comment: this.newComment.trim(),
+          date: new Date(),
+          buyer: this.currentUser || 'Anonymous',
+          seller: this.seller,
+        };
+
+        const storedFeedbacks = localStorage.getItem('feedbacks');
+        let allFeedbacks = storedFeedbacks ? JSON.parse(storedFeedbacks) : [];
+        allFeedbacks.push(newFeedback);
+        localStorage.setItem('feedbacks', JSON.stringify(allFeedbacks));
+
+        this.loadFeedbacks();
         this.newRating = 0;
         this.newComment = '';
-        this.loadFeedbacks();
+        this.currentAction = 'add';
+        this.snackbarMessage = 'Feedback submitted successfully!';
+        this.showSnackbar = true;
+        setTimeout(() => (this.showSnackbar = false), 3000);
       },
       error: (err) => {
-        alert('Error adding feedback');
         console.error(err);
+        this.snackbarMessage = 'Error adding feedback';
+        this.showSnackbar = true;
+        setTimeout(() => (this.showSnackbar = false), 3000);
+      },
+      complete: () => {
+        this.isSubmitting = false; // Stop loading
       },
     });
-
-    const newFeedback = {
-      id: Date.now(),
-      rating: this.newRating,
-      comment: this.newComment.trim(),
-      date: new Date(),
-      buyer: this.currentUser || 'Anonymous',
-      seller: this.seller,
-    };
-
-    const storedFeedbacks = localStorage.getItem('feedbacks');
-    let allFeedbacks = storedFeedbacks ? JSON.parse(storedFeedbacks) : [];
-    allFeedbacks.push(newFeedback);
-    localStorage.setItem('feedbacks', JSON.stringify(allFeedbacks));
-
-    this.loadFeedbacks();
-
-    this.newRating = 0;
-    this.newComment = '';
-    this.currentAction = 'add';
-    this.snackbarMessage = 'Feedback submitted successfully!';
-    this.showSnackbar = true;
-    setTimeout(() => (this.showSnackbar = false), 3000);
   }
 
   startEdit(feedback: Feedback) {

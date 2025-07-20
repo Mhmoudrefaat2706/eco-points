@@ -1,3 +1,11 @@
+// feedback.model.ts
+export interface User {
+  id: number;
+  first_name: string;
+  last_name: string;
+  name?: string; // Optional if needed for backward compatibility
+}
+
 export interface Feedback {
   id: number;
   seller_id: number;
@@ -5,12 +13,6 @@ export interface Feedback {
   rating: number;
   comment: string;
   created_at: string;
-  seller?: {
-    id: number;
-    name: string;
-  };
-  buyer?: {
-    id: number;
-    name: string;
-  };
+  seller: User;  // Required field
+  buyer: User;   // Required field
 }
