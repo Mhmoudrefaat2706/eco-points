@@ -6,7 +6,8 @@ import { MaterialsService } from '../../../services/materials.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
 import { Material } from '../../../models/material.model';
-import { FooterComponent } from "../footer/footer.component";
+import { FooterComponent } from '../footer/footer.component';
+import { FeedbackService } from '../../../services/feedback.service';
 
 @Component({
   selector: 'app-materials-details',
@@ -24,13 +25,16 @@ export class MaterialsDetailsComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private materialsService: MaterialsService
+    private materialsService: MaterialsService,
+    private FeedbackService: FeedbackService
   ) {}
 
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.id = Number(params.get('id'));
+
       if (this.id) {
+        this.FeedbackService.setMaterialId(this.id);
         this.loadMaterial();
       } else {
         this.error = 'Invalid material ID';
@@ -73,8 +77,7 @@ export class MaterialsDetailsComponent implements OnInit {
     this.router.navigate(['/materials']);
   }
   getImageUrl(image: string | undefined): string {
-  if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
-  return `http://localhost:8000/materials/${image}`;
-}
-
+    if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
+    return `http://localhost:8000/materials/${image}`;
+  }
 }

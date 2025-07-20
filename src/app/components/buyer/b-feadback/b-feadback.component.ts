@@ -5,6 +5,7 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { BFooterComponent } from '../b-footer/b-footer.component';
 import { BNavbarComponent } from '../b-navbar/b-navbar.component';
+import { FeedbackService } from '../../../services/feedback.service';
 
 interface Feedback {
   id: number;
@@ -43,17 +44,18 @@ export class FeedbackComponent implements OnInit {
   showDeleteDialog = false;
   snackbarMessage = '';
   currentAction: 'add' | 'edit' | 'delete' | null = null;
-
+  matrialId: any;
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private FeedbackService: FeedbackService
   ) {}
 
   ngOnInit() {
     //this.currentUser = this.authService.getLoggedInUser()?.name || null;
-   const user = this.authService.getLoggedInUser();
-   this.currentUser = user ? user.name : null;
+    const user = this.authService.getLoggedInUser();
+    this.currentUser = user ? user.name : null;
     this.route.paramMap.subscribe((params) => {
       this.seller = params.get('seller') || '';
       this.loadFeedbacks();
@@ -77,6 +79,7 @@ export class FeedbackComponent implements OnInit {
 
   setRating(star: number) {
     this.newRating = star;
+    this.FeedbackService.feedbackRating = star;
   }
 
   setEditRating(star: number) {
@@ -89,6 +92,26 @@ export class FeedbackComponent implements OnInit {
       alert('Please provide both rating and comment');
       return;
     }
+    this.FeedbackService.feedbackComment = this.newComment;
+    const addFeedback = {
+      material_id: this.FeedbackService.getMaterialId(),
+      rating: this.FeedbackService.feedbackRating,
+      comment: this.FeedbackService.feedbackComment,
+    };
+    debugger;
+
+    this.FeedbackService.addFeedback(addFeedback).subscribe({
+      next: () => {
+        alert('Feedback added successfully!');
+        this.newRating = 0;
+        this.newComment = '';
+        this.loadFeedbacks();
+      },
+      error: (err) => {
+        alert('Error adding feedback');
+        console.error(err);
+      },
+    });
 
     const newFeedback = {
       id: Date.now(),
