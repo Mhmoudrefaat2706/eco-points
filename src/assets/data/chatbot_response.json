@@ -1,0 +1,212 @@
+{
+  "greetings": {
+    "ar": {
+      "questions": ["أهلاً", "مرحباً", "كيف حالك؟", "السلام عليكم", "اهلا", "مرحبا"],
+      "responses": ["أهلاً بك!", "مرحباً! كيف يمكنني مساعدتك اليوم؟", "أهلاً وسهلاً!"]
+    },
+    "en": {
+      "questions": ["hello", "hi there", "how are you", "greetings", "hi"],
+      "responses": ["Hello!", "Hi there! How can I help you today?", "Greetings!"]
+    }
+  },
+  "farewells": {
+    "ar": {
+      "questions": ["مع السلامة", "إلى اللقاء", "وداعاً", "أراك لاحقاً", "باي"],
+      "responses": ["مع السلامة!", "إلى اللقاء قريباً!", "وداعاً، نأمل رؤيتك مرة أخرى."]
+    },
+    "en": {
+      "questions": ["goodbye", "see you later", "farewell", "bye"],
+      "responses": ["Goodbye!", "See you later!", "Farewell! Have a great day."]
+    }
+  },
+  "thank_you": {
+    "ar": {
+      "questions": ["شكراً جزيلاً", "شكراً لك", "متشكرين", "تسلم", "شكرا"],
+      "responses": ["عفواً!", "على الرحب والسعة!", "بكل سرور."]
+    },
+    "en": {
+      "questions": ["thank you very much", "thanks", "appreciate it", "cheers", "thank you"],
+      "responses": ["You're welcome!", "My pleasure!", "Glad to help!"]
+    }
+  },
+  "recycling_benefits": {
+    "ar": {
+      "questions": ["ما هي فوائد إعادة التدوير؟", "فوائد", "إعادة تدوير", "أهمية", "ليه نعيد تدوير؟"],
+      "responses": ["إعادة التدوير بتقلل من التلوث، بتوفر الطاقة، بتحافظ على الموارد الطبيعية، وبتقلل من كمية النفايات اللي بتروح للمدافن."]
+    },
+    "en": {
+      "questions": ["What are the benefits of recycling?", "benefits", "recycling", "importance", "why recycle?"],
+      "responses": ["Recycling reduces pollution, saves energy, conserves natural resources, and decreases the amount of waste sent to landfills."]
+    }
+  },
+  "what_to_recycle": {
+    "ar": {
+      "questions": ["ماذا يمكن أن أعيد تدويره؟", "أشياء", "مواد", "ممكن إعادة تدوير", "بنعيد تدوير إيه؟"],
+      "responses": ["ممكن تعيدي تدوير البلاستيك (أنواع معينة)، الورق المقوى، الزجاج، والمعادن زي الألومنيوم والصلب. في مواد تانية زي الأجهزة الإلكترونية والبطاريات ليها برامج إعادة تدوير خاصة."]
+    },
+    "en": {
+      "questions": ["What can I recycle?", "items", "materials", "what can be recycled?", "what do we recycle?"],
+      "responses": ["You can recycle plastic (certain types), cardboard, glass, and metals like aluminum and steel. Other materials like electronic devices and batteries have special recycling programs."]
+    }
+  },
+  "find_recycling_centers": {
+    "ar": {
+      "questions": ["أين أجد مراكز إعادة التدوير؟", "أماكن", "مراكز", "أين", "نقطة تجميع", "حاويات", "eco-points"],
+      "responses": ["مثل موقع eco-points تقدري تلاقي مراكز تجميع إعادة التدوير في المدن الكبرى، ممكن كمان تستخدمي تطبيقات أو مواقع متخصصة بتحدد أقرب نقطة تجميع ليكي. بعض المحلات الكبيرة بيكون عندها حاويات خاصة للزجاجات البلاستيكية."]
+    },
+    "en": {
+      "questions": ["Where can I find recycling centers?", "locations", "centers", "where", "collection point", "containers", "eco-points"],
+      "responses": ["Like the eco-points website, you can find recycling collection centers in major cities. You can also use specialized apps or websites that locate the nearest collection point for you. Some large stores have special containers for plastic bottles."]
+    }
+  },
+  "plastic_bag_recyclability": {
+    "ar": {
+      "questions": ["هل الأكياس البلاستيكية قابلة لإعادة التدوير؟", "أكياس بلاستيك", "أكياس", "هل", "بلاستيك"],
+      "responses": ["معظم الأكياس البلاستيكية الرقيقة مش قابلة لإعادة التدوير في برامج إعادة التدوير المنزلية العادية. بتحتاج مراكز خاصة بيها عشان ممكن تتسبب في مشاكل للمعدات."]
+    },
+    "en": {
+      "questions": ["Are plastic bags recyclable?", "plastic bags", "bags", "is", "plastic"],
+      "responses": ["Most thin plastic bags are not recyclable in regular household recycling programs. They require special centers as they can cause equipment problems."]
+    }
+  },
+  "how_to_register": {
+    "ar": {
+      "questions": ["كيف يتم التسجيل في الموقع؟", "تسجيل", "موقع", "إنشاء حساب", "كيف أسجل؟"],
+      "responses": ["يمكنك التسجيل في الموقع من خلال الضغط على زر 'تسجيل' في الصفحة الرئيسية وملء النموذج بالمعلومات المطلوبة مثل الاسم والبريد الإلكتروني وكلمة المرور."]
+    },
+    "en": {
+      "questions": ["How to register on the website?", "register", "website", "create account", "how do I sign up?"],
+      "responses": ["You can register on the website by clicking the 'Register' button on the homepage and filling out the form with required information such as name, email, and password."]
+    }
+  },
+  "report_website_issue": {
+    "ar": {
+      "questions": ["كيف يمكنني الإبلاغ عن مشكلة في الموقع؟", "إبلاغ", "مشكلة", "دعم فني", "اتصال"],
+      "responses": ["يمكنك الإبلاغ عن أي مشكلة تواجهها من خلال صفحة 'اتصل بنا' في الموقع، حيث يمكنك ملء نموذج الإبلاغ أو الاتصال بفريق الدعم الفني مباشرة."]
+    },
+    "en": {
+      "questions": ["How can I report an issue on the website?", "report", "issue", "technical support", "contact"],
+      "responses": ["You can report any issue you encounter through the 'Contact Us' page on the website, where you can fill out the reporting form or contact the technical support team directly."]
+    }
+  },
+  "privacy_policy": {
+    "ar": {
+      "questions": ["ما هي سياسة الخصوصية للموقع؟", "خصوصية", "سياسة", "بيانات", "معلومات"],
+      "responses": ["سياسة الخصوصية للموقع توضح كيفية جمع واستخدام وحماية المعلومات الشخصية للمستخدمين. يمكنك الاطلاع على التفاصيل الكاملة في قسم 'سياسة الخصوصية' في أسفل الصفحة."]
+    },
+    "en": {
+      "questions": ["What is the website's privacy policy?", "privacy", "policy", "data", "information"],
+      "responses": ["The website's privacy policy explains how personal user information is collected, used, and protected. You can view the full details in the 'Privacy Policy' section at the bottom of the page."]
+    }
+  },
+  "change_password": {
+    "ar": {
+      "questions": ["كيف يمكنني تغيير كلمة المرور الخاصة بي؟", "تغيير كلمة المرور", "استعادة كلمة المرور", "نسيت كلمة المرور"],
+      "responses": ["يمكنك تغيير كلمة المرور من خلال الدخول إلى إعدادات الحساب الخاص بك واختيار خيار 'تغيير كلمة المرور'. إذا نسيت كلمة المرور، يمكنك استخدام خيار 'نسيت كلمة المرور' لاستعادتها."]
+    },
+    "en": {
+      "questions": ["How can I change my password?", "change password", "recover password", "forgot password"],
+      "responses": ["You can change your password by going to your account settings and selecting the 'Change Password' option. If you forgot your password, you can use the 'Forgot Password' option to recover it."]
+    }
+  },
+  "add_shipping_address": {
+    "ar": {
+      "questions": ["كيف يمكنني إضافة عنوان شحن جديد؟", "عنوان شحن", "إضافة عنوان", "تعديل عنوان"],
+      "responses": ["يمكنك إضافة عنوان شحن جديد من خلال الدخول إلى إعدادات الحساب واختيار خيار 'إضافة عنوان شحن'. يمكنك إدخال التفاصيل المطلوبة وحفظها."]
+    },
+    "en": {
+      "questions": ["How can I add a new shipping address?", "shipping address", "add address", "edit address"],
+      "responses": ["You can add a new shipping address by going to your account settings and selecting the 'Add Shipping Address' option. You can enter the required details and save them."]
+    }
+  },
+  "cancel_order": {
+    "ar": {
+      "questions": ["كيف يمكنني إلغاء طلب قمت بعمله؟", "إلغاء طلب", "طلب", "الغاء"],
+      "responses": ["يمكنك إلغاء طلبك من خلال الدخول إلى صفحة الطلبات في حسابك واختيار الطلب الذي ترغب في إلغائه. إذا كان الطلب لم يتم شحنه بعد، يمكنك الضغط على زر 'إلغاء الطلب'."]
+    },
+    "en": {
+      "questions": ["How can I cancel an order I placed?", "cancel order", "order", "cancellation"],
+      "responses": ["You can cancel your order by going to the orders page in your account and selecting the order you wish to cancel. If the order has not been shipped yet, you can click the 'Cancel Order' button."]
+    }
+  },
+  "delete_account": {
+    "ar": {
+      "questions": ["كيف يمكنني حذف حسابي؟", "حذف حساب", "إلغاء حساب", "إزالة حساب"],
+      "responses": ["لحذف حسابك، يمكنك الذهاب إلى إعدادات الحساب واختيار خيار 'حذف الحساب'. يرجى ملاحظة أن هذه العملية لا يمكن التراجع عنها."]
+    },
+    "en": {
+      "questions": ["How can I delete my account?", "delete account", "cancel account", "remove account"],
+      "responses": ["To delete your account, you can go to account settings and select the 'Delete Account' option. Please note that this action is irreversible."]
+    }
+  },
+  "update_account_info": {
+    "ar": {
+      "questions": ["كيف يمكنني تحديث معلومات حسابي؟", "تحديث معلومات", "تعديل حساب", "معلومات شخصية"],
+      "responses": ["يمكنك تحديث معلومات حسابك من خلال الدخول إلى إعدادات الحساب واختيار خيار 'تعديل المعلومات'. يمكنك تغيير الاسم، البريد الإلكتروني، أو أي تفاصيل أخرى."]
+    },
+    "en": {
+      "questions": ["How can I update my account information?", "update info", "edit account", "personal information"],
+      "responses": ["You can update your account information by going to account settings and selecting the 'Edit Information' option. You can change your name, email, or any other details."]
+    }
+  },
+  "contact_support": {
+    "ar": {
+      "questions": ["كيف يمكنني التواصل مع فريق الدعم؟", "دعم", "اتصال", "فريق الدعم", "مساعدة"],
+      "responses": ["يمكنك التواصل مع فريق الدعم من خلال صفحة 'اتصل بنا' في الموقع، حيث يمكنك ملء نموذج الاتصال أو استخدام معلومات الاتصال المتاحة."]
+    },
+    "en": {
+      "questions": ["How can I contact support?", "support", "contact", "support team", "help"],
+      "responses": ["You can contact the support team through the 'Contact Us' page on the website, where you can fill out the contact form or use the available contact information."]
+    }
+  },
+  "payment_methods": {
+    "ar": {
+      "questions": ["ما هي طرق الدفع المتاحة؟", "طرق الدفع", "دفع", "وسائل الدفع"],
+      "responses": ["الموقع يقبل عدة طرق للدفع مثل بطاقات الائتمان، PayPal، وبعض وسائل الدفع المحلية. يمكنك اختيار الطريقة المفضلة لك أثناء عملية الشراء."]
+    },
+    "en": {
+      "questions": ["What payment methods are available?", "payment methods", "payment", "means of payment"],
+      "responses": ["The website accepts several payment methods such as credit cards, PayPal, and some local payment methods. You can choose your preferred method during the purchase process."]
+    }
+  },
+  "refund_policy": {
+    "ar": {
+      "questions": ["كيف يمكنني استرداد المبالغ المدفوعة؟", "استرداد", "مبالغ", "إرجاع", "سياسة الاسترداد"],
+      "responses": ["يمكنك طلب استرداد المبالغ المدفوعة من خلال صفحة 'سياسة الاسترداد' في الموقع. يجب عليك اتباع الخطوات المحددة لتقديم طلب الاسترداد."]
+    },
+    "en": {
+      "questions": ["How can I get a refund?", "refund", "amounts", "return", "refund policy"],
+      "responses": ["You can request a refund through the 'Refund Policy' page on the website. You must follow the specified steps to submit a refund request."]
+    }
+  },
+  "terms_of_use": {
+    "ar": {
+      "questions": ["ما هي شروط الاستخدام للموقع؟", "شروط الاستخدام", "اتفاقية", "استخدام الموقع"],
+      "responses": ["شروط الاستخدام توضح القواعد والسياسات التي يجب على المستخدمين اتباعها عند استخدام الموقع. يمكنك الاطلاع على الشروط الكاملة في قسم 'شروط الاستخدام' في أسفل الصفحة."]
+    },
+    "en": {
+      "questions": ["What are the terms of use for the website?", "terms of use", "agreement", "website usage"],
+      "responses": ["The terms of use outline the rules and policies that users must follow when using the website. You can view the full terms in the 'Terms of Use' section at the bottom of the page."]
+    }
+  },
+  "shipping_info": {
+    "ar": {
+      "questions": ["ما هي معلومات الشحن؟", "شحن", "معلومات الشحن", "توصيل"],
+      "responses": ["معلومات الشحن تشمل تفاصيل عن كيفية توصيل المنتجات، مدة التوصيل، وتكاليف الشحن. يمكنك الاطلاع على التفاصيل في صفحة 'معلومات الشحن'."]
+    },
+    "en": {
+      "questions": ["What is the shipping information?", "shipping", "shipping info", "delivery"],
+      "responses": ["Shipping information includes details about how products are delivered, delivery times, and shipping costs. You can view the details on the 'Shipping Information' page."]
+    }
+  },
+  "order_tracking": {
+    "ar": {
+      "questions": ["كيف يمكنني تتبع طلباتي؟", "تتبع الطلب", "طلباتي", "متى يصل الطلب"],
+      "responses": ["يمكنك تتبع طلباتك من خلال الدخول إلى صفحة 'طلباتي' في حسابك. ستجد هناك معلومات حول حالة الطلب ورقم التتبع إذا كان متاحاً."]
+    },
+    "en": {
+      "questions": ["How can I track my orders?", "track order", "my orders", "when will my order arrive"],
+      "responses": ["You can track your orders by going to the 'My Orders' page in your account. There you will find information about the order status and tracking number if available."]
+    }
+  }
+}
