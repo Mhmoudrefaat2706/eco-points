@@ -3,12 +3,99 @@
   overflow-y: auto;
 }
 
-.badge {
-  font-size: 0.9rem;
-  padding: 0.35em 0.65em;
+/* Table styling with colored columns */
+table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
+thead tr {
+  background-color: #3498db; /* Blue header */
+  color: white;
+}
+
+thead th {
+  padding: 12px 15px;
+  text-align: left;
+  position: sticky;
+  top: 0;
+}
+
+td, th {
+  border: 1px solid #e0e0e0;
+}
+
+tbody tr:nth-child(even) {
+  background-color: #f8f9fa; /* Light gray for even rows */
+}
+
+tbody tr:nth-child(odd) {
+  background-color: white; /* White for odd rows */
+}
+
+/* Column-specific colors */
+td:nth-child(1) { /* ID column */
+  background-color: #f1f8fe; /* Very light blue */
+}
+
+td:nth-child(2) { /* Seller column */
+  background-color: #e8f5e9; /* Very light green */
+}
+
+td:nth-child(3) { /* Buyer column */
+  background-color: #fff8e1; /* Very light yellow */
+}
+
+td:nth-child(4) { /* Rating column */
+  background-color: #fff3e0; /* Light orange */
+}
+
+td:nth-child(5) { /* Comment column */
+  background-color: #fce4ec; /* Very light pink */
+}
+
+td:nth-child(6) { /* Date column */
+  background-color: #f3e5f5; /* Very light purple */
+}
+
+td:nth-child(7) { /* Actions column */
+  background-color: #e0f7fa; /* Very light cyan */
+}
+
+/* Hover effect */
+tbody tr:hover td {
+  background-color: #e3f2fd !important; /* Light blue on hover */
+  transition: background-color 0.3s ease;
+}
+
+/* Star rating styling */
+.star-rating {
+  color: gold;
+  font-size: 1.2rem;
+}
+
+/* Button styling */
 .btn-sm {
   padding: 0.25rem 0.5rem;
   font-size: 0.875rem;
+  transition: all 0.3s ease;
+}
+
+.btn-danger {
+  background-color: #e53935;
+  border-color: #e53935;
+}
+
+.btn-danger:hover {
+  background-color: #c62828;
+  border-color: #c62828;
+}
+
+/* Badge styling */
+.badge {
+  font-size: 0.9rem;
+  padding: 0.35em 0.65em;
 }

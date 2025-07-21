@@ -107,10 +107,13 @@
 
     <button
       type="submit"
-      [disabled]="newRating === 0 || !newComment.trim()"
+      [disabled]="newRating === 0 || !newComment.trim() || isSubmitting"
       class="btn-submit"
     >
-      Submit Feedback
+      <span *ngIf="!isSubmitting">Submit Feedback</span>
+      <span *ngIf="isSubmitting">
+        <i class="fas fa-spinner fa-spin"></i> Sending...
+      </span>
     </button>
   </form>
 </div>
