@@ -10,6 +10,7 @@ import { filter } from 'rxjs/operators';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { CartService } from '../../../services/cart.service';
 import { SharedMatarialsService } from '../../../services/shared-matarials.service';
+import { FeedbackService } from '../../../services/feedback.service';
 
 @Component({
   selector: 'app-b-materials-details',
@@ -39,7 +40,8 @@ export class BMaterialsDetailsComponent implements OnInit {
     private materialsService: MaterialsService,
     private snackBar: MatSnackBar,
     private cartService: CartService,
-    private cartMaterials: SharedMatarialsService
+    private cartMaterials: SharedMatarialsService,
+    private FeedbackService: FeedbackService
   ) {
     this.router.events
       .pipe(filter((event) => event instanceof NavigationEnd))
@@ -51,6 +53,8 @@ export class BMaterialsDetailsComponent implements OnInit {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.id = Number(params.get('id'));
+      this.FeedbackService.setMaterialId(this.id);
+
       this.loadMaterial();
       this.checkIfInCart();
     });

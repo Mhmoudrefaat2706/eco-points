@@ -24,6 +24,13 @@ import { BAboutComponent } from './components/buyer/b-about/b-about.component';
 import { FeedbackComponent } from './components/buyer/b-feadback/b-feadback.component';
 import { BOrderConfirmationComponent } from './components/buyer/b-order-confirmation/b-order-confirmation.component';
 import { SellerFeedbacksComponent } from './components/buyer/seller-feedbacks/seller-feedbacks.component';
+import { UsersListComponent } from './components/admin/users-list/users-list.component';
+import { MaterialsListComponent } from './components/admin/materials-list/materials-list.component';
+import { UserFormComponent } from './components/admin/user-form/user-form.component';
+import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
+import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
+import { FeedbacksListComponent } from './components/admin/feedbacks-list/feedbacks-list.component';
+import { SellerOrdersComponent } from './components/seller/seller-orders/seller-orders.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },
@@ -35,7 +42,14 @@ export const routes: Routes = [
     component: SellerFeedbacksComponent,
   },
 
-  {path: 'my-orders',loadComponent: () => import('./my-orders/my-orders.component').then(m => m.MyOrdersComponent)},
+  {
+    path: 'my-orders',
+    loadComponent: () =>
+      import('./components/buyer/my-orders/my-orders.component').then(
+        (m) => m.MyOrdersComponent
+      ),
+  },
+{ path: 'seller/orders', component: SellerOrdersComponent },
 
   // Seller routes
   {
@@ -154,6 +168,37 @@ export const routes: Routes = [
     title: 'Order Confirmation',
     canActivate: [RoleGuard],
     data: { role: 'buyer' },
+  },
+
+  // Admin routes
+  {
+    path: 'admin',
+    component: AdminLayoutComponent, // Use the layout component
+    canActivate: [RoleGuard],
+    data: { role: 'admin' },
+    children: [
+      { path: '', redirectTo: 'dashboard', pathMatch: 'full' },
+      {
+        path: 'dashboard',
+        component: AdminDashboardComponent,
+      },
+      {
+        path: 'users',
+        component: UsersListComponent,
+      },
+      {
+        path: 'users/new',
+        component: UserFormComponent,
+      },
+      {
+        path: 'materials',
+        component: MaterialsListComponent,
+      },
+      {
+        path: 'feedbacks',
+        component: FeedbacksListComponent,
+      },
+    ],
   },
 
   // Not found

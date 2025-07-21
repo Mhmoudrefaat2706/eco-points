@@ -1,0 +1,154 @@
+<div class="container mt-4">
+  <h2>Materials Management</h2>
+
+  <!-- Filters Section -->
+  <div class="card mb-4">
+    <div class="card-body">
+      <div class="row">
+        <div class="col-md-3">
+          <label for="search" class="form-label">Search</label>
+          <input
+            type="text"
+            id="search"
+            class="form-control"
+            [(ngModel)]="searchTerm"
+            placeholder="Search by name"
+          />
+        </div>
+        <div class="col-md-3">
+          <label for="categoryFilter" class="form-label">Category</label>
+          <select
+            id="categoryFilter"
+            class="form-select"
+            [(ngModel)]="selectedCategory"
+          >
+            <option value="">All Categories</option>
+            <option *ngFor="let category of categories" [value]="category.id">
+              {{ category.name }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-3">
+          <label for="statusFilter" class="form-label">Status</label>
+          <select
+            id="statusFilter"
+            class="form-select"
+            [(ngModel)]="selectedStatus"
+          >
+            <option value="">All Statuses</option>
+            <option *ngFor="let status of statuses" [value]="status">
+              {{ status | titlecase }}
+            </option>
+          </select>
+        </div>
+        <div class="col-md-3 d-flex align-items-end">
+          <button class="btn btn-primary me-2" (click)="applyFilters()">
+            <i class="bi bi-funnel"></i> Apply
+          </button>
+          <button class="btn btn-outline-secondary" (click)="resetFilters()">
+            <i class="bi bi-arrow-counterclockwise"></i> Reset
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="text-center my-4">
+    <div class="spinner-border text-primary" role="status">
+      <span class="visually-hidden">Loading...</span>
+    </div>
+  </div>
+
+  <!-- Error Message -->
+  <div
+    *ngIf="errorMessage"
+    class="alert alert-danger alert-dismissible fade show"
+  >
+    {{ errorMessage }}
+    <button
+      type="button"
+      class="btn-close"
+      (click)="errorMessage = ''"
+    ></button>
+  </div>
+
+  <!-- Materials Table -->
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Seller</th>
+          <th>Price</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let material of materials">
+          <td>{{ material.id }}</td>
+          <td>{{ material.name }}</td>
+          <td>{{ getCategoryName(material.category) }}</td>
+          <td class="text-primary fw-bold">
+            {{ material.seller?.name || "N/A" }}
+          </td>
+          <td class="text-success fw-bold">{{ material.price }} EGP</td>
+          <td>
+            <div *ngIf="!statusLoading[material.id]">
+              <select
+                class="form-select form-select-sm"
+                [(ngModel)]="material.status"
+                (change)="
+                  updateMaterialStatus(material.id, material.status || 'active')
+                "
+              >
+                <option *ngFor="let status of statuses" [value]="status">
+                  {{ status | titlecase }}
+                </option>
+              </select>
+            </div>
+            <div *ngIf="statusLoading[material.id]" class="text-center">
+              <div
+                class="spinner-border spinner-border-sm text-primary"
+                role="status"
+              >
+                <span class="visually-hidden">Loading...</span>
+              </div>
+            </div>
+          </td>
+          <td>
+            <button
+              class="btn btn-sm btn-danger"
+              (click)="openDeleteModal(material.id)"
+            >
+              <i class="bi bi-trash"></i> Delete
+            </button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Delete Confirmation Modal -->
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title">Confirm Deletion</h5>
+    <button type="button" class="btn-close" (click)="modal.dismiss()"></button>
+  </div>
+  <div class="modal-body">
+    Are you sure you want to delete this material permanently? This action
+    cannot be undone.
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+      Cancel
+    </button>
+    <button type="button" class="btn btn-danger" (click)="confirmDelete()">
+      Delete
+    </button>
+  </div>
+</ng-template>

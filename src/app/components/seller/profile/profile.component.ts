@@ -91,7 +91,7 @@ export class ProfileComponent implements OnInit {
 
   saveProfile(): void {
     this.isSaving = true;
-    
+
     const updatedData = {
       first_name: this.userData.name?.split(' ')[0] || '',
       last_name: this.userData.name?.split(' ')[1] || '',

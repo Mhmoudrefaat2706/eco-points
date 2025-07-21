@@ -58,8 +58,8 @@ export class SellerFeedbacksComponent implements OnInit {
     }
 
     const newFeedback = {
-      material_id: 1, // ثابت مؤقتًا لو الباك إند محتاجه
-      rating: this.newRating,
+      material_id: this.feedbackService.getMaterialId(),
+      rating: this.feedbackService.feedbackRating,
       comment: this.newComment.trim(),
     };
 

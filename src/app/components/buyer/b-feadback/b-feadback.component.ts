@@ -5,6 +5,7 @@ import { RouterModule, ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { BFooterComponent } from '../b-footer/b-footer.component';
 import { BNavbarComponent } from '../b-navbar/b-navbar.component';
+import { FeedbackService } from '../../../services/feedback.service';
 
 interface Feedback {
   id: number;
@@ -43,17 +44,20 @@ export class FeedbackComponent implements OnInit {
   showDeleteDialog = false;
   snackbarMessage = '';
   currentAction: 'add' | 'edit' | 'delete' | null = null;
+  matrialId: any;
+  isSubmitting = false;
 
   constructor(
     private route: ActivatedRoute,
     private authService: AuthService,
-    private router: Router
+    private router: Router,
+    private FeedbackService: FeedbackService
   ) {}
 
   ngOnInit() {
     //this.currentUser = this.authService.getLoggedInUser()?.name || null;
-   const user = this.authService.getLoggedInUser();
-   this.currentUser = user ? user.name : null;
+    const user = this.authService.getLoggedInUser();
+    this.currentUser = user ? user.name : null;
     this.route.paramMap.subscribe((params) => {
       this.seller = params.get('seller') || '';
       this.loadFeedbacks();
@@ -61,7 +65,7 @@ export class FeedbackComponent implements OnInit {
   }
 
   goBack() {
-    this.router.navigate(['/materials']);
+    this.router.navigate(['/b-materials']);
   }
 
   loadFeedbacks() {
@@ -77,6 +81,7 @@ export class FeedbackComponent implements OnInit {
 
   setRating(star: number) {
     this.newRating = star;
+    this.FeedbackService.feedbackRating = star;
   }
 
   setEditRating(star: number) {
@@ -90,28 +95,48 @@ export class FeedbackComponent implements OnInit {
       return;
     }
 
-    const newFeedback = {
-      id: Date.now(),
-      rating: this.newRating,
-      comment: this.newComment.trim(),
-      date: new Date(),
-      buyer: this.currentUser || 'Anonymous',
-      seller: this.seller,
+    this.isSubmitting = true; // Start loading
+    this.FeedbackService.feedbackComment = this.newComment;
+    const addFeedback = {
+      material_id: this.FeedbackService.getMaterialId(),
+      rating: this.FeedbackService.feedbackRating,
+      comment: this.FeedbackService.feedbackComment,
     };
 
-    const storedFeedbacks = localStorage.getItem('feedbacks');
-    let allFeedbacks = storedFeedbacks ? JSON.parse(storedFeedbacks) : [];
-    allFeedbacks.push(newFeedback);
-    localStorage.setItem('feedbacks', JSON.stringify(allFeedbacks));
+    this.FeedbackService.addFeedback(addFeedback).subscribe({
+      next: () => {
+        const newFeedback = {
+          id: Date.now(),
+          rating: this.newRating,
+          comment: this.newComment.trim(),
+          date: new Date(),
+          buyer: this.currentUser || 'Anonymous',
+          seller: this.seller,
+        };
 
-    this.loadFeedbacks();
+        const storedFeedbacks = localStorage.getItem('feedbacks');
+        let allFeedbacks = storedFeedbacks ? JSON.parse(storedFeedbacks) : [];
+        allFeedbacks.push(newFeedback);
+        localStorage.setItem('feedbacks', JSON.stringify(allFeedbacks));
 
-    this.newRating = 0;
-    this.newComment = '';
-    this.currentAction = 'add';
-    this.snackbarMessage = 'Feedback submitted successfully!';
-    this.showSnackbar = true;
-    setTimeout(() => (this.showSnackbar = false), 3000);
+        this.loadFeedbacks();
+        this.newRating = 0;
+        this.newComment = '';
+        this.currentAction = 'add';
+        this.snackbarMessage = 'Feedback submitted successfully!';
+        this.showSnackbar = true;
+        setTimeout(() => (this.showSnackbar = false), 3000);
+      },
+      error: (err) => {
+        console.error(err);
+        this.snackbarMessage = 'Error adding feedback';
+        this.showSnackbar = true;
+        setTimeout(() => (this.showSnackbar = false), 3000);
+      },
+      complete: () => {
+        this.isSubmitting = false; // Stop loading
+      },
+    });
   }
 
   startEdit(feedback: Feedback) {

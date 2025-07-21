@@ -1,0 +1,62 @@
+.form-select {
+  width: auto;
+  display: inline-block;
+}
+
+.badge {
+  font-size: 0.85em;
+  padding: 0.35em 0.65em;
+}
+
+.table-responsive {
+  margin-top: 20px;
+}
+
+.alert {
+  margin-top: 20px;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-weight: 500;
+  color: white;
+}
+
+.avatar-initial {
+  font-size: 0.875rem;
+}
+
+.table th {
+  white-space: nowrap;
+}
+
+.badge {
+  font-weight: 500;
+  padding: 0.35em 0.65em;
+}
+
+.card {
+  border: none;
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.02);
+}
+
+.input-group-text {
+  background-color: #f8f9fa;
+}

@@ -1,0 +1,213 @@
+<div class="dashboard-container container-fluid">
+  <!-- Error Message -->
+  <div
+    *ngIf="errorMessage"
+    class="alert alert-danger alert-dismissible fade show"
+  >
+    {{ errorMessage }}
+    <button
+      type="button"
+      class="btn-close"
+      (click)="errorMessage = ''"
+    ></button>
+  </div>
+
+  <!-- Loading Indicator -->
+  <div *ngIf="isLoading" class="text-center my-5">
+    <div
+      class="spinner-border text-primary"
+      style="width: 3rem; height: 3rem"
+      role="status"
+    >
+      <span class="visually-hidden">Loading...</span>
+    </div>
+    <p class="mt-2">Loading dashboard data...</p>
+  </div>
+
+  <!-- Enhanced Stats Cards -->
+  <div *ngIf="stats && !isLoading" class="row g-3 mb-3">
+    <div class="col-md-3">
+      <div class="card stat-card bg-primary text-white h-100">
+        <div class="card-body text-center">
+          <div class="stat-icon mb-3">
+            <i class="bi bi-people-fill fs-1"></i>
+          </div>
+          <h5 class="card-title mb-2">Total Users</h5>
+          <p class="card-value display-5 fw-bold">
+            {{ stats.users_count || 0 }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card stat-card bg-success text-white h-100">
+        <div class="card-body text-center">
+          <div class="stat-icon mb-3">
+            <i class="bi bi-box-seam fs-1"></i>
+          </div>
+          <h5 class="card-title mb-2">Active Materials</h5>
+          <p class="card-value display-5 fw-bold">
+            {{ stats.active_materials || 0 }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card stat-card bg-danger text-white h-100">
+        <div class="card-body text-center">
+          <div class="stat-icon mb-3">
+            <i class="bi bi-shield-lock fs-1"></i>
+          </div>
+          <h5 class="card-title mb-2">Blocked Materials</h5>
+          <p class="card-value display-5 fw-bold">
+            {{ stats.blocked_materials || 0 }}
+          </p>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="card stat-card bg-warning text-dark h-100">
+        <div class="card-body text-center">
+          <div class="stat-icon mb-3">
+            <i class="bi bi-hourglass fs-1"></i>
+          </div>
+          <h5 class="card-title mb-2">Pending Materials</h5>
+          <p class="card-value display-5 fw-bold">
+            {{ stats.pending_materials || 0 }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Charts Row -->
+  <div *ngIf="stats && !isLoading" class="row">
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-header">
+          <h4>Materials Status</h4>
+        </div>
+        <div class="card-body">
+          <ngx-charts-pie-chart
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="materialsStatusChartData"
+            [gradient]="gradient"
+            [labels]="showLabels"
+            [doughnut]="isDoughnut"
+          >
+          </ngx-charts-pie-chart>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 mb-4">
+      <div class="card h-100">
+        <div class="card-header">
+          <h4>Materials by Category</h4>
+        </div>
+        <div class="card-body">
+          <ngx-charts-pie-chart
+            *ngIf="categoriesChartData.length > 0"
+            [view]="view"
+            [scheme]="colorScheme"
+            [results]="categoriesChartData"
+            [gradient]="gradient"
+            [labels]="showLabels"
+            [doughnut]="isDoughnut"
+          >
+          </ngx-charts-pie-chart>
+          <div
+            *ngIf="categoriesChartData.length === 0"
+            class="text-center py-4"
+          >
+            <p>No category data available</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Recent Activity Row -->
+<div *ngIf="stats && !isLoading" class="row">
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Recent Users</h4>
+        <a [routerLink]="['/admin/users']" class="btn btn-sm btn-outline-primary">View All</a>
+      </div>
+      <div class="card-body">
+        <div *ngIf="stats.recent_users?.length; else noRecentUsers">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Email</th>
+                  <th>Joined</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let user of stats.recent_users">
+                  <td class="text-primary fw-semibold">{{ user.name }}</td>
+                  <td class="text-info">{{ user.email }}</td>
+                  <td class="text-secondary">{{ user.created_at | date : "shortDate" }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ng-template #noRecentUsers>
+          <div class="text-center py-4">
+            <p>No recent users</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-6 mb-4">
+    <div class="card h-100">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        <h4 class="mb-0">Recent Materials</h4>
+        <a [routerLink]="['/admin/materials']" class="btn btn-sm btn-outline-primary">View All</a>
+      </div>
+      <div class="card-body">
+        <div *ngIf="stats.recent_materials?.length; else noRecentMaterials">
+          <div class="table-responsive">
+            <table class="table table-hover">
+              <thead>
+                <tr>
+                  <th>Name</th>
+                  <th>Price</th>
+                  <th>Status</th>
+                  <th>Category</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let material of stats.recent_materials">
+                  <td class="text-indigo fw-semibold">{{ material.name }}</td>
+                  <td class="text-success fw-semibold">${{ material.price }}</td>
+                  <td>
+                    <span class="badge" [ngClass]="{
+                      'bg-success': material.status === 'active',
+                      'bg-danger': material.status === 'blocked',
+                      'bg-warning text-dark': material.status === 'pending'
+                    }">
+                      {{ material.status | titlecase }}
+                    </span>
+                  </td>
+                  <td class="text-primary fw-semibold">{{ material.category }}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ng-template #noRecentMaterials>
+          <div class="text-center py-4">
+            <p>No recent materials</p>
+          </div>
+        </ng-template>
+      </div>
+    </div>
+  </div>
+</div>
+</div>

@@ -1,0 +1,108 @@
+<div class="container mt-4">
+  <div class="card">
+    <div class="card-header d-flex justify-content-between align-items-center">
+      <h2 class="mb-0 text-primary">Feedbacks Management</h2>
+    </div>
+
+    <!-- Error Message -->
+    <div *ngIf="errorMessage" class="alert alert-danger m-3">
+      {{ errorMessage }}
+    </div>
+
+    <!-- Loading Indicator -->
+    <div *ngIf="isLoading" class="text-center my-5">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Loading...</span>
+      </div>
+      <p class="mt-2">Loading feedbacks...</p>
+    </div>
+
+    <!-- Feedbacks Table -->
+    <div *ngIf="!isLoading" class="card-body">
+      <div *ngIf="feedbacks.length === 0" class="text-center py-4">
+        <p>No feedbacks found</p>
+      </div>
+
+      <div *ngIf="feedbacks.length > 0" class="table-responsive">
+        <table class="table table-hover">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Seller</th>
+              <th>Buyer</th>
+              <th>Rating</th>
+              <th>Comment</th>
+              <th>Date</th>
+              <th>Actions</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let feedback of feedbacks">
+              <td>{{ feedback.id }}</td>
+              <td>
+                {{ feedback.seller.first_name || "Unknown" }}
+                {{ feedback.seller.last_name || "Seller" }}
+              </td>
+              <td>
+                {{ feedback.buyer.first_name || "Unknown" }}
+                {{ feedback.buyer.last_name || "Buyer" }}
+              </td>
+              <td>
+                <div class="star-rating">
+                  {{ "★".repeat(feedback.rating)
+                  }}{{ "☆".repeat(5 - feedback.rating) }}
+                </div>
+              </td>
+              <td>{{ feedback.comment || "No comment" }}</td>
+              <td>{{ feedback.created_at | date : "medium" }}</td>
+              <td>
+                <button
+                  class="btn btn-sm btn-danger"
+                  (click)="deleteFeedback(feedback.id, deleteModal)"
+                >
+                  <i class="bi bi-trash"></i> Delete
+                </button>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Update the modal to use ng-template -->
+<ng-template #deleteModal let-modal>
+  <div class="modal-header">
+    <h5 class="modal-title" id="modal-basic-title">Confirm Deletion</h5>
+    <button
+      type="button"
+      class="btn-close"
+      aria-label="Close"
+      (click)="modal.dismiss()"
+    ></button>
+  </div>
+  <div class="modal-body">Are you sure you want to delete this feedback?</div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" (click)="modal.dismiss()">
+      Cancel
+    </button>
+    <!-- Update the delete button in the modal footer -->
+    <button
+      type="button"
+      class="btn btn-danger"
+      (click)="confirmDelete()"
+      [disabled]="isDeleting"
+    >
+      <span *ngIf="!isDeleting">Delete</span>
+      <span *ngIf="isDeleting">
+        <span
+          class="spinner-border spinner-border-sm"
+          role="status"
+          aria-hidden="true"
+        ></span>
+        Deleting...
+      </span>
+    </button>
+  </div>
+</ng-template>

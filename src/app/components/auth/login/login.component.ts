@@ -9,6 +9,8 @@ import {
 } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { BlockedUserModalComponent } from '../blocked-user-modal/blocked-user-modal.component';
 
 @Component({
   selector: 'app-login',
@@ -23,9 +25,10 @@ export class LoginComponent {
   logoutMessage = '';
   isLoading = false;
 
-  private router = inject(Router); 
+  private router = inject(Router);
   private authService = inject(AuthService);
   private formBuilder = inject(FormBuilder);
+  private modalService = inject(NgbModal);
 
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
@@ -33,7 +36,6 @@ export class LoginComponent {
   });
 
   ngOnInit() {
-    // Check for logout query parameter
     const queryParams = new URLSearchParams(window.location.search);
     if (queryParams.get('loggedOut') === 'true') {
       this.logoutMessage = 'You have been logged out successfully.';
@@ -43,33 +45,52 @@ export class LoginComponent {
   onSubmit() {
     if (this.loginForm.valid) {
       this.isLoading = true;
+      this.errorMessage = '';
+      this.successMessage = '';
       const { email, password } = this.loginForm.value;
-      
+
       this.authService.login(email!, password!).subscribe({
         next: () => {
           this.successMessage = 'Login successful!';
-          this.errorMessage = '';
-          this.logoutMessage = '';
           this.isLoading = false;
 
-          // Get user role and navigate accordingly
           const role = this.authService.getUserRole();
-          if (role === 'seller') {
-            this.router.navigate(['/home']);
-          } else if (role === 'buyer') {
-            this.router.navigate(['/buyer-home']);
+          switch (role) {
+            case 'seller':
+              this.router.navigate(['/home']);
+              break;
+            case 'buyer':
+              this.router.navigate(['/buyer-home']);
+              break;
+            case 'admin':
+              this.router.navigate(['/admin/dashboard']);
+              break;
+            default:
+              this.router.navigate(['/']);
           }
         },
         error: (error) => {
-          this.errorMessage = error.error?.message || 'Invalid email or password.';
-          this.successMessage = '';
-          this.logoutMessage = '';
           this.isLoading = false;
-        }
+          if (error.message.includes('blocked')) {
+            this.showBlockedModal();
+          } else {
+            this.errorMessage =
+              error.error?.message || 'Invalid email or password.';
+          }
+        },
       });
     } else {
       this.loginForm.markAllAsTouched();
     }
+  }
+
+  private showBlockedModal() {
+    const modalRef = this.modalService.open(BlockedUserModalComponent, {
+      centered: true,
+      backdrop: 'static',
+      keyboard: false,
+    });
+    modalRef.componentInstance.message = 'Your account is currently blocked.';
   }
 
   logout() {

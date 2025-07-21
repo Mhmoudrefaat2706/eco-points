@@ -1,0 +1,101 @@
+<div class="admin-container">
+  <!-- Desktop Sidebar -->
+  <div class="sidebar" [class.collapsed]="isSidebarCollapsed" *ngIf="!isMobile">
+    <div class="sidebar-header">
+      <div class="admin-profile" *ngIf="!isSidebarCollapsed">
+        <div class="admin-avatar">{{ adminInitials }}</div>
+        <div class="admin-info">
+          <div class="admin-welcome">Welcome back</div>
+          <div class="admin-name">{{ adminName }}</div>
+        </div>
+      </div>
+      <button class="toggle-btn" (click)="toggleSidebar()">
+        <i
+          class="bi"
+          [class.bi-chevron-left]="!isSidebarCollapsed"
+          [class.bi-chevron-right]="isSidebarCollapsed"
+        ></i>
+      </button>
+    </div>
+
+    <ul class="nav flex-column">
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/admin/dashboard"
+          routerLinkActive="active"
+        >
+          <i class="bi bi-speedometer2"></i>
+          <span class="link-text">Dashboard</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" routerLink="/admin/users" routerLinkActive="active">
+          <i class="bi bi-people"></i>
+          <span class="link-text">Users</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/admin/materials"
+          routerLinkActive="active"
+        >
+          <i class="bi bi-box-seam"></i>
+          <span class="link-text">Materials</span>
+        </a>
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          routerLink="/admin/feedbacks"
+          routerLinkActive="active"
+        >
+          <i class="bi bi-chat-square-text"></i>
+          <span class="link-text">Feedbacks</span>
+        </a>
+      </li>
+    </ul>
+
+    <div class="sidebar-footer">
+      <button class="logout-btn" (click)="logout()">
+        <i class="bi bi-box-arrow-right"></i>
+        <span class="link-text">Logout</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Header -->
+  <div class="mobile-header" *ngIf="isMobile">
+    <div class="mobile-header-content">
+      <div class="mobile-header-title">Admin Dashboard</div>
+      <button class="mobile-menu-toggle" (click)="toggleMobileMenu()">
+        <i class="bi" [class.bi-list]="!mobileMenuExpanded" [class.bi-x]="mobileMenuExpanded"></i>
+      </button>
+    </div>
+  </div>
+
+  <!-- Mobile Menu -->
+  <div class="mobile-menu-expanded" [class.show]="mobileMenuExpanded && isMobile">
+    <a class="mobile-menu-item" routerLink="/admin/dashboard" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="bi bi-speedometer2"></i> Dashboard
+    </a>
+    <a class="mobile-menu-item" routerLink="/admin/users" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="bi bi-people"></i> Users
+    </a>
+    <a class="mobile-menu-item" routerLink="/admin/materials" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="bi bi-box-seam"></i> Materials
+    </a>
+    <a class="mobile-menu-item" routerLink="/admin/feedbacks" routerLinkActive="active" (click)="closeMobileMenu()">
+      <i class="bi bi-chat-square-text"></i> Feedbacks
+    </a>
+    <a class="mobile-menu-item" (click)="logout()">
+      <i class="bi bi-box-arrow-right"></i> Logout
+    </a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="main-content" [class.expanded]="isSidebarCollapsed && !isMobile">
+    <router-outlet></router-outlet>
+  </div>
+</div>
