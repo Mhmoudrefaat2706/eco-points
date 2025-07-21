@@ -42,4 +42,21 @@ createPayPalOrder(orderId: number): Observable<any> {
     { headers: this.getHeaders() }
   );
 }
+getSellerOrders(): Observable<any[]> {
+  return this.http.get<any>(`${this.apiUrl}/seller`, {
+    headers: this.getHeaders()
+  }).pipe(
+    map(res => res.orders) // <-- ده المهم
+  );
+}
+
+updateOrderStatus(orderId: number, status: string): Observable<any> {
+  return this.http.put(
+    `${environment.apiUrl}/seller/orders/${orderId}/status`, 
+    { status },
+    { headers: this.getHeaders() }
+  );
+}
+
+
 }

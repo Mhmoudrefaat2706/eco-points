@@ -30,6 +30,7 @@ import { UserFormComponent } from './components/admin/user-form/user-form.compon
 import { AdminLayoutComponent } from './components/admin/admin-layout/admin-layout.component';
 import { AdminDashboardComponent } from './components/admin/admin-dashboard/admin-dashboard.component';
 import { FeedbacksListComponent } from './components/admin/feedbacks-list/feedbacks-list.component';
+import { SellerOrdersComponent } from './components/seller/seller-orders/seller-orders.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'register', pathMatch: 'full' },
@@ -44,10 +45,11 @@ export const routes: Routes = [
   {
     path: 'my-orders',
     loadComponent: () =>
-      import('./my-orders/my-orders.component').then(
+      import('./components/buyer/my-orders/my-orders.component').then(
         (m) => m.MyOrdersComponent
       ),
   },
+{ path: 'seller/orders', component: SellerOrdersComponent },
 
   // Seller routes
   {
