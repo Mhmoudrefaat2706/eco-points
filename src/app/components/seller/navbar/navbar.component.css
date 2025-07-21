@@ -29,6 +29,16 @@ body.dark-mode {
   top: 0;
   width: 100%;
 }
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.dropdown-toggle {
+  background: transparent;
+  border: none;
+}
 
 .logo img {
   height: 40px;
@@ -336,7 +346,7 @@ body.dark-mode {
   border-radius: 50%;
   padding: 5px;
   background: linear-gradient(135deg, #4caf50 0%, #81c784 100%);
-  box-shadow: 
+  box-shadow:
     0 4px 6px rgba(0, 0, 0, 0.1),
     0 0 0 2px rgba(76, 175, 80, 0.3);
   transition: all 0.3s ease;
@@ -344,7 +354,7 @@ body.dark-mode {
 
 .logo:hover .logo-img {
   transform: scale(1.05);
-  box-shadow: 
+  box-shadow:
     0 6px 12px rgba(0, 0, 0, 0.15),
     0 0 0 3px rgba(76, 175, 80, 0.4);
 }
@@ -361,7 +371,7 @@ body.dark-mode {
 /* Dark mode adjustments */
 .dark-mode .logo-img {
   background: linear-gradient(135deg, #81c784 0%, #4caf50 100%);
-  box-shadow: 
+  box-shadow:
     0 4px 6px rgba(0, 0, 0, 0.3),
     0 0 0 2px rgba(129, 199, 132, 0.4);
 }
@@ -377,7 +387,7 @@ body.dark-mode {
     width: 50px;
     height: 50px;
   }
-  
+
   .logo-text {
     font-size: 1.2rem;
   }

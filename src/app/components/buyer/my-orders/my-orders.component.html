@@ -25,42 +25,22 @@
     <div class="spinner-border text-primary" role="status">
       <span class="visually-hidden">Loading...</span>
     </div>
-  </div>
-<!-- Filters -->
+  </div><!-- Filter Dropdown -->
 <div class="text-center mb-4">
-  <div class="btn-group" role="group">
-    <button class="btn btn-outline-primary"
-            [class.active]="filterStatus === 'all'"
-            (click)="setFilter('all')">
-      All
-    </button>
-    <button class="btn btn-outline-success"
-            [class.active]="filterStatus === 'paid'"
-            (click)="setFilter('paid')">
-      Paid
-    </button>
-    <button class="btn btn-outline-danger"
-            [class.active]="filterStatus === 'rejected'"
-            (click)="setFilter('rejected')">
-      Rejected
-    </button>
-    <button class="btn btn-outline-warning"
-            [class.active]="filterStatus === 'pending'"
-            (click)="setFilter('pending')">
-      Pending
-    </button>
-    <button class="btn btn-outline-info"
-            [class.active]="filterStatus === 'approved'"
-            (click)="setFilter('approved')">
-      Approved
-    </button>
-    <button class="btn btn-outline-secondary"
-            [class.active]="filterStatus === 'cancelled'"
-            (click)="setFilter('cancelled')">
-      Cancelled
-    </button>
-  </div>
+  <label for="orderFilter" class="form-label fw-bold me-2">Filter by Status:</label>
+  <select id="orderFilter"
+          class="form-select d-inline-block w-auto"
+          [(ngModel)]="filterStatus"
+          (change)="setFilter(filterStatus)">
+    <option value="all">All</option>
+    <option value="paid">Paid</option>
+    <option value="rejected">Rejected</option>
+    <option value="pending">Pending</option>
+    <option value="approved">Approved</option>
+    <option value="cancelled">Cancelled</option>
+  </select>
 </div>
+
 
   <!-- Orders List -->
   <div *ngIf="!isLoading" class="row">

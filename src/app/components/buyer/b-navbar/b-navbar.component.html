@@ -8,11 +8,7 @@
     <span class="logo-text">EcoPoints</span>
   </div>
 
-  <button
-    class="mobile-menu-btn"
-    (click)="toggleMobileMenu()"
-    aria-label="Toggle mobile menu"
-  >
+  <button class="mobile-menu-btn" (click)="toggleMobileMenu()" aria-label="Toggle mobile menu">
     <i class="fas fa-bars"></i>
   </button>
 
@@ -26,12 +22,12 @@
     <a routerLink="/b-about" class="nav-link" [class.active]="isRouteActive('b-about')">
       {{ "NAVBAR.ABOUT" | translate }}
     </a>
- <a class="nav-link" routerLink="/my-orders" routerLinkActive="active">
-  <i class="fas fa-shopping-bag me-1"></i> My Orders
-</a>
+    <a class="nav-link" routerLink="/my-orders" routerLinkActive="active">
+      <i class="fas fa-shopping-bag me-1"></i> My Orders
+    </a>
   </div>
 
-  <div class="nav-actions">
+  <div class="nav-actions d-flex align-items-center gap-2">
     <button class="language-toggle" (click)="changeLanguage()">
       <i class="fas fa-globe"></i>
       {{ currentLanguage === "en" ? "عربي" : "English" }}
@@ -41,24 +37,32 @@
       <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
     </button>
 
-    <button
-      class="btn profile-btn"
-      (click)="goToProfile()"
-      [class.active]="isRouteActive('b-profile')"
-      title="Profile"
-      *ngIf="userName"
-    >
-      <img [src]="getUserAvatar()" alt="User Avatar" class="profile-avatar" />
-      <div class="profile-info">
-        <span class="profile-name">{{ userName }}</span>
-        <span class="profile-role">{{ userRole }}</span>
-      </div>
-    </button>
-
-    <button class="btn login-btn" routerLink="/login">
-      <i class="fas fa-sign-out-alt"></i>
-      {{ "NAVBAR.LOGOUT" | translate }}
-    </button>
+    <!-- ✅ Profile Dropdown -->
+    <div class="dropdown" *ngIf="userName">
+      <button class="btn dropdown-toggle d-flex align-items-center gap-2"
+              type="button"
+              id="profileDropdown"
+              data-bs-toggle="dropdown"
+              aria-expanded="false">
+        <img [src]="getUserAvatar()" alt="User Avatar" class="profile-avatar" />
+        <div class="text-start">
+          <div class="fw-semibold">{{ userName }}</div>
+          <div class="small text-muted">{{ userRole }}</div>
+        </div>
+      </button>
+      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="profileDropdown">
+        <li>
+          <a class="dropdown-item" (click)="goToProfile()">
+            <i class="fas fa-user me-2"></i> Profile
+          </a>
+        </li>
+        <li>
+          <a class="dropdown-item" routerLink="/logout">
+            <i class="fas fa-sign-out-alt me-2"></i> {{ "NAVBAR.LOGOUT" | translate }}
+          </a>
+        </li>
+      </ul>
+    </div>
 
     <div class="cart-container">
       <button class="btn cart-btn" routerLink="/b-cart">
@@ -69,54 +73,27 @@
   </div>
 </nav>
 
+<!-- ✅ Mobile Menu -->
 <div class="mobile-menu" [class.active]="mobileMenuActive">
   <div class="mobile-menu-content">
-    <button
-      class="mobile-menu-close-btn"
-      (click)="closeMobileMenu()"
-      aria-label="Close menu"
-    >
+    <button class="mobile-menu-close-btn" (click)="closeMobileMenu()" aria-label="Close menu">
       &times;
     </button>
 
-    <a
-      routerLink="/buyer-home"
-      class="mobile-nav-link"
-      (click)="closeMobileMenu()"
-      [class.active]="isRouteActive('buyer-home')"
-    >
-      <i class="fas fa-home"></i>
-      {{ "NAVBAR.HOME" | translate }}
+    <a routerLink="/buyer-home" class="mobile-nav-link" (click)="closeMobileMenu()" [class.active]="isRouteActive('buyer-home')">
+      <i class="fas fa-home"></i> {{ "NAVBAR.HOME" | translate }}
     </a>
 
-    <a
-      routerLink="/b-materials"
-      class="mobile-nav-link"
-      (click)="closeMobileMenu()"
-      [class.active]="isRouteActive('b-materials')"
-    >
-      <i class="fas fa-box-open"></i>
-      {{ "NAVBAR.MATERIALS" | translate }}
+    <a routerLink="/b-materials" class="mobile-nav-link" (click)="closeMobileMenu()" [class.active]="isRouteActive('b-materials')">
+      <i class="fas fa-box-open"></i> {{ "NAVBAR.MATERIALS" | translate }}
     </a>
 
-    <a
-      routerLink="/b-cart"
-      class="mobile-nav-link"
-      (click)="closeMobileMenu()"
-      [class.active]="isRouteActive('b-cart')"
-    >
-      <i class="fa-solid fa-cart-shopping"></i>
-      Cart
+    <a routerLink="/b-cart" class="mobile-nav-link" (click)="closeMobileMenu()" [class.active]="isRouteActive('b-cart')">
+      <i class="fa-solid fa-cart-shopping"></i> Cart
       <span class="cart-counter" *ngIf="counter > 0">{{ counter }}</span>
     </a>
 
-    <a
-      routerLink="/b-profile"
-      class="mobile-nav-link"
-      (click)="closeMobileMenu()"
-      [class.active]="isRouteActive('b-profile')"
-      *ngIf="userName"
-    >
+    <a routerLink="/b-profile" class="mobile-nav-link" (click)="closeMobileMenu()" [class.active]="isRouteActive('b-profile')" *ngIf="userName">
       <img [src]="getUserAvatar()" alt="User Avatar" class="profile-avatar" />
       <div class="profile-info">
         <span class="profile-name">{{ userName }}</span>
@@ -137,13 +114,8 @@
             : ("NAVBAR.DARK_MODE" | translate)
         }}
       </button>
-      <button
-        class="btn logout-btn"
-        routerLink="/logout"
-        (click)="closeMobileMenu()"
-      >
-        <i class="fas fa-sign-out-alt"></i>
-        {{ "NAVBAR.LOGOUT" | translate }}
+      <button class="btn logout-btn" routerLink="/logout" (click)="closeMobileMenu()">
+        <i class="fas fa-sign-out-alt"></i> {{ "NAVBAR.LOGOUT" | translate }}
       </button>
     </div>
   </div>

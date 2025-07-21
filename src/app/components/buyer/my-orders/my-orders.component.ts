@@ -1,14 +1,15 @@
 import { Component, OnInit } from '@angular/core';
-import { OrderService } from '../services/order.service';
+import { OrderService } from '../../../services/order.service';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router, RouterModule } from '@angular/router';
-import { BNavbarComponent } from '../components/buyer/b-navbar/b-navbar.component';
-import { BFooterComponent } from '../components/buyer/b-footer/b-footer.component';
+import { BNavbarComponent } from '../b-navbar/b-navbar.component';
+import { BFooterComponent } from '../b-footer/b-footer.component';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-my-orders',
   standalone: true,
-  imports: [CommonModule, RouterModule, BNavbarComponent, BFooterComponent],
+  imports: [CommonModule, RouterModule, BNavbarComponent, BFooterComponent , FormsModule],
   templateUrl: './my-orders.component.html',
   styleUrls: ['./my-orders.component.css']
 })
