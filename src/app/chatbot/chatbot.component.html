@@ -1,0 +1,23 @@
+<div class="chat-icon" (click)="toggleChat()">
+  <img src="assets/images/chat-icon.png" alt="Chat Icon" width="50" height="50">
+</div>
+
+<div class="chat-container" *ngIf="isChatOpen">
+  <div class="chat-header">
+    <h3>مساعد الدردشة</h3>
+    <button class="close-button" (click)="toggleChat()">X</button>
+  </div>
+
+  <div class="messages-display">
+    <div *ngFor="let message of messages" [class.user-message]="message.isUser" [class.bot-message]="!message.isUser">
+      {{ message.text }}
+    </div>
+  </div>
+
+  <div class="input-area">
+    <input [(ngModel)]="userInput" (keyup.enter)="sendMessage()" placeholder="اكتب رسالتك هنا..." />
+    <button (click)="sendMessage()">إرسال</button>
+  </div>
+
+  <button (click)="toggleLanguage()" class="toggle-lang-button">تبديل اللغة ({{ currentLanguage === 'ar' ? 'English' : 'العربية' }})</button>
+</div>

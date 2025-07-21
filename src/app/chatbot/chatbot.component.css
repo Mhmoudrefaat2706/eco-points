@@ -1,0 +1,216 @@
+/* ستايل أيقونة الشات بوت */
+.chat-icon {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  cursor: pointer;
+  z-index: 1000;
+  /* إزالة الخلفية الزرقاء هنا لو عايزة الصورة هي اللي تظهر مباشرة */
+  /* background-color: #007bff; */
+  border-radius: 50%; /* لجعل الأيقونة نفسها دائرية */
+  padding: 0; /* إزالة الـ padding لو الصورة هتملأ الأيقونة تماماً */
+  box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.3); /* ظل أقوى لبروز الأيقونة */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 65px; /* حجم الأيقونة (قطر الدائرة) */
+  height: 65px; /* حجم الأيقونة (قطر الدائرة) */
+  overflow: hidden; /* مهم جداً عشان الصورة متطلعش بره الدايرة */
+  transition: transform 0.2s ease-in-out; /* تأثير حركة عند الضغط */
+}
+
+.chat-icon:hover {
+  transform: scale(1.05); /* تكبير بسيط عند الوقوف عليها بالماوس */
+}
+
+.chat-icon img {
+  display: block;
+  width: 100%; /* الصورة تملأ الأيقونة بالكامل */
+  height: 100%;
+  object-fit: cover; /* لتغطية المساحة دون تشويه الصورة */
+  border-radius: 50%; /* لجعل الصورة نفسها دائرية */
+  /* لو الصورة مربعة، ده هيقصها على شكل دايرة */
+}
+
+/* ستايل حاوية الشات بوت */
+.chat-container {
+  position: fixed;
+  bottom: 90px;
+  right: 20px;
+  width: 350px; /* عرض مربع الشات كما هو */
+  height: 300px; /* **تم تقصير الطول هنا** */
+  border: 1px solid #ccc;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.25); /* ظل أقوى لبروز الشات */
+  border-radius: 40px; /* حواف دائرية أكثر */
+  overflow: hidden;
+  background-color: #fff;
+  z-index: 1000;
+  transform: translateY(10px); /* تأثير بسيط عند الظهور */
+  opacity: 0;
+  animation: fadeInChat 0.3s ease-out forwards; /* انيميشن للظهور */
+}
+
+/* انيميشن ظهور الشات */
+@keyframes fadeInChat {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ستايل رأس مربع الشات (الهيدر) */
+.chat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 18px; /* زيادة الـ padding قليلاً */
+  background-image: linear-gradient(to right, #8ffaaf, #287558); /* تدرج لوني للهيدر */
+  color: white;
+  border-bottom: 3px solid #065f3d;
+  border-top-left-radius: 14px; /* حواف دائرية تتناسب مع الـ container */
+  border-top-right-radius: 14px;
+  font-weight: bold;
+  font-size: 1.2em;
+}
+
+.chat-header h3 {
+  margin: 0;
+  font-size: 1.1em;
+}
+
+/* ستايل زر الإغلاق */
+.chat-header .close-button {
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.4em; /* تكبير حجم زر الإغلاق */
+  cursor: pointer;
+  padding: 5px 8px; /* مسافة داخلية للزر */
+  border-radius: 50%;
+  transition: background-color 0.2s, transform 0.2s;
+}
+.chat-header .close-button:hover {
+  background-color: rgba(255, 255, 255, 0.3); /* تغيير لون الخلفية عند التحويل */
+  transform: rotate(90deg); /* دوران بسيط عند التحويل */
+}
+
+/* ستايل عرض الرسائل */
+.messages-display {
+  flex-grow: 1;
+  padding: 15px;
+  overflow-y: auto;
+  background-color: #f0f2f5; /* لون خلفية منطقة الرسائل أفتح قليلاً */
+  border-bottom: 1px solid #e0e0e0;
+}
+
+/* شريط التمرير (Scrollbar) ستايل مخصص */
+.messages-display::-webkit-scrollbar {
+  width: 8px;
+}
+
+.messages-display::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+.messages-display::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+.messages-display::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+
+.user-message,
+.bot-message {
+  padding: 10px 15px; /* زيادة الـ padding للرسائل */
+  border-radius: 20px; /* حواف دائرية أكثر للرسائل */
+  margin-bottom: 10px;
+  max-width: 85%; /* زيادة عرض الرسائل قليلاً */
+  word-wrap: break-word;
+  font-size: 0.95em; /* حجم خط الرسائل */
+  line-height: 1.4; /* مسافة بين السطور */
+}
+
+.user-message {
+  background-color: #dcf8c6;
+  align-self: flex-end;
+  margin-left: auto;
+  text-align: right;
+  border-bottom-right-radius: 5px; /* حافة مربعة قليلاً في الزاوية السفلية اليمنى */
+}
+
+.bot-message {
+  background-color: #e6e6e6;
+  align-self: flex-start;
+  margin-right: auto;
+  text-align: left;
+  border-bottom-left-radius: 5px; /* حافة مربعة قليلاً في الزاوية السفلية اليسرى */
+}
+
+/* ستايل منطقة الإدخال (صندوق النص وزر الإرسال) */
+.input-area {
+  display: flex;
+  padding: 10px;
+  border-top: 1px solid #eee;
+  background-color: #fff;
+  align-items: center; /* توسيط العناصر عمودياً */
+}
+
+.input-area input {
+  flex-grow: 1;
+  padding: 12px; /* زيادة الـ padding لصندوق الإدخال */
+  border: 1px solid #ddd;
+  border-radius: 25px; /* حواف دائرية أكثر */
+  margin-right: 10px;
+  outline: none;
+  font-size: 1em;
+  transition: border-color 0.2s;
+}
+.input-area input:focus {
+  border-color: #007bff; /* تغيير لون الحدود عند التركيز */
+}
+
+.input-area button {
+  padding: 12px 20px; /* زيادة الـ padding للزر */
+  background-color: #076e36;
+  color: white;
+  border: none;
+  border-radius: 25px; /* حواف دائرية أكثر */
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1em;
+  transition: background-color 0.2s, transform 0.2s;
+}
+
+.input-area button:hover {
+  background-color: #21916f;
+  transform: translateY(-2px); /* تأثير رفع بسيط عند التحويل */
+}
+
+/* ستايل زر تبديل اللغة */
+.toggle-lang-button {
+  background-color:#076e36;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 8px 12px;
+  margin: 10px auto;
+  display: block;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: background-color 0.2s;
+}
+
+.toggle-lang-button:hover {
+  background-color: #21916f;
+}
