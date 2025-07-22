@@ -1,212 +1,810 @@
 {
   "greetings": {
     "ar": {
-      "questions": ["أهلاً", "مرحباً", "كيف حالك؟", "السلام عليكم", "اهلا", "مرحبا"],
-      "responses": ["أهلاً بك!", "مرحباً! كيف يمكنني مساعدتك اليوم؟", "أهلاً وسهلاً!"]
+      "questions": [
+        "أهلاً",
+        "مرحباً",
+        "كيف حالك؟",
+        "السلام عليكم",
+        "اهلا",
+        "مرحبا",
+        "صباح الخير",
+        "مساء الخير",
+        "كيف الحال؟",
+        "أهلاً وسهلاً"
+      ],
+      "responses": [
+        "أهلاً بك في نظام Eco-Points! كيف يمكنني مساعدتك اليوم؟",
+        "مرحباً! أنا مساعد Eco-Points، هل لديك أي استفسار حول إعادة التدوير أو خدماتنا؟",
+        "أهلاً وسهلاً! نحن هنا لمساعدتك في كل ما يتعلق بإعادة التدوير وكسب النقاط."
+      ]
     },
     "en": {
-      "questions": ["hello", "hi there", "how are you", "greetings", "hi"],
-      "responses": ["Hello!", "Hi there! How can I help you today?", "Greetings!"]
+      "questions": [
+        "hello",
+        "hi there",
+        "how are you",
+        "greetings",
+        "hi",
+        "good morning",
+        "good afternoon",
+        "hey",
+        "what's up",
+        "howdy"
+      ],
+      "responses": [
+        "Hello! Welcome to Eco-Points system. How can I assist you today?",
+        "Hi there! I'm your Eco-Points assistant. Do you have any questions about recycling or our services?",
+        "Greetings! We're here to help with all your recycling and points-earning questions."
+      ]
     }
   },
   "farewells": {
     "ar": {
-      "questions": ["مع السلامة", "إلى اللقاء", "وداعاً", "أراك لاحقاً", "باي"],
-      "responses": ["مع السلامة!", "إلى اللقاء قريباً!", "وداعاً، نأمل رؤيتك مرة أخرى."]
+      "questions": [
+        "مع السلامة",
+        "إلى اللقاء",
+        "وداعاً",
+        "أراك لاحقاً",
+        "باي",
+        "سلام",
+        "إلى الأمام",
+        "نلتقي قريباً",
+        "كان معكم وقت ممتع",
+        "إلى اللقاء وشكراً"
+      ],
+      "responses": [
+        "مع السلامة! نأمل أن نراك مجدداً في نظام Eco-Points.",
+        "إلى اللقاء قريباً! تذكر أن كل عملية إعادة تدوير تحدث فرقاً.",
+        "وداعاً، ونشكرك على مساهمتك في جعل كوكبنا أنظف وأكثر اخضراراً."
+      ]
     },
     "en": {
-      "questions": ["goodbye", "see you later", "farewell", "bye"],
-      "responses": ["Goodbye!", "See you later!", "Farewell! Have a great day."]
+      "questions": [
+        "goodbye",
+        "see you later",
+        "farewell",
+        "bye",
+        "take care",
+        "so long",
+        "until next time",
+        "catch you later",
+        "have a nice day",
+        "signing off"
+      ],
+      "responses": [
+        "Goodbye! We hope to see you again in the Eco-Points system.",
+        "See you later! Remember every recycling action makes a difference.",
+        "Farewell! Thank you for helping make our planet cleaner and greener."
+      ]
     }
   },
   "thank_you": {
     "ar": {
-      "questions": ["شكراً جزيلاً", "شكراً لك", "متشكرين", "تسلم", "شكرا"],
-      "responses": ["عفواً!", "على الرحب والسعة!", "بكل سرور."]
+      "questions": [
+        "شكراً جزيلاً",
+        "شكراً لك",
+        "متشكرين",
+        "تسلم",
+        "شكرا",
+        "أشكرك",
+        "ممتن لك",
+        "جزيل الشكر",
+        "تقديري",
+        "يعطيك العافية"
+      ],
+      "responses": [
+        "عفواً! دائماً سعداء بمساعدتك.",
+        "على الرحب والسعة! نحن هنا لمساعدتك في أي وقت.",
+        "بكل سرور. هل هناك أي شيء آخر يمكننا مساعدتك به؟"
+      ]
     },
     "en": {
-      "questions": ["thank you very much", "thanks", "appreciate it", "cheers", "thank you"],
-      "responses": ["You're welcome!", "My pleasure!", "Glad to help!"]
+      "questions": [
+        "thank you very much",
+        "thanks",
+        "appreciate it",
+        "cheers",
+        "thank you",
+        "many thanks",
+        "much obliged",
+        "thanks a bunch",
+        "thanks a million",
+        "grateful"
+      ],
+      "responses": [
+        "You're welcome! Always happy to help.",
+        "My pleasure! We're here for you anytime.",
+        "Glad to help! Is there anything else we can assist you with?"
+      ]
     }
   },
   "recycling_benefits": {
     "ar": {
-      "questions": ["ما هي فوائد إعادة التدوير؟", "فوائد", "إعادة تدوير", "أهمية", "ليه نعيد تدوير؟"],
-      "responses": ["إعادة التدوير بتقلل من التلوث، بتوفر الطاقة، بتحافظ على الموارد الطبيعية، وبتقلل من كمية النفايات اللي بتروح للمدافن."]
+      "questions": [
+        "ما هي فوائد إعادة التدوير؟",
+        "فوائد",
+        "إعادة تدوير",
+        "أهمية",
+        "ليه نعيد تدوير؟",
+        "لماذا إعادة التدوير مهمة؟",
+        "ما فائدة إعادة التدوير؟",
+        "كيف تساعد إعادة التدوير البيئة؟",
+        "ما تأثير إعادة التدوير؟",
+        "لماذا يجب أن أهتم بإعادة التدوير؟"
+      ],
+      "responses": [
+        "إعادة التدوير لها فوائد عديدة تشمل:\n1. تقليل التلوث بنسبة تصل إلى 70% للمواد المعاد تدويرها\n2. توفير الطاقة - إعادة تدوير الألومنيوم توفر 95% من الطاقة المطلوبة لتصنيعه جديداً\n3. الحفاظ على الموارد الطبيعية مثل الأشجار والمعادن\n4. تقليل مساحات مكبات النفايات بنسبة تصل إلى 40%\n5. خلق فرص عمل في صناعة إعادة التدوير\n6. تقليل انبعاثات غازات الدفيئة المسببة للاحتباس الحراري",
+        "فوائد إعادة التدوير تمتد أبعد مما تتخيل! بالإضافة إلى حماية البيئة، يمكنك كسب نقاط Eco-Points التي يمكن استبدالها بخصومات ومنتجات صديقة للبيئة. كل كيلو جرام تعيد تدويره يساهم في بناء مستقبل أكثر استدامة للأجيال القادمة."
+      ]
     },
     "en": {
-      "questions": ["What are the benefits of recycling?", "benefits", "recycling", "importance", "why recycle?"],
-      "responses": ["Recycling reduces pollution, saves energy, conserves natural resources, and decreases the amount of waste sent to landfills."]
+      "questions": [
+        "What are the benefits of recycling?",
+        "benefits",
+        "recycling",
+        "importance",
+        "why recycle?",
+        "why is recycling important?",
+        "how does recycling help?",
+        "what's the impact of recycling?",
+        "how does recycling benefit the environment?",
+        "why should I care about recycling?"
+      ],
+      "responses": [
+        "Recycling has numerous benefits including:\n1. Reducing pollution by up to 70% for recycled materials\n2. Saving energy - recycling aluminum saves 95% of the energy needed to make new aluminum\n3. Conserving natural resources like trees and metals\n4. Reducing landfill space by up to 40%\n5. Creating jobs in the recycling industry\n6. Reducing greenhouse gas emissions that cause climate change",
+        "The benefits of recycling go beyond what you might think! In addition to protecting the environment, you can earn Eco-Points that can be redeemed for discounts and eco-friendly products. Every kilogram you recycle contributes to building a more sustainable future for coming generations."
+      ]
     }
   },
   "what_to_recycle": {
     "ar": {
-      "questions": ["ماذا يمكن أن أعيد تدويره؟", "أشياء", "مواد", "ممكن إعادة تدوير", "بنعيد تدوير إيه؟"],
-      "responses": ["ممكن تعيدي تدوير البلاستيك (أنواع معينة)، الورق المقوى، الزجاج، والمعادن زي الألومنيوم والصلب. في مواد تانية زي الأجهزة الإلكترونية والبطاريات ليها برامج إعادة تدوير خاصة."]
+      "questions": [
+        "ماذا يمكن أن أعيد تدويره؟",
+        "أشياء",
+        "مواد",
+        "ممكن إعادة تدوير",
+        "بنعيد تدوير إيه؟",
+        "ما هي المواد القابلة لإعادة التدوير؟",
+        "ما الذي أقوم بإعادة تدويره؟",
+        "أي أنواع النفايات يمكن إعادة تدويرها؟",
+        "قائمة بالمواد القابلة لإعادة التدوير",
+        "كيف أعرف ما يمكن إعادة تدويره؟"
+      ],
+      "responses": [
+        "يمكنك إعادة تدوير:\n\n• البلاستيك: الزجاجات (الأنواع 1، 2، 5)، الأكياس (في نقاط التجميع الخاصة فقط)\n• الورق والكرتون: الصحف، المجلات، الصناديق الكرتونية (يجب أن تكون نظيفة وجافة)\n• الزجاج: الزجاجات والمرطبانات (جميع الألوان)\n• المعادن: علب الألومنيوم، العلب الفولاذية\n• الإلكترونيات: الهواتف، الحواسيب، البطاريات (في مراكز متخصصة)\n• المواد العضوية: يمكن تحويلها إلى سماد في بعض المناطق\n\nملاحظة: يرجى تنظيف المواد قبل إعادة تدويرها وإزالة أي بقايا طعام.",
+        "في نظام Eco-Points، نركز على:\n1. الزجاجات البلاستيكية (علامة إعادة التدوير 1 أو 2)\n2. علب الألومنيوم\n3. الورق المقوى النظيف\n4. الزجاجات الزجاجية\n\nكل مادة تعيد تدويرها تحصل على نقاط مختلفة حسب نوعها ووزنها. يمكنك التحقق من دليلنا الكامل في قسم 'ما يمكن إعادة تدويره' في التطبيق."
+      ]
     },
     "en": {
-      "questions": ["What can I recycle?", "items", "materials", "what can be recycled?", "what do we recycle?"],
-      "responses": ["You can recycle plastic (certain types), cardboard, glass, and metals like aluminum and steel. Other materials like electronic devices and batteries have special recycling programs."]
+      "questions": [
+        "What can I recycle?",
+        "items",
+        "materials",
+        "what can be recycled?",
+        "what do we recycle?",
+        "which materials are recyclable?",
+        "what should I be recycling?",
+        "what kinds of waste can be recycled?",
+        "list of recyclable materials",
+        "how do I know what's recyclable?"
+      ],
+      "responses": [
+        "You can recycle:\n\n• Plastics: Bottles (types 1, 2, 5), bags (at special collection points only)\n• Paper & Cardboard: Newspapers, magazines, cardboard boxes (must be clean and dry)\n• Glass: Bottles and jars (all colors)\n• Metals: Aluminum cans, steel cans\n• Electronics: Phones, computers, batteries (at specialized centers)\n• Organic waste: Can be composted in some areas\n\nNote: Please clean materials before recycling and remove any food residue.",
+        "In the Eco-Points system, we focus on:\n1. Plastic bottles (recycling symbol 1 or 2)\n2. Aluminum cans\n3. Clean cardboard\n4. Glass bottles\n\nEach material you recycle earns different points based on type and weight. You can check our complete guide in the 'What to Recycle' section of the app."
+      ]
     }
   },
   "find_recycling_centers": {
     "ar": {
-      "questions": ["أين أجد مراكز إعادة التدوير؟", "أماكن", "مراكز", "أين", "نقطة تجميع", "حاويات", "eco-points"],
-      "responses": ["مثل موقع eco-points تقدري تلاقي مراكز تجميع إعادة التدوير في المدن الكبرى، ممكن كمان تستخدمي تطبيقات أو مواقع متخصصة بتحدد أقرب نقطة تجميع ليكي. بعض المحلات الكبيرة بيكون عندها حاويات خاصة للزجاجات البلاستيكية."]
+      "questions": [
+        "أين أجد مراكز إعادة التدوير؟",
+        "أماكن",
+        "مراكز",
+        "أين",
+        "نقطة تجميع",
+        "حاويات",
+        "eco-points",
+        "أقرب مركز إعادة تدوير",
+        "خريطة مراكز إعادة التدوير",
+        "أين يمكنني التخلص من المواد القابلة لإعادة التدوير؟",
+        "مواقع إعادة التدوير القريبة مني"
+      ],
+      "responses": [
+        "يمكنك العثور على مراكز إعادة التدوير عبر:\n\n1. تطبيق Eco-Points: يحتوي على خريطة تفاعلية توضح جميع نقاط التجميع القريبة منك\n2. مراكز التسوق الكبيرة: العديد منها يحتوي على حاويات للزجاج والبلاستيك والورق\n3. الأحياء السكنية: بعض الأحياء توفر حاويات مخصصة لإعادة التدوير\n4. مراكز الخدمة البلدية: غالباً ما تحتوي على مناطق مخصصة لإعادة التدوير\n\nللعثور على أقرب مركز، يمكنك إدخال موقعك في صفحة 'العثور على مراكز' في التطبيق أو الموقع الإلكتروني.",
+        "في نظام Eco-Points، لدينا ثلاثة أنواع من نقاط التجميع:\n\n• النقاط الذكية: تقبل الزجاجات البلاستيكية وعلب الألومنيوم وتقوم بحساب النقاط تلقائياً\n• النقاط العادية: حاويات مخصصة لأنواع مختلفة من المواد القابلة لإعادة التدوير\n• النقاط المميزة: تقع في المراكز التجارية الكبيرة وتقدم مكافآت إضافية\n\nكلما استخدمت نقاط التجميع الخاصة بنا، زادت النقاط التي يمكنك جمعها!"
+      ]
     },
     "en": {
-      "questions": ["Where can I find recycling centers?", "locations", "centers", "where", "collection point", "containers", "eco-points"],
-      "responses": ["Like the eco-points website, you can find recycling collection centers in major cities. You can also use specialized apps or websites that locate the nearest collection point for you. Some large stores have special containers for plastic bottles."]
+      "questions": [
+        "Where can I find recycling centers?",
+        "locations",
+        "centers",
+        "where",
+        "collection point",
+        "containers",
+        "eco-points",
+        "nearest recycling center",
+        "recycling center map",
+        "where can I dispose of recyclables?",
+        "recycling locations near me"
+      ],
+      "responses": [
+        "You can find recycling centers through:\n\n1. Eco-Points app: Contains an interactive map showing all collection points near you\n2. Large shopping centers: Many have containers for glass, plastic and paper\n3. Residential areas: Some neighborhoods provide dedicated recycling bins\n4. Municipal service centers: Often have designated recycling areas\n\nTo find the nearest center, you can enter your location in the 'Find Centers' page on the app or website.",
+        "In the Eco-Points system, we have three types of collection points:\n\n• Smart points: Accept plastic bottles and aluminum cans, automatically calculating points\n• Regular points: Dedicated containers for different types of recyclables\n• Premium points: Located in large shopping centers and offer additional rewards\n\nThe more you use our collection points, the more points you can earn!"
+      ]
     }
   },
   "plastic_bag_recyclability": {
     "ar": {
-      "questions": ["هل الأكياس البلاستيكية قابلة لإعادة التدوير؟", "أكياس بلاستيك", "أكياس", "هل", "بلاستيك"],
-      "responses": ["معظم الأكياس البلاستيكية الرقيقة مش قابلة لإعادة التدوير في برامج إعادة التدوير المنزلية العادية. بتحتاج مراكز خاصة بيها عشان ممكن تتسبب في مشاكل للمعدات."]
+      "questions": [
+        "هل الأكياس البلاستيكية قابلة لإعادة التدوير؟",
+        "أكياس بلاستيك",
+        "أكياس",
+        "هل",
+        "بلاستيك",
+        "كيف أتخلص من الأكياس البلاستيكية؟",
+        "أين يمكن إعادة تدوير الأكياس البلاستيكية؟",
+        "لماذا لا يمكن إعادة تدوير الأكياس البلاستيكية؟",
+        "ما البديل عن الأكياس البلاستيكية؟",
+        "هل الأكياس البلاستيكية ضارة بالبيئة؟"
+      ],
+      "responses": [
+        "الأكياس البلاستيكية الرقيقة (مثل أكياس البقالة) تشكل تحديًا خاصًا في إعادة التدوير:\n\n• معظم برامج إعادة التدوير المنزلية لا تقبلها لأنها تتسبب في انسدادات المعدات\n• يمكن إعادة تدويرها في نقاط التجميع الخاصة الموجودة في بعض المتاجر الكبيرة\n• الحل الأفضل هو تقليل استخدامها واستبدالها بأكياس قماشية قابلة لإعادة الاستخدام\n\nفي نظام Eco-Points، نقدم نقاط إضافية لأولئك الذين يستخدمون الأكياس القابلة لإعادة الاستخدام ويقدمون إثباتًا على تقليل استهلاكهم للأكياس البلاستيكية.",
+        "حقائق عن الأكياس البلاستيكية:\n\n• تستغرق حتى 1000 سنة لتتحلل طبيعياً\n• تتسبب في وفاة أكثر من 100,000 كائن بحري سنوياً\n• يتم استخدام حوالي تريليون كيس بلاستيكي سنوياً حول العالم\n\nنشجعك على المشاركة في برنامج 'أكياس أقل' الخاص بنا حيث يمكنك كسب نقاط مقابل كل 10 أكياس بلاستيكية تتجنب استخدامها."
+      ]
     },
     "en": {
-      "questions": ["Are plastic bags recyclable?", "plastic bags", "bags", "is", "plastic"],
-      "responses": ["Most thin plastic bags are not recyclable in regular household recycling programs. They require special centers as they can cause equipment problems."]
+      "questions": [
+        "Are plastic bags recyclable?",
+        "plastic bags",
+        "bags",
+        "is",
+        "plastic",
+        "how to dispose of plastic bags?",
+        "where can I recycle plastic bags?",
+        "why can't plastic bags be recycled?",
+        "what's the alternative to plastic bags?",
+        "are plastic bags bad for the environment?"
+      ],
+      "responses": [
+        "Thin plastic bags (like grocery bags) present special recycling challenges:\n\n• Most curbside recycling programs don't accept them as they cause equipment jams\n• They can be recycled at special collection points found in some large stores\n• The best solution is to reduce usage and switch to reusable cloth bags\n\nIn the Eco-Points system, we offer bonus points for those who use reusable bags and provide proof of reduced plastic bag consumption.",
+        "Facts about plastic bags:\n\n• Take up to 1,000 years to decompose naturally\n• Cause over 100,000 marine animal deaths annually\n• About one trillion plastic bags are used worldwide each year\n\nWe encourage you to join our 'Less Bags' program where you can earn points for every 10 plastic bags you avoid using."
+      ]
     }
   },
   "how_to_register": {
     "ar": {
-      "questions": ["كيف يتم التسجيل في الموقع؟", "تسجيل", "موقع", "إنشاء حساب", "كيف أسجل؟"],
-      "responses": ["يمكنك التسجيل في الموقع من خلال الضغط على زر 'تسجيل' في الصفحة الرئيسية وملء النموذج بالمعلومات المطلوبة مثل الاسم والبريد الإلكتروني وكلمة المرور."]
+      "questions": [
+        "كيف يتم التسجيل في الموقع؟",
+        "تسجيل",
+        "موقع",
+        "إنشاء حساب",
+        "كيف أسجل؟",
+        "طريقة التسجيل في Eco-Points",
+        "ما هي خطوات إنشاء حساب؟",
+        "هل التسجيل مجاني؟",
+        "ما المعلومات المطلوبة للتسجيل؟",
+        "كيف أصبح عضوًا في Eco-Points؟"
+      ],
+      "responses": [
+        "للتسجيل في نظام Eco-Points:\n\n1. اضغط على زر 'تسجيل' في الصفحة الرئيسية\n2. اختر نوع الحساب (فردي/عائلي/تجاري)\n3. املأ المعلومات الأساسية (الاسم، البريد الإلكتروني، كلمة المرور)\n4. اختر طريقة التحقق (بريد إلكتروني أو رقم هاتف)\n5. اقرأ وشروط الخصوصية ووافق عليها\n6. اضغط على 'إنشاء حساب'\n\nبعد التسجيل، يمكنك البدء فوراً بكسب النقاط من خلال إعادة التدوير!",
+        "مزايا التسجيل في Eco-Points:\n\n• تتبع كمية المواد التي أعدت تدويرها\n• كسب نقاط قابلة للاستبدال بجوائز وخصومات\n• الوصول إلى خريطة نقاط التجميع الذكية\n• مشاركة إنجازاتك على وسائل التواصل الاجتماعي\n• المشاركة في تحديات إعادة التدوير المجتمعية\n\nالتسجيل سريع وسهل ولا يستغرق أكثر من دقيقتين!"
+      ]
     },
     "en": {
-      "questions": ["How to register on the website?", "register", "website", "create account", "how do I sign up?"],
-      "responses": ["You can register on the website by clicking the 'Register' button on the homepage and filling out the form with required information such as name, email, and password."]
+      "questions": [
+        "How to register on the website?",
+        "register",
+        "website",
+        "create account",
+        "how do I sign up?",
+        "registration process for Eco-Points",
+        "what are the steps to create an account?",
+        "is registration free?",
+        "what information is needed to register?",
+        "how do I become an Eco-Points member?"
+      ],
+      "responses": [
+        "To register for Eco-Points:\n\n1. Click 'Register' on the homepage\n2. Choose account type (individual/family/business)\n3. Fill in basic information (name, email, password)\n4. Select verification method (email or phone)\n5. Read and accept privacy terms\n6. Click 'Create Account'\n\nAfter registration, you can start earning points through recycling immediately!",
+        "Benefits of registering with Eco-Points:\n\n• Track your recycling quantities\n• Earn points redeemable for rewards and discounts\n• Access to smart collection point maps\n• Share your achievements on social media\n• Participate in community recycling challenges\n\nRegistration is quick and easy, taking less than two minutes!"
+      ]
     }
   },
   "report_website_issue": {
     "ar": {
-      "questions": ["كيف يمكنني الإبلاغ عن مشكلة في الموقع؟", "إبلاغ", "مشكلة", "دعم فني", "اتصال"],
-      "responses": ["يمكنك الإبلاغ عن أي مشكلة تواجهها من خلال صفحة 'اتصل بنا' في الموقع، حيث يمكنك ملء نموذج الإبلاغ أو الاتصال بفريق الدعم الفني مباشرة."]
+      "questions": [
+        "كيف يمكنني الإبلاغ عن مشكلة في الموقع؟",
+        "إبلاغ",
+        "مشكلة",
+        "دعم فني",
+        "اتصال",
+        "واجهت خطأ في النظام",
+        "كيف أبلغ عن خلل تقني؟",
+        "أين أجد الدعم الفني؟",
+        "الموقع لا يعمل بشكل صحيح",
+        "كيف أتواصل مع المسؤولين عن الموقع؟"
+      ],
+      "responses": [
+        "لإبلاغنا عن أي مشكلة تواجهها:\n\n1. انتقل إلى صفحة 'اتصل بنا' في القائمة الرئيسية\n2. اختر نوع المشكلة (تقنية، محتوى، أمان، أخرى)\n3. اشرح المشكلة بالتفصيل مع ذكر:\n   - الصفحة التي حدثت فيها المشكلة\n   - الخطوات التي قمت بها قبل ظهور المشكلة\n   - لقطة شاشة إن أمكن\n4. اضغط على 'إرسال'\n\nسيقوم فريق الدعم لدينا بالرد عليك خلال 24 ساعة عمل.",
+        "خيارات أخرى للتواصل:\n\n• البريد الإلكتروني: support@eco-points.com\n• الهاتف: 800-123-4567 (من الأحد إلى الخميس، 8 صباحاً إلى 5 مساءً)\n• الدردشة الحية: متوفرة خلال ساعات العمل الرسمية\n• وسائل التواصل الاجتماعي: @EcoPointsSupport\n\nنعتذر عن أي إزعاج ونسعى لحل أي مشكلة تواجهك بأسرع وقت ممكن."
+      ]
     },
     "en": {
-      "questions": ["How can I report an issue on the website?", "report", "issue", "technical support", "contact"],
-      "responses": ["You can report any issue you encounter through the 'Contact Us' page on the website, where you can fill out the reporting form or contact the technical support team directly."]
+      "questions": [
+        "How can I report an issue on the website?",
+        "report",
+        "issue",
+        "technical support",
+        "contact",
+        "I encountered a system error",
+        "how to report a technical glitch?",
+        "where can I find tech support?",
+        "website isn't working properly",
+        "how to contact site administrators?"
+      ],
+      "responses": [
+        "To report any issues you encounter:\n\n1. Go to the 'Contact Us' page in the main menu\n2. Select issue type (technical, content, security, other)\n3. Explain the problem in detail including:\n   - Page where the issue occurred\n   - Steps you took before the problem appeared\n   - Screenshot if possible\n4. Click 'Submit'\n\nOur support team will respond within 24 business hours.",
+        "Other contact options:\n\n• Email: support@eco-points.com\n• Phone: 800-123-4567 (Sunday to Thursday, 8AM to 5PM)\n• Live chat: Available during official working hours\n• Social media: @EcoPointsSupport\n\nWe apologize for any inconvenience and aim to resolve any issues you face as quickly as possible."
+      ]
     }
   },
   "privacy_policy": {
     "ar": {
-      "questions": ["ما هي سياسة الخصوصية للموقع؟", "خصوصية", "سياسة", "بيانات", "معلومات"],
-      "responses": ["سياسة الخصوصية للموقع توضح كيفية جمع واستخدام وحماية المعلومات الشخصية للمستخدمين. يمكنك الاطلاع على التفاصيل الكاملة في قسم 'سياسة الخصوصية' في أسفل الصفحة."]
+      "questions": [
+        "ما هي سياسة الخصوصية للموقع؟",
+        "خصوصية",
+        "سياسة",
+        "بيانات",
+        "معلومات",
+        "كيف تحمون بياناتي؟",
+        "ما المعلومات التي تجمعونها؟",
+        "هل تبيعون بيانات المستخدمين؟",
+        "كيف يمكنني حذف بياناتي؟",
+        "ما هي حقوقي في حماية البيانات؟"
+      ],
+      "responses": [
+        "سياسة الخصوصية في Eco-Points توضح:\n\n• أنواع المعلومات التي نجمعها (معلومات الحساب، سجل إعادة التدوير، الموقع عند الحاجة)\n• كيفية استخدامنا لهذه المعلومات (تحسين الخدمة، التواصل، الإحصائيات)\n• مع من نشارك المعلومات (لا نبيع البيانات لأطراف ثالثة إلا للشركاء المعتمدين فقط)\n• حقوقك في الوصول إلى بياناتك أو تصحيحها أو حذفها\n• إجراءات الأمان التي نتبعها لحماية معلوماتك\n\nيمكنك الاطلاع على السياسة الكاملة من خلال الرابط في أسفل كل صفحة.",
+        "نحن في Eco-Points نأخذ خصوصيتك على محمل الجد:\n\n• جميع البيانات مشفرة باستخدام تقنيات الأمان الحديثة\n• يمكنك اختيار ما تريد مشاركته عبر إعدادات الخصوصية في حسابك\n• نوفر أدوات لمراجعة وتنزيل وحذف بياناتك عند الطلب\n• لدينا مسؤول حماية بيانات معين يمكنك التواصل معه مباشرة\n\nنؤمن بالشفافية الكاملة فيما يتعلق بكيفية تعاملنا مع معلومات مستخدمينا."
+      ]
     },
     "en": {
-      "questions": ["What is the website's privacy policy?", "privacy", "policy", "data", "information"],
-      "responses": ["The website's privacy policy explains how personal user information is collected, used, and protected. You can view the full details in the 'Privacy Policy' section at the bottom of the page."]
+      "questions": [
+        "What is the website's privacy policy?",
+        "privacy",
+        "policy",
+        "data",
+        "information",
+        "how do you protect my data?",
+        "what information do you collect?",
+        "do you sell user data?",
+        "how can I delete my data?",
+        "what are my data protection rights?"
+      ],
+      "responses": [
+        "Eco-Points privacy policy explains:\n\n• Types of information we collect (account info, recycling history, location when needed)\n• How we use this information (service improvement, communication, statistics)\n• Who we share information with (we don't sell data except to approved partners only)\n• Your rights to access, correct or delete your data\n• Security measures we take to protect your information\n\nYou can view the full policy via the link at the bottom of every page.",
+        "At Eco-Points we take your privacy seriously:\n\n• All data is encrypted using modern security techniques\n• You can choose what to share through privacy settings in your account\n• We provide tools to review, download and delete your data upon request\n• We have a designated data protection officer you can contact directly\n\nWe believe in full transparency about how we handle our users' information."
+      ]
     }
   },
   "change_password": {
     "ar": {
-      "questions": ["كيف يمكنني تغيير كلمة المرور الخاصة بي؟", "تغيير كلمة المرور", "استعادة كلمة المرور", "نسيت كلمة المرور"],
-      "responses": ["يمكنك تغيير كلمة المرور من خلال الدخول إلى إعدادات الحساب الخاص بك واختيار خيار 'تغيير كلمة المرور'. إذا نسيت كلمة المرور، يمكنك استخدام خيار 'نسيت كلمة المرور' لاستعادتها."]
+      "questions": [
+        "كيف يمكنني تغيير كلمة المرور الخاصة بي؟",
+        "تغيير كلمة المرور",
+        "استعادة كلمة المرور",
+        "نسيت كلمة المرور",
+        "كيف أعيد تعيين كلمة المرور؟",
+        "لقد نسيت كلمة السر",
+        "أريد تحديث كلمة المرور",
+        "كيف أحدث بيانات تسجيل الدخول؟",
+        "مشكلة في الدخول إلى حسابي",
+        "كيف أحمي حسابي بكلمة مرور جديدة؟"
+      ],
+      "responses": [
+        "لتغيير كلمة المرور:\n\n1. سجل الدخول إلى حسابك\n2. انتقل إلى 'إعدادات الحساب'\n3. اختر 'الأمان'\n4. اضغط على 'تغيير كلمة المرور'\n5. أدخل كلمة المرور الحالية ثم الجديدة\n6. تأكيد كلمة المرور الجديدة\n7. حفظ التغييرات\n\nيجب أن تحتوي كلمة المرور الجديدة على 8 أحرف على الأقل وتشمل أحرف كبيرة وصغيرة وأرقام.",
+        "إذا نسيت كلمة المرور:\n\n1. اضغط على 'نسيت كلمة المرور' في صفحة تسجيل الدخول\n2. أدخل البريد الإلكتروني المسجل\n3. اتبع الرابط في الرسالة التي ستصل إلى بريدك\n4. أنشئ كلمة مرور جديدة\n5. سجل الدخول باستخدام كلمة المرور الجديدة\n\nلحماية حسابك، ننصح بعدم استخدام كلمات مرور مستخدمة في حسابات أخرى وتغييرها كل 3 أشهر."
+      ]
     },
     "en": {
-      "questions": ["How can I change my password?", "change password", "recover password", "forgot password"],
-      "responses": ["You can change your password by going to your account settings and selecting the 'Change Password' option. If you forgot your password, you can use the 'Forgot Password' option to recover it."]
+      "questions": [
+        "How can I change my password?",
+        "change password",
+        "recover password",
+        "forgot password",
+        "how to reset password?",
+        "I forgot my password",
+        "I want to update my password",
+        "how to update login credentials?",
+        "having trouble accessing my account",
+        "how to secure my account with new password?"
+      ],
+      "responses": [
+        "To change your password:\n\n1. Log in to your account\n2. Go to 'Account Settings'\n3. Select 'Security'\n4. Click 'Change Password'\n5. Enter current then new password\n6. Confirm new password\n7. Save changes\n\nNew password must be at least 8 characters including uppercase, lowercase and numbers.",
+        "If you forgot your password:\n\n1. Click 'Forgot Password' on login page\n2. Enter registered email\n3. Follow link in email you'll receive\n4. Create new password\n5. Log in with new password\n\nTo protect your account, we recommend not reusing passwords from other accounts and changing it every 3 months."
+      ]
     }
   },
   "add_shipping_address": {
     "ar": {
-      "questions": ["كيف يمكنني إضافة عنوان شحن جديد؟", "عنوان شحن", "إضافة عنوان", "تعديل عنوان"],
-      "responses": ["يمكنك إضافة عنوان شحن جديد من خلال الدخول إلى إعدادات الحساب واختيار خيار 'إضافة عنوان شحن'. يمكنك إدخال التفاصيل المطلوبة وحفظها."]
+      "questions": [
+        "كيف يمكنني إضافة عنوان شحن جديد؟",
+        "عنوان شحن",
+        "إضافة عنوان",
+        "تعديل عنوان",
+        "كيف أضيف عنوان للتوصيل؟",
+        "أريد تحديث معلومات الشحن",
+        "كيف أحدث عنواني؟",
+        "إدارة عناوين الشحن",
+        "عنواني الجديد",
+        "كيف أغير مكان استلام الجوائز؟"
+      ],
+      "responses": [
+        "لإضافة عنوان شحن جديد:\n\n1. انتقل إلى 'إعدادات الحساب'\n2. اختر 'عناوين الشحن'\n3. اضغط على 'إضافة عنوان جديد'\n4. املأ التفاصيل:\n   - اسم المستلم\n   - العنوان بالتفصيل\n   - المدينة والرمز البريدي\n   - رقم الهاتف\n   - نوع العنوان (منزل/عمل/أخرى)\n5. حفظ العنوان\n\nيمكنك إضافة حتى 5 عناوين مختلفة وتحديد أحدها كافتراضي.",
+        "عند إضافة عنوان شحن في Eco-Points:\n\n• نتحقق من صحة العنوان عبر خدمة الخرائط\n• يمكنك تحديد أوقات التوصيل المفضلة\n• نوفر خيارات لتتبع الشحنة عند إرسالها\n• يمكنك إضافة تعليمات خاصة للساعي\n• العناوين المحفوظة تبقى آمنة في نظامنا\n\nلضمان تسليم سريع، يرجى التأكد من دقة جميع التفاصيل المقدمة."
+      ]
     },
     "en": {
-      "questions": ["How can I add a new shipping address?", "shipping address", "add address", "edit address"],
-      "responses": ["You can add a new shipping address by going to your account settings and selecting the 'Add Shipping Address' option. You can enter the required details and save them."]
+      "questions": [
+        "How can I add a new shipping address?",
+        "shipping address",
+        "add address",
+        "edit address",
+        "how to add delivery address?",
+        "I want to update shipping info",
+        "how to update my address?",
+        "manage shipping addresses",
+        "my new address",
+        "how to change reward delivery location?"
+      ],
+      "responses": [
+        "To add a new shipping address:\n\n1. Go to 'Account Settings'\n2. Select 'Shipping Addresses'\n3. Click 'Add New Address'\n4. Fill details:\n   - Recipient name\n   - Full address\n   - City and postal code\n   - Phone number\n   - Address type (home/work/other)\n5. Save address\n\nYou can add up to 5 different addresses and set one as default.",
+        "When adding a shipping address in Eco-Points:\n\n• We validate addresses via mapping service\n• You can specify preferred delivery times\n• We provide shipment tracking options\n• You can add special instructions for courier\n• Saved addresses remain secure in our system\n\nFor fast delivery, please ensure all provided details are accurate."
+      ]
     }
   },
   "cancel_order": {
     "ar": {
-      "questions": ["كيف يمكنني إلغاء طلب قمت بعمله؟", "إلغاء طلب", "طلب", "الغاء"],
-      "responses": ["يمكنك إلغاء طلبك من خلال الدخول إلى صفحة الطلبات في حسابك واختيار الطلب الذي ترغب في إلغائه. إذا كان الطلب لم يتم شحنه بعد، يمكنك الضغط على زر 'إلغاء الطلب'."]
+      "questions": [
+        "كيف يمكنني إلغاء طلب قمت بعمله؟",
+        "إلغاء طلب",
+        "طلب",
+        "الغاء",
+        "كيف أتراجع عن طلب الجوائز؟",
+        "أريد إلغاء طلبي",
+        "هل يمكن إلغاء الطلب بعد تقديمه؟",
+        "سياسة إلغاء الطلبات",
+        "ماذا لو غيرت رأيي بشأن الجائزة؟",
+        "كيف أتوقف عن استلام طلبي؟"
+      ],
+      "responses": [
+        "سياسة إلغاء الطلبات في Eco-Points:\n\n• يمكن إلغاء الطلب خلال 24 ساعة من تقديمه دون أي رسوم\n• بعد 24 ساعة، يمكن طلب الإلغاء ولكن قد يتم خصم 20% من قيمة النقاط\n• لا يمكن إلغاء الطلبات التي تم شحنها بالفعل\n\nلإلغاء طلب:\n1. انتقل إلى 'طلباتي'\n2. اختر الطلب المراد إلغاؤه\n3. اضغط على 'إلغاء الطلب'\n4. اذكر سبب الإلغاء (اختياري)\n5. تأكيد الإلغاء\n\nسيتم إعادة النقاط إلى حسابك خلال 3 أيام عمل.",
+        "إذا كنت ترغب في تغيير طلبك بدلاً من إلغائه:\n\n• يمكنك طلب استبدال الجائزة إذا لم يتم شحنها بعد\n• بعض الجوائز تسمح بتغيير المواصفات (مثل اللون/الحجم)\n• يمكنك التبرع بنقاطك لجهة خيرية بدلاً من الإلغاء\n• بعض الجوائز لها بدائل متاحة بنفس قيمة النقاط\n\nللاستفسار عن خيارات التغيير، يرجى الاتصال بفريق خدمة العملاء."
+      ]
     },
     "en": {
-      "questions": ["How can I cancel an order I placed?", "cancel order", "order", "cancellation"],
-      "responses": ["You can cancel your order by going to the orders page in your account and selecting the order you wish to cancel. If the order has not been shipped yet, you can click the 'Cancel Order' button."]
+      "questions": [
+        "How can I cancel an order I placed?",
+        "cancel order",
+        "order",
+        "cancellation",
+        "how to cancel a reward order?",
+        "I want to cancel my order",
+        "can order be cancelled after submission?",
+        "order cancellation policy",
+        "what if I change my mind about the reward?",
+        "how to stop receiving my order?"
+      ],
+      "responses": [
+        "Eco-Points order cancellation policy:\n\n• Orders can be cancelled within 24 hours of placement with no fees\n• After 24 hours, cancellation can be requested but 20% points may be deducted\n• Orders already shipped cannot be cancelled\n\nTo cancel an order:\n1. Go to 'My Orders'\n2. Select order to cancel\n3. Click 'Cancel Order'\n4. State reason (optional)\n5. Confirm cancellation\n\nPoints will be refunded to your account within 3 business days.",
+        "If you wish to modify rather than cancel your order:\n\n• You can request reward replacement if not yet shipped\n• Some rewards allow specification changes (like color/size)\n• You can donate your points to charity instead of cancelling\n• Some rewards have alternatives at same point value\n\nTo inquire about change options, please contact customer service."
+      ]
     }
   },
   "delete_account": {
     "ar": {
-      "questions": ["كيف يمكنني حذف حسابي؟", "حذف حساب", "إلغاء حساب", "إزالة حساب"],
-      "responses": ["لحذف حسابك، يمكنك الذهاب إلى إعدادات الحساب واختيار خيار 'حذف الحساب'. يرجى ملاحظة أن هذه العملية لا يمكن التراجع عنها."]
+      "questions": [
+        "كيف يمكنني حذف حسابي؟",
+        "حذف حساب",
+        "إلغاء حساب",
+        "إزالة حساب",
+        "كيف أغلق حسابي في Eco-Points؟",
+        "أريد حذف بياناتي نهائياً",
+        "إجراءات إغلاق الحساب",
+        "ماذا يحدث عند حذف الحساب؟",
+        "هل يمكن استعادة حساب محذوف؟",
+        "كيف أتوقف عن استخدام Eco-Points؟"
+      ],
+      "responses": [
+        "لحذف حسابك في Eco-Points:\n\n1. سجل الدخول إلى حسابك\n2. انتقل إلى 'إعدادات الحساب'\n3. اختر 'إغلاق الحساب'\n4. اقرأ المعلومات حول عواقب الحذف\n5. أدخل كلمة المرور للتأكيد\n6. اضغط على 'حذف الحساب نهائياً'\n\nملاحظات مهمة:\n• سيتم فقدان جميع النقاط غير المستخدمة\n• لن تتمكن من الوصول إلى سجل إعادة التدوير\n• قد نحتفظ ببعض البيانات لأغراض إحصائية\n• العملية لا يمكن التراجع عنها",
+        "قبل حذف حسابك، قد ترغب في:\n\n• استبدال النقاط المتبقية بجوائز\n• تنزيل نسخة من سجل إعادة التدوير الخاص بك\n• الاطلاع على بدائل مثل تعطيل الحساب مؤقتاً\n• الاتصال بنا إذا كان لديك أي استفسارات أو شكاوى\n\nإذا كنت تواجه مشكلات نأمل أن تمنحنا فرصة لحلها قبل اتخاذ قرار الحذف."
+      ]
     },
     "en": {
-      "questions": ["How can I delete my account?", "delete account", "cancel account", "remove account"],
-      "responses": ["To delete your account, you can go to account settings and select the 'Delete Account' option. Please note that this action is irreversible."]
+      "questions": [
+        "How can I delete my account?",
+        "delete account",
+        "cancel account",
+        "remove account",
+        "how to close my Eco-Points account?",
+        "I want to permanently delete my data",
+        "account closure procedure",
+        "what happens when account is deleted?",
+        "can a deleted account be recovered?",
+        "how to stop using Eco-Points?"
+      ],
+      "responses": [
+        "To delete your Eco-Points account:\n\n1. Log in to your account\n2. Go to 'Account Settings'\n3. Select 'Close Account'\n4. Read information about deletion consequences\n5. Enter password for confirmation\n6. Click 'Permanently Delete Account'\n\nImportant notes:\n• All unused points will be lost\n• You'll lose access to recycling history\n• We may retain some data for statistical purposes\n• The process is irreversible",
+        "Before deleting your account, you might want to:\n\n• Redeem remaining points for rewards\n• Download a copy of your recycling history\n• Consider alternatives like temporarily deactivating account\n• Contact us if you have any questions or complaints\n\nIf facing issues, we hope you'll give us chance to resolve them before deletion."
+      ]
     }
   },
   "update_account_info": {
     "ar": {
-      "questions": ["كيف يمكنني تحديث معلومات حسابي؟", "تحديث معلومات", "تعديل حساب", "معلومات شخصية"],
-      "responses": ["يمكنك تحديث معلومات حسابك من خلال الدخول إلى إعدادات الحساب واختيار خيار 'تعديل المعلومات'. يمكنك تغيير الاسم، البريد الإلكتروني، أو أي تفاصيل أخرى."]
+      "questions": [
+        "كيف يمكنني تحديث معلومات حسابي؟",
+        "تحديث معلومات",
+        "تعديل حساب",
+        "معلومات شخصية",
+        "كيف أغير بياناتي في Eco-Points؟",
+        "أريد تحديث بريدي الإلكتروني",
+        "تغيير اسمي في النظام",
+        "كيف أحدث معلومات الاتصال بي؟",
+        "تصحيح معلومات الحساب",
+        "إدارة بياناتي الشخصية"
+      ],
+      "responses": [
+        "لتحديث معلومات حسابك:\n\n1. سجل الدخول إلى حسابك\n2. انتقل إلى 'إعدادات الحساب'\n3. اختر 'المعلومات الشخصية'\n4. عدل الحقول المطلوبة:\n   - الاسم\n   - البريد الإلكتروني\n   - رقم الهاتف\n   - صورة الملف الشخصي\n   - تفضيلات اللغة\n5. اضغط على 'حفظ التغييرات'\n\nلحماية حسابك، قد نطلب التحقق عند تغيير معلومات مهمة مثل البريد الإلكتروني.",
+        "عند تحديث معلوماتك:\n\n• تأكد من صحة البيانات المقدمة\n• بعض التغييرات قد تتطلب التحقق عبر البريد الإلكتروني أو الرسائل النصية\n• يمكنك إضافة معلومات إضافية مثل تاريخ الميلاد للاستفادة من العروض الخاصة\n• نوصي بتحديث معلومات الاتصال بانتظام\n• يمكنك طلب نسخة من جميع بياناتك المخزنة في أي وقت\n\nلأي استفسارات حول تحديث البيانات، فريق الدعم جاهز للمساعدة."
+      ]
     },
     "en": {
-      "questions": ["How can I update my account information?", "update info", "edit account", "personal information"],
-      "responses": ["You can update your account information by going to account settings and selecting the 'Edit Information' option. You can change your name, email, or any other details."]
+      "questions": [
+        "How can I update my account information?",
+        "update info",
+        "edit account",
+        "personal information",
+        "how to change my Eco-Points data?",
+        "I want to update my email",
+        "change my name in the system",
+        "how to update my contact info?",
+        "correct account information",
+        "manage my personal data"
+      ],
+      "responses": [
+        "To update your account information:\n\n1. Log in to your account\n2. Go to 'Account Settings'\n3. Select 'Personal Information'\n4. Edit required fields:\n   - Name\n   - Email\n   - Phone number\n   - Profile picture\n   - Language preferences\n5. Click 'Save Changes'\n\nTo protect your account, we may require verification when changing important details like email.",
+        "When updating your information:\n\n• Ensure provided data is accurate\n• Some changes may require email or SMS verification\n• You can add additional info like birthdate for special offers\n• We recommend updating contact info regularly\n• You can request a copy of all stored data anytime\n\nFor any data update inquiries, our support team is ready to help."
+      ]
     }
   },
   "contact_support": {
     "ar": {
-      "questions": ["كيف يمكنني التواصل مع فريق الدعم؟", "دعم", "اتصال", "فريق الدعم", "مساعدة"],
-      "responses": ["يمكنك التواصل مع فريق الدعم من خلال صفحة 'اتصل بنا' في الموقع، حيث يمكنك ملء نموذج الاتصال أو استخدام معلومات الاتصال المتاحة."]
+      "questions": [
+        "كيف يمكنني التواصل مع فريق الدعم؟",
+        "دعم",
+        "اتصال",
+        "فريق الدعم",
+        "مساعدة",
+        "أحتاج إلى مساعدة فورية",
+        "كيف أتحدث مع ممثل خدمة العملاء؟",
+        "أوقات عمل خدمة العملاء",
+        "قنوات التواصل مع Eco-Points",
+        "كيف أقدم شكوى؟",
+        "أين أجد المساعدة؟"
+      ],
+      "responses": [
+        "خيارات التواصل مع فريق الدعم:\n\n• الدردشة الحية: متوفرة في التطبيق والموقع من 8 صباحاً إلى 8 مساءً\n• البريد الإلكتروني: support@eco-points.com (الرد خلال 24 ساعة)\n• الهاتف: 800-123-4567 (من الأحد إلى الخميس)\n• وسائل التواصل الاجتماعي: @EcoPointsSupport\n• مركز المساعدة: يحتوي على إجابات للأسئلة الشائعة\n\nلضمان خدمة أسرع، يرجى تقديم:\n- رقم حسابك (إن وجد)\n- وصف واضح للمشكلة\n- لقطات شاشة إن أمكن",
+        "فريق دعم Eco-Points متاح لمساعدتك في:\n\n• مشكلات الحساب والتسجيل\n• استفسارات حول إعادة التدوير والنقاط\n• مشكلات تقنية في التطبيق أو الموقع\n• استفسارات حول الجوائز والشحن\n• تقديم اقتراحات أو شكاوى\n\nنهدف للرد على جميع الاستفسارات خلال 24 ساعة عمل. للحالات العاجلة، نوصي باستخدام الدردشة الحية أو الهاتف."
+      ]
     },
     "en": {
-      "questions": ["How can I contact support?", "support", "contact", "support team", "help"],
-      "responses": ["You can contact the support team through the 'Contact Us' page on the website, where you can fill out the contact form or use the available contact information."]
+      "questions": [
+        "How can I contact support?",
+        "support",
+        "contact",
+        "support team",
+        "help",
+        "I need immediate assistance",
+        "how to speak with customer service representative?",
+        "customer service hours",
+        "Eco-Points contact channels",
+        "how to file a complaint?",
+        "where can I find help?"
+      ],
+      "responses": [
+        "Support contact options:\n\n• Live chat: Available in app and website from 8AM to 8PM\n• Email: support@eco-points.com (response within 24hrs)\n• Phone: 800-123-4567 (Sunday to Thursday)\n• Social media: @EcoPointsSupport\n• Help center: Contains FAQ answers\n\nFor faster service, please provide:\n- Your account number (if any)\n- Clear problem description\n- Screenshots if possible",
+        "Eco-Points support team can assist with:\n\n• Account and registration issues\n• Recycling and points inquiries\n• App or website technical problems\n• Rewards and shipping questions\n• Suggestions or complaints\n\nWe aim to respond to all inquiries within 24 business hours. For urgent matters, we recommend live chat or phone."
+      ]
     }
   },
   "payment_methods": {
     "ar": {
-      "questions": ["ما هي طرق الدفع المتاحة؟", "طرق الدفع", "دفع", "وسائل الدفع"],
-      "responses": ["الموقع يقبل عدة طرق للدفع مثل بطاقات الائتمان، PayPal، وبعض وسائل الدفع المحلية. يمكنك اختيار الطريقة المفضلة لك أثناء عملية الشراء."]
+      "questions": [
+        "ما هي طرق الدفع المتاحة؟",
+        "طرق الدفع",
+        "دفع",
+        "وسائل الدفع",
+        "كيف أدفع مقابل الخدمات؟",
+        "هل تقبلون الدفع عند الاستلام؟",
+        "ما هي خيارات الدفع لديكم؟",
+        "هل يمكنني الدفع باستخدام النقاط؟",
+        "الدفع الإلكتروني",
+        "البطاقات المقبولة"
+      ],
+      "responses": [
+        "طرق الدفع المتاحة في Eco-Points:\n\n1. الدفع بواسطة النقاط: يمكنك استخدام نقاطك لشراء منتجات صديقة للبيئة\n2. البطاقات الائتمانية والخصم: فيزا، ماستركارد، أمريكان إكسبريس\n3. PayPal: للدفع الإلكتروني الآمن\n4. المحافظ الإلكترونية: مثل STC Pay وApple Pay\n5. التحويل البنكي: لبعض الخدمات المميزة\n\nمعظم المعاملات في نظامنا تتم باستخدام النقاط التي تكسبها من إعادة التدوير!",
+        "معلومات مهمة عن الدفع:\n\n• جميع المعاملات مؤمنة بتقنية التشفير SSL\n• لا نخزن تفاصيل بطاقات الدفع على خوادمنا\n• يمكنك ربط أكثر من طريقة دفع بحسابك\n• بعض الجوائز تتطلب دفع رسوم شحن نقداً\n• نوفر خيار الدفع الجزئي (جزء بالنقاط وجزء نقداً)\n\nلأي استفسارات حول الدفع، فريق الدعم جاهز للمساعدة."
+      ]
     },
     "en": {
-      "questions": ["What payment methods are available?", "payment methods", "payment", "means of payment"],
-      "responses": ["The website accepts several payment methods such as credit cards, PayPal, and some local payment methods. You can choose your preferred method during the purchase process."]
+      "questions": [
+        "What payment methods are available?",
+        "payment methods",
+        "payment",
+        "means of payment",
+        "how to pay for services?",
+        "do you accept cash on delivery?",
+        "what payment options do you offer?",
+        "can I pay using points?",
+        "electronic payment",
+        "accepted cards"
+      ],
+      "responses": [
+        "Available payment methods at Eco-Points:\n\n1. Points payment: Use your earned points for eco-friendly products\n2. Credit/Debit cards: Visa, Mastercard, American Express\n3. PayPal: For secure online payments\n4. E-wallets: Like STC Pay and Apple Pay\n5. Bank transfer: For some premium services\n\nMost transactions in our system are done using points earned from recycling!",
+        "Important payment information:\n\n• All transactions secured with SSL encryption\n• We don't store card details on our servers\n• You can link multiple payment methods to your account\n• Some rewards require cash payment for shipping\n• We offer partial payment option (part points, part cash)\n\nFor any payment inquiries, our support team is ready to help."
+      ]
     }
   },
   "refund_policy": {
     "ar": {
-      "questions": ["كيف يمكنني استرداد المبالغ المدفوعة؟", "استرداد", "مبالغ", "إرجاع", "سياسة الاسترداد"],
-      "responses": ["يمكنك طلب استرداد المبالغ المدفوعة من خلال صفحة 'سياسة الاسترداد' في الموقع. يجب عليك اتباع الخطوات المحددة لتقديم طلب الاسترداد."]
+      "questions": [
+        "كيف يمكنني استرداد المبالغ المدفوعة؟",
+        "استرداد",
+        "مبالغ",
+        "إرجاع",
+        "سياسة الاسترداد",
+        "كيف أحصل على استرجاع نقودي؟",
+        "شروط إعادة المبلغ",
+        "مدة استرداد النقود",
+        "إجراءات الاسترجاع",
+        "هل يمكن استرجاع النقاط؟"
+      ],
+      "responses": [
+        "سياسة الاسترداد في Eco-Points:\n\n1. المبالغ النقدية: يمكن استردادها خلال 14 يوماً من الدفع إذا لم يتم شحن الطلب\n2. النقاط: تعاد إلى حسابك عند إلغاء الطلب أو استرجاع المنتج\n3. المنتجات المعيبة: نستبدلها أو نعيد نقاطها كاملة\n4. المنتجات غير المرغوب فيها: يمكن إرجاعها خلال 7 أيام مع خصم 20% من النقاط\n\nلطلب استرداد:\n1. انتقل إلى 'طلباتي'\n2. اختر الطلب المراد استرداده\n3. اتبع التعليمات\n4. سيتم إعلامك بقرار الاسترداد خلال 5 أيام عمل",
+        "ملاحظات مهمة عن الاسترداد:\n\n• يجب أن تكون المنتجات المرتجعة بحالة جيدة\n• تكاليف الشحن للاسترداد يتحملها العميل إلا في حالات الخطأ من جانبنا\n• قد تستغرق عملية استرداد المبالغ النقدية حتى 10 أيام عمل\n• النقاط المستردة تعود بنفس القيمة التي تم استبدالها بها\n• بعض العنوانات مثل المنتجات الشخصية لا يمكن استردادها\n\nلأي استفسار، يرجى الاتصال بفريق خدمة العملاء قبل طلب الاسترداد."
+      ]
     },
     "en": {
-      "questions": ["How can I get a refund?", "refund", "amounts", "return", "refund policy"],
-      "responses": ["You can request a refund through the 'Refund Policy' page on the website. You must follow the specified steps to submit a refund request."]
+      "questions": [
+        "How can I get a refund?",
+        "refund",
+        "amounts",
+        "return",
+        "refund policy",
+        "how do I get my money back?",
+        "refund terms",
+        "refund processing time",
+        "return procedure",
+        "can points be refunded?"
+      ],
+      "responses": [
+        "Eco-Points refund policy:\n\n1. Cash payments: Refundable within 14 days if order not shipped\n2. Points: Returned to account when order cancelled or product returned\n3. Defective products: We replace or refund full points\n4. Unwanted products: Can be returned within 7 days with 20% points deduction\n\nTo request refund:\n1. Go to 'My Orders'\n2. Select order to refund\n3. Follow instructions\n4. You'll be notified of refund decision within 5 business days",
+        "Important refund notes:\n\n• Returned products must be in good condition\n• Return shipping costs are customer's responsibility unless our error\n• Cash refunds may take up to 10 business days\n• Refunded points return at same value they were redeemed\n• Some items like personal products are non-refundable\n\nFor inquiries, please contact customer service before requesting refund."
+      ]
     }
   },
   "terms_of_use": {
     "ar": {
-      "questions": ["ما هي شروط الاستخدام للموقع؟", "شروط الاستخدام", "اتفاقية", "استخدام الموقع"],
-      "responses": ["شروط الاستخدام توضح القواعد والسياسات التي يجب على المستخدمين اتباعها عند استخدام الموقع. يمكنك الاطلاع على الشروط الكاملة في قسم 'شروط الاستخدام' في أسفل الصفحة."]
+      "questions": [
+        "ما هي شروط الاستخدام للموقع؟",
+        "شروط الاستخدام",
+        "اتفاقية",
+        "استخدام الموقع",
+        "القواعد والشروط",
+        "ما هي التزاماتي كمستخدم؟",
+        "ما الذي لا يسمح لي بعمله في الموقع؟",
+        "حقوق ومسؤوليات المستخدمين",
+        "القيود المفروضة على الاستخدام",
+        "الشروط القانونية لـ Eco-Points"
+      ],
+      "responses": [
+        "شروط استخدام Eco-Points تشمل:\n\n1. الالتزام بقوانين إعادة التدوير المحلية\n2. عدم استخدام النظام لغير الأغراض المخصصة له\n3. المسؤولية عن الحفاظ على أمان الحساب\n4. الموافقة على عدم إعادة بيع النقاط أو الجوائز\n5. احترام حقوق الملكية الفكرية للموقع\n6. الالتزام بالسلوك الأخلاقي في التفاعلات المجتمعية\n\nيمكنك الاطلاع على الشروط الكاملة من خلال الرابط في أسفل الموقع. أي انتهاك للشروط قد يؤدي إلى تعليق الحساب.",
+        "كمستخدم في Eco-Points، أنت توافق على:\n\n• تقديم معلومات دقيقة وصحيحة\n• استخدام النظام شخصياً وعدم مشاركة الحساب\n• عدم استخدام أي وسائل غير مشروعة لكسب النقاط\n• تحمل المسؤولية عن جميع الأنشطة التي تتم عبر حسابك\n• احترام خصوصية المستخدمين الآخرين\n\nنحتفظ بالحق في تحديث الشروط وسنعلمك بأي تغييرات جوهرية."
+      ]
     },
     "en": {
-      "questions": ["What are the terms of use for the website?", "terms of use", "agreement", "website usage"],
-      "responses": ["The terms of use outline the rules and policies that users must follow when using the website. You can view the full terms in the 'Terms of Use' section at the bottom of the page."]
+      "questions": [
+        "What are the terms of use for the website?",
+        "terms of use",
+        "agreement",
+        "website usage",
+        "rules and conditions",
+        "what are my obligations as user?",
+        "what am I not allowed to do on the site?",
+        "user rights and responsibilities",
+        "usage restrictions",
+        "Eco-Points legal terms"
+      ],
+      "responses": [
+        "Eco-Points terms of use include:\n\n1. Compliance with local recycling laws\n2. Not using system for unintended purposes\n3. Responsibility for account security\n4. Agreement not to resell points or rewards\n5. Respect for site intellectual property rights\n6. Commitment to ethical behavior in community interactions\n\nYou can view full terms via link at site bottom. Any violations may lead to account suspension.",
+        "As Eco-Points user, you agree to:\n\n• Provide accurate information\n• Use system personally and not share account\n• Not use any unlawful means to earn points\n• Take responsibility for all activities under your account\n• Respect other users' privacy\n\nWe reserve right to update terms and will notify you of any material changes."
+      ]
     }
   },
   "shipping_info": {
     "ar": {
-      "questions": ["ما هي معلومات الشحن؟", "شحن", "معلومات الشحن", "توصيل"],
-      "responses": ["معلومات الشحن تشمل تفاصيل عن كيفية توصيل المنتجات، مدة التوصيل، وتكاليف الشحن. يمكنك الاطلاع على التفاصيل في صفحة 'معلومات الشحن'."]
+      "questions": [
+        "ما هي معلومات الشحن؟",
+        "شحن",
+        "معلومات الشحن",
+        "توصيل",
+        "كم تستغرق مدة التوصيل؟",
+        "تكاليف الشحن",
+        "سياسة الشحن والتوصيل",
+        "مناطق التوصيل",
+        "تتبع الشحنة",
+        "متى سيصل طلبي؟"
+      ],
+      "responses": [
+        "معلومات الشحن في Eco-Points:\n\n• مدة التوصيل: 3-5 أيام عمل للمدن الرئيسية، 5-7 أيام للمناطق الأخرى\n• تكلفة الشحن: تختلف حسب حجم ووزن الطلب:\n   - أوامر النقاط الصغيرة: مجاناً\n   - الطلبات الكبيرة: 20-50 ريال\n• مناطق التوصيل: جميع أنحاء المملكة\n• خيارات التوصيل:\n   - التوصيل القياسي\n   - التوصيل السريع (بمقابل إضافي)\n   - الاستلام من نقاط محددة\n\nيمكنك تتبع حالة شحنتك من خلال صفحة 'طلباتي' بعد شحنها.",
+        "لضمان شحن سلس:\n\n• نستخدم مواد تغليف صديقة للبيئة\n• معظم الشحنات تتم عبر شركات محلية موثوقة\n• يمكنك تحديد تفضيلات موعد التوصيل\n• نوفر تأميناً على الشحنات ذات القيمة العالية\n• في حالة تأخر الشحنة، يمكنك الاتصال بفريق الدعم\n\nيرجى التأكد من صحة عنوان الشحن قبل تأكيد الطلب لتجنب أي تأخير."
+      ]
     },
     "en": {
-      "questions": ["What is the shipping information?", "shipping", "shipping info", "delivery"],
-      "responses": ["Shipping information includes details about how products are delivered, delivery times, and shipping costs. You can view the details on the 'Shipping Information' page."]
+      "questions": [
+        "What is the shipping information?",
+        "shipping",
+        "shipping info",
+        "delivery",
+        "how long does delivery take?",
+        "shipping costs",
+        "shipping and delivery policy",
+        "delivery areas",
+        "track shipment",
+        "when will my order arrive?"
+      ],
+      "responses": [
+        "Eco-Points shipping information:\n\n• Delivery time: 3-5 business days for major cities, 5-7 days for other areas\n• Shipping costs: Vary by order size/weight:\n   - Small point orders: Free\n   - Large orders: 20-50 SAR\n• Delivery areas: Nationwide coverage\n• Shipping options:\n   - Standard delivery\n   - Express delivery (additional fee)\n   - Pickup from designated points\n\nYou can track your shipment status via 'My Orders' page after shipping.",
+        "For smooth shipping:\n\n• We use eco-friendly packaging materials\n• Most shipments via trusted local carriers\n• You can specify delivery time preferences\n• We provide insurance for high-value shipments\n• If shipment is delayed, you can contact support\n\nPlease ensure shipping address is correct before order confirmation to avoid delays."
+      ]
     }
   },
   "order_tracking": {
     "ar": {
-      "questions": ["كيف يمكنني تتبع طلباتي؟", "تتبع الطلب", "طلباتي", "متى يصل الطلب"],
-      "responses": ["يمكنك تتبع طلباتك من خلال الدخول إلى صفحة 'طلباتي' في حسابك. ستجد هناك معلومات حول حالة الطلب ورقم التتبع إذا كان متاحاً."]
+      "questions": [
+        "كيف يمكنني تتبع طلباتي؟",
+        "تتبع الطلب",
+        "طلباتي",
+        "متى يصل الطلب",
+        "حالة الطلب",
+        "رقم تتبع الشحنة",
+        "أين طلبي الآن؟",
+        "خريطة تتبع الشحن",
+        "تأخر وصول الطلب",
+        "تحديثات حالة الشحن"
+      ],
+      "responses": [
+        "لتتبع طلباتك في Eco-Points:\n\n1. سجل الدخول إلى حسابك\n2. انتقل إلى 'طلباتي'\n3. اختر الطلب الذي تريد تتبعه\n4. اضغط على 'تتبع الشحنة'\n\nسترى:\n• حالة الطلب الحالية (قيد المعالجة، تم الشحن، خارج للتوصيل، تم التسليم)\n• رقم التتبع (إذا كان متاحاً)\n• التاريخ المتوقع للتسليم\n• خريطة توضح موقع الشحنة (لشحنات التوصيل السريع)\n\nيمكنك أيضاً إعداد إشعارات لتلقي تحديثات حالة الطلب عبر البريد الإلكتروني أو التطبيق.",
+        "إذا كان لديك رقم تتبع:\n\n1. انتقل إلى صفحة 'تتبع الشحنة' في الموقع\n2. أدخل رقم التتبع\n3. اضغط على 'تتبع'\n\nملاحظات:\n• قد تستغرق معلومات التتبع حتى 24 ساعة لتظهر بعد الشحن\n• بعض شركات الشحن توفر تحديثات أكثر تفصيلاً على مواقعها\n• إذا لم تتمكن من تتبع طلبك، يرجى الاتصال بفريق الدعم\n• نوصي بتسجيل الدخول إلى حسابك للحصول على أحدث تحديثات الطلب"
+      ]
     },
     "en": {
-      "questions": ["How can I track my orders?", "track order", "my orders", "when will my order arrive"],
-      "responses": ["You can track your orders by going to the 'My Orders' page in your account. There you will find information about the order status and tracking number if available."]
+      "questions": [
+        "How can I track my orders?",
+        "track order",
+        "my orders",
+        "when will my order arrive",
+        "order status",
+        "tracking number",
+        "where is my order now?",
+        "shipment tracking map",
+        "delayed order arrival",
+        "shipment status updates"
+      ],
+      "responses": [
+        "To track your Eco-Points orders:\n\n1. Log in to your account\n2. Go to 'My Orders'\n3. Select order you want to track\n4. Click 'Track Shipment'\n\nYou'll see:\n• Current order status (processing, shipped, out for delivery, delivered)\n• Tracking number (if available)\n• Estimated delivery date\n• Map showing shipment location (for express deliveries)\n\nYou can also set up notifications to receive order status updates via email or app.",
+        "If you have a tracking number:\n\n1. Go to 'Track Shipment' page on website\n2. Enter tracking number\n3. Click 'Track'\n\nNotes:\n• Tracking info may take up to 24 hours to appear after shipping\n• Some carriers provide more detailed updates on their sites\n• If unable to track order, please contact support team\n• We recommend logging into your account for latest order updates"
+      ]
     }
   }
 }
