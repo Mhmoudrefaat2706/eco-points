@@ -7,7 +7,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
       <button type="button" class="btn-close" (click)="activeModal.dismiss()"></button>
     </div>
     <div class="modal-body text-center">
-      <img [src]="imageUrl" class="img-fluid" alt="Enlarged view">
+      <img [src]="getImageUrl(imageUrl)" class="img-fluid" alt="Enlarged view">
     </div>
   `
 })
@@ -17,7 +17,7 @@ export class ImageModalComponent {
   constructor(public activeModal: NgbActiveModal) {}
 
   getImageUrl(image: string | undefined): string {
-  if (!image) return 'assets/images/placeholder.png'; // صورة افتراضية
-  return `http://localhost:8000/materials/${image}`;
-}
+    if (!image) return 'assets/images/placeholder.png';
+    return `http://localhost:8000/materials/${image}`;
+  }
 }

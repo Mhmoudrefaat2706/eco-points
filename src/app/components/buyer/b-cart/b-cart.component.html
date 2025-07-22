@@ -45,8 +45,7 @@
       } @else { @for (item of materails; track item.id) {
       <div class="cart-item">
         <div class="item-image">
-       <img [src]="getImageUrl(item.image)" [alt]="item.name" />
-
+          <img [src]="getImageUrl(item.image)" [alt]="item.name" />
         </div>
         <div class="item-details">
           <h3>{{ item.name }}</h3>
@@ -59,10 +58,11 @@
             class="quantity-btn"
             (click)="decrementQuantity(item)"
             [disabled]="item.quantity <= 1"
+            [class.disabled]="item.quantity <= 1"
           >
             <i class="fas fa-minus"></i>
           </button>
-          <span class="quantity">{{ item.quantity || 1 }}</span>
+          <span class="quantity">{{ item.quantity }}</span>
           <button class="quantity-btn" (click)="incrementQuantity(item)">
             <i class="fas fa-plus"></i>
           </button>
@@ -104,18 +104,17 @@
         <span>Total</span>
         <span>EGP {{ getTotal() | number : "1.2-2" }}</span>
       </div>
-      <!-- <div class="coupon-section">
-        <input type="text" placeholder="Enter coupon code" />
-        <button class="btn-apply">Apply</button>
-      </div> -->
-<button
-  class="btn-checkout"
-  (click)="proceedToCheckout()"
-  [disabled]="checkingOut || materails.length === 0">
-
-  <span *ngIf="checkingOut" class="spinner-border spinner-border-sm me-1"></span>
-  {{ checkingOut ? 'Processing...' : 'Proceed to Checkout' }}
-</button>
+      <button
+        class="btn-checkout"
+        (click)="proceedToCheckout()"
+        [disabled]="checkingOut || materails.length === 0"
+      >
+        <span
+          *ngIf="checkingOut"
+          class="spinner-border spinner-border-sm me-1"
+        ></span>
+        {{ checkingOut ? "Processing..." : "Proceed to Checkout" }}
+      </button>
       <a routerLink="/b-materials" class="continue-shopping">
         <i class="fas fa-arrow-left"></i> Continue Shopping
       </a>

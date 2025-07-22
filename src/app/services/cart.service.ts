@@ -16,7 +16,7 @@ export class CartService {
   private getHeaders(): HttpHeaders {
     const token = localStorage.getItem('token');
     const headersConfig: Record<string, string> = {
-      'Accept': 'application/json',
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     };
     if (token) {
@@ -26,7 +26,11 @@ export class CartService {
   }
 
   addToCart(material_id: number): Observable<any> {
-    return this.http.post(`${this.apiUrl}/add`, { material_id }, { headers: this.getHeaders() });
+    return this.http.post(
+      `${this.apiUrl}/add`,
+      { material_id },
+      { headers: this.getHeaders() }
+    );
   }
 
   viewCart(): Observable<any> {
@@ -34,11 +38,15 @@ export class CartService {
   }
 
   removeFromCart(id: number): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/remove/${id}`, { headers: this.getHeaders() });
+    return this.http.delete(`${this.apiUrl}/remove/${id}`, {
+      headers: this.getHeaders(),
+    });
   }
 
   clearCart(): Observable<any> {
-    return this.http.delete(`${this.apiUrl}/clear`, { headers: this.getHeaders() });
+    return this.http.delete(`${this.apiUrl}/clear`, {
+      headers: this.getHeaders(),
+    });
   }
 
   // Add this new method
@@ -51,17 +59,32 @@ export class CartService {
   }
 
   loadCartCount(): void {
+    // Instead of reloading the entire cart, just increment/decrement the count
+    // based on the current value
     this.viewCart().subscribe({
       next: (cartItems: any) => {
-        const total = cartItems.reduce((acc: number, item: any) => acc + (item.quantity || 1), 0);
+        const total = cartItems.reduce(
+          (acc: number, item: any) => acc + (item.quantity || 1),
+          0
+        );
         this.cartCountSubject.next(total);
       },
       error: (err: any) => {
         this.cartCountSubject.next(0);
-      }
+      },
     });
   }
-   checkout(): Observable<any> {
-    return this.http.post(`${this.apiUrl}/checkout`, {}, { headers: this.getHeaders() });
+
+  // Add a new method to update count without reloading the entire cart
+  updateCartCount(change: number): void {
+    const current = this.cartCountSubject.value;
+    this.cartCountSubject.next(current + change);
+  }
+  checkout(): Observable<any> {
+    return this.http.post(
+      `${this.apiUrl}/checkout`,
+      {},
+      { headers: this.getHeaders() }
+    );
   }
 }

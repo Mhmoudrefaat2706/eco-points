@@ -1,4 +1,3 @@
-// material-details-modal.component.ts
 import { CurrencyPipe, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
@@ -14,7 +13,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
     <div class="modal-body">
       <div class="row">
         <div class="col-md-4">
-          <img [src]="material?.image" class="img-fluid rounded mb-3" alt="{{ material?.name }}">
+          <img [src]="getImageUrl(material?.image_url)" class="img-fluid rounded mb-3" alt="{{ material?.name }}">
         </div>
         <div class="col-md-8">
           <div class="mb-3">
@@ -27,7 +26,7 @@ import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
           </div>
           <div class="mb-3">
             <h6 class="text-muted">Description</h6>
-            <p>{{ material?.desc }}</p>
+            <p>{{ material?.description }}</p>
           </div>
           <div class="mb-3" *ngIf="material?.id">
             <h6 class="text-muted">Material ID</h6>
@@ -67,4 +66,9 @@ export class MaterialDetailsModalComponent {
   @Input() material: any;
   
   constructor(public activeModal: NgbActiveModal) {}
+
+  getImageUrl(image: string | undefined): string {
+    if (!image) return 'assets/images/placeholder.png';
+    return `http://localhost:8000/materials/${image}`;
+  }
 }

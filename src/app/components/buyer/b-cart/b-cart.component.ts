@@ -20,7 +20,6 @@ import { CartService } from '../../../services/cart.service';
   styleUrls: ['./b-cart.component.css'],
 })
 export class BCartComponent implements OnInit {
-
   constructor(
     private cartService: CartService,
     private dialog: MatDialog,
@@ -65,11 +64,135 @@ export class BCartComponent implements OnInit {
     });
   }
 
+  // In b-cart.component.ts
+  incrementQuantity(item: any): void {
+    const newQuantity = (item.quantity || 1) + 1;
+    item.quantity = newQuantity; // Update immediately for better UX
+    this.calcPrice(); // Recalculate prices immediately
+
+    this.cartService.updateCartItem(item.id, newQuantity).subscribe({
+      next: () => {
+        this.showCustomSnackbar('Quantity increased', 'update');
+        this.cartService.updateCartCount(1); // Update count by +1 instead of reloading
+      },
+      error: (err: Error) => {
+        console.error('Error increasing quantity', err);
+        // Rollback if error occurs
+        item.quantity = Math.max(1, (item.quantity || 1) - 1);
+        this.calcPrice();
+      },
+    });
+  }
+
+  decrementQuantity(item: any): void {
+    if (item.quantity > 1) {
+      const newQuantity = item.quantity - 1;
+      item.quantity = newQuantity; // Update immediately for better UX
+      this.calcPrice(); // Recalculate prices immediately
+
+      this.cartService.updateCartItem(item.id, newQuantity).subscribe({
+        next: () => {
+          this.showCustomSnackbar('Quantity decreased', 'update');
+          this.cartService.updateCartCount(-1); // Update count by -1 instead of reloading
+        },
+        error: (err: Error) => {
+          console.error('Error decreasing quantity', err);
+          // Rollback if error occurs
+          item.quantity = newQuantity + 1;
+          this.calcPrice();
+        },
+      });
+    }
+  }
+
+  async removeFromCart(id: number) {
+    if (this.deletingItemId !== null) return;
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Remove Item',
+        message: 'Are you sure you want to remove this item from your cart?',
+        confirmText: 'Remove',
+        cancelText: 'Keep',
+      },
+    });
+
+    const result = await dialogRef.afterClosed().toPromise();
+    if (result) {
+      this.deletingItemId = id;
+      const item = this.materails.find((i) => i.id === id);
+      const quantityChange = -(item?.quantity || 1);
+
+      this.cartService.removeFromCart(id).subscribe({
+        next: () => {
+          this.materails = this.materails.filter((i) => i.id !== id);
+          this.calcPrice();
+          this.showCustomSnackbar('Item removed from cart', 'remove');
+          this.deletingItemId = null;
+          this.cartService.updateCartCount(quantityChange);
+        },
+        error: (err) => {
+          console.error('❌ Error removing item from cart', err);
+          this.deletingItemId = null;
+        },
+      });
+    }
+  }
+
+  async clearCart() {
+    if (this.clearingCart) return;
+
+    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
+      width: '400px',
+      data: {
+        title: 'Clear Cart',
+        message: 'Are you sure you want to clear your entire cart?',
+        confirmText: 'Clear All',
+        cancelText: 'Cancel',
+      },
+    });
+
+    const result = await dialogRef.afterClosed().toPromise();
+    if (result) {
+      this.clearingCart = true;
+      const totalQuantity = this.getTotalItems();
+
+      this.cartService.clearCart().subscribe({
+        next: () => {
+          this.materails = [];
+          this.calcPrice();
+          this.showCustomSnackbar('Cart cleared', 'clear');
+          this.clearingCart = false;
+          this.cartService.updateCartCount(-totalQuantity);
+        },
+        error: (err) => {
+          console.error(' Error clearing cart', err);
+          this.clearingCart = false;
+        },
+      });
+    }
+  }
+
+  // Enhance the calcPrice method to be more precise
   calcPrice() {
     this.subtotal = this.materails.reduce(
       (acc: number, item: any) => acc + item.price * (item.quantity || 1),
       0
     );
+    // Round to 2 decimal places to avoid floating point precision issues
+    this.subtotal = parseFloat(this.subtotal.toFixed(2));
+  }
+
+  // Update getTax and getTotal to be more precise
+  getTax(): number {
+    const tax = this.subtotal * this.taxRate;
+    return parseFloat(tax.toFixed(2));
+  }
+
+  getTotal(): number {
+    const total = this.subtotal + this.getTax() + this.shippingFee;
+    return parseFloat(total.toFixed(2));
   }
 
   getTotalItems(): number {
@@ -81,13 +204,6 @@ export class BCartComponent implements OnInit {
   getImageUrl(image: string | undefined): string {
     if (!image) return 'assets/images/placeholder.png';
     return `http://localhost:8000/materials/${image}`;
-  }
-  getTax(): number {
-    return this.subtotal * this.taxRate;
-  }
-
-  getTotal(): number {
-    return this.subtotal + this.getTax() + this.shippingFee;
   }
 
   private showCustomSnackbar(
@@ -121,107 +237,6 @@ export class BCartComponent implements OnInit {
     });
   }
 
-  // Update the incrementQuantity method
-  incrementQuantity(item: any): void {
-    const newQuantity = (item.quantity || 1) + 1;
-    this.cartService.updateCartItem(item.id, newQuantity).subscribe({
-      next: () => {
-        item.quantity = newQuantity;
-        this.calcPrice();
-        this.showCustomSnackbar('Quantity increased', 'update');
-        this.cartService.loadCartCount();
-      },
-      error: (err: Error) => {
-        console.error('Error increasing quantity', err);
-      },
-    });
-  }
-
-  // Update the decrementQuantity method
-  decrementQuantity(item: any): void {
-    if (item.quantity > 1) {
-      const newQuantity = item.quantity - 1;
-      this.cartService.updateCartItem(item.id, newQuantity).subscribe({
-        next: () => {
-          item.quantity = newQuantity;
-          this.calcPrice();
-          this.showCustomSnackbar('Quantity decreased', 'update');
-          this.cartService.loadCartCount();
-        },
-        error: (err: Error) => {
-          console.error('Error decreasing quantity', err);
-        },
-      });
-    }
-  }
-
-  // Update the removeFromCart method
-  async removeFromCart(id: number) {
-    if (this.deletingItemId !== null) return;
-
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '400px',
-      data: {
-        title: 'Remove Item',
-        message: 'Are you sure you want to remove this item from your cart?',
-        confirmText: 'Remove',
-        cancelText: 'Keep',
-      },
-    });
-
-    const result = await dialogRef.afterClosed().toPromise();
-    if (result) {
-      this.deletingItemId = id;
-      this.cartService.removeFromCart(id).subscribe({
-        next: () => {
-          this.loadCartItems();
-          this.showCustomSnackbar('Item removed from cart', 'remove');
-          this.deletingItemId = null;
-          this.cartService.loadCartCount(); // Update the cart counter
-        },
-        error: (err) => {
-          console.error('❌ Error removing item from cart', err);
-          this.deletingItemId = null;
-        },
-      });
-    }
-  }
-
-  // Update the clearCart method
-  async clearCart() {
-    if (this.clearingCart) return;
-
-    const dialogRef = this.dialog.open(ConfirmationDialogComponent, {
-      width: '400px',
-      data: {
-        title: 'Clear Cart',
-        message: 'Are you sure you want to clear your entire cart?',
-        confirmText: 'Clear All',
-        cancelText: 'Cancel',
-      },
-    });
-
-    const result = await dialogRef.afterClosed().toPromise();
-    if (result) {
-      this.clearingCart = true;
-      this.cartService.clearCart().subscribe({
-        next: () => {
-          this.loadCartItems();
-          this.showCustomSnackbar('Cart cleared', 'clear');
-          this.clearingCart = false;
-          this.cartService.loadCartCount(); // Update the cart counter
-        },
-        error: (err) => {
-          console.error(' Error clearing cart', err);
-          this.clearingCart = false;
-        },
-      });
-    }
-  }
-
-
-
-
   proceedToCheckout() {
     if (this.checkingOut) return;
 
@@ -230,7 +245,10 @@ export class BCartComponent implements OnInit {
     this.cartService.checkout().subscribe({
       next: (res) => {
         this.checkingOut = false;
-        this.showCustomSnackbar('Order placed successfully! Order ID: ' + res.order_id, 'update');
+        this.showCustomSnackbar(
+          'Order placed successfully! Order ID: ' + res.order_id,
+          'update'
+        );
 
         // Clear local cart
         this.materails = [];
@@ -240,8 +258,11 @@ export class BCartComponent implements OnInit {
       error: (err) => {
         this.checkingOut = false;
         console.error('Checkout failed', err);
-        this.showCustomSnackbar('Checkout failed: ' + err.error.message, 'update');
-      }
+        this.showCustomSnackbar(
+          'Checkout failed: ' + err.error.message,
+          'update'
+        );
+      },
     });
   }
 }

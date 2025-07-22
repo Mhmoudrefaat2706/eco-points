@@ -16,6 +16,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   adminInitials: string = 'A';
   isMobile = false;
   mobileMenuExpanded = false;
+  isProfileDropdownOpen = false; // New property for dropdown state
   private resizeListener: () => void;
 
   constructor(
@@ -46,11 +47,23 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
   toggleSidebar() {
     if (!this.isMobile) {
       this.isSidebarCollapsed = !this.isSidebarCollapsed;
+      // Close dropdown when collapsing sidebar
+      if (this.isSidebarCollapsed) {
+        this.isProfileDropdownOpen = false;
+      }
     }
   }
 
   toggleMobileMenu() {
     this.mobileMenuExpanded = !this.mobileMenuExpanded;
+  }
+
+  toggleProfileDropdown() {
+    this.isProfileDropdownOpen = !this.isProfileDropdownOpen;
+  }
+
+  closeProfileDropdown() {
+    this.isProfileDropdownOpen = false;
   }
 
   closeMobileMenu() {
@@ -67,6 +80,7 @@ export class AdminLayoutComponent implements OnInit, OnDestroy {
     if (this.isMobile) {
       this.isSidebarCollapsed = true;
       this.mobileMenuExpanded = false;
+      this.isProfileDropdownOpen = false;
     }
   }
 

@@ -182,6 +182,14 @@
               <button
                 class="btn btn-sm btn-danger"
                 (click)="openDeleteModal(user.id, getFullName(user))"
+                [disabled]="!canDeleteUser(user)"
+                [title]="
+                  !canDeleteUser(user)
+                    ? user.role === 'admin'
+                      ? 'Cannot delete the only admin user'
+                      : 'Cannot delete user'
+                    : 'Delete user'
+                "
               >
                 <i class="bi bi-trash"></i>
               </button>
@@ -308,7 +316,8 @@
     </div>
   </div>
 </div>
-<!-- Add this modal at the bottom of the file (after the closing </div> of the main container) -->
+
+<!-- Simplify the delete modal (remove the warning message) -->
 <ng-template #deleteModal let-modal>
   <div class="modal-header">
     <h5 class="modal-title">Confirm Deletion</h5>
@@ -320,6 +329,9 @@
     ></button>
   </div>
   <div class="modal-body">
+    <div *ngIf="errorMessage" class="alert alert-danger mb-3">
+      {{ errorMessage }}
+    </div>
     Are you sure you want to delete user <strong>{{ selectedUserName }}</strong
     >? This action cannot be undone.
   </div>

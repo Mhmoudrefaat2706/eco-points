@@ -4,7 +4,11 @@
   [attr.dir]="currentLanguage === 'ar' ? 'rtl' : 'ltr'"
 >
   <div class="logo">
-    <img src="../.././../../assets/images/new-logo.jpeg" alt="Logo" class="logo-img"/>
+    <img
+      src="../.././../../assets/images/new-logo.jpeg"
+      alt="Logo"
+      class="logo-img"
+    />
     <span class="logo-text">EcoPoints</span>
   </div>
 
@@ -18,38 +22,62 @@
   </button>
 
   <div class="nav-links">
-    <a routerLink="/home" class="nav-link" routerLinkActive="active">{{ "NAVBAR.HOME" | translate }}</a>
-    <a routerLink="/materials" class="nav-link" routerLinkActive="active">{{ "NAVBAR.MATERIALS" | translate }}</a>
-    <a routerLink="/about" class="nav-link" routerLinkActive="active">{{ "NAVBAR.ABOUT" | translate }}</a>
-    <a routerLink="/contact" class="nav-link" routerLinkActive="active">{{ "NAVBAR.CONTACT" | translate }}</a>
-    <a routerLink="/dashboard" class="nav-link" routerLinkActive="active">{{ "NAVBAR.MY MATERIALS" | translate }}</a>
-    <a class="nav-link" routerLink="/seller/orders" routerLinkActive="active">Orders</a>
+    <a routerLink="/home" class="nav-link" routerLinkActive="active">{{
+      "NAVBAR.HOME" | translate
+    }}</a>
+    <a routerLink="/materials" class="nav-link" routerLinkActive="active">{{
+      "NAVBAR.MATERIALS" | translate
+    }}</a>
+    <a routerLink="/about" class="nav-link" routerLinkActive="active">{{
+      "NAVBAR.ABOUT" | translate
+    }}</a>
+    <a routerLink="/contact" class="nav-link" routerLinkActive="active">{{
+      "NAVBAR.CONTACT" | translate
+    }}</a>
+    <a routerLink="/dashboard" class="nav-link" routerLinkActive="active">{{
+      "NAVBAR.MY MATERIALS" | translate
+    }}</a>
+    <a class="nav-link" routerLink="/seller/orders" routerLinkActive="active"
+      >Orders</a
+    >
   </div>
 
   <div class="nav-actions">
     <!-- ✅ Profile Dropdown -->
     <div class="dropdown" *ngIf="currentUser">
-      <button class="btn dropdown-toggle d-flex align-items-center gap-2"
-              type="button"
-              id="userDropdown"
-              data-bs-toggle="dropdown"
-              aria-expanded="false">
+      <button
+        class="btn dropdown-toggle d-flex align-items-center gap-2"
+        type="button"
+        id="userDropdown"
+        data-bs-toggle="dropdown"
+        aria-expanded="false"
+      >
         <img [src]="getUserAvatar()" alt="User Avatar" class="avatar" />
         <div class="text-start">
-          <div class="fw-semibold">{{ currentUser.name || currentUser.email.split("@")[0] }}</div>
+          <div class="fw-semibold">
+            {{ currentUser.name || currentUser.email.split("@")[0] }}
+          </div>
           <div class="small text-muted">{{ currentUser.role }}</div>
         </div>
         <i class="fas fa-chevron-down ms-1"></i>
       </button>
-      <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+      <ul
+        class="dropdown-menu dropdown-menu-end"
+        aria-labelledby="userDropdown"
+      >
         <li>
-          <a class="dropdown-item" (click)="goToProfile()">
+          <a
+            class="dropdown-item"
+            (click)="goToProfile()"
+            style="cursor: pointer"
+          >
             <i class="fas fa-user me-2"></i> Profile
           </a>
         </li>
         <li>
-          <a class="dropdown-item" (click)="logout()">
-            <i class="fas fa-sign-out-alt me-2"></i> {{ "NAVBAR.LOGOUT" | translate }}
+          <a class="dropdown-item" (click)="logout()" style="cursor: pointer">
+            <i class="fas fa-sign-out-alt me-2"></i>
+            {{ "NAVBAR.LOGOUT" | translate }}
           </a>
         </li>
       </ul>
@@ -85,7 +113,9 @@
         <img [src]="getUserAvatar()" alt="User Avatar" class="avatar" />
       </div>
       <div class="user-info">
-        <span class="user-name">{{ currentUser.name || currentUser.email.split("@")[0] }}</span>
+        <span class="user-name">{{
+          currentUser.name || currentUser.email.split("@")[0]
+        }}</span>
         <span class="user-role">{{ currentUser.role }}</span>
       </div>
     </div>
@@ -93,16 +123,28 @@
     <a routerLink="/home" class="mobile-nav-link" (click)="closeMobileMenu()">
       {{ "NAVBAR.HOME" | translate }}
     </a>
-    <a routerLink="/materials" class="mobile-nav-link" (click)="closeMobileMenu()">
+    <a
+      routerLink="/materials"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
       {{ "NAVBAR.MATERIALS" | translate }}
     </a>
     <a routerLink="/about" class="mobile-nav-link" (click)="closeMobileMenu()">
       {{ "NAVBAR.ABOUT" | translate }}
     </a>
-    <a routerLink="/contact" class="mobile-nav-link" (click)="closeMobileMenu()">
+    <a
+      routerLink="/contact"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
       {{ "NAVBAR.CONTACT" | translate }}
     </a>
-    <a routerLink="/dashboard" class="mobile-nav-link" (click)="closeMobileMenu()">
+    <a
+      routerLink="/dashboard"
+      class="mobile-nav-link"
+      (click)="closeMobileMenu()"
+    >
       {{ "NAVBAR.MY MATERIALS" | translate }}
     </a>
 
@@ -113,7 +155,11 @@
       <button (click)="toggleTheme()">
         <i class="fas" [ngClass]="isDarkMode ? 'fa-sun' : 'fa-moon'"></i>
       </button>
-      <button class="btn logout-btn" (click)="logout(); closeMobileMenu()">
+      <button
+        class="btn logout-btn"
+        (click)="logout(); closeMobileMenu()"
+        style="cursor: pointer"
+      >
         {{ "NAVBAR.LOGOUT" | translate }}
       </button>
     </div>

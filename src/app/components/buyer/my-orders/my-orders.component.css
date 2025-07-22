@@ -23,6 +23,7 @@
   margin: 0 auto;
   border-radius: 15px;
   background-color: #f8f9fa;
+  border: none;
 }
 
 .no-orders-icon {
@@ -55,4 +56,19 @@
 .btn-success:hover {
   background-color: #1aa179;
   border-color: #1aa179;
+}
+
+.modal-header {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.modal-footer {
+  border-top: none;
+  padding-top: 0;
+}
+
+.bg-blue {
+  background-color: #0d6efd;
+  color: white;
 }

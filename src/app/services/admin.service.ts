@@ -14,9 +14,9 @@ export class AdminService {
 
   constructor(private http: HttpClient) {}
 
-  getUsers(): Observable<User[]> {
-    return this.http.get<User[]>(`${this.apiUrl}/users`);
-  }
+  getUsers(): Observable<{users: User[], admin_count: number}> {
+    return this.http.get<{users: User[], admin_count: number}>(`${this.apiUrl}/users`);
+}
 
   createUser(userData: CreateUser): Observable<User> {
     return this.http.post<User>(`${this.apiUrl}/users`, userData);
