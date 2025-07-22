@@ -2,11 +2,17 @@
   <!-- Desktop Sidebar -->
   <div class="sidebar" [class.collapsed]="isSidebarCollapsed" *ngIf="!isMobile">
     <div class="sidebar-header">
-      <div class="admin-profile" *ngIf="!isSidebarCollapsed">
+      <div class="admin-profile" *ngIf="!isSidebarCollapsed" (click)="toggleProfileDropdown()">
         <div class="admin-avatar">{{ adminInitials }}</div>
         <div class="admin-info">
           <div class="admin-welcome">Welcome back</div>
-          <div class="admin-name">{{ adminName }}</div>
+          <div class="admin-name">{{ adminName }} <i class="bi bi-chevron-down"></i></div>
+        </div>
+        <div class="profile-dropdown" [class.open]="isProfileDropdownOpen">
+          <div class="profile-dropdown-item" (click)="logout()">
+            <i class="bi bi-box-arrow-right"></i>
+            <span>Logout</span>
+          </div>
         </div>
       </div>
       <button class="toggle-btn" (click)="toggleSidebar()">

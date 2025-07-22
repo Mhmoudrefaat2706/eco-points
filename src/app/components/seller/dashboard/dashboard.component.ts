@@ -95,7 +95,8 @@ export class DashboardComponent implements OnInit {
             id: material.id,
             name: material.name,
             category: material.category?.name || material.category,
-            category_id: material.category_id ||
+            category_id:
+              material.category_id ||
               (material.category?.id ? material.category.id : null),
             image_url: material.image_url,
             description: material.description,
@@ -131,7 +132,11 @@ export class DashboardComponent implements OnInit {
                 id: m.category_id || 0,
                 name: m.category,
               };
-            } else if (m.category && 'id' in m.category && 'name' in m.category) {
+            } else if (
+              m.category &&
+              'id' in m.category &&
+              'name' in m.category
+            ) {
               return {
                 id: m.category.id,
                 name: m.category.name,
@@ -233,7 +238,7 @@ export class DashboardComponent implements OnInit {
           console.error(err);
           this.isLoading = false;
           this.showNotificationMessage('Failed to upload image', 'error');
-        }
+        },
       });
     } else {
       this.createMaterial(this.materialForm.image || null);
@@ -258,6 +263,7 @@ export class DashboardComponent implements OnInit {
       price: this.materialForm.price,
       price_unit: this.materialForm.price_unit,
       image_url: imageUrl,
+      quantity: 100, // Add default quantity if needed
     };
 
     this.materialsService.addMaterial(materialData).subscribe({
@@ -329,6 +335,8 @@ export class DashboardComponent implements OnInit {
   updateMaterial() {
     if (!this.currentMaterialId) return;
 
+    this.isLoading = true; // Add this line to show loading state
+
     this.materialsService
       .updateMaterial(this.currentMaterialId, {
         name: this.materialForm.name,
@@ -336,9 +344,10 @@ export class DashboardComponent implements OnInit {
         description: this.materialForm.desc,
         price: this.materialForm.price,
         price_unit: this.materialForm.price_unit,
-        image_url: typeof this.materialForm.image === 'string'
-          ? this.materialForm.image
-          : ''
+        image_url:
+          typeof this.materialForm.image === 'string'
+            ? this.materialForm.image
+            : '',
       })
       .subscribe({
         next: (response) => {
@@ -349,12 +358,14 @@ export class DashboardComponent implements OnInit {
           this.resetForm();
           this.showAddForm = false;
           this.loadMaterials();
+          this.isLoading = false; // Add this line to hide loading state
         },
         error: (error) => {
           console.error('Error updating material:', error);
           const errorMessage =
             error.error?.message || 'Failed to update material';
           this.showNotificationMessage(errorMessage, 'error');
+          this.isLoading = false; // Add this line to hide loading state on error
         },
       });
   }

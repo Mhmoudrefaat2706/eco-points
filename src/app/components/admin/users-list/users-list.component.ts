@@ -40,6 +40,7 @@ export class UsersListComponent implements OnInit {
   statusLoading: { [key: number]: boolean } = {};
   deleteLoading = false;
   Math = Math;
+  adminCount = 0;
 
   constructor(
     private adminService: AdminService,
@@ -50,14 +51,16 @@ export class UsersListComponent implements OnInit {
     this.loadUsers();
   }
 
+  // Update the loadUsers method
   loadUsers(): void {
     this.isLoading = true;
     this.errorMessage = '';
 
     this.adminService.getUsers().subscribe({
-      next: (users) => {
-        this.users = users;
-        this.totalUsers = users.length;
+      next: (response) => {
+        this.users = response.users;
+        this.adminCount = response.admin_count;
+        this.totalUsers = response.users.length;
         this.filterUsers();
         this.isLoading = false;
       },
@@ -70,6 +73,7 @@ export class UsersListComponent implements OnInit {
     });
   }
 
+  // Remove the adminCount check from filterUsers method
   filterUsers(): void {
     let filtered = [...this.users];
 
@@ -100,6 +104,51 @@ export class UsersListComponent implements OnInit {
     this.currentPage = 1;
     this.updatePagination();
     this.sortUsers();
+  }
+
+  // Update this method
+  isOnlyAdmin(user: User): boolean {
+    return user.role === 'admin' && this.adminCount <= 1;
+  }
+
+  // Add this new method to check if user can be deleted
+  canDeleteUser(user: User): boolean {
+    // Allow deleting non-admin users
+    if (user.role !== 'admin') return true;
+
+    // Only allow deleting admin if there are multiple admins
+    return this.adminCount > 1;
+  }
+
+  confirmDelete(): void {
+    if (!this.selectedUserId) return;
+
+    this.deleteLoading = true;
+
+    this.adminService.deleteUser(this.selectedUserId).subscribe({
+      next: () => {
+        this.users = this.users.filter(
+          (user) => user.id !== this.selectedUserId
+        );
+        // Decrement admin count if the deleted user was an admin
+        const deletedUser = this.users.find(
+          (u) => u.id === this.selectedUserId
+        );
+        if (deletedUser && deletedUser.role === 'admin') {
+          this.adminCount--;
+        }
+        this.filterUsers();
+        this.deleteLoading = false;
+        this.selectedUserId = null;
+        this.modalService.dismissAll();
+      },
+      error: (error) => {
+        console.error('Error deleting user:', error);
+        this.errorMessage =
+          error.error?.message || 'Failed to delete user. Please try again.';
+        this.deleteLoading = false;
+      },
+    });
   }
 
   sortBy(column: string): void {
@@ -221,28 +270,5 @@ export class UsersListComponent implements OnInit {
     this.selectedUserId = userId;
     this.selectedUserName = userName;
     this.modalService.open(this.deleteModal);
-  }
-
-  confirmDelete(): void {
-    if (!this.selectedUserId) return;
-
-    this.deleteLoading = true;
-
-    this.adminService.deleteUser(this.selectedUserId).subscribe({
-      next: () => {
-        this.users = this.users.filter(
-          (user) => user.id !== this.selectedUserId
-        );
-        this.filterUsers();
-        this.deleteLoading = false;
-        this.selectedUserId = null;
-        this.modalService.dismissAll(); // Close all open modals
-      },
-      error: (error) => {
-        console.error('Error deleting user:', error);
-        this.errorMessage = 'Failed to delete user. Please try again.';
-        this.deleteLoading = false;
-      },
-    });
   }
 }

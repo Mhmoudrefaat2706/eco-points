@@ -132,6 +132,7 @@ export class MaterialsService {
       price: material.price,
       price_unit: material.price_unit,
       image_url: material.image_url,
+      quantity: 100 // Add default quantity if needed
     };
 
     return this.http.post<any>(`${this.apiUrl}/materials`, materialData, {
