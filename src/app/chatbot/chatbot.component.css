@@ -38,7 +38,7 @@
   bottom: 90px;
   right: 20px;
   width: 350px; /* عرض مربع الشات كما هو */
-  height: 300px; /* **تم تقصير الطول هنا** */
+  height: 500px; /* **تم تقصير الطول هنا** */
   border: 1px solid #ccc;
   display: flex;
   flex-direction: column;

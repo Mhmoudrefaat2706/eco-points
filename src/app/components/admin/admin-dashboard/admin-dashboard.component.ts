@@ -9,8 +9,8 @@ import { DashboardStats } from '../../../models/dashboard.model';
 import { Subscription, timer } from 'rxjs';
 import { switchMap } from 'rxjs/operators';
 import { RouterModule } from '@angular/router';
-import { NgxChartsModule } from '@swimlane/ngx-charts';
-import { ScaleType } from '@swimlane/ngx-charts';
+// import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { NgxChartsModule, ScaleType } from '@swimlane/ngx-charts';
 
 @Component({
   selector: 'app-admin-dashboard',

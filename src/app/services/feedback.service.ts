@@ -12,7 +12,7 @@ export class FeedbackService {
 
   constructor(private http: HttpClient) {}
 
-  // جلب كل الفيدباك لبائع معين
+
   getFeedbacksForSeller(sellerId: number): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
@@ -23,7 +23,7 @@ export class FeedbackService {
     return this.http.get(`${this.apiUrl}/seller/${sellerId}`, { headers });
   }
 
-  // جلب كل الفيدباك لباير معين
+
   getFeedbacksForBuyer(buyerId: number): Observable<any> {
     const token = localStorage.getItem('token');
     const headers = new HttpHeaders({
