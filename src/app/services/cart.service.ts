@@ -49,7 +49,6 @@ export class CartService {
     });
   }
 
-  // Add this new method
   updateCartItem(itemId: number, quantity: number): Observable<any> {
     return this.http.put(
       `${this.apiUrl}/update/${itemId}`,
