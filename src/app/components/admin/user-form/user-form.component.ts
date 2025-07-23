@@ -24,10 +24,16 @@ export class UserFormComponent {
   errorMessage = '';
   successMessage = '';
   isSuccess = false;
+  confirmPassword = '';
 
   constructor(private adminService: AdminService, public router: Router) {}
 
   onSubmit(): void {
+    if (this.user.password !== this.confirmPassword) {
+      this.errorMessage = 'Passwords do not match';
+      return;
+    }
+
     this.isLoading = true;
     this.errorMessage = '';
     this.isSuccess = false;
@@ -55,5 +61,6 @@ export class UserFormComponent {
       role: 'buyer',
       password: '',
     };
+    this.confirmPassword = ''; // Reset confirmPassword field
   }
 }
